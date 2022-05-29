@@ -4,7 +4,7 @@
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='电磁场的能流 瞬时Poynting定理 能流$w=w(x,t)$表示的是场单位体积的能量，场内的总能量：
 $$ \int_VwdV $$
 据此可以写出能量守恒式：
-$$ \int_\inf f\cdot vdV=-\frac{d}{dt}\int_\inf{wdV} $$
+$$ \int_{\infty} f\cdot vdV=-\frac{d}{dt} \int_{\infty} wdV $$
 左式为场对电荷做的总功率，右式为场的总能量的减小率。
 根据洛伦兹力公式、Maxwell方程第2式，可以得到：
 $$ f\cdot v=J\cdot E=(\nabla\times H-\frac{\partial D}{\partial t})\cdot E $$
@@ -20,7 +20,7 @@ $$ -\nabla\cdot S = \frac{\partial (E\cdot D)}{2\partial t}&#43;\frac{\partial (
 <meta property='og:description' content='电磁场的能流 瞬时Poynting定理 能流$w=w(x,t)$表示的是场单位体积的能量，场内的总能量：
 $$ \int_VwdV $$
 据此可以写出能量守恒式：
-$$ \int_\inf f\cdot vdV=-\frac{d}{dt}\int_\inf{wdV} $$
+$$ \int_{\infty} f\cdot vdV=-\frac{d}{dt} \int_{\infty} wdV $$
 左式为场对电荷做的总功率，右式为场的总能量的减小率。
 根据洛伦兹力公式、Maxwell方程第2式，可以得到：
 $$ f\cdot v=J\cdot E=(\nabla\times H-\frac{\partial D}{\partial t})\cdot E $$
@@ -37,7 +37,7 @@ $$ -\nabla\cdot S = \frac{\partial (E\cdot D)}{2\partial t}&#43;\frac{\partial (
 <meta name="twitter:description" content="电磁场的能流 瞬时Poynting定理 能流$w=w(x,t)$表示的是场单位体积的能量，场内的总能量：
 $$ \int_VwdV $$
 据此可以写出能量守恒式：
-$$ \int_\inf f\cdot vdV=-\frac{d}{dt}\int_\inf{wdV} $$
+$$ \int_{\infty} f\cdot vdV=-\frac{d}{dt} \int_{\infty} wdV $$
 左式为场对电荷做的总功率，右式为场的总能量的减小率。
 根据洛伦兹力公式、Maxwell方程第2式，可以得到：
 $$ f\cdot v=J\cdot E=(\nabla\times H-\frac{\partial D}{\partial t})\cdot E $$
@@ -307,7 +307,7 @@ $$ -\nabla\cdot S = \frac{\partial (E\cdot D)}{2\partial t}&#43;\frac{\partial (
 $$</p>
 <p>据此可以写出能量守恒式：</p>
 <p>$$
-\int_\inf f\cdot vdV=-\frac{d}{dt}\int_\inf{wdV}
+\int_{\infty} f\cdot vdV=-\frac{d}{dt} \int_{\infty} wdV
 $$</p>
 <p>左式为场对电荷做的总功率，右式为场的总能量的减小率。</p>
 <p>根据洛伦兹力公式、Maxwell方程第2式，可以得到：</p>
@@ -342,28 +342,28 @@ $$</p>
 <p>$$
 S(x,t)=E(x,t)\times H(x,t) = Re(E(x)e^{-i\omega t})\times Re(E(x)e^{-i\omega t})
 $$</p>
-<p>根据$Re(a) = \frac{1}{2}(a+a^*)$，可得：</p>
+<p>根据$Re(a) = \frac{1}{2}(a+a^\star)$，可得：</p>
 <p>$$
-S(x,t) = \frac{1}{2}(Re(E(x)\times H^*(x))+Re(E(x)\times H(x)e^{-i2\omega t}))
+S(x,t) = \frac{1}{2}(Re(E(x)\times H^\star(x))+Re(E(x)\times H(x)e^{-i2\omega t}))
 $$</p>
 <p>其中，第一项为时不变，第二项为时变。于是我们定义平均能流：</p>
 <p>$$
-<!-- raw HTML omitted -->=Re(\frac{E\times H^*}{2})
+<!-- raw HTML omitted -->=Re(\frac{E\times H^\star}{2})
 $$</p>
-<p>定义复数能流$-\nabla \bar S = \frac{1}{2}(E\times H^*)$，根据频域Maxwell方程组1，2式和矢量展开式，得：</p>
+<p>定义复数能流$-\nabla \bar S = \frac{1}{2}(E\times H^\star)$，根据频域Maxwell方程组1，2式和矢量展开式，得：</p>
 <p>$$
 \begin{align}</p>
 <p>-\nabla \bar S =
-\frac{1}{2}(E\times H^<em>)=
-\frac{1}{2}(-(\nabla \times E)\cdot H+(\nabla \times H^</em>) \cdot E)=\frac{i\omega}{2}(E\cdot D^<em>-B\times H^</em>)+\frac{1}{2}E\times J^*</p>
+\frac{1}{2}(E\times H^\star)=
+\frac{1}{2}(-(\nabla \times E)\cdot H+(\nabla \times H^\star) \cdot E)=\frac{i\omega}{2}(E\cdot D^\star-B\times H^\star)+\frac{1}{2}E\times J^\star</p>
 <p>\end{align}
-$$
-其中$w_e=\frac{1}{4}(E\cdot D^<em>)$，$w_m=\frac{1}{4}(B\cdot H^</em>)$，此即复数Poynting定理，注意到磁场能前的符号为负。</p>
+$$</p>
+<p>其中$w_e=\frac{1}{4}(E\cdot D^{\star})$，$w_m=\frac{1}{4}(B\cdot H^{\star})$，此即复数Poynting定理，注意到磁场能前的符号为负。</p>
 <p>进一步，对式子两侧取实部，得：</p>
 <p>$$
 -\nabla <!-- raw HTML omitted --> =
-Re(\frac{1}{2}(E\times H^<em>))=
--Im[\frac{\omega}{2}(E\cdot D^</em>-B\times H^<em>)]+Re(\frac{1}{2}E\times J^</em>)
+Re(\frac{1}{2}(E\times H^\star))=
+-Im[\frac{\omega}{2}(E\cdot D^\star-B\times H^\star]+Re(\frac{1}{2}E\times J^*)]
 $$</p>
 <h2 id="heading"></h2>
 
