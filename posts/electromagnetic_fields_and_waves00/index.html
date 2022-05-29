@@ -1,72 +1,48 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='冰菓 今夜与君
-爱梦相会
-务必觅得
-微眠之约
-萌生此等惬意
-实乃徒增彷徨
-予君之意
-君不知乎
-察其目光
-未萦他意
-宛如待友
-毫无二致
-许愿星逝于晓
-夜现晨湮之法
-愿君得察
-今夜与君
-爱梦相会
-务必觅得
-微眠之约'><title>Ice Cream</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='utils 本节记录一些期中之前常用的公式。
+Maxwell方程组的n种形式 1.真空中的Maxwell方程组 $$ \nabla \times E = -\frac{\partial B}{\partial t}\
+\nabla \times B = \mu_0J_0&#43;\mu_0\epsilon_0\frac{\partial E}{\partial t}\
+\nabla \cdot E = \frac{\rho}{\epsilon_0}\
+\nabla \cdot B = 0 $$
+2.介质中的Maxwell方程组 $$ \nabla \times E = -\frac{\partial B}{\partial t}\
+\nabla \times H = J&#43;\frac{\partial D}{\partial t}\
+\nabla \cdot D = \rho\
+\nabla \cdot B = 0 $$
+3.频域Maxwell方程组 注：此处的Fourier变换与Signal and System中不同。 $$ \nabla \times E = i\omega B\
+\nabla \times H = J-i\omega D\'><title>Electromagnetic_Fields_and_Waves00</title>
 
-<link rel='canonical' href='https://ther-nullptr.github.io/posts/ice-cream/'>
+<link rel='canonical' href='https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves00/'>
 
-<link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='Ice Cream'>
-<meta property='og:description' content='冰菓 今夜与君
-爱梦相会
-务必觅得
-微眠之约
-萌生此等惬意
-实乃徒增彷徨
-予君之意
-君不知乎
-察其目光
-未萦他意
-宛如待友
-毫无二致
-许愿星逝于晓
-夜现晨湮之法
-愿君得察
-今夜与君
-爱梦相会
-务必觅得
-微眠之约'>
-<meta property='og:url' content='https://ther-nullptr.github.io/posts/ice-cream/'>
+<link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='Electromagnetic_Fields_and_Waves00'>
+<meta property='og:description' content='utils 本节记录一些期中之前常用的公式。
+Maxwell方程组的n种形式 1.真空中的Maxwell方程组 $$ \nabla \times E = -\frac{\partial B}{\partial t}\
+\nabla \times B = \mu_0J_0&#43;\mu_0\epsilon_0\frac{\partial E}{\partial t}\
+\nabla \cdot E = \frac{\rho}{\epsilon_0}\
+\nabla \cdot B = 0 $$
+2.介质中的Maxwell方程组 $$ \nabla \times E = -\frac{\partial B}{\partial t}\
+\nabla \times H = J&#43;\frac{\partial D}{\partial t}\
+\nabla \cdot D = \rho\
+\nabla \cdot B = 0 $$
+3.频域Maxwell方程组 注：此处的Fourier变换与Signal and System中不同。 $$ \nabla \times E = i\omega B\
+\nabla \times H = J-i\omega D\'>
+<meta property='og:url' content='https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves00/'>
 <meta property='og:site_name' content='Ther&#39;s Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='small talk' /><meta property='article:published_time' content='2022-05-29T16:24:16&#43;08:00'/><meta property='article:modified_time' content='2022-05-29T16:24:16&#43;08:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='study' /><meta property='article:published_time' content='2022-05-29T21:23:02&#43;08:00'/><meta property='article:modified_time' content='2022-05-29T21:23:02&#43;08:00'/>
 <meta name="twitter:site" content="@AdobePython">
-    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="Ice Cream">
-<meta name="twitter:description" content="冰菓 今夜与君
-爱梦相会
-务必觅得
-微眠之约
-萌生此等惬意
-实乃徒增彷徨
-予君之意
-君不知乎
-察其目光
-未萦他意
-宛如待友
-毫无二致
-许愿星逝于晓
-夜现晨湮之法
-愿君得察
-今夜与君
-爱梦相会
-务必觅得
-微眠之约">
+    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="Electromagnetic_Fields_and_Waves00">
+<meta name="twitter:description" content="utils 本节记录一些期中之前常用的公式。
+Maxwell方程组的n种形式 1.真空中的Maxwell方程组 $$ \nabla \times E = -\frac{\partial B}{\partial t}\
+\nabla \times B = \mu_0J_0&#43;\mu_0\epsilon_0\frac{\partial E}{\partial t}\
+\nabla \cdot E = \frac{\rho}{\epsilon_0}\
+\nabla \cdot B = 0 $$
+2.介质中的Maxwell方程组 $$ \nabla \times E = -\frac{\partial B}{\partial t}\
+\nabla \times H = J&#43;\frac{\partial D}{\partial t}\
+\nabla \cdot D = \rho\
+\nabla \cdot B = 0 $$
+3.频域Maxwell方程组 注：此处的Fourier变换与Signal and System中不同。 $$ \nabla \times E = i\omega B\
+\nabla \times H = J-i\omega D\">
     </head>
     <body class="
     article-page
@@ -263,8 +239,8 @@
     
     <header class="article-category">
         
-            <a href="/categories/small-talk/" >
-                small talk
+            <a href="/categories/study/" >
+                study
             </a>
         
     </header>
@@ -272,7 +248,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/posts/ice-cream/">Ice Cream</a>
+            <a href="/posts/electromagnetic_fields_and_waves00/">Electromagnetic_Fields_and_Waves00</a>
         </h2>
     
         
@@ -320,26 +296,45 @@
     <section class="article-content">
     
     
-    <h1 id="冰菓">冰菓</h1>
-<p>今夜与君</p>
-<p>爱梦相会</p>
-<p>务必觅得</p>
-<p>微眠之约</p>
-<p>萌生此等惬意</p>
-<p>实乃徒增彷徨</p>
-<p>予君之意</p>
-<p>君不知乎</p>
-<p>察其目光</p>
-<p>未萦他意</p>
-<p>宛如待友</p>
-<p>毫无二致</p>
-<p>许愿星逝于晓</p>
-<p>夜现晨湮之法</p>
-<p>愿君得察</p>
-<p>今夜与君</p>
-<p>爱梦相会</p>
-<p>务必觅得</p>
-<p>微眠之约</p>
+    <h1 id="utils">utils</h1>
+<p>本节记录一些期中之前常用的公式。</p>
+<h2 id="maxwell方程组的n种形式">Maxwell方程组的n种形式</h2>
+<h3 id="1真空中的maxwell方程组">1.真空中的Maxwell方程组</h3>
+<p>$$
+\nabla \times E = -\frac{\partial B}{\partial t}\</p>
+<p>\nabla \times B = \mu_0J_0+\mu_0\epsilon_0\frac{\partial E}{\partial t}\</p>
+<p>\nabla \cdot E = \frac{\rho}{\epsilon_0}\</p>
+<p>\nabla \cdot B = 0
+$$</p>
+<h3 id="2介质中的maxwell方程组">2.介质中的Maxwell方程组</h3>
+<p>$$
+\nabla \times E = -\frac{\partial B}{\partial t}\</p>
+<p>\nabla \times H = J+\frac{\partial D}{\partial t}\</p>
+<p>\nabla \cdot D = \rho\</p>
+<p>\nabla \cdot B = 0
+$$</p>
+<h3 id="3频域maxwell方程组">3.频域Maxwell方程组</h3>
+<p>注：此处的Fourier变换与Signal and System中不同。
+$$
+\nabla \times E = i\omega B\</p>
+<p>\nabla \times H = J-i\omega D\</p>
+<p>\nabla \cdot D = \rho\</p>
+<p>\nabla \cdot B = 0
+$$</p>
+<h3 id="4导体maxwell方程组">4.导体Maxwell方程组</h3>
+<p>$$
+\nabla \times E = i\omega \mu H\</p>
+<p>\nabla \times H = -i\omega\bar\epsilon E\</p>
+<p>\nabla \cdot D = \rho (0)\</p>
+<p>\nabla \cdot B = 0
+$$</p>
+<p>其中$\bar \epsilon=\epsilon+i\frac{\sigma}{\omega}$</p>
+<h3 id="5平面波传播maxwell方程组">5.平面波传播Maxwell方程组</h3>
+<p>$$
+\nabla \times E = i\omega B\</p>
+<p>\nabla \times H = -i\omega D\
+$$</p>
+<p>细节将在平面波一节讨论。</p>
 
 </section>
 
@@ -348,7 +343,7 @@
     
     <section class="article-tags">
         
-            <a href="/tags/small-talk/">small talk</a>
+            <a href="/tags/study/">study</a>
         
     </section>
 
@@ -374,6 +369,27 @@
     
 
     
+
+<aside class="related-contents--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-contents">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/posts/electromagnetic_fields_and_waves01/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Electromagnetic_Fields_and_Waves01</h2>
+        </div>
+    </a>
+</article>
+            
+        </div>
+    </div>
+</aside>
 
      
     
@@ -515,7 +531,46 @@
             >
 
             </main>
-    
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#maxwell方程组的n种形式">Maxwell方程组的n种形式</a>
+      <ol>
+        <li><a href="#1真空中的maxwell方程组">1.真空中的Maxwell方程组</a></li>
+        <li><a href="#2介质中的maxwell方程组">2.介质中的Maxwell方程组</a></li>
+        <li><a href="#3频域maxwell方程组">3.频域Maxwell方程组</a></li>
+        <li><a href="#4导体maxwell方程组">4.导体Maxwell方程组</a></li>
+        <li><a href="#5平面波传播maxwell方程组">5.平面波传播Maxwell方程组</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
 
         </div>
         <script 

@@ -6,32 +6,154 @@
         <description>Recent content in Posts on Ther&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Sun, 29 May 2022 16:24:16 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/posts/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 29 May 2022 21:23:02 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/posts/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Electromagnetic_Fields_and_Waves00</title>
+        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves00/</link>
+        <pubDate>Sun, 29 May 2022 21:23:02 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves00/</guid>
+        <description>&lt;h1 id=&#34;utils&#34;&gt;utils&lt;/h1&gt;
+&lt;p&gt;本节记录一些期中之前常用的公式。&lt;/p&gt;
+&lt;h2 id=&#34;maxwell方程组的n种形式&#34;&gt;Maxwell方程组的n种形式&lt;/h2&gt;
+&lt;h3 id=&#34;1真空中的maxwell方程组&#34;&gt;1.真空中的Maxwell方程组&lt;/h3&gt;
+&lt;p&gt;$$
+\nabla \times E = -\frac{\partial B}{\partial t}\&lt;/p&gt;
+&lt;p&gt;\nabla \times B = \mu_0J_0+\mu_0\epsilon_0\frac{\partial E}{\partial t}\&lt;/p&gt;
+&lt;p&gt;\nabla \cdot E = \frac{\rho}{\epsilon_0}\&lt;/p&gt;
+&lt;p&gt;\nabla \cdot B = 0
+$$&lt;/p&gt;
+&lt;h3 id=&#34;2介质中的maxwell方程组&#34;&gt;2.介质中的Maxwell方程组&lt;/h3&gt;
+&lt;p&gt;$$
+\nabla \times E = -\frac{\partial B}{\partial t}\&lt;/p&gt;
+&lt;p&gt;\nabla \times H = J+\frac{\partial D}{\partial t}\&lt;/p&gt;
+&lt;p&gt;\nabla \cdot D = \rho\&lt;/p&gt;
+&lt;p&gt;\nabla \cdot B = 0
+$$&lt;/p&gt;
+&lt;h3 id=&#34;3频域maxwell方程组&#34;&gt;3.频域Maxwell方程组&lt;/h3&gt;
+&lt;p&gt;注：此处的Fourier变换与Signal and System中不同。
+$$
+\nabla \times E = i\omega B\&lt;/p&gt;
+&lt;p&gt;\nabla \times H = J-i\omega D\&lt;/p&gt;
+&lt;p&gt;\nabla \cdot D = \rho\&lt;/p&gt;
+&lt;p&gt;\nabla \cdot B = 0
+$$&lt;/p&gt;
+&lt;h3 id=&#34;4导体maxwell方程组&#34;&gt;4.导体Maxwell方程组&lt;/h3&gt;
+&lt;p&gt;$$
+\nabla \times E = i\omega \mu H\&lt;/p&gt;
+&lt;p&gt;\nabla \times H = -i\omega\bar\epsilon E\&lt;/p&gt;
+&lt;p&gt;\nabla \cdot D = \rho (0)\&lt;/p&gt;
+&lt;p&gt;\nabla \cdot B = 0
+$$&lt;/p&gt;
+&lt;p&gt;其中$\bar \epsilon=\epsilon+i\frac{\sigma}{\omega}$&lt;/p&gt;
+&lt;h3 id=&#34;5平面波传播maxwell方程组&#34;&gt;5.平面波传播Maxwell方程组&lt;/h3&gt;
+&lt;p&gt;$$
+\nabla \times E = i\omega B\&lt;/p&gt;
+&lt;p&gt;\nabla \times H = -i\omega D\
+$$&lt;/p&gt;
+&lt;p&gt;细节将在平面波一节讨论。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>Electromagnetic_Fields_and_Waves01</title>
+        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves01/</link>
+        <pubDate>Sun, 29 May 2022 20:50:07 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves01/</guid>
+        <description>&lt;h1 id=&#34;电磁场的能流&#34;&gt;电磁场的能流&lt;/h1&gt;
+&lt;h2 id=&#34;瞬时poynting定理&#34;&gt;瞬时Poynting定理&lt;/h2&gt;
+&lt;p&gt;能流$w=w(x,t)$表示的是场单位体积的能量，场内的总能量：
+$$
+\int_VwdV
+$$
+据此可以写出能量守恒式：
+$$
+\int_\inf f\cdot vdV=-\frac{d}{dt}\int_\inf{wdV}
+$$
+左式为场对电荷做的总功率，右式为场的总能量的减小率。&lt;/p&gt;
+&lt;p&gt;根据洛伦兹力公式、Maxwell方程第2式，可以得到：
+$$
+f\cdot v=J\cdot E=(\nabla\times H-\frac{\partial D}{\partial t})\cdot E
+$$
+根据矢量分析公式、Maxwell方程第1式，可以得到：
+$$
+J\cdot E = -\nabla \cdot (E\times H)-E \cdot \frac{\partial D}{\partial t} - H\cdot \frac{\partial B}{\partial t}
+$$
+三项分别为电场储能、磁场储能、电荷动能（焦耳热）即：
+$$
+-\nabla\cdot S = \frac{\partial (E\cdot D)}{2\partial t}+\frac{\partial (H\cdot B)}{2\partial t}+E\cdot J
+$$&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;此处$\frac{\partial (E\cdot D)}{2\partial t}=\frac{\partial (\epsilon E^2)}{2\partial t}=\frac{E\partial (\epsilon E)}{\partial t}=E \cdot \frac{\partial D}{\partial t}$&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;积分得：
+$$
+-\int_SS\cdot ds=\frac{d}{dt}\int_V(w_e+w_m)dV+\int_VE\cdot JdV
+$$
+此为瞬时Poynting定理。&lt;/p&gt;
+&lt;h2 id=&#34;时谐场和复数poynting定理&#34;&gt;时谐场和复数Poynting定理&lt;/h2&gt;
+&lt;p&gt;对在$x$处的电场进行FT，得到在$\omega$处的系数$E(x)$。该处振幅的大小显然按照时间周期性变化，得到关于时间变化的场：
+$$
+E(x,t)=Re(E(x)e^{-i\omega t})
+$$&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;不一定为$E(x)\cos(\omega t)$，因为Fourier系数可能为复数。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;此时的Poynting矢量$S(x,t)$可表示为：
+$$
+S(x,t)=E(x,t)\times H(x,t) = Re(E(x)e^{-i\omega t})\times Re(E(x)e^{-i\omega t})
+$$
+根据$Re(a) = \frac{1}{2}(a+a^&lt;em&gt;)$，可得：
+$$
+S(x,t) = \frac{1}{2}(Re(E(x)\times H^&lt;/em&gt;(x))+Re(E(x)\times H(x)e^{-i2\omega t}))
+$$
+其中，第一项为时不变，第二项为时变。于是我们定义平均能流：
+$$
+&lt;!-- raw HTML omitted --&gt;=Re(\frac{E\times H^&lt;em&gt;}{2})
+$$
+定义复数能流$-\nabla \bar S = \frac{1}{2}(E\times H^&lt;/em&gt;)$，根据频域Maxwell方程组1，2式和矢量展开式，得：
+$$
+\begin{align}&lt;/p&gt;
+&lt;p&gt;-\nabla \bar S =
+\frac{1}{2}(E\times H^&lt;em&gt;)=
+\frac{1}{2}(-(\nabla \times E)\cdot H+(\nabla \times H^&lt;/em&gt;) \cdot E)=\frac{i\omega}{2}(E\cdot D^&lt;em&gt;-B\times H^&lt;/em&gt;)+\frac{1}{2}E\times J^*&lt;/p&gt;
+&lt;p&gt;\end{align}
+$$
+其中$w_e=\frac{1}{4}(E\cdot D^&lt;em&gt;)$，$w_m=\frac{1}{4}(B\cdot H^&lt;/em&gt;)$，此即复数Poynting定理，注意到磁场能前的符号为负。&lt;/p&gt;
+&lt;p&gt;进一步，对式子两侧取实部，得：
+$$
+-\nabla &lt;!-- raw HTML omitted --&gt; =
+Re(\frac{1}{2}(E\times H^&lt;em&gt;))=
+-Im[\frac{\omega}{2}(E\cdot D^&lt;/em&gt;-B\times H^&lt;em&gt;)]+Re(\frac{1}{2}E\times J^&lt;/em&gt;)
+$$&lt;/p&gt;
+&lt;h2 id=&#34;heading&#34;&gt;&lt;/h2&gt;
+</description>
+        </item>
+        <item>
         <title>Ice Cream</title>
         <link>https://ther-nullptr.github.io/posts/ice-cream/</link>
         <pubDate>Sun, 29 May 2022 16:24:16 +0800</pubDate>
         
         <guid>https://ther-nullptr.github.io/posts/ice-cream/</guid>
         <description>&lt;h1 id=&#34;冰菓&#34;&gt;冰菓&lt;/h1&gt;
-&lt;p&gt;今夜与君
-爱梦相会
-务必觅得
-微眠之约
-萌生此等惬意
-实乃徒增彷徨
-予君之意
-君不知乎
-察其目光
-未萦他意
-宛如待友
-毫无二致
-许愿星逝于晓
-夜现晨湮之法
-愿君得察
-今夜与君
-爱梦相会
-务必觅得
-微眠之约&lt;/p&gt;
+&lt;p&gt;今夜与君&lt;/p&gt;
+&lt;p&gt;爱梦相会&lt;/p&gt;
+&lt;p&gt;务必觅得&lt;/p&gt;
+&lt;p&gt;微眠之约&lt;/p&gt;
+&lt;p&gt;萌生此等惬意&lt;/p&gt;
+&lt;p&gt;实乃徒增彷徨&lt;/p&gt;
+&lt;p&gt;予君之意&lt;/p&gt;
+&lt;p&gt;君不知乎&lt;/p&gt;
+&lt;p&gt;察其目光&lt;/p&gt;
+&lt;p&gt;未萦他意&lt;/p&gt;
+&lt;p&gt;宛如待友&lt;/p&gt;
+&lt;p&gt;毫无二致&lt;/p&gt;
+&lt;p&gt;许愿星逝于晓&lt;/p&gt;
+&lt;p&gt;夜现晨湮之法&lt;/p&gt;
+&lt;p&gt;愿君得察&lt;/p&gt;
+&lt;p&gt;今夜与君&lt;/p&gt;
+&lt;p&gt;爱梦相会&lt;/p&gt;
+&lt;p&gt;务必觅得&lt;/p&gt;
+&lt;p&gt;微眠之约&lt;/p&gt;
 </description>
         </item>
         <item>

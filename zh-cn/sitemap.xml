@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://ther-nullptr.github.io/categories/</loc>
-    <lastmod>2022-05-29T16:24:16+08:00</lastmod>
+    <lastmod>2022-05-29T21:23:02+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -15,20 +15,20 @@
                 href="https://ther-nullptr.github.io/categories/"
                 />
   </url><url>
-    <loc>https://ther-nullptr.github.io/posts/ice-cream/</loc>
-    <lastmod>2022-05-29T16:24:16+08:00</lastmod>
+    <loc>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves00/</loc>
+    <lastmod>2022-05-29T21:23:02+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/</loc>
-    <lastmod>2022-05-29T16:24:16+08:00</lastmod>
+    <lastmod>2022-05-29T21:23:02+08:00</lastmod>
   </url><url>
-    <loc>https://ther-nullptr.github.io/tags/small-talk/</loc>
-    <lastmod>2022-05-29T16:24:16+08:00</lastmod>
+    <loc>https://ther-nullptr.github.io/tags/study/</loc>
+    <lastmod>2022-05-29T21:23:02+08:00</lastmod>
   </url><url>
-    <loc>https://ther-nullptr.github.io/categories/small-talk/</loc>
-    <lastmod>2022-05-29T16:24:16+08:00</lastmod>
+    <loc>https://ther-nullptr.github.io/categories/study/</loc>
+    <lastmod>2022-05-29T21:23:02+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/tags/</loc>
-    <lastmod>2022-05-29T16:24:16+08:00</lastmod>
+    <lastmod>2022-05-29T21:23:02+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -41,7 +41,7 @@
                 />
   </url><url>
     <loc>https://ther-nullptr.github.io/</loc>
-    <lastmod>2022-05-29T16:24:16+08:00</lastmod>
+    <lastmod>2022-05-29T21:23:02+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -52,6 +52,18 @@
                 hreflang="zh-cn"
                 href="https://ther-nullptr.github.io/"
                 />
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves01/</loc>
+    <lastmod>2022-05-29T20:50:07+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/ice-cream/</loc>
+    <lastmod>2022-05-29T16:24:16+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/tags/small-talk/</loc>
+    <lastmod>2022-05-29T16:24:16+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/categories/small-talk/</loc>
+    <lastmod>2022-05-29T16:24:16+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/tags/awesome-kits/</loc>
     <lastmod>2022-05-29T15:47:05+08:00</lastmod>

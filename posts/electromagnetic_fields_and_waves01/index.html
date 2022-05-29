@@ -1,72 +1,24 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='冰菓 今夜与君
-爱梦相会
-务必觅得
-微眠之约
-萌生此等惬意
-实乃徒增彷徨
-予君之意
-君不知乎
-察其目光
-未萦他意
-宛如待友
-毫无二致
-许愿星逝于晓
-夜现晨湮之法
-愿君得察
-今夜与君
-爱梦相会
-务必觅得
-微眠之约'><title>Ice Cream</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='电磁场的能流 瞬时Poynting定理 能流$w=w(x,t)$表示的是场单位体积的能量，场内的总能量： $$ \int_VwdV $$ 据此可以写出能量守恒式： $$ \int_\inf f\cdot vdV=-\frac{d}{dt}\int_\inf{wdV} $$ 左式为场对电荷做的总功率，右式为场的总能量的减小率。
+根据洛伦兹力公式、Maxwell方程第2式，可以得到： $$ f\cdot v=J\cdot E=(\nabla\times H-\frac{\partial D}{\partial t})\cdot E $$ 根据矢量分析公式、Maxwell方程第1式，可以得到： $$ J\cdot E = -\nabla \cdot (E\times H)-E \cdot \frac{\partial D}{\partial t} - H\cdot \frac{\partial B}{\partial t} $$ 三项分别为电场储能、磁场储能、电荷动能（焦耳热）即： $$ -\nabla\cdot S = \frac{\partial (E\cdot D)}{2\partial t}&#43;\frac{\partial (H\cdot B)}{2\partial t}&#43;E\cdot J $$
+ 此处$\frac{\partial (E\cdot D)}{2\partial t}=\frac{\partial (\epsilon E^2)}{2\partial t}=\frac{E\partial (\epsilon E)}{\partial t}=E \cdot \frac{\partial D}{\partial t}$'><title>Electromagnetic_Fields_and_Waves01</title>
 
-<link rel='canonical' href='https://ther-nullptr.github.io/posts/ice-cream/'>
+<link rel='canonical' href='https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves01/'>
 
-<link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='Ice Cream'>
-<meta property='og:description' content='冰菓 今夜与君
-爱梦相会
-务必觅得
-微眠之约
-萌生此等惬意
-实乃徒增彷徨
-予君之意
-君不知乎
-察其目光
-未萦他意
-宛如待友
-毫无二致
-许愿星逝于晓
-夜现晨湮之法
-愿君得察
-今夜与君
-爱梦相会
-务必觅得
-微眠之约'>
-<meta property='og:url' content='https://ther-nullptr.github.io/posts/ice-cream/'>
+<link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='Electromagnetic_Fields_and_Waves01'>
+<meta property='og:description' content='电磁场的能流 瞬时Poynting定理 能流$w=w(x,t)$表示的是场单位体积的能量，场内的总能量： $$ \int_VwdV $$ 据此可以写出能量守恒式： $$ \int_\inf f\cdot vdV=-\frac{d}{dt}\int_\inf{wdV} $$ 左式为场对电荷做的总功率，右式为场的总能量的减小率。
+根据洛伦兹力公式、Maxwell方程第2式，可以得到： $$ f\cdot v=J\cdot E=(\nabla\times H-\frac{\partial D}{\partial t})\cdot E $$ 根据矢量分析公式、Maxwell方程第1式，可以得到： $$ J\cdot E = -\nabla \cdot (E\times H)-E \cdot \frac{\partial D}{\partial t} - H\cdot \frac{\partial B}{\partial t} $$ 三项分别为电场储能、磁场储能、电荷动能（焦耳热）即： $$ -\nabla\cdot S = \frac{\partial (E\cdot D)}{2\partial t}&#43;\frac{\partial (H\cdot B)}{2\partial t}&#43;E\cdot J $$
+ 此处$\frac{\partial (E\cdot D)}{2\partial t}=\frac{\partial (\epsilon E^2)}{2\partial t}=\frac{E\partial (\epsilon E)}{\partial t}=E \cdot \frac{\partial D}{\partial t}$'>
+<meta property='og:url' content='https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves01/'>
 <meta property='og:site_name' content='Ther&#39;s Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='small talk' /><meta property='article:published_time' content='2022-05-29T16:24:16&#43;08:00'/><meta property='article:modified_time' content='2022-05-29T16:24:16&#43;08:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='study' /><meta property='article:published_time' content='2022-05-29T20:50:07&#43;08:00'/><meta property='article:modified_time' content='2022-05-29T20:50:07&#43;08:00'/>
 <meta name="twitter:site" content="@AdobePython">
-    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="Ice Cream">
-<meta name="twitter:description" content="冰菓 今夜与君
-爱梦相会
-务必觅得
-微眠之约
-萌生此等惬意
-实乃徒增彷徨
-予君之意
-君不知乎
-察其目光
-未萦他意
-宛如待友
-毫无二致
-许愿星逝于晓
-夜现晨湮之法
-愿君得察
-今夜与君
-爱梦相会
-务必觅得
-微眠之约">
+    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="Electromagnetic_Fields_and_Waves01">
+<meta name="twitter:description" content="电磁场的能流 瞬时Poynting定理 能流$w=w(x,t)$表示的是场单位体积的能量，场内的总能量： $$ \int_VwdV $$ 据此可以写出能量守恒式： $$ \int_\inf f\cdot vdV=-\frac{d}{dt}\int_\inf{wdV} $$ 左式为场对电荷做的总功率，右式为场的总能量的减小率。
+根据洛伦兹力公式、Maxwell方程第2式，可以得到： $$ f\cdot v=J\cdot E=(\nabla\times H-\frac{\partial D}{\partial t})\cdot E $$ 根据矢量分析公式、Maxwell方程第1式，可以得到： $$ J\cdot E = -\nabla \cdot (E\times H)-E \cdot \frac{\partial D}{\partial t} - H\cdot \frac{\partial B}{\partial t} $$ 三项分别为电场储能、磁场储能、电荷动能（焦耳热）即： $$ -\nabla\cdot S = \frac{\partial (E\cdot D)}{2\partial t}&#43;\frac{\partial (H\cdot B)}{2\partial t}&#43;E\cdot J $$
+ 此处$\frac{\partial (E\cdot D)}{2\partial t}=\frac{\partial (\epsilon E^2)}{2\partial t}=\frac{E\partial (\epsilon E)}{\partial t}=E \cdot \frac{\partial D}{\partial t}$">
     </head>
     <body class="
     article-page
@@ -263,8 +215,8 @@
     
     <header class="article-category">
         
-            <a href="/categories/small-talk/" >
-                small talk
+            <a href="/categories/study/" >
+                study
             </a>
         
     </header>
@@ -272,7 +224,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/posts/ice-cream/">Ice Cream</a>
+            <a href="/posts/electromagnetic_fields_and_waves01/">Electromagnetic_Fields_and_Waves01</a>
         </h2>
     
         
@@ -320,26 +272,73 @@
     <section class="article-content">
     
     
-    <h1 id="冰菓">冰菓</h1>
-<p>今夜与君</p>
-<p>爱梦相会</p>
-<p>务必觅得</p>
-<p>微眠之约</p>
-<p>萌生此等惬意</p>
-<p>实乃徒增彷徨</p>
-<p>予君之意</p>
-<p>君不知乎</p>
-<p>察其目光</p>
-<p>未萦他意</p>
-<p>宛如待友</p>
-<p>毫无二致</p>
-<p>许愿星逝于晓</p>
-<p>夜现晨湮之法</p>
-<p>愿君得察</p>
-<p>今夜与君</p>
-<p>爱梦相会</p>
-<p>务必觅得</p>
-<p>微眠之约</p>
+    <h1 id="电磁场的能流">电磁场的能流</h1>
+<h2 id="瞬时poynting定理">瞬时Poynting定理</h2>
+<p>能流$w=w(x,t)$表示的是场单位体积的能量，场内的总能量：
+$$
+\int_VwdV
+$$
+据此可以写出能量守恒式：
+$$
+\int_\inf f\cdot vdV=-\frac{d}{dt}\int_\inf{wdV}
+$$
+左式为场对电荷做的总功率，右式为场的总能量的减小率。</p>
+<p>根据洛伦兹力公式、Maxwell方程第2式，可以得到：
+$$
+f\cdot v=J\cdot E=(\nabla\times H-\frac{\partial D}{\partial t})\cdot E
+$$
+根据矢量分析公式、Maxwell方程第1式，可以得到：
+$$
+J\cdot E = -\nabla \cdot (E\times H)-E \cdot \frac{\partial D}{\partial t} - H\cdot \frac{\partial B}{\partial t}
+$$
+三项分别为电场储能、磁场储能、电荷动能（焦耳热）即：
+$$
+-\nabla\cdot S = \frac{\partial (E\cdot D)}{2\partial t}+\frac{\partial (H\cdot B)}{2\partial t}+E\cdot J
+$$</p>
+<blockquote>
+<p>此处$\frac{\partial (E\cdot D)}{2\partial t}=\frac{\partial (\epsilon E^2)}{2\partial t}=\frac{E\partial (\epsilon E)}{\partial t}=E \cdot \frac{\partial D}{\partial t}$</p>
+</blockquote>
+<p>积分得：
+$$
+-\int_SS\cdot ds=\frac{d}{dt}\int_V(w_e+w_m)dV+\int_VE\cdot JdV
+$$
+此为瞬时Poynting定理。</p>
+<h2 id="时谐场和复数poynting定理">时谐场和复数Poynting定理</h2>
+<p>对在$x$处的电场进行FT，得到在$\omega$处的系数$E(x)$。该处振幅的大小显然按照时间周期性变化，得到关于时间变化的场：
+$$
+E(x,t)=Re(E(x)e^{-i\omega t})
+$$</p>
+<blockquote>
+<p>不一定为$E(x)\cos(\omega t)$，因为Fourier系数可能为复数。</p>
+</blockquote>
+<p>此时的Poynting矢量$S(x,t)$可表示为：
+$$
+S(x,t)=E(x,t)\times H(x,t) = Re(E(x)e^{-i\omega t})\times Re(E(x)e^{-i\omega t})
+$$
+根据$Re(a) = \frac{1}{2}(a+a^<em>)$，可得：
+$$
+S(x,t) = \frac{1}{2}(Re(E(x)\times H^</em>(x))+Re(E(x)\times H(x)e^{-i2\omega t}))
+$$
+其中，第一项为时不变，第二项为时变。于是我们定义平均能流：
+$$
+<!-- raw HTML omitted -->=Re(\frac{E\times H^<em>}{2})
+$$
+定义复数能流$-\nabla \bar S = \frac{1}{2}(E\times H^</em>)$，根据频域Maxwell方程组1，2式和矢量展开式，得：
+$$
+\begin{align}</p>
+<p>-\nabla \bar S =
+\frac{1}{2}(E\times H^<em>)=
+\frac{1}{2}(-(\nabla \times E)\cdot H+(\nabla \times H^</em>) \cdot E)=\frac{i\omega}{2}(E\cdot D^<em>-B\times H^</em>)+\frac{1}{2}E\times J^*</p>
+<p>\end{align}
+$$
+其中$w_e=\frac{1}{4}(E\cdot D^<em>)$，$w_m=\frac{1}{4}(B\cdot H^</em>)$，此即复数Poynting定理，注意到磁场能前的符号为负。</p>
+<p>进一步，对式子两侧取实部，得：
+$$
+-\nabla <!-- raw HTML omitted --> =
+Re(\frac{1}{2}(E\times H^<em>))=
+-Im[\frac{\omega}{2}(E\cdot D^</em>-B\times H^<em>)]+Re(\frac{1}{2}E\times J^</em>)
+$$</p>
+<h2 id="heading"></h2>
 
 </section>
 
@@ -348,7 +347,7 @@
     
     <section class="article-tags">
         
-            <a href="/tags/small-talk/">small talk</a>
+            <a href="/tags/study/">study</a>
         
     </section>
 
@@ -374,6 +373,27 @@
     
 
     
+
+<aside class="related-contents--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-contents">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/posts/electromagnetic_fields_and_waves00/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Electromagnetic_Fields_and_Waves00</h2>
+        </div>
+    </a>
+</article>
+            
+        </div>
+    </div>
+</aside>
 
      
     
@@ -515,7 +535,40 @@
             >
 
             </main>
-    
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#瞬时poynting定理">瞬时Poynting定理</a></li>
+    <li><a href="#时谐场和复数poynting定理">时谐场和复数Poynting定理</a></li>
+    <li><a href="#heading"></a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
 
         </div>
         <script 

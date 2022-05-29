@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>Ther&#39;s Blog</title>
-        <link>https://ther-nullptr.github.io/</link>
-        <description>Recent content on Ther&#39;s Blog</description>
+        <title>study on Ther&#39;s Blog</title>
+        <link>https://ther-nullptr.github.io/categories/study/</link>
+        <description>Recent content in study on Ther&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Sun, 29 May 2022 21:23:02 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 29 May 2022 21:23:02 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/categories/study/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Electromagnetic_Fields_and_Waves00</title>
         <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves00/</link>
         <pubDate>Sun, 29 May 2022 21:23:02 +0800</pubDate>
@@ -126,86 +126,6 @@ Re(\frac{1}{2}(E\times H^&lt;em&gt;))=
 -Im[\frac{\omega}{2}(E\cdot D^&lt;/em&gt;-B\times H^&lt;em&gt;)]+Re(\frac{1}{2}E\times J^&lt;/em&gt;)
 $$&lt;/p&gt;
 &lt;h2 id=&#34;heading&#34;&gt;&lt;/h2&gt;
-</description>
-        </item>
-        <item>
-        <title>Ice Cream</title>
-        <link>https://ther-nullptr.github.io/posts/ice-cream/</link>
-        <pubDate>Sun, 29 May 2022 16:24:16 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/ice-cream/</guid>
-        <description>&lt;h1 id=&#34;冰菓&#34;&gt;冰菓&lt;/h1&gt;
-&lt;p&gt;今夜与君&lt;/p&gt;
-&lt;p&gt;爱梦相会&lt;/p&gt;
-&lt;p&gt;务必觅得&lt;/p&gt;
-&lt;p&gt;微眠之约&lt;/p&gt;
-&lt;p&gt;萌生此等惬意&lt;/p&gt;
-&lt;p&gt;实乃徒增彷徨&lt;/p&gt;
-&lt;p&gt;予君之意&lt;/p&gt;
-&lt;p&gt;君不知乎&lt;/p&gt;
-&lt;p&gt;察其目光&lt;/p&gt;
-&lt;p&gt;未萦他意&lt;/p&gt;
-&lt;p&gt;宛如待友&lt;/p&gt;
-&lt;p&gt;毫无二致&lt;/p&gt;
-&lt;p&gt;许愿星逝于晓&lt;/p&gt;
-&lt;p&gt;夜现晨湮之法&lt;/p&gt;
-&lt;p&gt;愿君得察&lt;/p&gt;
-&lt;p&gt;今夜与君&lt;/p&gt;
-&lt;p&gt;爱梦相会&lt;/p&gt;
-&lt;p&gt;务必觅得&lt;/p&gt;
-&lt;p&gt;微眠之约&lt;/p&gt;
-</description>
-        </item>
-        <item>
-        <title>Commands</title>
-        <link>https://ther-nullptr.github.io/posts/command/</link>
-        <pubDate>Sun, 29 May 2022 15:47:05 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/command/</guid>
-        <description>&lt;h1 id=&#34;hugo-commands&#34;&gt;Hugo commands&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;create a article&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ hugo new post/first.md
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;ul&gt;
-&lt;li&gt;start hugo server&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ hugo server
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;ul&gt;
-&lt;li&gt;watch environment info&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ hugo env
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description>
-        </item>
-        <item>
-        <title>Null</title>
-        <link>https://ther-nullptr.github.io/posts/intro/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/intro/</guid>
-        <description>&lt;p&gt;一个loser的喃喃自语。
-暑假可能会高强度更新，记录这诡谲的岁月。&lt;/p&gt;
 </description>
         </item>
         
