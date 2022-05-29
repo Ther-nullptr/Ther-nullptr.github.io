@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>small talk on Ther&#39;s Blog</title>
-        <link>https://example.org/categories/small-talk/</link>
+        <link>https://example.com/categories/small-talk/</link>
         <description>Recent content in small talk on Ther&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Sun, 29 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://example.org/categories/small-talk/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 29 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://example.com/categories/small-talk/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Null</title>
-        <link>https://example.org/2022/05/null/</link>
+        <link>https://example.com/posts/intro/</link>
         <pubDate>Sun, 29 May 2022 00:00:00 +0000</pubDate>
         
-        <guid>https://example.org/2022/05/null/</guid>
+        <guid>https://example.com/posts/intro/</guid>
         <description>&lt;p&gt;一个loser的喃喃自语。
 暑假可能会高强度更新，记录这诡谲的岁月。&lt;/p&gt;
 </description>

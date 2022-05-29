@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Tags on Ther&#39;s Blog</title>
-        <link>https://example.org/tags/</link>
+        <link>https://example.com/tags/</link>
         <description>Recent content in Tags on Ther&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Sun, 29 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://example.org/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 29 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://example.com/tags/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>small talk</title>
-        <link>https://example.org/tags/small-talk/</link>
+        <link>https://example.com/tags/small-talk/</link>
         <pubDate>Sun, 29 May 2022 00:00:00 +0000</pubDate>
         
-        <guid>https://example.org/tags/small-talk/</guid>
+        <guid>https://example.com/tags/small-talk/</guid>
         <description></description>
         </item>
         
