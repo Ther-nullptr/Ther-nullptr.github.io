@@ -6,11 +6,7 @@
     <description>Recent content in Tags on Ther&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 29 May 2022 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://example.org/tags/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 29 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://example.org/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>small talk</title>
       <link>https://example.org/tags/small-talk/</link>
@@ -18,6 +14,7 @@
       
       <guid>https://example.org/tags/small-talk/</guid>
       <description></description>
+      <content></content>
     </item>
     
   </channel>
