@@ -16,40 +16,40 @@
 &lt;p&gt;本节记录一些期中之前常用的公式。&lt;/p&gt;
 &lt;h2 id=&#34;maxwell方程组的n种形式&#34;&gt;Maxwell方程组的n种形式&lt;/h2&gt;
 &lt;h3 id=&#34;1真空中的maxwell方程组&#34;&gt;1.真空中的Maxwell方程组&lt;/h3&gt;
-&lt;p&gt;$$
-\nabla \times E = -\frac{\partial B}{\partial t}\&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;\nabla \times E = -\frac{\partial B}{\partial t}\&lt;/p&gt;
 &lt;p&gt;\nabla \times B = \mu_0J_0+\mu_0\epsilon_0\frac{\partial E}{\partial t}\&lt;/p&gt;
 &lt;p&gt;\nabla \cdot E = \frac{\rho}{\epsilon_0}\&lt;/p&gt;
-&lt;p&gt;\nabla \cdot B = 0
-$$&lt;/p&gt;
+&lt;p&gt;\nabla \cdot B = 0&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
 &lt;h3 id=&#34;2介质中的maxwell方程组&#34;&gt;2.介质中的Maxwell方程组&lt;/h3&gt;
-&lt;p&gt;$$
-\nabla \times E = -\frac{\partial B}{\partial t}\&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;\nabla \times E = -\frac{\partial B}{\partial t}\&lt;/p&gt;
 &lt;p&gt;\nabla \times H = J+\frac{\partial D}{\partial t}\&lt;/p&gt;
 &lt;p&gt;\nabla \cdot D = \rho\&lt;/p&gt;
-&lt;p&gt;\nabla \cdot B = 0
-$$&lt;/p&gt;
+&lt;p&gt;\nabla \cdot B = 0&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
 &lt;h3 id=&#34;3频域maxwell方程组&#34;&gt;3.频域Maxwell方程组&lt;/h3&gt;
-&lt;p&gt;注：此处的Fourier变换与Signal and System中不同。
-$$
-\nabla \times E = i\omega B\&lt;/p&gt;
+&lt;p&gt;注：此处的Fourier变换与Signal and System中不同。&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;\nabla \times E = i\omega B\&lt;/p&gt;
 &lt;p&gt;\nabla \times H = J-i\omega D\&lt;/p&gt;
 &lt;p&gt;\nabla \cdot D = \rho\&lt;/p&gt;
-&lt;p&gt;\nabla \cdot B = 0
-$$&lt;/p&gt;
+&lt;p&gt;\nabla \cdot B = 0&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
 &lt;h3 id=&#34;4导体maxwell方程组&#34;&gt;4.导体Maxwell方程组&lt;/h3&gt;
-&lt;p&gt;$$
-\nabla \times E = i\omega \mu H\&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;\nabla \times E = i\omega \mu H\&lt;/p&gt;
 &lt;p&gt;\nabla \times H = -i\omega\bar\epsilon E\&lt;/p&gt;
 &lt;p&gt;\nabla \cdot D = \rho (0)\&lt;/p&gt;
-&lt;p&gt;\nabla \cdot B = 0
-$$&lt;/p&gt;
+&lt;p&gt;\nabla \cdot B = 0&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
 &lt;p&gt;其中$\bar \epsilon=\epsilon+i\frac{\sigma}{\omega}$&lt;/p&gt;
 &lt;h3 id=&#34;5平面波传播maxwell方程组&#34;&gt;5.平面波传播Maxwell方程组&lt;/h3&gt;
-&lt;p&gt;$$
-\nabla \times E = i\omega B\&lt;/p&gt;
-&lt;p&gt;\nabla \times H = -i\omega D\
-$$&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;\nabla \times E = i\omega B\&lt;/p&gt;
+&lt;p&gt;\nabla \times H = -i\omega D\&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
 &lt;p&gt;细节将在平面波一节讨论。&lt;/p&gt;
 </description>
         </item>
@@ -61,70 +61,70 @@ $$&lt;/p&gt;
         <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves01/</guid>
         <description>&lt;h1 id=&#34;电磁场的能流&#34;&gt;电磁场的能流&lt;/h1&gt;
 &lt;h2 id=&#34;瞬时poynting定理&#34;&gt;瞬时Poynting定理&lt;/h2&gt;
-&lt;p&gt;能流$w=w(x,t)$表示的是场单位体积的能量，场内的总能量：
-$$
-\int_VwdV
-$$
-据此可以写出能量守恒式：
-$$
-\int_\inf f\cdot vdV=-\frac{d}{dt}\int_\inf{wdV}
-$$
+&lt;p&gt;能流$w=w(x,t)$表示的是场单位体积的能量，场内的总能量：&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;\int_VwdV&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;据此可以写出能量守恒式：&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;\int_\inf f\cdot vdV=-\frac{d}{dt}\int_\inf{wdV}&lt;/p&gt;
+&lt;p&gt;$$
 左式为场对电荷做的总功率，右式为场的总能量的减小率。&lt;/p&gt;
-&lt;p&gt;根据洛伦兹力公式、Maxwell方程第2式，可以得到：
-$$
-f\cdot v=J\cdot E=(\nabla\times H-\frac{\partial D}{\partial t})\cdot E
-$$
-根据矢量分析公式、Maxwell方程第1式，可以得到：
-$$
-J\cdot E = -\nabla \cdot (E\times H)-E \cdot \frac{\partial D}{\partial t} - H\cdot \frac{\partial B}{\partial t}
-$$
-三项分别为电场储能、磁场储能、电荷动能（焦耳热）即：
-$$
--\nabla\cdot S = \frac{\partial (E\cdot D)}{2\partial t}+\frac{\partial (H\cdot B)}{2\partial t}+E\cdot J
-$$&lt;/p&gt;
+&lt;p&gt;根据洛伦兹力公式、Maxwell方程第2式，可以得到：&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;f\cdot v=J\cdot E=(\nabla\times H-\frac{\partial D}{\partial t})\cdot E&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;根据矢量分析公式、Maxwell方程第1式，可以得到：&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;J\cdot E = -\nabla \cdot (E\times H)-E \cdot \frac{\partial D}{\partial t} - H\cdot \frac{\partial B}{\partial t}&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;三项分别为电场储能、磁场储能、电荷动能（焦耳热）即：&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;-\nabla\cdot S = \frac{\partial (E\cdot D)}{2\partial t}+\frac{\partial (H\cdot B)}{2\partial t}+E\cdot J&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;此处$\frac{\partial (E\cdot D)}{2\partial t}=\frac{\partial (\epsilon E^2)}{2\partial t}=\frac{E\partial (\epsilon E)}{\partial t}=E \cdot \frac{\partial D}{\partial t}$&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;积分得：
-$$
--\int_SS\cdot ds=\frac{d}{dt}\int_V(w_e+w_m)dV+\int_VE\cdot JdV
-$$
-此为瞬时Poynting定理。&lt;/p&gt;
+&lt;p&gt;积分得：&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;-\int_SS\cdot ds=\frac{d}{dt}\int_V(w_e+w_m)dV+\int_VE\cdot JdV&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;此为瞬时Poynting定理。&lt;/p&gt;
 &lt;h2 id=&#34;时谐场和复数poynting定理&#34;&gt;时谐场和复数Poynting定理&lt;/h2&gt;
-&lt;p&gt;对在$x$处的电场进行FT，得到在$\omega$处的系数$E(x)$。该处振幅的大小显然按照时间周期性变化，得到关于时间变化的场：
-$$
-E(x,t)=Re(E(x)e^{-i\omega t})
-$$&lt;/p&gt;
+&lt;p&gt;对在$x$处的电场进行FT，得到在$\omega$处的系数$E(x)$。该处振幅的大小显然按照时间周期性变化，得到关于时间变化的场：&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;E(x,t)=Re(E(x)e^{-i\omega t})&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;不一定为$E(x)\cos(\omega t)$，因为Fourier系数可能为复数。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;此时的Poynting矢量$S(x,t)$可表示为：
-$$
-S(x,t)=E(x,t)\times H(x,t) = Re(E(x)e^{-i\omega t})\times Re(E(x)e^{-i\omega t})
-$$
-根据$Re(a) = \frac{1}{2}(a+a^&lt;em&gt;)$，可得：
-$$
-S(x,t) = \frac{1}{2}(Re(E(x)\times H^&lt;/em&gt;(x))+Re(E(x)\times H(x)e^{-i2\omega t}))
-$$
-其中，第一项为时不变，第二项为时变。于是我们定义平均能流：
-$$
-&lt;!-- raw HTML omitted --&gt;=Re(\frac{E\times H^&lt;em&gt;}{2})
-$$
-定义复数能流$-\nabla \bar S = \frac{1}{2}(E\times H^&lt;/em&gt;)$，根据频域Maxwell方程组1，2式和矢量展开式，得：
-$$
-\begin{align}&lt;/p&gt;
+&lt;p&gt;此时的Poynting矢量$S(x,t)$可表示为：&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;S(x,t)=E(x,t)\times H(x,t) = Re(E(x)e^{-i\omega t})\times Re(E(x)e^{-i\omega t})&lt;/p&gt;
+&lt;p&gt;$$
+根据$Re(a) = \frac{1}{2}(a+a^*)$，可得：&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;S(x,t) = \frac{1}{2}(Re(E(x)\times H^*(x))+Re(E(x)\times H(x)e^{-i2\omega t}))&lt;/p&gt;
+&lt;p&gt;$$
+其中，第一项为时不变，第二项为时变。于是我们定义平均能流：&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;&lt;!-- raw HTML omitted --&gt;=Re(\frac{E\times H^*}{2})&lt;/p&gt;
+&lt;p&gt;$$
+定义复数能流$-\nabla \bar S = \frac{1}{2}(E\times H^*)$，根据频域Maxwell方程组1，2式和矢量展开式，得：&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;\begin{align}&lt;/p&gt;
 &lt;p&gt;-\nabla \bar S =
 \frac{1}{2}(E\times H^&lt;em&gt;)=
 \frac{1}{2}(-(\nabla \times E)\cdot H+(\nabla \times H^&lt;/em&gt;) \cdot E)=\frac{i\omega}{2}(E\cdot D^&lt;em&gt;-B\times H^&lt;/em&gt;)+\frac{1}{2}E\times J^*&lt;/p&gt;
-&lt;p&gt;\end{align}
-$$
+&lt;p&gt;\end{align}&lt;/p&gt;
+&lt;p&gt;$$
 其中$w_e=\frac{1}{4}(E\cdot D^&lt;em&gt;)$，$w_m=\frac{1}{4}(B\cdot H^&lt;/em&gt;)$，此即复数Poynting定理，注意到磁场能前的符号为负。&lt;/p&gt;
-&lt;p&gt;进一步，对式子两侧取实部，得：
-$$
--\nabla &lt;!-- raw HTML omitted --&gt; =
+&lt;p&gt;进一步，对式子两侧取实部，得：&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;-\nabla &lt;!-- raw HTML omitted --&gt; =
 Re(\frac{1}{2}(E\times H^&lt;em&gt;))=
--Im[\frac{\omega}{2}(E\cdot D^&lt;/em&gt;-B\times H^&lt;em&gt;)]+Re(\frac{1}{2}E\times J^&lt;/em&gt;)
-$$&lt;/p&gt;
+-Im[\frac{\omega}{2}(E\cdot D^&lt;/em&gt;-B\times H^&lt;em&gt;)]+Re(\frac{1}{2}E\times J^&lt;/em&gt;)&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
 &lt;h2 id=&#34;heading&#34;&gt;&lt;/h2&gt;
 </description>
         </item>
