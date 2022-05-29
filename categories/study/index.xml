@@ -17,38 +17,38 @@
 &lt;h2 id=&#34;maxwell方程组的n种形式&#34;&gt;Maxwell方程组的n种形式&lt;/h2&gt;
 &lt;h3 id=&#34;1真空中的maxwell方程组&#34;&gt;1.真空中的Maxwell方程组&lt;/h3&gt;
 &lt;p&gt;$$
-\nabla \times E = -\frac{\partial B}{\partial t}\\&lt;/p&gt;
-&lt;p&gt;\nabla \times B = \mu_0J_0+\mu_0\epsilon_0\frac{\partial E}{\partial t}\\&lt;/p&gt;
-&lt;p&gt;\nabla \cdot E = \frac{\rho}{\epsilon_0}\\&lt;/p&gt;
+\nabla \times E = -\frac{\partial B}{\partial t} \newline&lt;/p&gt;
+&lt;p&gt;\nabla \times B = \mu_0J_0+\mu_0\epsilon_0\frac{\partial E}{\partial t}\newline&lt;/p&gt;
+&lt;p&gt;\nabla \cdot E = \frac{\rho}{\epsilon_0 }\newline&lt;/p&gt;
 &lt;p&gt;\nabla \cdot B = 0
 $$&lt;/p&gt;
 &lt;h3 id=&#34;2介质中的maxwell方程组&#34;&gt;2.介质中的Maxwell方程组&lt;/h3&gt;
 &lt;p&gt;$$
-\nabla \times E = -\frac{\partial B}{\partial t}\\&lt;/p&gt;
-&lt;p&gt;\nabla \times H = J+\frac{\partial D}{\partial t}\\&lt;/p&gt;
-&lt;p&gt;\nabla \cdot D = \rho\\&lt;/p&gt;
+\nabla \times E = -\frac{\partial B}{\partial t}\newline&lt;/p&gt;
+&lt;p&gt;\nabla \times H = J+\frac{\partial D}{\partial t}\newline&lt;/p&gt;
+&lt;p&gt;\nabla \cdot D = \rho\newline&lt;/p&gt;
 &lt;p&gt;\nabla \cdot B = 0
 $$&lt;/p&gt;
 &lt;h3 id=&#34;3频域maxwell方程组&#34;&gt;3.频域Maxwell方程组&lt;/h3&gt;
 &lt;p&gt;注：此处的Fourier变换与Signal and System中不同。&lt;/p&gt;
 &lt;p&gt;$$
-\nabla \times E = i\omega B\\&lt;/p&gt;
-&lt;p&gt;\nabla \times H = J-i\omega D\\&lt;/p&gt;
-&lt;p&gt;\nabla \cdot D = \rho\\&lt;/p&gt;
+\nabla \times E = i\omega B\newline&lt;/p&gt;
+&lt;p&gt;\nabla \times H = J-i\omega D\newline&lt;/p&gt;
+&lt;p&gt;\nabla \cdot D = \rho\newline&lt;/p&gt;
 &lt;p&gt;\nabla \cdot B = 0
 $$&lt;/p&gt;
 &lt;h3 id=&#34;4导体maxwell方程组&#34;&gt;4.导体Maxwell方程组&lt;/h3&gt;
 &lt;p&gt;$$
-\nabla \times E = i\omega \mu H\\&lt;/p&gt;
-&lt;p&gt;\nabla \times H = -i\omega\bar\epsilon E\\&lt;/p&gt;
-&lt;p&gt;\nabla \cdot D = \rho (0)\\&lt;/p&gt;
+\nabla \times E = i\omega \mu H\newline&lt;/p&gt;
+&lt;p&gt;\nabla \times H = -i\omega\bar\epsilon E\newline&lt;/p&gt;
+&lt;p&gt;\nabla \cdot D = \rho (0)\newline&lt;/p&gt;
 &lt;p&gt;\nabla \cdot B = 0
 $$&lt;/p&gt;
 &lt;p&gt;其中$\bar \epsilon=\epsilon+i\frac{\sigma}{\omega}$&lt;/p&gt;
 &lt;h3 id=&#34;5平面波传播maxwell方程组&#34;&gt;5.平面波传播Maxwell方程组&lt;/h3&gt;
 &lt;p&gt;$$
-\nabla \times E = i\omega B\\&lt;/p&gt;
-&lt;p&gt;\nabla \times H = -i\omega D\\
+\nabla \times E = i\omega B\newline&lt;/p&gt;
+&lt;p&gt;\nabla \times H = -i\omega D\newline
 $$&lt;/p&gt;
 &lt;p&gt;细节将在平面波一节讨论。&lt;/p&gt;
 </description>
@@ -111,19 +111,17 @@ $$&lt;/p&gt;
 &lt;!-- raw HTML omitted --&gt;=Re(\frac{E\times H^\star}{2})
 $$&lt;/p&gt;
 &lt;p&gt;定义复数能流$-\nabla \bar S = \frac{1}{2}(E\times H^\star)$，根据频域Maxwell方程组1，2式和矢量展开式，得：&lt;/p&gt;
-&lt;p&gt;$$
-\begin{align}&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
 &lt;p&gt;-\nabla \bar S =
 \frac{1}{2}(E\times H^\star)=
 \frac{1}{2}(-(\nabla \times E)\cdot H+(\nabla \times H^\star) \cdot E)=\frac{i\omega}{2}(E\cdot D^\star-B\times H^\star)+\frac{1}{2}E\times J^\star&lt;/p&gt;
-&lt;p&gt;\end{align}
-$$&lt;/p&gt;
+&lt;p&gt;$$&lt;/p&gt;
 &lt;p&gt;其中$w_e=\frac{1}{4}(E\cdot D^{\star})$，$w_m=\frac{1}{4}(B\cdot H^{\star})$，此即复数Poynting定理，注意到磁场能前的符号为负。&lt;/p&gt;
 &lt;p&gt;进一步，对式子两侧取实部，得：&lt;/p&gt;
 &lt;p&gt;$$
 -\nabla &lt;!-- raw HTML omitted --&gt; =
 Re(\frac{1}{2}(E\times H^\star))=
--Im[\frac{\omega}{2}(E\cdot D^\star-B\times H^\star]+Re(\frac{1}{2}E\times J^*)]
+-Im[\frac{\omega}{2}(E\cdot D^\star-B\times H^\star]+Re(\frac{1}{2}E\times J^\star)]
 $$&lt;/p&gt;
 &lt;h2 id=&#34;heading&#34;&gt;&lt;/h2&gt;
 </description>
