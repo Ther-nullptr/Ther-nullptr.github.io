@@ -2,15 +2,15 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>small talk on Ther&#39;s Blog</title>
-        <link>https://example.com/tags/small-talk/</link>
+        <link>https://ther-nullptr.github.io/tags/small-talk/</link>
         <description>Recent content in small talk on Ther&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
-        <language>en-us</language><atom:link href="https://example.com/tags/small-talk/index.xml" rel="self" type="application/rss+xml" /><item>
+        <language>en-us</language><atom:link href="https://ther-nullptr.github.io/tags/small-talk/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Null</title>
-        <link>https://example.com/posts/intro/</link>
+        <link>https://ther-nullptr.github.io/posts/intro/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://example.com/posts/intro/</guid>
+        <guid>https://ther-nullptr.github.io/posts/intro/</guid>
         <description>&lt;p&gt;一个loser的喃喃自语。
 暑假可能会高强度更新，记录这诡谲的岁月。&lt;/p&gt;
 </description>

@@ -2,48 +2,48 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://example.com/categories/</loc>
+    <loc>https://ther-nullptr.github.io/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://example.com/en/categories/"
+                href="https://ther-nullptr.github.io/en/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://example.com/categories/"
+                href="https://ther-nullptr.github.io/categories/"
                 />
   </url><url>
-    <loc>https://example.com/posts/intro/</loc>
+    <loc>https://ther-nullptr.github.io/posts/intro/</loc>
   </url><url>
-    <loc>https://example.com/posts/</loc>
+    <loc>https://ther-nullptr.github.io/posts/</loc>
   </url><url>
-    <loc>https://example.com/tags/small-talk/</loc>
+    <loc>https://ther-nullptr.github.io/tags/small-talk/</loc>
   </url><url>
-    <loc>https://example.com/categories/small-talk/</loc>
+    <loc>https://ther-nullptr.github.io/categories/small-talk/</loc>
   </url><url>
-    <loc>https://example.com/tags/</loc>
+    <loc>https://ther-nullptr.github.io/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://example.com/en/tags/"
+                href="https://ther-nullptr.github.io/en/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://example.com/tags/"
+                href="https://ther-nullptr.github.io/tags/"
                 />
   </url><url>
-    <loc>https://example.com/</loc>
+    <loc>https://ther-nullptr.github.io/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://example.com/en/"
+                href="https://ther-nullptr.github.io/en/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://example.com/"
+                href="https://ther-nullptr.github.io/"
                 />
   </url>
 </urlset>
