@@ -1,33 +1,21 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='平面电磁场 平面波 在计算电磁场的传播时，我们默认$\rho=0$，$J=0$。
-对Maxwell方程第一式求旋度，整理可得： $$ \nabla^2 E - \mu\epsilon\frac{\partial^2E}{\partial t^2} = 0 $$ 也可以在频域中表示： $$ \nabla^2 E &#43;\omega^2\mu\epsilon E = 0 $$ 令$k^2=\omega^2\mu\epsilon$，上式即为Helmholtz方程。
-但Helmholtz方程的解不一定为Maxwell方程的解，所以有必要进行一定的约束： $$ \nabla^2E&#43;k^2E=0 \ \nabla \cdot E = 0\ H = \frac{1}{i\omega\mu}\nabla\times E $$ 上式即为完整Helmholtz方程组。
-在一维条件下，Helmholtz的一个解为（$x$表示电磁波沿$x$轴方向传播）： $$ E=E(x)=E_0e^{ikx} $$ 全表示式为： $$ E(x,t)=E_0e^{i(kx-\omega t)} $$ 其中等相位面$\theta=kx-\omega t$
-由于： $$ \nabla \cdot E = \nabla \cdot (E_0e^{ikx}) = ikE_0e^{ikx} \cdot \hat e_x = 0 $$ 所以$E_x = 0$。
-再将$E$代入计算$H$： $$ H=\frac{1}{i\omega \mu}\nabla\times(E_0e^{ikx}) = \frac{1}{i\omega \mu}ik\times E_0 e^{ikx}=\hat k\times\frac{E_0}{\eta}e^{ikx} $$ $B$： $$ B = \sqrt{\mu\epsilon}\hat k \times E=\frac{1}{\omega}k\times E $$ 根据上式也可以推导出电磁波的一些基本量：'><title>Electromagnetic_Fields_and_Waves02</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='导体中电磁场的传播 自由电荷 根据电荷守恒定律和Maxwell方程第3式，可得： $$ \rho = \rho_0e^{-\frac{\sigma}{\epsilon}t},\tau=\frac{\epsilon}{\sigma} $$ 良导体（即$\rho$衰减很快）满足： $$ \frac{\sigma}{\epsilon\omega}&amp;raquo;1 $$
+电磁波 对比介质中和导体中的Maxwell方程组，可以发现导体中多了传导电流项$\sigma E$。为使得两者形式一致，引入复电容率： $$ \epsilon^{\prime} = \epsilon&#43;i\frac{\sigma}{\omega} $$ 此时： $$ k=\omega\sqrt{\mu\epsilon^{\prime}}=\omega\sqrt{\mu(\epsilon&#43;i\frac{\sigma}{\omega})} $$ 设$k=\beta&#43;i\alpha$，下考虑垂直入射（入射方向为$z$轴）的情形，$E$满足： $$ E = E_0e^{-\alpha z}e^{i(\beta z-\omega t)} $$ 在良导体条件下： $$ \alpha \approx \beta \approx \sqrt\frac{\omega\mu\sigma}{2} $$ 定义强度降为表面的$e^{-1}$时的深度为穿透深度： $$ \delta = \frac{1}{\alpha}=\sqrt\frac{2}{\omega\mu\sigma} $$ 还可求出磁场： $$ H = \sqrt\frac{\sigma}{\omega\mu}e^{i\frac{\pi}{4}}\hat e_n\times E $$ 根据下式可以看出，磁场能量占据主导： $$ \frac{&amp;lt;w_e&amp;gt;}{&amp;lt;w_m&amp;gt;} = \frac{\frac{1}{4}\epsilon|E_0|^2}{\frac{1}{4}\mu|H_0|^2}=\frac{\omega \epsilon}{\sigma}&amp;laquo;1 $$ 下考虑反射系数。边界条件为： $$ E&#43;E^{\prime}=E^{\prime\prime}\ H-H^{\prime}=H^{\prime\prime}\quad(E-E^{\prime}=\sqrt\frac{\sigma}{2\omega\epsilon_0}(1&#43;i)E^{\prime\prime}) $$ 反射系数： $$ R=|\frac{E^{\prime}}{E}|^2=1-2\sqrt\frac{2\omega\epsilon_0}{\sigma} $$'><title>Electromagnetic_Fields_and_Waves04</title>
 
-<link rel='canonical' href='https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves02/'>
+<link rel='canonical' href='https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves04/'>
 
-<link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='Electromagnetic_Fields_and_Waves02'>
-<meta property='og:description' content='平面电磁场 平面波 在计算电磁场的传播时，我们默认$\rho=0$，$J=0$。
-对Maxwell方程第一式求旋度，整理可得： $$ \nabla^2 E - \mu\epsilon\frac{\partial^2E}{\partial t^2} = 0 $$ 也可以在频域中表示： $$ \nabla^2 E &#43;\omega^2\mu\epsilon E = 0 $$ 令$k^2=\omega^2\mu\epsilon$，上式即为Helmholtz方程。
-但Helmholtz方程的解不一定为Maxwell方程的解，所以有必要进行一定的约束： $$ \nabla^2E&#43;k^2E=0 \ \nabla \cdot E = 0\ H = \frac{1}{i\omega\mu}\nabla\times E $$ 上式即为完整Helmholtz方程组。
-在一维条件下，Helmholtz的一个解为（$x$表示电磁波沿$x$轴方向传播）： $$ E=E(x)=E_0e^{ikx} $$ 全表示式为： $$ E(x,t)=E_0e^{i(kx-\omega t)} $$ 其中等相位面$\theta=kx-\omega t$
-由于： $$ \nabla \cdot E = \nabla \cdot (E_0e^{ikx}) = ikE_0e^{ikx} \cdot \hat e_x = 0 $$ 所以$E_x = 0$。
-再将$E$代入计算$H$： $$ H=\frac{1}{i\omega \mu}\nabla\times(E_0e^{ikx}) = \frac{1}{i\omega \mu}ik\times E_0 e^{ikx}=\hat k\times\frac{E_0}{\eta}e^{ikx} $$ $B$： $$ B = \sqrt{\mu\epsilon}\hat k \times E=\frac{1}{\omega}k\times E $$ 根据上式也可以推导出电磁波的一些基本量：'>
-<meta property='og:url' content='https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves02/'>
+<link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='Electromagnetic_Fields_and_Waves04'>
+<meta property='og:description' content='导体中电磁场的传播 自由电荷 根据电荷守恒定律和Maxwell方程第3式，可得： $$ \rho = \rho_0e^{-\frac{\sigma}{\epsilon}t},\tau=\frac{\epsilon}{\sigma} $$ 良导体（即$\rho$衰减很快）满足： $$ \frac{\sigma}{\epsilon\omega}&amp;raquo;1 $$
+电磁波 对比介质中和导体中的Maxwell方程组，可以发现导体中多了传导电流项$\sigma E$。为使得两者形式一致，引入复电容率： $$ \epsilon^{\prime} = \epsilon&#43;i\frac{\sigma}{\omega} $$ 此时： $$ k=\omega\sqrt{\mu\epsilon^{\prime}}=\omega\sqrt{\mu(\epsilon&#43;i\frac{\sigma}{\omega})} $$ 设$k=\beta&#43;i\alpha$，下考虑垂直入射（入射方向为$z$轴）的情形，$E$满足： $$ E = E_0e^{-\alpha z}e^{i(\beta z-\omega t)} $$ 在良导体条件下： $$ \alpha \approx \beta \approx \sqrt\frac{\omega\mu\sigma}{2} $$ 定义强度降为表面的$e^{-1}$时的深度为穿透深度： $$ \delta = \frac{1}{\alpha}=\sqrt\frac{2}{\omega\mu\sigma} $$ 还可求出磁场： $$ H = \sqrt\frac{\sigma}{\omega\mu}e^{i\frac{\pi}{4}}\hat e_n\times E $$ 根据下式可以看出，磁场能量占据主导： $$ \frac{&amp;lt;w_e&amp;gt;}{&amp;lt;w_m&amp;gt;} = \frac{\frac{1}{4}\epsilon|E_0|^2}{\frac{1}{4}\mu|H_0|^2}=\frac{\omega \epsilon}{\sigma}&amp;laquo;1 $$ 下考虑反射系数。边界条件为： $$ E&#43;E^{\prime}=E^{\prime\prime}\ H-H^{\prime}=H^{\prime\prime}\quad(E-E^{\prime}=\sqrt\frac{\sigma}{2\omega\epsilon_0}(1&#43;i)E^{\prime\prime}) $$ 反射系数： $$ R=|\frac{E^{\prime}}{E}|^2=1-2\sqrt\frac{2\omega\epsilon_0}{\sigma} $$'>
+<meta property='og:url' content='https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves04/'>
 <meta property='og:site_name' content='Ther&#39;s Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='study' /><meta property='article:published_time' content='2022-05-30T09:17:23&#43;08:00'/><meta property='article:modified_time' content='2022-05-30T09:17:23&#43;08:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='study' /><meta property='article:published_time' content='2022-05-30T15:28:02&#43;08:00'/><meta property='article:modified_time' content='2022-05-30T15:28:02&#43;08:00'/>
 <meta name="twitter:site" content="@AdobePython">
-    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="Electromagnetic_Fields_and_Waves02">
-<meta name="twitter:description" content="平面电磁场 平面波 在计算电磁场的传播时，我们默认$\rho=0$，$J=0$。
-对Maxwell方程第一式求旋度，整理可得： $$ \nabla^2 E - \mu\epsilon\frac{\partial^2E}{\partial t^2} = 0 $$ 也可以在频域中表示： $$ \nabla^2 E &#43;\omega^2\mu\epsilon E = 0 $$ 令$k^2=\omega^2\mu\epsilon$，上式即为Helmholtz方程。
-但Helmholtz方程的解不一定为Maxwell方程的解，所以有必要进行一定的约束： $$ \nabla^2E&#43;k^2E=0 \ \nabla \cdot E = 0\ H = \frac{1}{i\omega\mu}\nabla\times E $$ 上式即为完整Helmholtz方程组。
-在一维条件下，Helmholtz的一个解为（$x$表示电磁波沿$x$轴方向传播）： $$ E=E(x)=E_0e^{ikx} $$ 全表示式为： $$ E(x,t)=E_0e^{i(kx-\omega t)} $$ 其中等相位面$\theta=kx-\omega t$
-由于： $$ \nabla \cdot E = \nabla \cdot (E_0e^{ikx}) = ikE_0e^{ikx} \cdot \hat e_x = 0 $$ 所以$E_x = 0$。
-再将$E$代入计算$H$： $$ H=\frac{1}{i\omega \mu}\nabla\times(E_0e^{ikx}) = \frac{1}{i\omega \mu}ik\times E_0 e^{ikx}=\hat k\times\frac{E_0}{\eta}e^{ikx} $$ $B$： $$ B = \sqrt{\mu\epsilon}\hat k \times E=\frac{1}{\omega}k\times E $$ 根据上式也可以推导出电磁波的一些基本量：">
+    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="Electromagnetic_Fields_and_Waves04">
+<meta name="twitter:description" content="导体中电磁场的传播 自由电荷 根据电荷守恒定律和Maxwell方程第3式，可得： $$ \rho = \rho_0e^{-\frac{\sigma}{\epsilon}t},\tau=\frac{\epsilon}{\sigma} $$ 良导体（即$\rho$衰减很快）满足： $$ \frac{\sigma}{\epsilon\omega}&amp;raquo;1 $$
+电磁波 对比介质中和导体中的Maxwell方程组，可以发现导体中多了传导电流项$\sigma E$。为使得两者形式一致，引入复电容率： $$ \epsilon^{\prime} = \epsilon&#43;i\frac{\sigma}{\omega} $$ 此时： $$ k=\omega\sqrt{\mu\epsilon^{\prime}}=\omega\sqrt{\mu(\epsilon&#43;i\frac{\sigma}{\omega})} $$ 设$k=\beta&#43;i\alpha$，下考虑垂直入射（入射方向为$z$轴）的情形，$E$满足： $$ E = E_0e^{-\alpha z}e^{i(\beta z-\omega t)} $$ 在良导体条件下： $$ \alpha \approx \beta \approx \sqrt\frac{\omega\mu\sigma}{2} $$ 定义强度降为表面的$e^{-1}$时的深度为穿透深度： $$ \delta = \frac{1}{\alpha}=\sqrt\frac{2}{\omega\mu\sigma} $$ 还可求出磁场： $$ H = \sqrt\frac{\sigma}{\omega\mu}e^{i\frac{\pi}{4}}\hat e_n\times E $$ 根据下式可以看出，磁场能量占据主导： $$ \frac{&amp;lt;w_e&amp;gt;}{&amp;lt;w_m&amp;gt;} = \frac{\frac{1}{4}\epsilon|E_0|^2}{\frac{1}{4}\mu|H_0|^2}=\frac{\omega \epsilon}{\sigma}&amp;laquo;1 $$ 下考虑反射系数。边界条件为： $$ E&#43;E^{\prime}=E^{\prime\prime}\ H-H^{\prime}=H^{\prime\prime}\quad(E-E^{\prime}=\sqrt\frac{\sigma}{2\omega\epsilon_0}(1&#43;i)E^{\prime\prime}) $$ 反射系数： $$ R=|\frac{E^{\prime}}{E}|^2=1-2\sqrt\frac{2\omega\epsilon_0}{\sigma} $$">
     </head>
     <body class="
     article-page
@@ -233,7 +221,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/posts/electromagnetic_fields_and_waves02/">Electromagnetic_Fields_and_Waves02</a>
+            <a href="/posts/electromagnetic_fields_and_waves04/">Electromagnetic_Fields_and_Waves04</a>
         </h2>
     
         
@@ -281,84 +269,64 @@
     <section class="article-content">
     
     
-    <h1 id="平面电磁场">平面电磁场</h1>
-<h2 id="平面波">平面波</h2>
-<p>在计算电磁场的传播时，我们默认$\rho=0$，$J=0$。</p>
-<p>对Maxwell方程第一式求旋度，整理可得：
+    <h1 id="导体中电磁场的传播">导体中电磁场的传播</h1>
+<h2 id="自由电荷">自由电荷</h2>
+<p>根据电荷守恒定律和Maxwell方程第3式，可得：
 $$
-\nabla^2 E - \mu\epsilon\frac{\partial^2E}{\partial t^2} = 0
+\rho = \rho_0e^{-\frac{\sigma}{\epsilon}t},\tau=\frac{\epsilon}{\sigma}
 $$
-也可以在频域中表示：
+良导体（即$\rho$衰减很快）满足：
 $$
-\nabla^2 E +\omega^2\mu\epsilon E = 0
+\frac{\sigma}{\epsilon\omega}&raquo;1
+$$</p>
+<h2 id="电磁波">电磁波</h2>
+<p>对比介质中和导体中的Maxwell方程组，可以发现导体中多了传导电流项$\sigma E$。为使得两者形式一致，引入复电容率：
 $$
-令$k^2=\omega^2\mu\epsilon$，上式即为Helmholtz方程。</p>
-<p>但Helmholtz方程的解不一定为Maxwell方程的解，所以有必要进行一定的约束：
+\epsilon^{\prime} = \epsilon+i\frac{\sigma}{\omega}
 $$
-\nabla^2E+k^2E=0 \
-\nabla \cdot E = 0\
-H = \frac{1}{i\omega\mu}\nabla\times E
+此时：
 $$
-上式即为完整Helmholtz方程组。</p>
-<p>在一维条件下，Helmholtz的一个解为（$x$表示电磁波沿$x$轴方向传播）：
+k=\omega\sqrt{\mu\epsilon^{\prime}}=\omega\sqrt{\mu(\epsilon+i\frac{\sigma}{\omega})}
 $$
-E=E(x)=E_0e^{ikx}
+设$k=\beta+i\alpha$，下考虑垂直入射（入射方向为$z$轴）的情形，$E$满足：
 $$
-全表示式为：
+E = E_0e^{-\alpha z}e^{i(\beta z-\omega t)}
 $$
-E(x,t)=E_0e^{i(kx-\omega t)}
+在良导体条件下：
 $$
-其中等相位面$\theta=kx-\omega t$</p>
-<p>由于：
+\alpha \approx \beta \approx \sqrt\frac{\omega\mu\sigma}{2}
 $$
-\nabla \cdot E = \nabla \cdot (E_0e^{ikx}) = ikE_0e^{ikx} \cdot \hat e_x = 0
+定义强度降为表面的$e^{-1}$时的深度为穿透深度：
 $$
-所以$E_x = 0$。</p>
-<p>再将$E$代入计算$H$：
+\delta = \frac{1}{\alpha}=\sqrt\frac{2}{\omega\mu\sigma}
 $$
-H=\frac{1}{i\omega \mu}\nabla\times(E_0e^{ikx}) =  \frac{1}{i\omega \mu}ik\times E_0 e^{ikx}=\hat k\times\frac{E_0}{\eta}e^{ikx}
+还可求出磁场：
 $$
-$B$：
+H = \sqrt\frac{\sigma}{\omega\mu}e^{i\frac{\pi}{4}}\hat e_n\times E
 $$
-B = \sqrt{\mu\epsilon}\hat k \times E=\frac{1}{\omega}k\times E
+根据下式可以看出，磁场能量占据主导：
 $$
-根据上式也可以推导出电磁波的一些基本量：</p>
-<ul>
-<li>
-<p><strong>相速度</strong> $v_p=\frac{\omega}{k}=\frac{1}{\sqrt{\mu\epsilon}}=\frac{c}{n}(n=\sqrt{\mu_r\epsilon_r})$</p>
-</li>
-<li>
-<p><strong>群速度</strong> $v_g = \frac{d\omega}{dk}$</p>
-</li>
-<li>
-<p><strong>波阻抗</strong> $\eta=\sqrt\frac{\mu}{\epsilon}$</p>
-</li>
-<li>
-<p><strong>振幅比</strong> $|\frac{E}{B}| = \frac{c}{n} = v_p$</p>
-</li>
-</ul>
-<p>下考虑电磁波的能量和能流。在平面电磁波中，电场能量和磁场能量相同，能量密度：
+\frac{&lt;w_e&gt;}{&lt;w_m&gt;} = \frac{\frac{1}{4}\epsilon|E_0|^2}{\frac{1}{4}\mu|H_0|^2}=\frac{\omega \epsilon}{\sigma}&laquo;1
 $$
-w = \frac{1}{2}(E\times D+H\times B) = \frac{1}{2}(\epsilon E^2+\frac{1}{\mu}B^2) =   \epsilon E^2=\frac{1}{\mu}B^2
+下考虑反射系数。边界条件为：
 $$
-能流：
+E+E^{\prime}=E^{\prime\prime}\
+H-H^{\prime}=H^{\prime\prime}\quad(E-E^{\prime}=\sqrt\frac{\sigma}{2\omega\epsilon_0}(1+i)E^{\prime\prime})
 $$
-S = E\times H = E\times\sqrt{\frac{\epsilon}{\mu}}\hat k \times E = \sqrt\frac{\epsilon}{\mu}E^2\hat e_k=\frac{1}{\eta}E^2\hat e_k
+反射系数：
 $$
-平均能量密度：
-$$
-\bar w =\frac{1}{2}\epsilon E_0^2=\frac{1}{2\mu}B_0^2
-$$
-平均能流：
-$$
-\bar S =\frac{1}{2}\sqrt{\frac{\epsilon}{\mu}}E_0^2\hat e_k =\frac{1}{2\eta}E_0^2\hat e_k
+R=|\frac{E^{\prime}}{E}|^2=1-2\sqrt\frac{2\omega\epsilon_0}{\sigma}
 $$</p>
 <blockquote>
-<ol>
-<li>注意到在瞬时计算公式中用的是$E$，而在平均计算公式中用的是$E_0$</li>
-<li>$E^2$不可写作$|E|^2$，因为$|E|^2=E\cdot E^\star$，与$E\cdot E$不同！</li>
-</ol>
 </blockquote>
+<p>当电磁波照射到良导体表面时，有部分电磁场能量转换为导体的焦耳热。表面电阻满足：
+$$
+R_s=\frac{1}{\sigma\delta}
+$$
+表面电流密度$J_s$：
+$$
+J_s=\frac{\sigma E_0}{\sqrt{\alpha^2+\beta^2}}e^{i\arctan(\frac{\beta}{\alpha})}
+$$</p>
 
 </section>
 
@@ -424,24 +392,24 @@ $$</p>
             
                 
 <article class="">
-    <a href="/posts/electromagnetic_fields_and_waves04/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Electromagnetic_Fields_and_Waves04</h2>
-        </div>
-    </a>
-</article>
-            
-                
-<article class="">
     <a href="/posts/electromagnetic_fields_and_waves03/">
         
         
 
         <div class="article-details">
             <h2 class="article-title">Electromagnetic_Fields_and_Waves03</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/posts/electromagnetic_fields_and_waves02/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Electromagnetic_Fields_and_Waves02</h2>
         </div>
     </a>
 </article>
@@ -614,7 +582,39 @@ $$</p>
             >
 
             </main>
-    
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#自由电荷">自由电荷</a></li>
+    <li><a href="#电磁波">电磁波</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
 
         </div>
         <script 

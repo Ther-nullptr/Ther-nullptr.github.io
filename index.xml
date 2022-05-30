@@ -6,7 +6,73 @@
         <description>Recent content on Ther&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Mon, 30 May 2022 10:34:37 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 30 May 2022 15:28:02 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Electromagnetic_Fields_and_Waves04</title>
+        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves04/</link>
+        <pubDate>Mon, 30 May 2022 15:28:02 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves04/</guid>
+        <description>&lt;h1 id=&#34;导体中电磁场的传播&#34;&gt;导体中电磁场的传播&lt;/h1&gt;
+&lt;h2 id=&#34;自由电荷&#34;&gt;自由电荷&lt;/h2&gt;
+&lt;p&gt;根据电荷守恒定律和Maxwell方程第3式，可得：
+$$
+\rho = \rho_0e^{-\frac{\sigma}{\epsilon}t},\tau=\frac{\epsilon}{\sigma}
+$$
+良导体（即$\rho$衰减很快）满足：
+$$
+\frac{\sigma}{\epsilon\omega}&amp;raquo;1
+$$&lt;/p&gt;
+&lt;h2 id=&#34;电磁波&#34;&gt;电磁波&lt;/h2&gt;
+&lt;p&gt;对比介质中和导体中的Maxwell方程组，可以发现导体中多了传导电流项$\sigma E$。为使得两者形式一致，引入复电容率：
+$$
+\epsilon^{\prime} = \epsilon+i\frac{\sigma}{\omega}
+$$
+此时：
+$$
+k=\omega\sqrt{\mu\epsilon^{\prime}}=\omega\sqrt{\mu(\epsilon+i\frac{\sigma}{\omega})}
+$$
+设$k=\beta+i\alpha$，下考虑垂直入射（入射方向为$z$轴）的情形，$E$满足：
+$$
+E = E_0e^{-\alpha z}e^{i(\beta z-\omega t)}
+$$
+在良导体条件下：
+$$
+\alpha \approx \beta \approx \sqrt\frac{\omega\mu\sigma}{2}
+$$
+定义强度降为表面的$e^{-1}$时的深度为穿透深度：
+$$
+\delta = \frac{1}{\alpha}=\sqrt\frac{2}{\omega\mu\sigma}
+$$
+还可求出磁场：
+$$
+H = \sqrt\frac{\sigma}{\omega\mu}e^{i\frac{\pi}{4}}\hat e_n\times E
+$$
+根据下式可以看出，磁场能量占据主导：
+$$
+\frac{&amp;lt;w_e&amp;gt;}{&amp;lt;w_m&amp;gt;} = \frac{\frac{1}{4}\epsilon|E_0|^2}{\frac{1}{4}\mu|H_0|^2}=\frac{\omega \epsilon}{\sigma}&amp;laquo;1
+$$
+下考虑反射系数。边界条件为：
+$$
+E+E^{\prime}=E^{\prime\prime}\
+H-H^{\prime}=H^{\prime\prime}\quad(E-E^{\prime}=\sqrt\frac{\sigma}{2\omega\epsilon_0}(1+i)E^{\prime\prime})
+$$
+反射系数：
+$$
+R=|\frac{E^{\prime}}{E}|^2=1-2\sqrt\frac{2\omega\epsilon_0}{\sigma}
+$$&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;当电磁波照射到良导体表面时，有部分电磁场能量转换为导体的焦耳热。表面电阻满足：
+$$
+R_s=\frac{1}{\sigma\delta}
+$$
+表面电流密度$J_s$：
+$$
+J_s=\frac{\sigma E_0}{\sqrt{\alpha^2+\beta^2}}e^{i\arctan(\frac{\beta}{\alpha})}
+$$&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>Electromagnetic_Fields_and_Waves03</title>
         <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves03/</link>
         <pubDate>Mon, 30 May 2022 10:34:37 +0800</pubDate>
@@ -161,7 +227,7 @@ $$
 上式即为完整Helmholtz方程组。&lt;/p&gt;
 &lt;p&gt;在一维条件下，Helmholtz的一个解为（$x$表示电磁波沿$x$轴方向传播）：
 $$
-E(x)=E_0e^{ikx}
+E=E(x)=E_0e^{ikx}
 $$
 全表示式为：
 $$
@@ -179,7 +245,7 @@ H=\frac{1}{i\omega \mu}\nabla\times(E_0e^{ikx}) =  \frac{1}{i\omega \mu}ik\times
 $$
 $B$：
 $$
-B = \sqrt{\mu\epsilon}\hat k \times E
+B = \sqrt{\mu\epsilon}\hat k \times E=\frac{1}{\omega}k\times E
 $$
 根据上式也可以推导出电磁波的一些基本量：&lt;/p&gt;
 &lt;ul&gt;
@@ -269,7 +335,7 @@ $$&lt;/p&gt;
 &lt;p&gt;\nabla \cdot B = 0
 $$&lt;/p&gt;
 &lt;p&gt;其中$\bar \epsilon=\epsilon+i\frac{\sigma}{\omega}$&lt;/p&gt;
-&lt;h3 id=&#34;5平面波传播maxwell方程组&#34;&gt;5.平面波传播Maxwell方程组&lt;/h3&gt;
+&lt;h3 id=&#34;5介质maxwell方程组&#34;&gt;5.介质Maxwell方程组&lt;/h3&gt;
 &lt;p&gt;$$
 \nabla \times E = i\omega B\newline&lt;/p&gt;
 &lt;p&gt;\nabla \times H = -i\omega D\newline
