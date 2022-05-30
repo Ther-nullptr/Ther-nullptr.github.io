@@ -2,8 +2,40 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://ther-nullptr.github.io/categories/</loc>
+    <lastmod>2022-05-30T10:34:37+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://ther-nullptr.github.io/en/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://ther-nullptr.github.io/categories/"
+                />
+  </url><url>
     <loc>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves03/</loc>
     <lastmod>2022-05-30T10:34:37+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/tags/study/</loc>
+    <lastmod>2022-05-30T10:34:37+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/categories/study/</loc>
+    <lastmod>2022-05-30T10:34:37+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/tags/</loc>
+    <lastmod>2022-05-30T10:34:37+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://ther-nullptr.github.io/en/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://ther-nullptr.github.io/tags/"
+                />
   </url><url>
     <loc>https://ther-nullptr.github.io/</loc>
     <lastmod>2022-05-30T10:34:37+08:00</lastmod>
@@ -27,40 +59,8 @@
     <loc>https://ther-nullptr.github.io/about/</loc>
     <lastmod>2022-05-30T00:28:38+08:00</lastmod>
   </url><url>
-    <loc>https://ther-nullptr.github.io/categories/</loc>
-    <lastmod>2022-05-29T21:23:02+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://ther-nullptr.github.io/en/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://ther-nullptr.github.io/categories/"
-                />
-  </url><url>
     <loc>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves00/</loc>
     <lastmod>2022-05-29T21:23:02+08:00</lastmod>
-  </url><url>
-    <loc>https://ther-nullptr.github.io/tags/study/</loc>
-    <lastmod>2022-05-29T21:23:02+08:00</lastmod>
-  </url><url>
-    <loc>https://ther-nullptr.github.io/categories/study/</loc>
-    <lastmod>2022-05-29T21:23:02+08:00</lastmod>
-  </url><url>
-    <loc>https://ther-nullptr.github.io/tags/</loc>
-    <lastmod>2022-05-29T21:23:02+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://ther-nullptr.github.io/en/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://ther-nullptr.github.io/tags/"
-                />
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves01/</loc>
     <lastmod>2022-05-29T20:50:07+08:00</lastmod>

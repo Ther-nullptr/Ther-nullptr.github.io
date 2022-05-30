@@ -6,7 +6,147 @@
         <description>Recent content in study on Ther&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Sun, 29 May 2022 21:23:02 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/tags/study/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 30 May 2022 10:34:37 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/tags/study/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Electromagnetic_Fields_and_Waves03</title>
+        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves03/</link>
+        <pubDate>Mon, 30 May 2022 10:34:37 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves03/</guid>
+        <description>&lt;h1 id=&#34;电磁场的反射与折射&#34;&gt;电磁场的反射与折射&lt;/h1&gt;
+&lt;p&gt;边界条件满足：
+$$
+\hat n\times(E_2-E_1)=0\
+\hat n\times(B_2-B_1)=0
+$$
+反射定律和折射定律（角度关系）显然可得。下讨论振幅关系：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;N波（此时$H$和$H^\prime$都指向内侧）
+$$
+E+E^\prime=E^{\prime\prime}\
+\frac{E}{\eta_1}\cos\theta_1-\frac{E^\prime}{\eta_1}\cos\theta_1=\frac{E^{\prime\prime}}{\eta_2}\cos\theta_1
+$$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$\hat n \times E$的方向指向右侧，$\hat n \times H$和$\hat n \times H^{\prime\prime}$的方向指向下方，$\hat n \times H^{\prime}$的方向指向上方。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;P波（此时$E$和$E^\prime$都指向内侧）
+$$
+E\cos\theta_1-E^\prime\cos\theta_1=E^{\prime\prime}\cos\theta_2\&lt;/p&gt;
+&lt;p&gt;\frac{E}{\eta_1}+\frac{E^\prime}{\eta_1}=\frac{E^{\prime\prime}}{\eta_2}
+$$&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$\hat n \times H$的方向指向右侧，$\hat n \times H$和$\hat n \times H^{\prime\prime}$的方向指向上方，$\hat n \times H^{\prime}$的方向指向下方。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;根据上述关系可以推导出振幅关系（Fresnel公式）。&lt;/p&gt;
+&lt;p&gt;特别地，在N波中，由于$\frac{E^\prime}{E} = -\frac{\sin(\theta_1-\theta_2)}{\sin(\theta_1+\theta_2)}$，当$\theta_1&amp;gt;\theta_2$时，反射波和入射波反相，称为&lt;strong&gt;半波损失&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;在P波中，由于$\frac{E^\prime}{E} = \frac{\tan(\theta_1-\theta_2)}{\tan(\theta_1+\theta_2)}$，当$\theta_1+\theta_2=\frac{\pi}{2}$时，无反射波，&lt;strong&gt;Brewster角&lt;/strong&gt; $\theta_B=\arctan(\frac{n_2}{n_1})$。&lt;/p&gt;
+&lt;p&gt;考虑复数Poynting矢量，注意到能流的方向与波矢方向相同：
+$$
+\bar S=\frac{1}{2}(E\times H^{\star}) = \frac{|E|^2}{2\eta_1}\hat e_i\
+\bar S^\prime=\frac{|E^\prime|^2}{2\eta_1}\hat e_r \
+\bar S^{\prime\prime}=\frac{|E^{\prime\prime}|^2}{2\eta_2}\hat e_t
+$$&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;此处不写作$E^2$的原因是存在共轭操作。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;对上式取实部得到平均能流$&amp;lt;\bar S&amp;gt;$，$&amp;lt;\bar S^\prime&amp;gt;$，$&amp;lt;\bar S^{\prime\prime}&amp;gt;$。&lt;/p&gt;
+&lt;p&gt;在垂直于界面的方向，能流满足：
+$$
+\hat n\cdot(\bar S+\bar S^\prime) = \hat n\cdot \bar S^{\prime\prime}
+$$&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>Electromagnetic_Fields_and_Waves02</title>
+        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves02/</link>
+        <pubDate>Mon, 30 May 2022 09:17:23 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves02/</guid>
+        <description>&lt;h1 id=&#34;平面电磁场&#34;&gt;平面电磁场&lt;/h1&gt;
+&lt;h2 id=&#34;平面波&#34;&gt;平面波&lt;/h2&gt;
+&lt;p&gt;在计算电磁场的传播时，我们默认$\rho=0$，$J=0$。&lt;/p&gt;
+&lt;p&gt;对Maxwell方程第一式求旋度，整理可得：
+$$
+\nabla^2 E - \mu\epsilon\frac{\partial^2E}{\partial t^2} = 0
+$$
+也可以在频域中表示：
+$$
+\nabla^2 E +\omega^2\mu\epsilon E = 0
+$$
+令$k^2=\omega^2\mu\epsilon$，上式即为Helmholtz方程。&lt;/p&gt;
+&lt;p&gt;但Helmholtz方程的解不一定为Maxwell方程的解，所以有必要进行一定的约束：
+$$
+\nabla^2E+k^2E=0 \
+\nabla \cdot E = 0\
+H = \frac{1}{i\omega\mu}\nabla\times E
+$$
+上式即为完整Helmholtz方程组。&lt;/p&gt;
+&lt;p&gt;在一维条件下，Helmholtz的一个解为（$x$表示电磁波沿$x$轴方向传播）：
+$$
+E(x)=E_0e^{ikx}
+$$
+全表示式为：
+$$
+E(x,t)=E_0e^{i(kx-\omega t)}
+$$
+其中等相位面$\theta=kx-\omega t$&lt;/p&gt;
+&lt;p&gt;由于：
+$$
+\nabla \cdot E = \nabla \cdot (E_0e^{ikx}) = ikE_0e^{ikx} \cdot \hat e_x = 0
+$$
+所以$E_x = 0$。&lt;/p&gt;
+&lt;p&gt;再将$E$代入计算$H$：
+$$
+H=\frac{1}{i\omega \mu}\nabla\times(E_0e^{ikx}) =  \frac{1}{i\omega \mu}ik\times E_0 e^{ikx}=\hat k\times\frac{E_0}{\eta}e^{ikx}
+$$
+$B$：
+$$
+B = \sqrt{\mu\epsilon}\hat k \times E
+$$
+根据上式也可以推导出电磁波的一些基本量：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;相速度&lt;/strong&gt; $v_p=\frac{\omega}{k}=\frac{1}{\sqrt{\mu\epsilon}}=\frac{c}{n}(n=\sqrt{\mu_r\epsilon_r})$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;群速度&lt;/strong&gt; $v_g = \frac{d\omega}{dk}$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;波阻抗&lt;/strong&gt; $\eta=\sqrt\frac{\mu}{\epsilon}$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;振幅比&lt;/strong&gt; $|\frac{E}{B}| = \frac{c}{n} = v_p$&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下考虑电磁波的能量和能流。在平面电磁波中，电场能量和磁场能量相同，能量密度：
+$$
+w = \frac{1}{2}(E\times D+H\times B) = \frac{1}{2}(\epsilon E^2+\frac{1}{\mu}B^2) =   \epsilon E^2=\frac{1}{\mu}B^2
+$$
+能流：
+$$
+S = E\times H = E\times\sqrt{\frac{\epsilon}{\mu}}\hat k \times E = \sqrt\frac{\epsilon}{\mu}E^2\hat e_k=\frac{1}{\eta}E^2\hat e_k
+$$
+平均能量密度：
+$$
+\bar w =\frac{1}{2}\epsilon E_0^2=\frac{1}{2\mu}B_0^2
+$$
+平均能流：
+$$
+\bar S =\frac{1}{2}\sqrt{\frac{\epsilon}{\mu}}E_0^2\hat e_k =\frac{1}{2\eta}E_0^2\hat e_k
+$$&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;注意到在瞬时计算公式中用的是$E$，而在平均计算公式中用的是$E_0$&lt;/li&gt;
+&lt;li&gt;$E^2$不可写作$|E|^2$，因为$|E|^2=E\cdot E^\star$，与$E\cdot E$不同！&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+</description>
+        </item>
+        <item>
         <title>Electromagnetic_Fields_and_Waves00</title>
         <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves00/</link>
         <pubDate>Sun, 29 May 2022 21:23:02 +0800</pubDate>
