@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='电磁场的反射与折射 边界条件满足： $$ \hat n\times(E_2-E_1)=0\ \hat n\times(B_2-B_1)=0 $$ 反射定律和折射定律（角度关系）显然可得。下讨论振幅关系：
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='电磁场的反射与折射 振幅 边界条件满足： $$ \hat n\times(E_2-E_1)=0\ \hat n\times(B_2-B_1)=0 $$ 反射定律和折射定律（角度关系）显然可得。下讨论振幅关系：
  N波（此时$H$和$H^\prime$都指向内侧） $$ E&#43;E^\prime=E^{\prime\prime}\ \frac{E}{\eta_1}\cos\theta_1-\frac{E^\prime}{\eta_1}\cos\theta_1=\frac{E^{\prime\prime}}{\eta_2}\cos\theta_1 $$   $\hat n \times E$的方向指向右侧，$\hat n \times H$和$\hat n \times H^{\prime\prime}$的方向指向下方，$\hat n \times H^{\prime}$的方向指向上方。
    P波（此时$E$和$E^\prime$都指向内侧） $$ E\cos\theta_1-E^\prime\cos\theta_1=E^{\prime\prime}\cos\theta_2\
 \frac{E}{\eta_1}&#43;\frac{E^\prime}{\eta_1}=\frac{E^{\prime\prime}}{\eta_2} $$
@@ -9,12 +9,12 @@
  根据上述关系可以推导出振幅关系（Fresnel公式）。
 特别地，在N波中，由于$\frac{E^\prime}{E} = -\frac{\sin(\theta_1-\theta_2)}{\sin(\theta_1&#43;\theta_2)}$，当$\theta_1&amp;gt;\theta_2$时，反射波和入射波反相，称为半波损失。
 在P波中，由于$\frac{E^\prime}{E} = \frac{\tan(\theta_1-\theta_2)}{\tan(\theta_1&#43;\theta_2)}$，当$\theta_1&#43;\theta_2=\frac{\pi}{2}$时，无反射波，Brewster角 $\theta_B=\arctan(\frac{n_2}{n_1})$。
-考虑复数Poynting矢量，注意到能流的方向与波矢方向相同： $$ \bar S=\frac{1}{2}(E\times H^{\star}) = \frac{|E|^2}{2\eta_1}\hat e_i\ \bar S^\prime=\frac{|E^\prime|^2}{2\eta_1}\hat e_r \ \bar S^{\prime\prime}=\frac{|E^{\prime\prime}|^2}{2\eta_2}\hat e_t $$'><title>Electromagnetic_Fields_and_Waves03</title>
+波矢满足关系（回忆$k=\omega\sqrt{\mu\epsilon}$）： $$ k_x^{\prime\prime} = k_x = k\sin\theta \ k^{\prime\prime}=k\frac{v_1}{v_2} = kn_{21} $$'><title>Electromagnetic_Fields_and_Waves03</title>
 
 <link rel='canonical' href='https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves03/'>
 
 <link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='Electromagnetic_Fields_and_Waves03'>
-<meta property='og:description' content='电磁场的反射与折射 边界条件满足： $$ \hat n\times(E_2-E_1)=0\ \hat n\times(B_2-B_1)=0 $$ 反射定律和折射定律（角度关系）显然可得。下讨论振幅关系：
+<meta property='og:description' content='电磁场的反射与折射 振幅 边界条件满足： $$ \hat n\times(E_2-E_1)=0\ \hat n\times(B_2-B_1)=0 $$ 反射定律和折射定律（角度关系）显然可得。下讨论振幅关系：
  N波（此时$H$和$H^\prime$都指向内侧） $$ E&#43;E^\prime=E^{\prime\prime}\ \frac{E}{\eta_1}\cos\theta_1-\frac{E^\prime}{\eta_1}\cos\theta_1=\frac{E^{\prime\prime}}{\eta_2}\cos\theta_1 $$   $\hat n \times E$的方向指向右侧，$\hat n \times H$和$\hat n \times H^{\prime\prime}$的方向指向下方，$\hat n \times H^{\prime}$的方向指向上方。
    P波（此时$E$和$E^\prime$都指向内侧） $$ E\cos\theta_1-E^\prime\cos\theta_1=E^{\prime\prime}\cos\theta_2\
 \frac{E}{\eta_1}&#43;\frac{E^\prime}{\eta_1}=\frac{E^{\prime\prime}}{\eta_2} $$
@@ -22,13 +22,13 @@
  根据上述关系可以推导出振幅关系（Fresnel公式）。
 特别地，在N波中，由于$\frac{E^\prime}{E} = -\frac{\sin(\theta_1-\theta_2)}{\sin(\theta_1&#43;\theta_2)}$，当$\theta_1&amp;gt;\theta_2$时，反射波和入射波反相，称为半波损失。
 在P波中，由于$\frac{E^\prime}{E} = \frac{\tan(\theta_1-\theta_2)}{\tan(\theta_1&#43;\theta_2)}$，当$\theta_1&#43;\theta_2=\frac{\pi}{2}$时，无反射波，Brewster角 $\theta_B=\arctan(\frac{n_2}{n_1})$。
-考虑复数Poynting矢量，注意到能流的方向与波矢方向相同： $$ \bar S=\frac{1}{2}(E\times H^{\star}) = \frac{|E|^2}{2\eta_1}\hat e_i\ \bar S^\prime=\frac{|E^\prime|^2}{2\eta_1}\hat e_r \ \bar S^{\prime\prime}=\frac{|E^{\prime\prime}|^2}{2\eta_2}\hat e_t $$'>
+波矢满足关系（回忆$k=\omega\sqrt{\mu\epsilon}$）： $$ k_x^{\prime\prime} = k_x = k\sin\theta \ k^{\prime\prime}=k\frac{v_1}{v_2} = kn_{21} $$'>
 <meta property='og:url' content='https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves03/'>
 <meta property='og:site_name' content='Ther&#39;s Blog'>
 <meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='study' /><meta property='article:published_time' content='2022-05-30T10:34:37&#43;08:00'/><meta property='article:modified_time' content='2022-05-30T10:34:37&#43;08:00'/>
 <meta name="twitter:site" content="@AdobePython">
     <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="Electromagnetic_Fields_and_Waves03">
-<meta name="twitter:description" content="电磁场的反射与折射 边界条件满足： $$ \hat n\times(E_2-E_1)=0\ \hat n\times(B_2-B_1)=0 $$ 反射定律和折射定律（角度关系）显然可得。下讨论振幅关系：
+<meta name="twitter:description" content="电磁场的反射与折射 振幅 边界条件满足： $$ \hat n\times(E_2-E_1)=0\ \hat n\times(B_2-B_1)=0 $$ 反射定律和折射定律（角度关系）显然可得。下讨论振幅关系：
  N波（此时$H$和$H^\prime$都指向内侧） $$ E&#43;E^\prime=E^{\prime\prime}\ \frac{E}{\eta_1}\cos\theta_1-\frac{E^\prime}{\eta_1}\cos\theta_1=\frac{E^{\prime\prime}}{\eta_2}\cos\theta_1 $$   $\hat n \times E$的方向指向右侧，$\hat n \times H$和$\hat n \times H^{\prime\prime}$的方向指向下方，$\hat n \times H^{\prime}$的方向指向上方。
    P波（此时$E$和$E^\prime$都指向内侧） $$ E\cos\theta_1-E^\prime\cos\theta_1=E^{\prime\prime}\cos\theta_2\
 \frac{E}{\eta_1}&#43;\frac{E^\prime}{\eta_1}=\frac{E^{\prime\prime}}{\eta_2} $$
@@ -36,7 +36,7 @@
  根据上述关系可以推导出振幅关系（Fresnel公式）。
 特别地，在N波中，由于$\frac{E^\prime}{E} = -\frac{\sin(\theta_1-\theta_2)}{\sin(\theta_1&#43;\theta_2)}$，当$\theta_1&amp;gt;\theta_2$时，反射波和入射波反相，称为半波损失。
 在P波中，由于$\frac{E^\prime}{E} = \frac{\tan(\theta_1-\theta_2)}{\tan(\theta_1&#43;\theta_2)}$，当$\theta_1&#43;\theta_2=\frac{\pi}{2}$时，无反射波，Brewster角 $\theta_B=\arctan(\frac{n_2}{n_1})$。
-考虑复数Poynting矢量，注意到能流的方向与波矢方向相同： $$ \bar S=\frac{1}{2}(E\times H^{\star}) = \frac{|E|^2}{2\eta_1}\hat e_i\ \bar S^\prime=\frac{|E^\prime|^2}{2\eta_1}\hat e_r \ \bar S^{\prime\prime}=\frac{|E^{\prime\prime}|^2}{2\eta_2}\hat e_t $$">
+波矢满足关系（回忆$k=\omega\sqrt{\mu\epsilon}$）： $$ k_x^{\prime\prime} = k_x = k\sin\theta \ k^{\prime\prime}=k\frac{v_1}{v_2} = kn_{21} $$">
     </head>
     <body class="
     article-page
@@ -276,7 +276,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 1 分钟
+                    阅读时长: 2 分钟
                 </time>
             </div>
         
@@ -291,6 +291,7 @@
     
     
     <h1 id="电磁场的反射与折射">电磁场的反射与折射</h1>
+<h2 id="振幅">振幅</h2>
 <p>边界条件满足：
 $$
 \hat n\times(E_2-E_1)=0\
@@ -322,6 +323,12 @@ $$</p>
 <p>根据上述关系可以推导出振幅关系（Fresnel公式）。</p>
 <p>特别地，在N波中，由于$\frac{E^\prime}{E} = -\frac{\sin(\theta_1-\theta_2)}{\sin(\theta_1+\theta_2)}$，当$\theta_1&gt;\theta_2$时，反射波和入射波反相，称为<strong>半波损失</strong>。</p>
 <p>在P波中，由于$\frac{E^\prime}{E} = \frac{\tan(\theta_1-\theta_2)}{\tan(\theta_1+\theta_2)}$，当$\theta_1+\theta_2=\frac{\pi}{2}$时，无反射波，<strong>Brewster角</strong> $\theta_B=\arctan(\frac{n_2}{n_1})$。</p>
+<p>波矢满足关系（回忆$k=\omega\sqrt{\mu\epsilon}$）：
+$$
+k_x^{\prime\prime} = k_x = k\sin\theta \
+k^{\prime\prime}=k\frac{v_1}{v_2} = kn_{21}
+$$</p>
+<h2 id="能流">能流</h2>
 <p>考虑复数Poynting矢量，注意到能流的方向与波矢方向相同：
 $$
 \bar S=\frac{1}{2}(E\times H^{\star}) = \frac{|E|^2}{2\eta_1}\hat e_i\
@@ -334,7 +341,74 @@ $$</p>
 <p>对上式取实部得到平均能流$&lt;\bar S&gt;$，$&lt;\bar S^\prime&gt;$，$&lt;\bar S^{\prime\prime}&gt;$。</p>
 <p>在垂直于界面的方向，能流满足：
 $$
-\hat n\cdot(\bar S+\bar S^\prime) = \hat n\cdot \bar S^{\prime\prime}
+\hat n\cdot(\bar S+\bar S^\prime) = \hat n\cdot \bar S^{\prime\prime}\
+\hat n\cdot(&lt;\bar S&gt;+&lt;\bar S^\prime&gt;) = \hat n\cdot &lt;\bar S^{\prime\prime}&gt;\
+$$
+据此可以计算出功率反射率$R$和功率折射率$T$：
+$$
+R = |\frac{\hat n \cdot&lt;S_r&gt;}{\hat n \cdot&lt;S_i&gt;}| = |\frac{E^\prime}{E}|^2\
+T = |\frac{\hat n \cdot&lt;S_t&gt;}{\hat n \cdot&lt;S_i&gt;}| = |\frac{E^{\prime\prime}}{E}|^2\frac{\eta_1\cos\theta_2}{\eta_2\cos\theta_1}
+$$</p>
+<blockquote>
+<p>若不考虑介质损失，两者满足$R+T=1$</p>
+</blockquote>
+<h2 id="全反射">全反射</h2>
+<p>发生全反射时，$\sin\theta_1&gt;n_{21}$，此时$\sin\theta_2=\frac{\sin \theta_1}{n_{21}}$，$\cos\theta_2 = i\sqrt{\frac{\sin^2\theta_1}{n_{21}^2}-1}$</p>
+<p>反射波与入射波满足：
+$$
+\frac{E^{\prime}}{E} = e^{-i2\theta} \
+\theta_N = \arctan\frac{\sqrt{\sin^2\theta_1-n_{21}^2}}{\cos \theta_1}\
+\theta_P = \arctan\frac{\sqrt{\sin^2\theta_1-n_{21}^2}}{n_{21}^2\cos \theta_1}
+$$
+首先考虑，在非全反射的情况下，考虑$k^{\prime\prime}$在不同方向上的分量：
+$$
+k_x^{\prime\prime} = k^{\prime\prime}\sin\theta_2\
+k_z^{\prime\prime} = k^{\prime\prime}\cos\theta_2
+$$
+可以对电场进行进一步展开：
+$$
+E^{\prime\prime} = E_0^{\prime\prime}e^{i(k^{\prime\prime}<em>xx+k^{\prime\prime}<em>zz-\omega t)}
+$$
+而在全反射情况下，注意到$k_x^{\prime\prime} &gt;k^{\prime\prime}$：
+$$
+k_z^{\prime\prime} = k^{\prime\prime}\cos\theta_2=ik\sqrt{\sin^2\theta_1-n</em>{21}^2}
+$$
+令$\kappa = k\sqrt{\sin^2\theta_1-n</em>{21}^2}$，则(10)式可以化为：
+$$
+E^{\prime\prime} = E_0^{\prime\prime}e^{-\kappa z}e^{i(k^{\prime\prime}_xx-\omega t)}
+$$
+该场只沿$x$方向传播，沿$z$方向衰减。定义电场衰减为$e^{-1}$时的深度为穿透深度：
+$$
+\delta = \kappa^{-1}
+$$
+相速度（慢波）：
+$$
+v = \frac{\omega}{k_x^{\prime\prime}} = \frac{\omega}{k^{\prime\prime}\sin\theta_2}&lt; \frac{\omega}{k^{\prime\prime}} = \frac{c}{n_2}
+$$</p>
+<p>之后，我们考虑在介质1中的合电磁场（注意到两者振幅相等，仅有$2\theta$的相位差）：
+$$
+E_1 = E+E^\prime=E_0e^{i(k_xx+k_zz-\omega t)}+E_0e^{i(k_xx-k_zz-\omega t-2\theta)} = 2\cos(k_zz-\theta)e^{i(k_xx-\omega t-\theta)}
+$$
+相速度（快波）：
+$$
+v = \frac{\omega}{k_x} = \frac{\omega}{k\sin\theta_1}&gt; \frac{\omega}{k} = \frac{c}{n_1}
+$$</p>
+<p>下计算磁场。假设为N波（即$E$只有$y$分量，$E_y^{\prime\prime}=E^{\prime\prime}$）：
+$$
+H^{\prime\prime}=\frac{1}{\eta_2}\hat k^{\prime\prime}\times E^{\prime\prime}
+$$
+则：
+$$
+H_{z}^{\prime\prime}=\frac{1}{\eta_2}\sin\theta_2E_y^{\prime\prime}=\frac{1}{\eta_2}\frac{\sin\theta_1}{n_{21}}E^{\prime\prime} \
+H_{x}^{\prime\prime}=-\frac{1}{\eta_2}\cos\theta_2E_y^{\prime\prime}=-i\frac{1}{\eta_2}\sqrt{\frac{\sin^2\theta_1}{n_{21}^2}-1}E^{\prime\prime}
+$$</p>
+<blockquote>
+<p>牢记$\hat e_x\times\hat e_y=\hat e_z$，$\hat e_z\times\hat e_y=-\hat e_x$。</p>
+</blockquote>
+<p>于是可以计算不同分量的能流：
+$$
+\bar S_x^{\prime\prime} = \frac{1}{2}Re(E_y^{\prime\prime}\times H_z^{\prime\prime})=\frac{1}{2}\frac{1}{\eta_2}|E_0^{\prime\prime}|^2e^{-2\kappa z}\frac{\sin \theta_1}{n_{21}}\
+\bar S_z^{\prime\prime} = -\frac{1}{2}Re(E_y^{\prime\prime}\times H_x^{\prime\prime}) = 0
 $$</p>
 
 </section>
@@ -579,7 +653,40 @@ $$</p>
             >
 
             </main>
-    
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#振幅">振幅</a></li>
+    <li><a href="#能流">能流</a></li>
+    <li><a href="#全反射">全反射</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
 
         </div>
         <script 
