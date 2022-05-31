@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Memory RAM     SRAM DRAM     中文名 静态随机访问存储器 动态随机访问存储器   速度 快 慢（需要刷新）   结构 由MOS管组成的锁存器 由MOS管和电容实现   容量 小 大                             '><title>Memory</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Memory RAM random access是指该存储器的所有内容都可以被读取和写入，且与时间和位置无关。
+    SRAM DRAM     中文名 静态随机访问存储器 动态随机访问存储器   速度 快 慢（需要读取内容后刷新、定期刷新）   结构 由MOS管组成的锁存器（6T） 由MOS管和电容实现（1T1C）   容量 小 大   应用 缓存 主存   访问时间 1~10ns 10~100ns                   常见问答：
+  DRAM电容量C的权衡：
+ 大电容容量C的优势：提供更长的数据保持时间 大电容容量C的劣势：工艺实现难度加大，密度降低    RAS和CAS均为低电平有效，其中CAS可以作为输出使能信号。'><title>Memory</title>
 
 <link rel='canonical' href='https://ther-nullptr.github.io/posts/memory/'>
 
 <link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='Memory'>
-<meta property='og:description' content='Memory RAM     SRAM DRAM     中文名 静态随机访问存储器 动态随机访问存储器   速度 快 慢（需要刷新）   结构 由MOS管组成的锁存器 由MOS管和电容实现   容量 小 大                             '>
+<meta property='og:description' content='Memory RAM random access是指该存储器的所有内容都可以被读取和写入，且与时间和位置无关。
+    SRAM DRAM     中文名 静态随机访问存储器 动态随机访问存储器   速度 快 慢（需要读取内容后刷新、定期刷新）   结构 由MOS管组成的锁存器（6T） 由MOS管和电容实现（1T1C）   容量 小 大   应用 缓存 主存   访问时间 1~10ns 10~100ns                   常见问答：
+  DRAM电容量C的权衡：
+ 大电容容量C的优势：提供更长的数据保持时间 大电容容量C的劣势：工艺实现难度加大，密度降低    RAS和CAS均为低电平有效，其中CAS可以作为输出使能信号。'>
 <meta property='og:url' content='https://ther-nullptr.github.io/posts/memory/'>
 <meta property='og:site_name' content='Ther&#39;s Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:published_time' content='2022-05-31T19:22:17&#43;08:00'/><meta property='article:modified_time' content='2022-05-31T19:22:17&#43;08:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='study' /><meta property='article:published_time' content='2022-05-31T19:22:17&#43;08:00'/><meta property='article:modified_time' content='2022-05-31T19:22:17&#43;08:00'/>
 <meta name="twitter:site" content="@AdobePython">
     <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="Memory">
-<meta name="twitter:description" content="Memory RAM     SRAM DRAM     中文名 静态随机访问存储器 动态随机访问存储器   速度 快 慢（需要刷新）   结构 由MOS管组成的锁存器 由MOS管和电容实现   容量 小 大                             ">
+<meta name="twitter:description" content="Memory RAM random access是指该存储器的所有内容都可以被读取和写入，且与时间和位置无关。
+    SRAM DRAM     中文名 静态随机访问存储器 动态随机访问存储器   速度 快 慢（需要读取内容后刷新、定期刷新）   结构 由MOS管组成的锁存器（6T） 由MOS管和电容实现（1T1C）   容量 小 大   应用 缓存 主存   访问时间 1~10ns 10~100ns                   常见问答：
+  DRAM电容量C的权衡：
+ 大电容容量C的优势：提供更长的数据保持时间 大电容容量C的劣势：工艺实现难度加大，密度降低    RAS和CAS均为低电平有效，其中CAS可以作为输出使能信号。">
     </head>
     <body class="
     article-page
@@ -207,6 +216,14 @@
 
     <div class="article-details">
     
+    <header class="article-category">
+        
+            <a href="/categories/study/" >
+                study
+            </a>
+        
+    </header>
+    
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
@@ -259,7 +276,18 @@
     
     
     <h1 id="memory">Memory</h1>
+<p><img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531195153980.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20220531195153980"
+	
+	
+></p>
 <h2 id="ram">RAM</h2>
+<p>random access是指该存储器的所有内容都可以被读取和写入，且与时间和位置无关。</p>
 <div class="table-wrapper"><table>
 <thead>
 <tr>
@@ -277,12 +305,12 @@
 <tr>
 <td>速度</td>
 <td>快</td>
-<td>慢（需要刷新）</td>
+<td>慢（需要读取内容后刷新、定期刷新）</td>
 </tr>
 <tr>
 <td>结构</td>
-<td>由MOS管组成的锁存器</td>
-<td>由MOS管和电容实现</td>
+<td>由MOS管组成的锁存器（6T）</td>
+<td>由MOS管和电容实现（1T1C）</td>
 </tr>
 <tr>
 <td>容量</td>
@@ -290,14 +318,14 @@
 <td>大</td>
 </tr>
 <tr>
-<td></td>
-<td></td>
-<td></td>
+<td>应用</td>
+<td>缓存</td>
+<td>主存</td>
 </tr>
 <tr>
-<td></td>
-<td></td>
-<td></td>
+<td>访问时间</td>
+<td>1~10ns</td>
+<td>10~100ns</td>
 </tr>
 <tr>
 <td></td>
@@ -316,12 +344,137 @@
 </tr>
 </tbody>
 </table></div>
+<p>常见问答：</p>
+<ol>
+<li>
+<p>DRAM电容量C的权衡：</p>
+<ul>
+<li>大电容容量C的优势：提供更长的数据保持时间</li>
+<li>大电容容量C的劣势：工艺实现难度加大，密度降低</li>
+</ul>
+</li>
+<li>
+<p>RAS和CAS均为低电平有效，其中CAS可以作为输出使能信号。</p>
+</li>
+</ol>
+<h2 id="cache">cache</h2>
+<h3 id="原理">原理</h3>
+<p>存储系统满足局部性原理：</p>
+<ul>
+<li>时间局部性——最近的将来要用到的信息很可能就是现在正在使用的信息。主要由循环造成。</li>
+<li>空间局部性——最近的将来要用到的信息很可能与现在正在使用的信息在空间上是邻近的。主要由顺序执行和数据的聚集存放造成。</li>
+</ul>
+<h3 id="cache的访问时间">cache的访问时间</h3>
+<p>一级cache（$r$为访问时间比，$e$为访问效率）：
+$$
+T_A=T_{A1}+(1-H)T_{A2}\
+r=\frac{T_{A2}}{T_{A1}}\
+e=\frac{T_{A1}}{T_A} = \frac{1}{1+(1-H)r}
+$$
+二级cache：
+$$
+T_A=T_{A1}+(1-H_1)[T_{A2}+(1-H_2)T_{A3}]
+$$</p>
+<h3 id="cache的基本结构">cache的基本结构</h3>
+<p>需要解决两个问题：</p>
+<ol>
+<li>数据是否在cache中？</li>
+<li>如果在cache中，如何找到数据？</li>
+</ol>
+<p>首先需要指出主存存储和cache存储的格式：</p>
+<ul>
+<li><strong>主存存储</strong> 主存块号+行内地址</li>
+<li><strong>cache存储</strong> （标签）+cache行号+行内地址</li>
+</ul>
+<p>每个主存块和每个cache行储存的数据相同，两者的数据传输以块/行为单位。其中每个cache行的组成如下：数据+标签+有效位。</p>
+<p><img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531203832648.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20220531203832648"
+	
+	
+></p>
+<h3 id="cache地址映像方式">cache地址映像方式</h3>
+<p>三种地址映像方式：</p>
+<ul>
+<li>直接映像: 主存块只可能在Cache的某个特定行中</li>
+<li>全相联映像: 主存块可以放在Cache的任意行中</li>
+<li>组相联映像: 主存块可以放在Cache中的n个特定行中，n一般在2到8之间，将这n个行称为一个Cache组。</li>
+</ul>
+<h4 id="直接映像">直接映像</h4>
+<p>主存标号$i$，cache标号$j$满足以下关系：
+$$
+j = i \mod N \
+i = j+Nk(k=0,1..)
+$$
+<img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531205418361.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="cache地址示例"
+	
+	
+></p>
+<p>可以直接写成AB、AC，但是只适用于直接映像。</p>
+<p>对于32位内存系统，假设cache每行有$x$byte，cache共$y$行，则低$\log_2x$位为块内地址，中间$\log_2y$位为cache行号，剩下$(32-\log_2x-\log_2y)$位为主存标签。</p>
+<h4 id="全相联映像">全相联映像</h4>
+<p><img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531211641361.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="cache地址示例"
+	
+	
+></p>
+<p>对于32位内存系统，假设cache每行有$x$byte，则低$\log_2x$位为块内地址，剩下$(32-\log_2x)$位作为主存标签。</p>
+<h4 id="组相联映像">组相联映像</h4>
+<p><img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531212131731.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="cache地址示例"
+	
+	
+></p>
+<p>对于32位内存系统，假设cache每行有$x$byte，cache共$y$行，$z$路组相连，则低$\log_2x$位为块内地址，中间$\log_2(\frac{y}{z})$位作为cache组号，剩下$(32-\log_2x-\log_2(\frac{y}{z}))$位作为主存标签。</p>
+<h3 id="cache数据替换">cache数据替换</h3>
+<p>每个cache行有一个有效标志位v，表明“这一行的主存数据副本是有效的”。v=1时cache行才能被命中。</p>
+<ul>
+<li>复位、刚上电或清空cache时，所有行的v=0。</li>
+<li>cache行刚刚被替换时，对应行的v=1。</li>
+</ul>
+<p>当访问一个地址发现其不在cache中时，复制主存块到缓存的行中；当主存块对应的Cache行均被占用(有效位为1)时，需要选择一个Cache行进行替换。</p>
+<ul>
+<li><strong>直接映像</strong> 只有一行可以被替换，不用选</li>
+<li><strong>组相联/全相联</strong>
+<ul>
+<li>随机法(Random)：在cache中随机选择一个主存块</li>
+<li>先进先出法(FIFO, First-In First-Out)：选择一个集合中最先进入cache中的主存块(即存在时间最长的块)</li>
+<li>最近最少使用法(LRU, Least recently used)：替换cache中最近最少被使用的主存块</li>
+</ul>
+</li>
+</ul>
 
 </section>
 
 
     <footer class="article-footer">
     
+    <section class="article-tags">
+        
+            <a href="/tags/study/">study</a>
+        
+    </section>
+
 
     
     <section class="article-copyright">
@@ -367,6 +520,75 @@
     
 
     
+
+<aside class="related-contents--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-contents">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/posts/cpu_hazard/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">CPU_hazard</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/posts/electromagnetic_fields_and_waves04/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Electromagnetic_Fields_and_Waves04</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/posts/electromagnetic_fields_and_waves03/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Electromagnetic_Fields_and_Waves03</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/posts/electromagnetic_fields_and_waves02/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Electromagnetic_Fields_and_Waves02</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/posts/electromagnetic_fields_and_waves00/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Electromagnetic_Fields_and_Waves00</h2>
+        </div>
+    </a>
+</article>
+            
+        </div>
+    </div>
+</aside>
 
      
     
@@ -508,7 +730,53 @@
             >
 
             </main>
-    
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#ram">RAM</a></li>
+    <li><a href="#cache">cache</a>
+      <ol>
+        <li><a href="#原理">原理</a></li>
+        <li><a href="#cache的访问时间">cache的访问时间</a></li>
+        <li><a href="#cache的基本结构">cache的基本结构</a></li>
+        <li><a href="#cache地址映像方式">cache地址映像方式</a>
+          <ol>
+            <li><a href="#直接映像">直接映像</a></li>
+            <li><a href="#全相联映像">全相联映像</a></li>
+            <li><a href="#组相联映像">组相联映像</a></li>
+          </ol>
+        </li>
+        <li><a href="#cache数据替换">cache数据替换</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
 
         </div>
         <script 
