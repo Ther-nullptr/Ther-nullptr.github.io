@@ -390,20 +390,19 @@ $$&lt;/p&gt;
 &lt;p&gt;$$
 &lt;!-- raw HTML omitted --&gt;=Re(\frac{E\times H^\star}{2})
 $$&lt;/p&gt;
-&lt;p&gt;定义复数能流$-\nabla \bar S = \frac{1}{2}(E\times H^\star)$，根据频域Maxwell方程组1，2式和矢量展开式，得：&lt;/p&gt;
-&lt;p&gt;$$&lt;/p&gt;
-&lt;p&gt;-\nabla \bar S =
-\frac{1}{2}(E\times H^\star)=
-\frac{1}{2}(-(\nabla \times E)\cdot H+(\nabla \times H^\star) \cdot E)=\frac{i\omega}{2}(E\cdot D^\star-B\times H^\star)+\frac{1}{2}E\times J^\star&lt;/p&gt;
-&lt;p&gt;$$&lt;/p&gt;
+&lt;p&gt;定义复数能流$\bar S = \frac{1}{2}(E\times H^\star)$，根据频域Maxwell方程组1，2式和矢量展开式，得：&lt;/p&gt;
+&lt;p&gt;$$
+\bar S =
+\nabla \times \frac{1}{2}(E\times H^\star)=
+\frac{1}{2}(-(\nabla \times E)\cdot H+(\nabla \times H^\star) \cdot E)=\frac{i\omega}{2}(E\cdot D^\star-B\times H^\star)+\frac{1}{2}E\times J^\star
+$$&lt;/p&gt;
 &lt;p&gt;其中$w_e=\frac{1}{4}(E\cdot D^{\star})$，$w_m=\frac{1}{4}(B\cdot H^{\star})$，此即复数Poynting定理，注意到磁场能前的符号为负。&lt;/p&gt;
 &lt;p&gt;进一步，对式子两侧取实部，得：&lt;/p&gt;
 &lt;p&gt;$$
 -\nabla &lt;!-- raw HTML omitted --&gt; =
-Re(\frac{1}{2}(E\times H^\star))=
+Re(\nabla \times\frac{1}{2}(E\times H^\star))=
 -Im[\frac{\omega}{2}(E\cdot D^\star-B\times H^\star]+Re(\frac{1}{2}E\times J^\star)]
 $$&lt;/p&gt;
-&lt;h2 id=&#34;heading&#34;&gt;&lt;/h2&gt;
 </description>
         </item>
         

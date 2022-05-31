@@ -2,6 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://ther-nullptr.github.io/posts/memory/</loc>
+    <lastmod>2022-05-31T19:22:17+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/</loc>
+    <lastmod>2022-05-31T19:22:17+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://ther-nullptr.github.io/en/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://ther-nullptr.github.io/"
+                />
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/cpu_hazard/</loc>
+    <lastmod>2022-05-31T14:30:40+08:00</lastmod>
+  </url><url>
     <loc>https://ther-nullptr.github.io/categories/</loc>
     <lastmod>2022-05-30T15:28:02+08:00</lastmod>
     <xhtml:link
@@ -35,19 +54,6 @@
                 rel="alternate"
                 hreflang="zh-cn"
                 href="https://ther-nullptr.github.io/tags/"
-                />
-  </url><url>
-    <loc>https://ther-nullptr.github.io/</loc>
-    <lastmod>2022-05-30T15:28:02+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://ther-nullptr.github.io/en/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://ther-nullptr.github.io/"
                 />
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves03/</loc>
