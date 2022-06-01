@@ -258,7 +258,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 3 分钟
+                    阅读时长: 5 分钟
                 </time>
             </div>
         
@@ -695,7 +695,7 @@
 </tr>
 </tbody>
 </table></div>
-<p>lw后r1的新值在MEM阶段后产生，随后被转发至MDR中，在下个周期供sub的EX阶段使用。</p>
+<p>lw后r1的新值在MEM阶段后产生，随后被转发至MDR（注意此处的MDR与多周期中的MDR不同，此处的MDR应该是MEM/WB的一部分）中，在下个周期供sub的EX阶段使用。</p>
 <p>上述方法必须使用一次stall，可以重排指令，在lw之后运行一条不依赖r1寄存器的指令。</p>
 <p>更新后的操作如下：</p>
 <div class="table-wrapper"><table>
@@ -746,7 +746,7 @@
 </tr>
 </tbody>
 </table></div>
-<h3 id="load-use-data-hazardlw-calculate-type-1">Load-use data hazard(lw-calculate type)</h3>
+<h3 id="load-use-data-hazardlw-sw-type">Load-use data hazard(lw-sw type)</h3>
 <p>考虑以下指令：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1343,7 +1343,262 @@
 </tr>
 </tbody>
 </table></div>
-
+<blockquote>
+<h2 id="转发方式总结">转发方式总结</h2>
+<h3 id="数据冒险-1">数据冒险</h3>
+<p><img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220601092651113.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20220601092651113"
+	
+	
+></p>
+<ul>
+<li>A2-&gt;B1 R型的前前条为R型</li>
+<li>A3-&gt;B1 R型的前条为R型</li>
+<li>A4-&gt;B2 lw-sw转发</li>
+</ul>
+<p>此外，A4-&gt;B1无法转发，对应于lw-R型必须stall一个周期。</p>
+<h3 id="控制冒险beq">控制冒险(beq)</h3>
+<p><img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220601093122950.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20220601093122950"
+	
+	
+></p>
+<ul>
+<li>A2-&gt;B0 beq的前前条为R型，可以使用转发解决</li>
+<li>A3-&gt;B0 beq的前前条为lw，需要stall 2个周期</li>
+<li>A4-&gt;B0 beq的前条为R型，需要stall 1个周期</li>
+<li>A5-&gt;B0 beq的前条为lw型，需要stall 2个周期</li>
+</ul>
+</blockquote>
+<h1 id="考虑冒险的数据通路设计">考虑冒险的数据通路设计</h1>
+<h2 id="forward-unit">Forward Unit</h2>
+<h3 id="r-r-type1">R-R type(1)</h3>
+<p>若R型的前条为R型，则可能需要从EX_MEM寄存器中转发至EX阶段：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">EX_MEM</span><span class="p">.</span><span class="n">RegWrite</span> <span class="c1">// 需要写入寄存器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">and</span> <span class="p">(</span><span class="n">EX_MEM</span><span class="p">.</span><span class="n">RegWrAddr</span> <span class="o">!=</span> <span class="mh">0</span><span class="p">)</span> <span class="c1">// 不能使用0寄存器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">and</span> <span class="p">(</span><span class="n">EX_MEM</span><span class="p">.</span><span class="n">RegWrAddr</span> <span class="o">==</span> <span class="n">ID_EX</span><span class="p">.</span><span class="n">RegisterRs</span><span class="p">))</span> <span class="c1">// 触发转发条件（如果不使用转发就会冒险）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">ForwardA</span> <span class="o">=</span> <span class="mh">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">EX_MEM</span><span class="p">.</span><span class="n">RegWrite</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">and</span> <span class="p">(</span><span class="n">EX_MEM</span><span class="p">.</span><span class="n">RegWrAddr</span> <span class="o">!=</span> <span class="mh">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">and</span> <span class="p">(</span><span class="n">EX_MEM</span><span class="p">.</span><span class="n">RegWrAddr</span> <span class="o">==</span> <span class="n">ID_EX</span><span class="p">.</span><span class="n">RegisterRt</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	<span class="n">ForwardB</span> <span class="o">=</span> <span class="mh">10</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="r-r-type2">R-R type(2)</h3>
+<p>若R型的前前条为R型，则可能需要从MEM_WB寄存器中转发至EX阶段：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">MEM_WB</span><span class="p">.</span><span class="n">RegWrite</span>
+</span></span><span class="line"><span class="cl">    <span class="k">and</span> <span class="p">(</span><span class="n">MEM_WB</span><span class="p">.</span><span class="n">RegWrAddr</span> <span class="o">!=</span> <span class="mh">0</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">and</span> <span class="p">(</span><span class="n">MEM_WB</span><span class="p">.</span><span class="n">RegWrAddr</span> <span class="o">==</span> <span class="n">ID_EX</span><span class="p">.</span><span class="n">RegisterRs</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">and</span> <span class="p">(</span><span class="n">EX_MEM</span><span class="p">.</span><span class="n">RegWrAddr</span> <span class="o">!=</span> <span class="n">ID_EX</span><span class="p">.</span><span class="n">RegisterRs</span> <span class="o">||</span> <span class="o">~</span> <span class="n">EX_MEM</span><span class="p">.</span><span class="n">RegWrite</span><span class="p">)</span> <span class="c1">// 从前条转发的条件不满足
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ForwardA</span> <span class="o">=</span> <span class="mh">01</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">MEM_WB</span><span class="p">.</span><span class="n">RegWrite</span>
+</span></span><span class="line"><span class="cl">    <span class="k">and</span> <span class="p">(</span><span class="n">MEM_WB</span><span class="p">.</span><span class="n">RegWrAddr</span> <span class="o">!=</span> <span class="mh">0</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">and</span> <span class="p">(</span><span class="n">MEM_WB</span><span class="p">.</span><span class="n">RegWrAddr</span> <span class="o">==</span> <span class="n">ID_EX</span><span class="p">.</span><span class="n">RegisterRt</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">and</span> <span class="p">(</span><span class="n">EX_MEM</span><span class="p">.</span><span class="n">RegWrAddr</span> <span class="o">!=</span> <span class="n">ID_EX</span><span class="p">.</span><span class="n">RegisterRt</span> <span class="o">||</span> <span class="o">~</span> <span class="n">EX_MEM</span><span class="p">.</span><span class="n">RegWrite</span><span class="p">)</span> <span class="c1">// 从前条转发的条件不满足
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ForwardB</span> <span class="o">=</span> <span class="mh">01</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>最后一个判断条件是为了避免以下情况（前两条指令都是以关联寄存器为目的寄存器的时候，需要转发最新的数据，其数据来源是前一条，而不是前前条）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">add $1,$1,$2
+</span></span><span class="line"><span class="cl">add $1,$1,$3
+</span></span><span class="line"><span class="cl">add $1,$1,$4
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>综上可知，EX阶段的forward单元可以描述为（以操作数1为例）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="k">always</span> <span class="p">@(</span><span class="o">*</span><span class="p">)</span> <span class="k">begin</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span><span class="p">(</span><span class="n">ForwardA</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="mh">00</span><span class="o">:</span><span class="n">ALU_op1</span> <span class="o">&lt;=</span> <span class="n">ID_EX</span><span class="p">.</span><span class="n">op1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="mh">01</span><span class="o">:</span><span class="n">ALU_op1</span> <span class="o">&lt;=</span> <span class="n">MEM_WB</span><span class="p">.</span><span class="n">wb_res</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="mh">10</span><span class="o">:</span><span class="n">ALU_op1</span> <span class="o">&lt;=</span> <span class="n">EX_MEM</span><span class="p">.</span><span class="n">alu_res</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">default</span><span class="o">:</span><span class="n">ALU_op1</span> <span class="o">&lt;=</span> <span class="n">ID_EX</span><span class="p">.</span><span class="n">op1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">endcase</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="lw-sw-type">lw-sw type</h3>
+<p>若sw的前条为lw，则可能需要从MEM/WB寄存器中转发至MEM阶段：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="n">EX_MEM</span><span class="p">.</span><span class="n">RegWrAddr</span> <span class="o">!=</span> <span class="mh">0</span> <span class="c1">// 不能使用0寄存器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="k">and</span> <span class="n">EX_MEM</span><span class="p">.</span><span class="n">MemWrite</span> <span class="c1">// 需要写入存储器(sw)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="k">and</span> <span class="n">MEM_WB</span><span class="p">.</span><span class="n">MemRead</span> <span class="c1">// 需要读取存储器(lw)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="k">and</span> <span class="n">EX_MEM</span><span class="p">.</span><span class="n">RegWrAddr</span> <span class="o">==</span> <span class="n">MEM_WB</span><span class="p">.</span><span class="n">RegWrAddr</span> <span class="c1">// 转发源和转发目标的寄存器编号一致
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ForwardA</span> <span class="o">=</span> <span class="mh">1</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>综上可知，MEM阶段的forward单元可以描述为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="k">always</span> <span class="p">@(</span><span class="o">*</span><span class="p">)</span> <span class="k">begin</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span><span class="p">(</span><span class="n">Forward</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="mh">0</span><span class="o">:</span><span class="n">Mem_Write_Data</span> <span class="o">&lt;=</span> <span class="n">EX_MEM</span><span class="p">.</span><span class="n">op2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="mh">1</span><span class="o">:</span><span class="n">Mem_Write_Data</span> <span class="o">&lt;=</span> <span class="n">MEM_WB</span><span class="p">.</span><span class="n">Mem_Read_Data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">endcase</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="beq">beq</h3>
+<p>若beq的前前一条指令为R type，则需要将EX_MEM中的ALU计算结果转发至ID阶段：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="n">EX_MEM</span><span class="p">.</span><span class="n">RegWrite</span> <span class="c1">// 需要写入寄存器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="k">and</span> <span class="n">EX_MEM</span><span class="p">.</span><span class="n">RegisterRd</span> <span class="o">==</span> <span class="n">IF_ID</span><span class="p">.</span><span class="n">RegisterRs</span> <span class="c1">// 需要用到寄存器中的结果
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">Forward</span> <span class="o">=</span> <span class="mh">1</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>综上可知，ID阶段的forward单元可以描述为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="k">always</span> <span class="p">@(</span><span class="o">*</span><span class="p">)</span> <span class="k">begin</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span><span class="p">(</span><span class="n">Forward</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="mh">0</span><span class="o">:</span><span class="n">compare_op1</span> <span class="o">&lt;=</span> <span class="n">regA</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="mh">1</span><span class="o">:</span><span class="n">compare_op1</span> <span class="o">&lt;=</span> <span class="n">EX_MEM</span><span class="p">.</span><span class="n">alu_res</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">endcase</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="hazard-unit">Hazard Unit</h2>
+<h3 id="lw-r-type">lw-R type</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">ID</span><span class="o">/</span><span class="n">EX</span><span class="p">.</span><span class="n">MemRead</span> <span class="c1">// 是否为load指令
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">and</span> <span class="p">((</span><span class="n">ID</span><span class="o">/</span><span class="n">EX</span><span class="p">.</span><span class="n">RegisterRd</span> <span class="o">==</span> <span class="n">IF</span><span class="o">/</span><span class="n">ID</span><span class="p">.</span><span class="n">RegisterRs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">         <span class="k">or</span> <span class="p">(</span><span class="n">ID</span><span class="o">/</span><span class="n">EX</span><span class="p">.</span><span class="n">RegisterRd</span> <span class="o">==</span> <span class="n">IF</span><span class="o">/</span><span class="n">ID</span><span class="p">.</span><span class="n">RegisterRt</span><span class="p">))</span> <span class="p">)</span>  <span class="c1">// EX级的装载指令的目的寄存器是否与在ID级指令的某一个源寄存器相匹配（可能会发生冒险）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">stall</span> <span class="o">=</span> <span class="mh">5</span><span class="mb">&#39;b11000</span><span class="p">;</span> <span class="c1">// stall IF and ID
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="beq-1">beq</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="n">ID</span><span class="p">.</span><span class="n">branch</span> <span class="c1">// 分支指令
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="k">and</span> <span class="p">((</span><span class="n">ID_EX</span><span class="p">.</span><span class="n">RegWrite</span> <span class="k">and</span> <span class="p">(</span><span class="n">ID_EX</span><span class="p">.</span><span class="n">RegisterRd</span> <span class="o">==</span> <span class="n">IF_ID</span><span class="p">.</span><span class="n">RegisterRs</span> <span class="k">or</span> <span class="n">ID_EX</span><span class="p">.</span><span class="n">RegisterRd</span> <span class="o">==</span> <span class="n">IF_ID</span><span class="p">.</span><span class="n">RegisterRt</span><span class="p">)))</span> <span class="c1">// R type
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="k">and</span> <span class="p">((</span><span class="n">EX_MEM</span><span class="p">.</span><span class="n">MemRead</span> <span class="k">and</span> <span class="p">(</span><span class="n">EX_MEM</span><span class="p">.</span><span class="n">RegisterRd</span> <span class="o">==</span> <span class="n">IF_ID</span><span class="p">.</span><span class="n">RegisterRs</span> <span class="k">or</span> <span class="n">EX_MEM</span><span class="p">.</span><span class="n">RegisterRd</span> <span class="o">==</span> <span class="n">IF_ID</span><span class="p">.</span><span class="n">RegisterRt</span><span class="p">)))</span> <span class="c1">// lw 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">stall</span> <span class="o">=</span> <span class="mh">5</span><span class="mb">&#39;b11000</span><span class="p">;</span> <span class="c1">// stall IF and ID
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>当 beq 前一条指令为 lw 指令时，我们阻塞流水线一个周期，在 lw 和 beq 中间插入一个气泡。此时这一情况自动退化为前前一条指令为 lw 的情况，会被上述逻辑再次处理，因此最终还是会完成 2 个周期的阻塞。</p>
+</blockquote>
+<h2 id="flush-unit">Flush Unit</h2>
+<p>使用<code>flush[i]</code>清除第<code>i</code>级流水线上执行的指令（对应4级流水寄存器以及最终写回的寄存器堆）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-verilog" data-lang="verilog"><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="n">flush</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">begin</span>
+</span></span><span class="line"><span class="cl">    <span class="n">stage_reg</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mh">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
 </section>
 
 
@@ -1651,7 +1906,7 @@
             <li><a href="#forward">Forward</a></li>
           </ol>
         </li>
-        <li><a href="#load-use-data-hazardlw-calculate-type-1">Load-use data hazard(lw-calculate type)</a></li>
+        <li><a href="#load-use-data-hazardlw-sw-type">Load-use data hazard(lw-sw type)</a></li>
       </ol>
     </li>
     <li><a href="#控制冒险">控制冒险</a>
@@ -1665,6 +1920,30 @@
         <li><a href="#j-hazard">j hazard</a></li>
       </ol>
     </li>
+    <li><a href="#转发方式总结">转发方式总结</a>
+      <ol>
+        <li><a href="#数据冒险-1">数据冒险</a></li>
+        <li><a href="#控制冒险beq">控制冒险(beq)</a></li>
+      </ol>
+    </li>
+  </ol>
+
+  <ol>
+    <li><a href="#forward-unit">Forward Unit</a>
+      <ol>
+        <li><a href="#r-r-type1">R-R type(1)</a></li>
+        <li><a href="#r-r-type2">R-R type(2)</a></li>
+        <li><a href="#lw-sw-type">lw-sw type</a></li>
+        <li><a href="#beq">beq</a></li>
+      </ol>
+    </li>
+    <li><a href="#hazard-unit">Hazard Unit</a>
+      <ol>
+        <li><a href="#lw-r-type">lw-R type</a></li>
+        <li><a href="#beq-1">beq</a></li>
+      </ol>
+    </li>
+    <li><a href="#flush-unit">Flush Unit</a></li>
   </ol>
 </nav>
         </div>
