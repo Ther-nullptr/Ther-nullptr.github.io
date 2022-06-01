@@ -7,6 +7,78 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <lastBuildDate>Mon, 30 May 2022 00:31:05 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/posts/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Electromagnetic_Fields_and_Waves05</title>
+        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves05/</link>
+        <pubDate>Wed, 01 Jun 2022 14:44:33 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves05/</guid>
+        <description>&lt;h1 id=&#34;谐振腔和波导&#34;&gt;谐振腔和波导&lt;/h1&gt;
+&lt;h2 id=&#34;谐振腔&#34;&gt;谐振腔&lt;/h2&gt;
+&lt;p&gt;$$
+\omega_{mnp} = \frac{1}{\sqrt{\epsilon\mu}}\sqrt{(\frac{m\pi}{a})^2+(\frac{n\pi}{b})^2+(\frac{p\pi}{l})^2}
+$$&lt;/p&gt;
+&lt;p&gt;其中$m,n,p$最多一个为0。&lt;/p&gt;
+&lt;h2 id=&#34;波导&#34;&gt;波导&lt;/h2&gt;
+&lt;p&gt;假设电磁场沿$z$方向传播，则电磁波可以写作：
+$$
+E = E(x,y)e^{i(\beta z-\omega t)} \
+H = H(x,y)e^{i(\beta z-\omega t)}
+$$
+边界条件满足：
+$$
+\hat n\times E|_S = 0
+$$
+横向波矢和纵向波矢分别满足：
+$$
+k_c^2=k^2_x+k^2_y \
+\beta = \sqrt{k^2-k_c^2} = \frac{1}{c}\sqrt{\omega^2-\omega^2_c}
+$$
+只有当$\beta$为实数时，波才能传播。$\omega_c=ck_c$为截止频率。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;TM&lt;/th&gt;
+&lt;th&gt;TE&lt;/th&gt;
+&lt;th&gt;TEM&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;条件&lt;/td&gt;
+&lt;td&gt;$E_z=0$&lt;/td&gt;
+&lt;td&gt;$H_z=0$&lt;/td&gt;
+&lt;td&gt;$E_z=0,H_z=0$&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$k_c$&lt;/td&gt;
+&lt;td&gt;$(\frac{m\pi}{a})^2+(\frac{n\pi}{b})^2$$(m&amp;gt;0,n&amp;gt;0)$&lt;/td&gt;
+&lt;td&gt;$(\frac{m\pi}{a})^2+(\frac{n\pi}{b})^2$$(m&amp;gt;=0,n&amp;gt;=0,mn!=0)$&lt;/td&gt;
+&lt;td&gt;$0$&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;基模&lt;/td&gt;
+&lt;td&gt;$TM_{11}$&lt;/td&gt;
+&lt;td&gt;$TE_{01},TE_{10}$&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;相速度$v_p$&lt;/td&gt;
+&lt;td&gt;$\frac{c}{\sqrt{1-(\frac{\omega_c}{\omega})^2}}$&lt;/td&gt;
+&lt;td&gt;$\frac{c}{\sqrt{1-(\frac{\omega_c}{\omega})^2}}$&lt;/td&gt;
+&lt;td&gt;$c$&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;群速度$v_g$&lt;/td&gt;
+&lt;td&gt;${c}{\sqrt{1-(\frac{\omega_c}{\omega})^2}}$&lt;/td&gt;
+&lt;td&gt;${c}{\sqrt{1-(\frac{\omega_c}{\omega})^2}}$&lt;/td&gt;
+&lt;td&gt;$c$&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+</description>
+        </item>
+        <item>
         <title>Memory</title>
         <link>https://ther-nullptr.github.io/posts/memory/</link>
         <pubDate>Tue, 31 May 2022 19:22:17 +0800</pubDate>
@@ -1586,15 +1658,26 @@ $$
 E+E^{\prime}=E^{\prime\prime}\
 H-H^{\prime}=H^{\prime\prime}\quad(E-E^{\prime}=\sqrt\frac{\sigma}{2\omega\epsilon_0}(1+i)E^{\prime\prime})
 $$
-反射系数：
+幅度比：
+$$
+\frac{E^{\prime}}{E} = \frac{\sqrt\frac{2\omega\epsilon_0}{\sigma}-1-i}{\sqrt\frac{2\omega\epsilon_0}{\sigma}+1+i}
+$$&lt;/p&gt;
+&lt;p&gt;反射系数：
 $$
 R=|\frac{E^{\prime}}{E}|^2=1-2\sqrt\frac{2\omega\epsilon_0}{\sigma}
 $$&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;当电磁波照射到良导体表面时，有部分电磁场能量转换为导体的焦耳热。表面电阻满足：
+&lt;p&gt;当电磁波照射到良导体表面时，有部分电磁场能量转换为导体的焦耳热。&lt;/p&gt;
+&lt;p&gt;导体平均损耗功率密度$P_{\sigma}$：
+$$
+P_\sigma = \frac{1}{2}E_{0t}\cdot J_\sigma^\star = \frac{1}{2}\sigma|E_{0}|^2e^{-2\alpha z}
+$$&lt;/p&gt;
+&lt;p&gt;表面电阻$R_s$：
 $$
 R_s=\frac{1}{\sigma\delta}
+$$
+单位表面焦耳热总功率$P_d$：
+$$
+P_d = \frac{1}{2}|J_s|^2R_s
 $$
 表面电流密度$J_s$：
 $$
