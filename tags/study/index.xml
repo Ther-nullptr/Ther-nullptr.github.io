@@ -1700,7 +1700,7 @@ $$
 $$
 反射定律和折射定律（角度关系）显然可得。下讨论振幅关系：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;N波（此时$H$和$H^\prime$都指向内侧）
+&lt;li&gt;N波（此时$H$和$H^\prime$都指向内侧，指向外侧则第二式方向相反）
 $$
 E+E^\prime=E^{\prime\prime}\
 \frac{E}{\eta_1}\cos\theta_1-\frac{E^\prime}{\eta_1}\cos\theta_1=\frac{E^{\prime\prime}}{\eta_2}\cos\theta_1
@@ -1711,7 +1711,7 @@ $$&lt;/li&gt;
 &lt;/blockquote&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;P波（此时$E$和$E^\prime$都指向内侧）
+&lt;p&gt;P波（此时$E$和$E^\prime$都指向内侧，指向外侧则第二式方向相反）
 $$
 E\cos\theta_1-E^\prime\cos\theta_1=E^{\prime\prime}\cos\theta_2\&lt;/p&gt;
 &lt;p&gt;\frac{E}{\eta_1}+\frac{E^\prime}{\eta_1}=\frac{E^{\prime\prime}}{\eta_2}
@@ -1993,7 +1993,7 @@ $$&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;此时的Poynting矢量$S(x,t)$可表示为：&lt;/p&gt;
 &lt;p&gt;$$
-S(x,t)=E(x,t)\times H(x,t) = Re(E(x)e^{-i\omega t})\times Re(E(x)e^{-i\omega t})
+S(x,t)=E(x,t)\times H(x,t) = Re(E(x)e^{-i\omega t})\times Re(H(x)e^{-i\omega t})
 $$&lt;/p&gt;
 &lt;p&gt;根据$Re(a) = \frac{1}{2}(a+a^\star)$，可得：&lt;/p&gt;
 &lt;p&gt;$$
