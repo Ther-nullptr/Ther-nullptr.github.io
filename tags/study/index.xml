@@ -6,7 +6,177 @@
         <description>Recent content in study on Ther&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Wed, 01 Jun 2022 14:44:33 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/tags/study/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 04 Jun 2022 10:34:25 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/tags/study/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Control_signal</title>
+        <link>https://ther-nullptr.github.io/posts/control_signal/</link>
+        <pubDate>Sat, 04 Jun 2022 10:34:25 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/control_signal/</guid>
+        <description>&lt;h1 id=&#34;控制信号常见答疑&#34;&gt;控制信号常见答疑&lt;/h1&gt;
+&lt;h2 id=&#34;about-extop&#34;&gt;About Extop&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://stackoverflow.com/questions/55290060/what-does-extend-immediate-to-32-bits-mean-in-mips&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://stackoverflow.com/questions/55290060/what-does-extend-immediate-to-32-bits-mean-in-mips&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I-type instructions with 16-bit immediates are different.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;addi&lt;/code&gt; / &lt;code&gt;addiu&lt;/code&gt; immediates are sign-extended (by duplicating the top/sign bit of the immediate to all higher bits). &lt;a class=&#34;link&#34; href=&#34;https://en.wikipedia.org/wiki/Two%27s_complement#Sign_extension&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://en.wikipedia.org/wiki/Two%27s_complement#Sign_extension&lt;/a&gt;
+&lt;strong&gt;This allows 2&amp;rsquo;s complement numbers from &lt;code&gt;-2^15&lt;/code&gt; .. &lt;code&gt;+2^15-1&lt;/code&gt; to be encoded.&lt;/strong&gt;
+&lt;strong&gt;(0xFFFF8000 to 0x00007FFF)&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ori&lt;/code&gt;/&lt;code&gt;andi&lt;/code&gt;/&lt;code&gt;xori&lt;/code&gt; boolean immediates are zero-extended (by setting all higher bits to zero)
+&lt;strong&gt;This allows unsigned / 2&amp;rsquo;s complement numbers from &lt;code&gt;0 .. 2^16-1&lt;/code&gt; to be encoded.&lt;/strong&gt;
+&lt;strong&gt;(0x00000000 to 0x0000FFFF)&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For other instructions see this [instruction-set reference](&lt;a class=&#34;link&#34; href=&#34;https://web.cse.ohio-state.edu/~crawfis.3/cse675-02/Slides/MIPS&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://web.cse.ohio-state.edu/~crawfis.3/cse675-02/Slides/MIPS&lt;/a&gt; Instruction Set.pdf) which breaks down each instruction showing 016 || [I15..0] for zero-extension or [I15]16 || [I15..0] for sign-extension.&lt;/p&gt;
+&lt;p&gt;And usually you don&amp;rsquo;t want to raise an exception on signed overflow, so normally compilers use &lt;code&gt;addu&lt;/code&gt; / &lt;code&gt;addiu&lt;/code&gt; even on signed integers. &lt;code&gt;addiu&lt;/code&gt; is badly named: it&amp;rsquo;s not &amp;ldquo;for unsigned integers&amp;rdquo;, it&amp;rsquo;s just a wrapping-allowed / never-faulting version of &lt;code&gt;add&lt;/code&gt;/&lt;code&gt;addi&lt;/code&gt;. It sort of makes sense if you think of C, where signed overflow is undefined behaviour (and thus could use &lt;code&gt;add&lt;/code&gt; and raise an exception in that case if the compiler wanted to implement it that way), but unsigned integers have well-defined overflow behaviour: base 2 wraparound.&lt;/p&gt;
+&lt;h2 id=&#34;可以为x的控制信号&#34;&gt;可以为X的控制信号&lt;/h2&gt;
+</description>
+        </item>
+        <item>
+        <title>Assembly</title>
+        <link>https://ther-nullptr.github.io/posts/assembly/</link>
+        <pubDate>Fri, 03 Jun 2022 14:33:48 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/assembly/</guid>
+        <description>&lt;h1 id=&#34;处理器&#34;&gt;处理器&lt;/h1&gt;
+&lt;h2 id=&#34;处理器架构&#34;&gt;处理器架构&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;普林斯顿架构：存储器同时存储指令和其他数据&lt;/li&gt;
+&lt;li&gt;哈佛架构：数据存储和指令存储分开&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;处理器性能&#34;&gt;处理器性能&lt;/h2&gt;
+&lt;p&gt;执行时间 = 指令数 x CPI x 时钟周期&lt;/p&gt;
+&lt;p&gt;或：
+$$
+CPI = CPI_1\times p_1+&amp;hellip;+CPI_n\times p_n
+$$
+性能提升方法：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;优化编译技术（减少指令数）&lt;/li&gt;
+&lt;li&gt;快速电路技术或更为先进的电路结构（减少时钟周期）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;寄存器-vs-存储器&#34;&gt;寄存器 VS 存储器&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;寄存器：以编号进行访问，可同时访问不同寄存器。&lt;/li&gt;
+&lt;li&gt;存储器：以地址进行访问，不可同时访问不同地址，相邻数据的地址相差4字节。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;数据单位约定&#34;&gt;数据单位约定&lt;/h2&gt;
+&lt;p&gt;在32位MIPS中，1 word = 4 bytes = 32 bits，相邻数据的地址相差4字节。&lt;/p&gt;
+&lt;h1 id=&#34;mips汇编指令&#34;&gt;MIPS汇编指令&lt;/h1&gt;
+&lt;h2 id=&#34;汇编优化相关问题&#34;&gt;汇编优化相关问题&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;算数&amp;amp;逻辑指令11bit冗余能否利用起来？&lt;/p&gt;
+&lt;p&gt;额外11bit用于移位量&amp;amp;功能码。好处：寄存器算术操作只占用一种操作码，指令集可以使用其他操作码支持更多种指令。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;分支可能的地址范围有32位，如何用16bit表示？&lt;/p&gt;
+&lt;p&gt;采用基址+偏移地址的寻址方式。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;addr &amp;laquo; 2：将直接地址转换为字节地址。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;带立即数的分支指令立即数如何编码？&lt;/p&gt;
+&lt;p&gt;MIPS没有带立即数的分支指令，使用比较指令(slti、sltiu等）+ 分支指令组合实现。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;访存可能的地址有32位，如何用21bit表示？&lt;/p&gt;
+&lt;p&gt;采用基址+偏移地址的寻址方式进行访存（5 bit：寄存器 16 bit：立即数）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;跳转可能的地址有32位，如何用26bit表示？&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;j&lt;/code&gt;小范围，&lt;code&gt;jr&lt;/code&gt;大范围。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;寻址方式&#34;&gt;寻址方式&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;寄存器寻址：找到对应的寄存器，从寄存器中取数/写数。如：R type(add)。&lt;/li&gt;
+&lt;li&gt;立即数寻址：指令中的立即数可以被直接使用。如：I type(addi)&lt;/li&gt;
+&lt;li&gt;基址寻址：目标地址=基址（存储于寄存器中）+ 立即数。如：lw,sw&lt;/li&gt;
+&lt;li&gt;PC相对寻址：PC+立即数。如：beq&lt;/li&gt;
+&lt;li&gt;伪直接寻址：固定PC的高4位不变。如：j&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;mips过程调用&#34;&gt;MIPS过程调用&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Preserved（子程序不改变这些寄存器的数据，如果子程序要用，需要子程序维护好）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Not Preserved（子程序可以改变这些寄存器的数据，如果主程序要用，需要主程序维护好）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220603160128725.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20220603160128725&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;考虑以下汇编：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;fact:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;addi $sp, $sp, -8
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sw $ra, 4($sp)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sw $a0, 0($sp)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;slti $t0, $a0, 1
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;beq $t0, $zero, L1
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;addi $v0, $zero, 1
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;addi $sp, $sp, 8
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;jr $ra
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;L1:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;addi $a0, $a0, -1
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;jal fact
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;lw $a0, 0($sp)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;lw $ra, 4($sp)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;addi $sp, $sp, 8
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mul $v0, $a0, $v0
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;jr $ra
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;对应：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;fact&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	&lt;span class=&#34;k&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;fact&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
+        </item>
+        <item>
         <title>Electromagnetic_Fields_and_Waves05</title>
         <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves05/</link>
         <pubDate>Wed, 01 Jun 2022 14:44:33 +0800</pubDate>
@@ -275,12 +445,30 @@ $$
 </description>
         </item>
         <item>
-        <title>CPU_hazard</title>
+        <title>Pipeline_CPU</title>
         <link>https://ther-nullptr.github.io/posts/cpu_hazard/</link>
         <pubDate>Tue, 31 May 2022 14:30:40 +0800</pubDate>
         
         <guid>https://ther-nullptr.github.io/posts/cpu_hazard/</guid>
-        <description>&lt;h1 id=&#34;流水线中的冒险&#34;&gt;流水线中的冒险&lt;/h1&gt;
+        <description>&lt;h1 id=&#34;流水线计算公式&#34;&gt;流水线计算公式&lt;/h1&gt;
+&lt;p&gt;$n$为指令数，$k$为流水线级数，级间延时$\Delta t$。&lt;/p&gt;
+&lt;p&gt;实际吞吐率（单位时间内流水线处理的指令数）：
+$$
+TP=\frac{n}{(k+n-1)\Delta t}
+$$
+最大吞吐率：
+$$
+TP_{max} = \frac{1}{\Delta t}
+$$
+实际加速比：
+$$
+S = \frac{kn}{k+n-1}
+$$
+最大加速比：
+$$
+S_{max}=k
+$$&lt;/p&gt;
+&lt;h1 id=&#34;流水线中的冒险&#34;&gt;流水线中的冒险&lt;/h1&gt;
 &lt;p&gt;总览流水线数据通路：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531150254232.png&#34;
 	
@@ -1606,7 +1794,50 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description>
+&lt;/div&gt;&lt;h1 id=&#34;流水线cpu异常处理&#34;&gt;流水线CPU异常处理&lt;/h1&gt;
+&lt;p&gt;假设有3种异常：badop，IRQ（外部中断），ALUExp。&lt;/p&gt;
+&lt;p&gt;Exception被放置在EX阶段，因此badop要经过一次ID/EX寄存器。&lt;/p&gt;
+&lt;p&gt;触发异常时，该单元会flush掉当前指令的EX/MEM寄存器，下条指令的ID/EX寄存器，下下条指令的IF/ID寄存器。（注意flush由hazard和exception单元共同控制）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220604152957008.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20220604152957008&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;为什么是PC或PC+4？？&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;扩展技术&#34;&gt;扩展技术&lt;/h1&gt;
+&lt;h2 id=&#34;指令级并行&#34;&gt;指令级并行&lt;/h2&gt;
+&lt;h3 id=&#34;超级流水线&#34;&gt;超级流水线&lt;/h3&gt;
+&lt;p&gt;用于缩短时钟周期。&lt;/p&gt;
+&lt;h3 id=&#34;多发射&#34;&gt;多发射&lt;/h3&gt;
+&lt;p&gt;用于降低CPI。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;超长指令字&lt;/strong&gt; 静态决定让哪些指令同时执行（在编译阶段由编译器决定）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;超标量&lt;/strong&gt; 动态决定哪些指令同时执行 （在运行时由硬件决定）。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;IOI-IOC,IOI-OOC,OOI-OOC&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;线程级并行&#34;&gt;线程级并行&lt;/h2&gt;
+&lt;h3 id=&#34;超线程&#34;&gt;超线程&lt;/h3&gt;
+&lt;h3 id=&#34;多核处理器&#34;&gt;多核处理器&lt;/h3&gt;
+&lt;p&gt;$a$为并行部分的比例，$n$为并行部分的加速比。
+$$
+S=\frac{1}{(1-a)+\frac{a}{n}}
+$$&lt;/p&gt;
+&lt;h2 id=&#34;异构计算&#34;&gt;异构计算&lt;/h2&gt;
+&lt;p&gt;单指令流多数据流，具有更大的并行度，设计相对比较简单。&lt;/p&gt;
+</description>
         </item>
         <item>
         <title>Electromagnetic_Fields_and_Waves04</title>

@@ -6,7 +6,138 @@
         <description>Recent content on Ther&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Fri, 03 Jun 2022 14:33:48 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 04 Jun 2022 11:43:15 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Multicycle_CPU</title>
+        <link>https://ther-nullptr.github.io/posts/multicycle_cpu/</link>
+        <pubDate>Sat, 04 Jun 2022 11:43:15 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/multicycle_cpu/</guid>
+        <description>&lt;h1 id=&#34;多周期cpu&#34;&gt;多周期CPU&lt;/h1&gt;
+&lt;h2 id=&#34;多周期数据通路&#34;&gt;多周期数据通路&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;R&lt;/th&gt;
+&lt;th&gt;lw or sw&lt;/th&gt;
+&lt;th&gt;beq&lt;/th&gt;
+&lt;th&gt;J&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IF&lt;/td&gt;
+&lt;td&gt;PC&amp;lt;=PC+4; IR &amp;lt;=MemInst[PC];&lt;/td&gt;
+&lt;td&gt;*&lt;/td&gt;
+&lt;td&gt;*&lt;/td&gt;
+&lt;td&gt;*&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ID&lt;/td&gt;
+&lt;td&gt;opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]]; ALUOut&amp;lt;=PC+(signext(IR[15:0]&amp;laquo;2))&lt;/td&gt;
+&lt;td&gt;*&lt;/td&gt;
+&lt;td&gt;*&lt;/td&gt;
+&lt;td&gt;*&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;EX&lt;/td&gt;
+&lt;td&gt;ALUOut &amp;lt;= A op B&lt;/td&gt;
+&lt;td&gt;ALUOut&amp;lt;=A+sign-ext(IR[15:0])&lt;/td&gt;
+&lt;td&gt;if (A=B)PC&amp;lt;=ALUOut&lt;/td&gt;
+&lt;td&gt;PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;MEM&lt;/td&gt;
+&lt;td&gt;Reg[IR[15:11]]&amp;lt;=ALUOut&lt;/td&gt;
+&lt;td&gt;Lw:MDR&amp;lt;=MemData[ALUOut];&lt;!-- raw HTML omitted --&gt;Sw:MemData[ALUout] &amp;lt;=B&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;WB&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Reg[IR[20:16]]&amp;lt;=MDR&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;重点控制信号的周期：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;IRWrite&lt;/strong&gt;：在Instruction fench阶段被置为1，&lt;strong&gt;但在lw的Memory access&lt;/strong&gt;阶段被置为0，因为在lw的Register writeback阶段，Instruction Register不能再更新，如果更新的话，会被读出的数据覆盖。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MemRead&lt;/strong&gt;：在Instruction fench阶段被置为1（用于读取指令），在Instruction decode阶段为0，在lw的Memory access阶段被置为1。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MemWrite&lt;/strong&gt;：默认0，在sw的Memory access阶段被置为1。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ALUSrc1&lt;/strong&gt;：在Instruction fench阶段为00（PC），在Execution阶段根据实际情况修改。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ALUSrc2&lt;/strong&gt;：在Instruction fench阶段为01（4），在Instruction decode阶段为11（imm&amp;laquo;2），在Execution阶段根据实际情况修改。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;PCWrite&lt;/strong&gt;：在Instruction fench阶段为1（PC&amp;lt;=PC+4），在Instruction decode阶段为0，此后若执行跳转类指令则被置为1。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;PCSource&lt;/strong&gt;：默认为00（PC&amp;lt;=PC+4），在Execution阶段视情况改变。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;IorD&lt;/strong&gt;：默认0（取指令），在Memory access阶段被置为1。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;PCWriteCond&lt;/strong&gt;：在beq的Execution阶段被置为1。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MemtoReg&lt;/strong&gt;：默认00。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RegDst&lt;/strong&gt;：默认00。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RegWrite&lt;/strong&gt;：默认0，在jal和jalr以及Register writeback中被置为1。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ExtOp&lt;/strong&gt;：在Instruction decode阶段被置为1，因为需要算跳转地址。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ALUOp&lt;/strong&gt;：在Instruction fench和Instruction decode均为00，因为需要执行加法操作；R type被置为10，beq被置为01。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;多周期异常和中断处理&#34;&gt;多周期异常和中断处理&lt;/h2&gt;
+&lt;p&gt;异常指内部不可预知事件（溢出，同步），中断指外部不可预知事件（I/O，异步）。&lt;/p&gt;
+&lt;p&gt;简单起见，假设我们需要处理两种异常：1)未定义指令的执行 2)算术溢出，异常处理程序的入口为0x80000180。&lt;/p&gt;
+&lt;p&gt;我们需要添加2个寄存器：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;EPC Register&lt;/strong&gt;：保存受影响的指令的地址。注意写入EPC的地址应该为PC-4。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cause Register&lt;/strong&gt;：记录产生异常事件原因。此处0为未定义指令，1为算术溢出。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;4个控制信号：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;EPCWrite&lt;/strong&gt;：EPC写入使能，在触发异常/中断时被置为1。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CauseWrite&lt;/strong&gt;：Cause写入使能。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;PCSource&lt;/strong&gt;：增加0x80000180。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;IntCause&lt;/strong&gt;：异常原因选择信号。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;异常处理的步骤大致如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;异常检测。通过检测 ALU 的溢出信号，判断是否发生溢出异常。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;保存现场。在异常程序计数器（Exception Program Counter，EPC）中保存出错的指令地址。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;跳转到异常处理程序。通过修改程序计数器（PC）的值，使得处理器进入异常处理程序。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;异常/中断处理程序采取操作，比如可以执行对溢出情况实现定义的一些操作，或者终止程序运行并报告。在异常处理完成后，异常处理程序可以选择终止程序，也可以根据 EPC 存储的指令地址恢复并继续执行程序。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        <item>
+        <title>Control_signal</title>
+        <link>https://ther-nullptr.github.io/posts/control_signal/</link>
+        <pubDate>Sat, 04 Jun 2022 10:34:25 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/control_signal/</guid>
+        <description>&lt;h1 id=&#34;控制信号常见答疑&#34;&gt;控制信号常见答疑&lt;/h1&gt;
+&lt;h2 id=&#34;about-extop&#34;&gt;About Extop&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://stackoverflow.com/questions/55290060/what-does-extend-immediate-to-32-bits-mean-in-mips&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://stackoverflow.com/questions/55290060/what-does-extend-immediate-to-32-bits-mean-in-mips&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I-type instructions with 16-bit immediates are different.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;addi&lt;/code&gt; / &lt;code&gt;addiu&lt;/code&gt; immediates are sign-extended (by duplicating the top/sign bit of the immediate to all higher bits). &lt;a class=&#34;link&#34; href=&#34;https://en.wikipedia.org/wiki/Two%27s_complement#Sign_extension&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://en.wikipedia.org/wiki/Two%27s_complement#Sign_extension&lt;/a&gt;
+&lt;strong&gt;This allows 2&amp;rsquo;s complement numbers from &lt;code&gt;-2^15&lt;/code&gt; .. &lt;code&gt;+2^15-1&lt;/code&gt; to be encoded.&lt;/strong&gt;
+&lt;strong&gt;(0xFFFF8000 to 0x00007FFF)&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ori&lt;/code&gt;/&lt;code&gt;andi&lt;/code&gt;/&lt;code&gt;xori&lt;/code&gt; boolean immediates are zero-extended (by setting all higher bits to zero)
+&lt;strong&gt;This allows unsigned / 2&amp;rsquo;s complement numbers from &lt;code&gt;0 .. 2^16-1&lt;/code&gt; to be encoded.&lt;/strong&gt;
+&lt;strong&gt;(0x00000000 to 0x0000FFFF)&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For other instructions see this [instruction-set reference](&lt;a class=&#34;link&#34; href=&#34;https://web.cse.ohio-state.edu/~crawfis.3/cse675-02/Slides/MIPS&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://web.cse.ohio-state.edu/~crawfis.3/cse675-02/Slides/MIPS&lt;/a&gt; Instruction Set.pdf) which breaks down each instruction showing 016 || [I15..0] for zero-extension or [I15]16 || [I15..0] for sign-extension.&lt;/p&gt;
+&lt;p&gt;And usually you don&amp;rsquo;t want to raise an exception on signed overflow, so normally compilers use &lt;code&gt;addu&lt;/code&gt; / &lt;code&gt;addiu&lt;/code&gt; even on signed integers. &lt;code&gt;addiu&lt;/code&gt; is badly named: it&amp;rsquo;s not &amp;ldquo;for unsigned integers&amp;rdquo;, it&amp;rsquo;s just a wrapping-allowed / never-faulting version of &lt;code&gt;add&lt;/code&gt;/&lt;code&gt;addi&lt;/code&gt;. It sort of makes sense if you think of C, where signed overflow is undefined behaviour (and thus could use &lt;code&gt;add&lt;/code&gt; and raise an exception in that case if the compiler wanted to implement it that way), but unsigned integers have well-defined overflow behaviour: base 2 wraparound.&lt;/p&gt;
+&lt;h2 id=&#34;可以为x的控制信号&#34;&gt;可以为X的控制信号&lt;/h2&gt;
+</description>
+        </item>
+        <item>
         <title>Assembly</title>
         <link>https://ther-nullptr.github.io/posts/assembly/</link>
         <pubDate>Fri, 03 Jun 2022 14:33:48 +0800</pubDate>
@@ -419,12 +550,30 @@ $$
 </description>
         </item>
         <item>
-        <title>CPU_hazard</title>
+        <title>Pipeline_CPU</title>
         <link>https://ther-nullptr.github.io/posts/cpu_hazard/</link>
         <pubDate>Tue, 31 May 2022 14:30:40 +0800</pubDate>
         
         <guid>https://ther-nullptr.github.io/posts/cpu_hazard/</guid>
-        <description>&lt;h1 id=&#34;流水线中的冒险&#34;&gt;流水线中的冒险&lt;/h1&gt;
+        <description>&lt;h1 id=&#34;流水线计算公式&#34;&gt;流水线计算公式&lt;/h1&gt;
+&lt;p&gt;$n$为指令数，$k$为流水线级数，级间延时$\Delta t$。&lt;/p&gt;
+&lt;p&gt;实际吞吐率（单位时间内流水线处理的指令数）：
+$$
+TP=\frac{n}{(k+n-1)\Delta t}
+$$
+最大吞吐率：
+$$
+TP_{max} = \frac{1}{\Delta t}
+$$
+实际加速比：
+$$
+S = \frac{kn}{k+n-1}
+$$
+最大加速比：
+$$
+S_{max}=k
+$$&lt;/p&gt;
+&lt;h1 id=&#34;流水线中的冒险&#34;&gt;流水线中的冒险&lt;/h1&gt;
 &lt;p&gt;总览流水线数据通路：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531150254232.png&#34;
 	
@@ -1750,7 +1899,50 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description>
+&lt;/div&gt;&lt;h1 id=&#34;流水线cpu异常处理&#34;&gt;流水线CPU异常处理&lt;/h1&gt;
+&lt;p&gt;假设有3种异常：badop，IRQ（外部中断），ALUExp。&lt;/p&gt;
+&lt;p&gt;Exception被放置在EX阶段，因此badop要经过一次ID/EX寄存器。&lt;/p&gt;
+&lt;p&gt;触发异常时，该单元会flush掉当前指令的EX/MEM寄存器，下条指令的ID/EX寄存器，下下条指令的IF/ID寄存器。（注意flush由hazard和exception单元共同控制）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220604152957008.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20220604152957008&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;为什么是PC或PC+4？？&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;扩展技术&#34;&gt;扩展技术&lt;/h1&gt;
+&lt;h2 id=&#34;指令级并行&#34;&gt;指令级并行&lt;/h2&gt;
+&lt;h3 id=&#34;超级流水线&#34;&gt;超级流水线&lt;/h3&gt;
+&lt;p&gt;用于缩短时钟周期。&lt;/p&gt;
+&lt;h3 id=&#34;多发射&#34;&gt;多发射&lt;/h3&gt;
+&lt;p&gt;用于降低CPI。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;超长指令字&lt;/strong&gt; 静态决定让哪些指令同时执行（在编译阶段由编译器决定）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;超标量&lt;/strong&gt; 动态决定哪些指令同时执行 （在运行时由硬件决定）。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;IOI-IOC,IOI-OOC,OOI-OOC&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;线程级并行&#34;&gt;线程级并行&lt;/h2&gt;
+&lt;h3 id=&#34;超线程&#34;&gt;超线程&lt;/h3&gt;
+&lt;h3 id=&#34;多核处理器&#34;&gt;多核处理器&lt;/h3&gt;
+&lt;p&gt;$a$为并行部分的比例，$n$为并行部分的加速比。
+$$
+S=\frac{1}{(1-a)+\frac{a}{n}}
+$$&lt;/p&gt;
+&lt;h2 id=&#34;异构计算&#34;&gt;异构计算&lt;/h2&gt;
+&lt;p&gt;单指令流多数据流，具有更大的并行度，设计相对比较简单。&lt;/p&gt;
+</description>
         </item>
         <item>
         <title>Electromagnetic_Fields_and_Waves04</title>

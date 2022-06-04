@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://ther-nullptr.github.io/posts/assembly/</loc>
-    <lastmod>2022-06-03T14:33:48+08:00</lastmod>
+    <loc>https://ther-nullptr.github.io/posts/multicycle_cpu/</loc>
+    <lastmod>2022-06-04T11:43:15+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/</loc>
-    <lastmod>2022-06-03T14:33:48+08:00</lastmod>
+    <lastmod>2022-06-04T11:43:15+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -19,7 +19,7 @@
                 />
   </url><url>
     <loc>https://ther-nullptr.github.io/categories/</loc>
-    <lastmod>2022-06-01T14:44:33+08:00</lastmod>
+    <lastmod>2022-06-04T10:34:25+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -31,17 +31,17 @@
                 href="https://ther-nullptr.github.io/categories/"
                 />
   </url><url>
-    <loc>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves05/</loc>
-    <lastmod>2022-06-01T14:44:33+08:00</lastmod>
+    <loc>https://ther-nullptr.github.io/posts/control_signal/</loc>
+    <lastmod>2022-06-04T10:34:25+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/tags/study/</loc>
-    <lastmod>2022-06-01T14:44:33+08:00</lastmod>
+    <lastmod>2022-06-04T10:34:25+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/categories/study/</loc>
-    <lastmod>2022-06-01T14:44:33+08:00</lastmod>
+    <lastmod>2022-06-04T10:34:25+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/tags/</loc>
-    <lastmod>2022-06-01T14:44:33+08:00</lastmod>
+    <lastmod>2022-06-04T10:34:25+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -52,6 +52,12 @@
                 hreflang="zh-cn"
                 href="https://ther-nullptr.github.io/tags/"
                 />
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/assembly/</loc>
+    <lastmod>2022-06-03T14:33:48+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves05/</loc>
+    <lastmod>2022-06-01T14:44:33+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/memory/</loc>
     <lastmod>2022-05-31T19:22:17+08:00</lastmod>

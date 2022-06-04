@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='导体中电磁场的传播 自由电荷 根据电荷守恒定律和Maxwell方程第3式，可得： $$ \rho = \rho_0e^{-\frac{\sigma}{\epsilon}t},\tau=\frac{\epsilon}{\sigma} $$ 良导体（即$\rho$衰减很快）满足： $$ \frac{\sigma}{\epsilon\omega}&amp;raquo;1 $$
-电磁波 对比介质中和导体中的Maxwell方程组，可以发现导体中多了传导电流项$\sigma E$。为使得两者形式一致，引入复电容率： $$ \epsilon^{\prime} = \epsilon&#43;i\frac{\sigma}{\omega} $$ 此时： $$ k=\omega\sqrt{\mu\epsilon^{\prime}}=\omega\sqrt{\mu(\epsilon&#43;i\frac{\sigma}{\omega})} $$ 设$k=\beta&#43;i\alpha$，下考虑垂直入射（入射方向为$z$轴）的情形，$E$满足： $$ E = E_0e^{-\alpha z}e^{i(\beta z-\omega t)} $$ 在良导体条件下： $$ \alpha \approx \beta \approx \sqrt\frac{\omega\mu\sigma}{2} $$ 定义强度降为表面的$e^{-1}$时的深度为穿透深度： $$ \delta = \frac{1}{\alpha}=\sqrt\frac{2}{\omega\mu\sigma} $$ 还可求出磁场： $$ H = \sqrt\frac{\sigma}{\omega\mu}e^{i\frac{\pi}{4}}\hat e_n\times E $$ 根据下式可以看出，磁场能量占据主导： $$ \frac{&amp;lt;w_e&amp;gt;}{&amp;lt;w_m&amp;gt;} = \frac{\frac{1}{4}\epsilon|E_0|^2}{\frac{1}{4}\mu|H_0|^2}=\frac{\omega \epsilon}{\sigma}&amp;laquo;1 $$ 下考虑反射系数。边界条件为： $$ E&#43;E^{\prime}=E^{\prime\prime}\ H-H^{\prime}=H^{\prime\prime}\quad(E-E^{\prime}=\sqrt\frac{\sigma}{2\omega\epsilon_0}(1&#43;i)E^{\prime\prime}) $$ 幅度比： $$ \frac{E^{\prime}}{E} = \frac{\sqrt\frac{2\omega\epsilon_0}{\sigma}-1-i}{\sqrt\frac{2\omega\epsilon_0}{\sigma}&#43;1&#43;i} $$'><title>Electromagnetic_Fields_and_Waves04</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='多周期CPU 多周期数据通路     R lw or sw beq J     IF PC&amp;lt;=PC&#43;4; IR &amp;lt;=MemInst[PC]; * * *   ID opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]]; ALUOut&amp;lt;=PC&#43;(signext(IR[15:0]&amp;laquo;2)) * * *   EX ALUOut &amp;lt;= A op B ALUOut&amp;lt;=A&#43;sign-ext(IR[15:0]) if (A=B)PC&amp;lt;=ALUOut PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}   MEM Reg[IR[15:11]]&amp;lt;=ALUOut Lw:MDR&amp;lt;=MemData[ALUOut];Sw:MemData[ALUout] &amp;lt;=B     WB  Reg[IR[20:16]]&amp;lt;=MDR      重点控制信号的周期：
+ IRWrite：在Instruction fench阶段被置为1，但在lw的Memory access阶段被置为0，因为在lw的Register writeback阶段，Instruction Register不能再更新，如果更新的话，会被读出的数据覆盖。 MemRead：在Instruction fench阶段被置为1（用于读取指令），在Instruction decode阶段为0，在lw的Memory access阶段被置为1。 MemWrite：默认0，在sw的Memory access阶段被置为1。 ALUSrc1：在Instruction fench阶段为00（PC），在Execution阶段根据实际情况修改。 ALUSrc2：在Instruction fench阶段为01（4），在Instruction decode阶段为11（imm&amp;laquo;2），在Execution阶段根据实际情况修改。 PCWrite：在Instruction fench阶段为1（PC&amp;lt;=PC&#43;4），在Instruction decode阶段为0，此后若执行跳转类指令则被置为1。 PCSource：默认为00（PC&amp;lt;=PC&#43;4），在Execution阶段视情况改变。 IorD：默认0（取指令），在Memory access阶段被置为1。 PCWriteCond：在beq的Execution阶段被置为1。 MemtoReg：默认00。 RegDst：默认00。 RegWrite：默认0，在jal和jalr以及Register writeback中被置为1。 ExtOp：在Instruction decode阶段被置为1，因为需要算跳转地址。 ALUOp：在Instruction fench和Instruction decode均为00，因为需要执行加法操作；R type被置为10，beq被置为01。  多周期异常和中断处理 异常指内部不可预知事件（溢出，同步），中断指外部不可预知事件（I/O，异步）。'><title>Multicycle_CPU</title>
 
-<link rel='canonical' href='https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves04/'>
+<link rel='canonical' href='https://ther-nullptr.github.io/posts/multicycle_cpu/'>
 
-<link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='Electromagnetic_Fields_and_Waves04'>
-<meta property='og:description' content='导体中电磁场的传播 自由电荷 根据电荷守恒定律和Maxwell方程第3式，可得： $$ \rho = \rho_0e^{-\frac{\sigma}{\epsilon}t},\tau=\frac{\epsilon}{\sigma} $$ 良导体（即$\rho$衰减很快）满足： $$ \frac{\sigma}{\epsilon\omega}&amp;raquo;1 $$
-电磁波 对比介质中和导体中的Maxwell方程组，可以发现导体中多了传导电流项$\sigma E$。为使得两者形式一致，引入复电容率： $$ \epsilon^{\prime} = \epsilon&#43;i\frac{\sigma}{\omega} $$ 此时： $$ k=\omega\sqrt{\mu\epsilon^{\prime}}=\omega\sqrt{\mu(\epsilon&#43;i\frac{\sigma}{\omega})} $$ 设$k=\beta&#43;i\alpha$，下考虑垂直入射（入射方向为$z$轴）的情形，$E$满足： $$ E = E_0e^{-\alpha z}e^{i(\beta z-\omega t)} $$ 在良导体条件下： $$ \alpha \approx \beta \approx \sqrt\frac{\omega\mu\sigma}{2} $$ 定义强度降为表面的$e^{-1}$时的深度为穿透深度： $$ \delta = \frac{1}{\alpha}=\sqrt\frac{2}{\omega\mu\sigma} $$ 还可求出磁场： $$ H = \sqrt\frac{\sigma}{\omega\mu}e^{i\frac{\pi}{4}}\hat e_n\times E $$ 根据下式可以看出，磁场能量占据主导： $$ \frac{&amp;lt;w_e&amp;gt;}{&amp;lt;w_m&amp;gt;} = \frac{\frac{1}{4}\epsilon|E_0|^2}{\frac{1}{4}\mu|H_0|^2}=\frac{\omega \epsilon}{\sigma}&amp;laquo;1 $$ 下考虑反射系数。边界条件为： $$ E&#43;E^{\prime}=E^{\prime\prime}\ H-H^{\prime}=H^{\prime\prime}\quad(E-E^{\prime}=\sqrt\frac{\sigma}{2\omega\epsilon_0}(1&#43;i)E^{\prime\prime}) $$ 幅度比： $$ \frac{E^{\prime}}{E} = \frac{\sqrt\frac{2\omega\epsilon_0}{\sigma}-1-i}{\sqrt\frac{2\omega\epsilon_0}{\sigma}&#43;1&#43;i} $$'>
-<meta property='og:url' content='https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves04/'>
+<link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='Multicycle_CPU'>
+<meta property='og:description' content='多周期CPU 多周期数据通路     R lw or sw beq J     IF PC&amp;lt;=PC&#43;4; IR &amp;lt;=MemInst[PC]; * * *   ID opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]]; ALUOut&amp;lt;=PC&#43;(signext(IR[15:0]&amp;laquo;2)) * * *   EX ALUOut &amp;lt;= A op B ALUOut&amp;lt;=A&#43;sign-ext(IR[15:0]) if (A=B)PC&amp;lt;=ALUOut PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}   MEM Reg[IR[15:11]]&amp;lt;=ALUOut Lw:MDR&amp;lt;=MemData[ALUOut];Sw:MemData[ALUout] &amp;lt;=B     WB  Reg[IR[20:16]]&amp;lt;=MDR      重点控制信号的周期：
+ IRWrite：在Instruction fench阶段被置为1，但在lw的Memory access阶段被置为0，因为在lw的Register writeback阶段，Instruction Register不能再更新，如果更新的话，会被读出的数据覆盖。 MemRead：在Instruction fench阶段被置为1（用于读取指令），在Instruction decode阶段为0，在lw的Memory access阶段被置为1。 MemWrite：默认0，在sw的Memory access阶段被置为1。 ALUSrc1：在Instruction fench阶段为00（PC），在Execution阶段根据实际情况修改。 ALUSrc2：在Instruction fench阶段为01（4），在Instruction decode阶段为11（imm&amp;laquo;2），在Execution阶段根据实际情况修改。 PCWrite：在Instruction fench阶段为1（PC&amp;lt;=PC&#43;4），在Instruction decode阶段为0，此后若执行跳转类指令则被置为1。 PCSource：默认为00（PC&amp;lt;=PC&#43;4），在Execution阶段视情况改变。 IorD：默认0（取指令），在Memory access阶段被置为1。 PCWriteCond：在beq的Execution阶段被置为1。 MemtoReg：默认00。 RegDst：默认00。 RegWrite：默认0，在jal和jalr以及Register writeback中被置为1。 ExtOp：在Instruction decode阶段被置为1，因为需要算跳转地址。 ALUOp：在Instruction fench和Instruction decode均为00，因为需要执行加法操作；R type被置为10，beq被置为01。  多周期异常和中断处理 异常指内部不可预知事件（溢出，同步），中断指外部不可预知事件（I/O，异步）。'>
+<meta property='og:url' content='https://ther-nullptr.github.io/posts/multicycle_cpu/'>
 <meta property='og:site_name' content='Ther&#39;s Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='study' /><meta property='article:published_time' content='2022-05-30T15:28:02&#43;08:00'/><meta property='article:modified_time' content='2022-05-30T15:28:02&#43;08:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:published_time' content='2022-06-04T11:43:15&#43;08:00'/><meta property='article:modified_time' content='2022-06-04T11:43:15&#43;08:00'/>
 <meta name="twitter:site" content="@AdobePython">
-    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="Electromagnetic_Fields_and_Waves04">
-<meta name="twitter:description" content="导体中电磁场的传播 自由电荷 根据电荷守恒定律和Maxwell方程第3式，可得： $$ \rho = \rho_0e^{-\frac{\sigma}{\epsilon}t},\tau=\frac{\epsilon}{\sigma} $$ 良导体（即$\rho$衰减很快）满足： $$ \frac{\sigma}{\epsilon\omega}&amp;raquo;1 $$
-电磁波 对比介质中和导体中的Maxwell方程组，可以发现导体中多了传导电流项$\sigma E$。为使得两者形式一致，引入复电容率： $$ \epsilon^{\prime} = \epsilon&#43;i\frac{\sigma}{\omega} $$ 此时： $$ k=\omega\sqrt{\mu\epsilon^{\prime}}=\omega\sqrt{\mu(\epsilon&#43;i\frac{\sigma}{\omega})} $$ 设$k=\beta&#43;i\alpha$，下考虑垂直入射（入射方向为$z$轴）的情形，$E$满足： $$ E = E_0e^{-\alpha z}e^{i(\beta z-\omega t)} $$ 在良导体条件下： $$ \alpha \approx \beta \approx \sqrt\frac{\omega\mu\sigma}{2} $$ 定义强度降为表面的$e^{-1}$时的深度为穿透深度： $$ \delta = \frac{1}{\alpha}=\sqrt\frac{2}{\omega\mu\sigma} $$ 还可求出磁场： $$ H = \sqrt\frac{\sigma}{\omega\mu}e^{i\frac{\pi}{4}}\hat e_n\times E $$ 根据下式可以看出，磁场能量占据主导： $$ \frac{&amp;lt;w_e&amp;gt;}{&amp;lt;w_m&amp;gt;} = \frac{\frac{1}{4}\epsilon|E_0|^2}{\frac{1}{4}\mu|H_0|^2}=\frac{\omega \epsilon}{\sigma}&amp;laquo;1 $$ 下考虑反射系数。边界条件为： $$ E&#43;E^{\prime}=E^{\prime\prime}\ H-H^{\prime}=H^{\prime\prime}\quad(E-E^{\prime}=\sqrt\frac{\sigma}{2\omega\epsilon_0}(1&#43;i)E^{\prime\prime}) $$ 幅度比： $$ \frac{E^{\prime}}{E} = \frac{\sqrt\frac{2\omega\epsilon_0}{\sigma}-1-i}{\sqrt\frac{2\omega\epsilon_0}{\sigma}&#43;1&#43;i} $$">
+    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="Multicycle_CPU">
+<meta name="twitter:description" content="多周期CPU 多周期数据通路     R lw or sw beq J     IF PC&amp;lt;=PC&#43;4; IR &amp;lt;=MemInst[PC]; * * *   ID opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]]; ALUOut&amp;lt;=PC&#43;(signext(IR[15:0]&amp;laquo;2)) * * *   EX ALUOut &amp;lt;= A op B ALUOut&amp;lt;=A&#43;sign-ext(IR[15:0]) if (A=B)PC&amp;lt;=ALUOut PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}   MEM Reg[IR[15:11]]&amp;lt;=ALUOut Lw:MDR&amp;lt;=MemData[ALUOut];Sw:MemData[ALUout] &amp;lt;=B     WB  Reg[IR[20:16]]&amp;lt;=MDR      重点控制信号的周期：
+ IRWrite：在Instruction fench阶段被置为1，但在lw的Memory access阶段被置为0，因为在lw的Register writeback阶段，Instruction Register不能再更新，如果更新的话，会被读出的数据覆盖。 MemRead：在Instruction fench阶段被置为1（用于读取指令），在Instruction decode阶段为0，在lw的Memory access阶段被置为1。 MemWrite：默认0，在sw的Memory access阶段被置为1。 ALUSrc1：在Instruction fench阶段为00（PC），在Execution阶段根据实际情况修改。 ALUSrc2：在Instruction fench阶段为01（4），在Instruction decode阶段为11（imm&amp;laquo;2），在Execution阶段根据实际情况修改。 PCWrite：在Instruction fench阶段为1（PC&amp;lt;=PC&#43;4），在Instruction decode阶段为0，此后若执行跳转类指令则被置为1。 PCSource：默认为00（PC&amp;lt;=PC&#43;4），在Execution阶段视情况改变。 IorD：默认0（取指令），在Memory access阶段被置为1。 PCWriteCond：在beq的Execution阶段被置为1。 MemtoReg：默认00。 RegDst：默认00。 RegWrite：默认0，在jal和jalr以及Register writeback中被置为1。 ExtOp：在Instruction decode阶段被置为1，因为需要算跳转地址。 ALUOp：在Instruction fench和Instruction decode均为00，因为需要执行加法操作；R type被置为10，beq被置为01。  多周期异常和中断处理 异常指内部不可预知事件（溢出，同步），中断指外部不可预知事件（I/O，异步）。">
     </head>
     <body class="
     article-page
@@ -210,18 +210,10 @@
 
     <div class="article-details">
     
-    <header class="article-category">
-        
-            <a href="/categories/study/" >
-                study
-            </a>
-        
-    </header>
-    
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/posts/electromagnetic_fields_and_waves04/">Electromagnetic_Fields_and_Waves04</a>
+            <a href="/posts/multicycle_cpu/">Multicycle_CPU</a>
         </h2>
     
         
@@ -240,7 +232,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">May 309, 303030</time>
+                <time class="article-time--published">May 49, 4044</time>
             </div>
         
 
@@ -269,87 +261,109 @@
     <section class="article-content">
     
     
-    <h1 id="导体中电磁场的传播">导体中电磁场的传播</h1>
-<h2 id="自由电荷">自由电荷</h2>
-<p>根据电荷守恒定律和Maxwell方程第3式，可得：
-$$
-\rho = \rho_0e^{-\frac{\sigma}{\epsilon}t},\tau=\frac{\epsilon}{\sigma}
-$$
-良导体（即$\rho$衰减很快）满足：
-$$
-\frac{\sigma}{\epsilon\omega}&raquo;1
-$$</p>
-<h2 id="电磁波">电磁波</h2>
-<p>对比介质中和导体中的Maxwell方程组，可以发现导体中多了传导电流项$\sigma E$。为使得两者形式一致，引入复电容率：
-$$
-\epsilon^{\prime} = \epsilon+i\frac{\sigma}{\omega}
-$$
-此时：
-$$
-k=\omega\sqrt{\mu\epsilon^{\prime}}=\omega\sqrt{\mu(\epsilon+i\frac{\sigma}{\omega})}
-$$
-设$k=\beta+i\alpha$，下考虑垂直入射（入射方向为$z$轴）的情形，$E$满足：
-$$
-E = E_0e^{-\alpha z}e^{i(\beta z-\omega t)}
-$$
-在良导体条件下：
-$$
-\alpha \approx \beta \approx \sqrt\frac{\omega\mu\sigma}{2}
-$$
-定义强度降为表面的$e^{-1}$时的深度为穿透深度：
-$$
-\delta = \frac{1}{\alpha}=\sqrt\frac{2}{\omega\mu\sigma}
-$$
-还可求出磁场：
-$$
-H = \sqrt\frac{\sigma}{\omega\mu}e^{i\frac{\pi}{4}}\hat e_n\times E
-$$
-根据下式可以看出，磁场能量占据主导：
-$$
-\frac{&lt;w_e&gt;}{&lt;w_m&gt;} = \frac{\frac{1}{4}\epsilon|E_0|^2}{\frac{1}{4}\mu|H_0|^2}=\frac{\omega \epsilon}{\sigma}&laquo;1
-$$
-下考虑反射系数。边界条件为：
-$$
-E+E^{\prime}=E^{\prime\prime}\
-H-H^{\prime}=H^{\prime\prime}\quad(E-E^{\prime}=\sqrt\frac{\sigma}{2\omega\epsilon_0}(1+i)E^{\prime\prime})
-$$
-幅度比：
-$$
-\frac{E^{\prime}}{E} = \frac{\sqrt\frac{2\omega\epsilon_0}{\sigma}-1-i}{\sqrt\frac{2\omega\epsilon_0}{\sigma}+1+i}
-$$</p>
-<p>反射系数：
-$$
-R=|\frac{E^{\prime}}{E}|^2=1-2\sqrt\frac{2\omega\epsilon_0}{\sigma}
-$$</p>
-<p>当电磁波照射到良导体表面时，有部分电磁场能量转换为导体的焦耳热。</p>
-<p>导体平均损耗功率密度$P_{\sigma}$：
-$$
-P_\sigma = \frac{1}{2}E_{0t}\cdot J_\sigma^\star = \frac{1}{2}\sigma|E_{0}|^2e^{-2\alpha z}
-$$</p>
-<p>表面电阻$R_s$：
-$$
-R_s=\frac{1}{\sigma\delta}
-$$
-单位表面焦耳热总功率$P_d$：
-$$
-P_d = \frac{1}{2}|J_s|^2R_s
-$$
-表面电流密度$J_s$：
-$$
-J_s=\frac{\sigma E_0}{\sqrt{\alpha^2+\beta^2}}e^{i\arctan(\frac{\beta}{\alpha})}
-$$</p>
+    <h1 id="多周期cpu">多周期CPU</h1>
+<h2 id="多周期数据通路">多周期数据通路</h2>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th></th>
+<th>R</th>
+<th>lw or sw</th>
+<th>beq</th>
+<th>J</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IF</td>
+<td>PC&lt;=PC+4; IR &lt;=MemInst[PC];</td>
+<td>*</td>
+<td>*</td>
+<td>*</td>
+</tr>
+<tr>
+<td>ID</td>
+<td>opcode&lt;=IR[31:26]; A&lt;=Reg[IR[25:21]]; B&lt;=Reg[IR[20:16]]; ALUOut&lt;=PC+(signext(IR[15:0]&laquo;2))</td>
+<td>*</td>
+<td>*</td>
+<td>*</td>
+</tr>
+<tr>
+<td>EX</td>
+<td>ALUOut &lt;= A op B</td>
+<td>ALUOut&lt;=A+sign-ext(IR[15:0])</td>
+<td>if (A=B)PC&lt;=ALUOut</td>
+<td>PC &lt;= {PC[31:28],IR[25:0],2’b00}</td>
+</tr>
+<tr>
+<td>MEM</td>
+<td>Reg[IR[15:11]]&lt;=ALUOut</td>
+<td>Lw:MDR&lt;=MemData[ALUOut];<!-- raw HTML omitted -->Sw:MemData[ALUout] &lt;=B</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>WB</td>
+<td></td>
+<td>Reg[IR[20:16]]&lt;=MDR</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>重点控制信号的周期：</p>
+<ul>
+<li><strong>IRWrite</strong>：在Instruction fench阶段被置为1，<strong>但在lw的Memory access</strong>阶段被置为0，因为在lw的Register writeback阶段，Instruction Register不能再更新，如果更新的话，会被读出的数据覆盖。</li>
+<li><strong>MemRead</strong>：在Instruction fench阶段被置为1（用于读取指令），在Instruction decode阶段为0，在lw的Memory access阶段被置为1。</li>
+<li><strong>MemWrite</strong>：默认0，在sw的Memory access阶段被置为1。</li>
+<li><strong>ALUSrc1</strong>：在Instruction fench阶段为00（PC），在Execution阶段根据实际情况修改。</li>
+<li><strong>ALUSrc2</strong>：在Instruction fench阶段为01（4），在Instruction decode阶段为11（imm&laquo;2），在Execution阶段根据实际情况修改。</li>
+<li><strong>PCWrite</strong>：在Instruction fench阶段为1（PC&lt;=PC+4），在Instruction decode阶段为0，此后若执行跳转类指令则被置为1。</li>
+<li><strong>PCSource</strong>：默认为00（PC&lt;=PC+4），在Execution阶段视情况改变。</li>
+<li><strong>IorD</strong>：默认0（取指令），在Memory access阶段被置为1。</li>
+<li><strong>PCWriteCond</strong>：在beq的Execution阶段被置为1。</li>
+<li><strong>MemtoReg</strong>：默认00。</li>
+<li><strong>RegDst</strong>：默认00。</li>
+<li><strong>RegWrite</strong>：默认0，在jal和jalr以及Register writeback中被置为1。</li>
+<li><strong>ExtOp</strong>：在Instruction decode阶段被置为1，因为需要算跳转地址。</li>
+<li><strong>ALUOp</strong>：在Instruction fench和Instruction decode均为00，因为需要执行加法操作；R type被置为10，beq被置为01。</li>
+</ul>
+<h2 id="多周期异常和中断处理">多周期异常和中断处理</h2>
+<p>异常指内部不可预知事件（溢出，同步），中断指外部不可预知事件（I/O，异步）。</p>
+<p>简单起见，假设我们需要处理两种异常：1)未定义指令的执行 2)算术溢出，异常处理程序的入口为0x80000180。</p>
+<p>我们需要添加2个寄存器：</p>
+<ul>
+<li><strong>EPC Register</strong>：保存受影响的指令的地址。注意写入EPC的地址应该为PC-4。</li>
+<li><strong>Cause Register</strong>：记录产生异常事件原因。此处0为未定义指令，1为算术溢出。</li>
+</ul>
+<p>4个控制信号：</p>
+<ul>
+<li><strong>EPCWrite</strong>：EPC写入使能，在触发异常/中断时被置为1。</li>
+<li><strong>CauseWrite</strong>：Cause写入使能。</li>
+<li><strong>PCSource</strong>：增加0x80000180。</li>
+<li><strong>IntCause</strong>：异常原因选择信号。</li>
+</ul>
+<p>异常处理的步骤大致如下：</p>
+<ol>
+<li>
+<p>异常检测。通过检测 ALU 的溢出信号，判断是否发生溢出异常。</p>
+</li>
+<li>
+<p>保存现场。在异常程序计数器（Exception Program Counter，EPC）中保存出错的指令地址。</p>
+</li>
+<li>
+<p>跳转到异常处理程序。通过修改程序计数器（PC）的值，使得处理器进入异常处理程序。</p>
+</li>
+<li>
+<p>异常/中断处理程序采取操作，比如可以执行对溢出情况实现定义的一些操作，或者终止程序运行并报告。在异常处理完成后，异常处理程序可以选择终止程序，也可以根据 EPC 存储的指令地址恢复并继续执行程序。</p>
+</li>
+</ol>
 
 </section>
 
 
     <footer class="article-footer">
     
-    <section class="article-tags">
-        
-            <a href="/tags/study/">study</a>
-        
-    </section>
-
 
     
     <section class="article-copyright">
@@ -395,75 +409,6 @@ $$</p>
     
 
     
-
-<aside class="related-contents--wrapper">
-    <h2 class="section-title">相关文章</h2>
-    <div class="related-contents">
-        <div class="flex article-list--tile">
-            
-                
-<article class="">
-    <a href="/posts/control_signal/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Control_signal</h2>
-        </div>
-    </a>
-</article>
-            
-                
-<article class="">
-    <a href="/posts/assembly/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Assembly</h2>
-        </div>
-    </a>
-</article>
-            
-                
-<article class="">
-    <a href="/posts/electromagnetic_fields_and_waves05/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Electromagnetic_Fields_and_Waves05</h2>
-        </div>
-    </a>
-</article>
-            
-                
-<article class="">
-    <a href="/posts/memory/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Memory</h2>
-        </div>
-    </a>
-</article>
-            
-                
-<article class="">
-    <a href="/posts/cpu_hazard/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Pipeline_CPU</h2>
-        </div>
-    </a>
-</article>
-            
-        </div>
-    </div>
-</aside>
 
      
     
@@ -627,8 +572,8 @@ $$</p>
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#自由电荷">自由电荷</a></li>
-    <li><a href="#电磁波">电磁波</a></li>
+    <li><a href="#多周期数据通路">多周期数据通路</a></li>
+    <li><a href="#多周期异常和中断处理">多周期异常和中断处理</a></li>
   </ol>
 </nav>
         </div>
