@@ -2,40 +2,119 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://ther-nullptr.github.io/en/categories/</loc>
+    <loc>https://ther-nullptr.github.io/archives/</loc>
+    <lastmod>2022-06-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/page/</loc>
+    <lastmod>2022-06-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/</loc>
+    <lastmod>2022-06-05T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://ther-nullptr.github.io/categories/"
+                href="https://ther-nullptr.github.io/zh-cn/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://ther-nullptr.github.io/en/categories/"
-                />
-  </url><url>
-    <loc>https://ther-nullptr.github.io/en/tags/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://ther-nullptr.github.io/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://ther-nullptr.github.io/en/tags/"
-                />
-  </url><url>
-    <loc>https://ther-nullptr.github.io/en/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
                 href="https://ther-nullptr.github.io/"
                 />
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/</loc>
+    <lastmod>2022-06-04T11:43:15+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/categories/</loc>
+    <lastmod>2022-06-04T11:43:15+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://ther-nullptr.github.io/zh-cn/categories/"
+                />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://ther-nullptr.github.io/en/"
+                href="https://ther-nullptr.github.io/categories/"
                 />
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/multicycle_cpu/</loc>
+    <lastmod>2022-06-04T11:43:15+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/tags/study/</loc>
+    <lastmod>2022-06-04T11:43:15+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/categories/study/</loc>
+    <lastmod>2022-06-04T11:43:15+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/tags/</loc>
+    <lastmod>2022-06-04T11:43:15+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://ther-nullptr.github.io/zh-cn/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://ther-nullptr.github.io/tags/"
+                />
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/control_signal/</loc>
+    <lastmod>2022-06-04T10:34:25+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/assembly/</loc>
+    <lastmod>2022-06-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves05/</loc>
+    <lastmod>2022-06-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/memory/</loc>
+    <lastmod>2022-05-31T19:22:17+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/cpu_hazard/</loc>
+    <lastmod>2022-05-31T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/about/</loc>
+    <lastmod>2022-05-30T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves02/</loc>
+    <lastmod>2022-05-30T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves03/</loc>
+    <lastmod>2022-05-30T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves04/</loc>
+    <lastmod>2022-05-30T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/ice-cream/</loc>
+    <lastmod>2022-05-29T16:24:16+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/tags/small-talk/</loc>
+    <lastmod>2022-05-29T16:24:16+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/categories/small-talk/</loc>
+    <lastmod>2022-05-29T16:24:16+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/tags/awesome-kits/</loc>
+    <lastmod>2022-05-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/categories/awesome-kits/</loc>
+    <lastmod>2022-05-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/command/</loc>
+    <lastmod>2022-05-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves00/</loc>
+    <lastmod>2022-05-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves01/</loc>
+    <lastmod>2022-05-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/intro/</loc>
+    <lastmod>2022-05-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/links/</loc>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/search/</loc>
   </url>
 </urlset>

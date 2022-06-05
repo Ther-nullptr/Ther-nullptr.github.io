@@ -6,7 +6,112 @@
         <description>Recent content in study on Ther&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Sat, 04 Jun 2022 10:34:25 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/categories/study/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 04 Jun 2022 11:43:15 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/categories/study/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Multicycle_CPU</title>
+        <link>https://ther-nullptr.github.io/posts/multicycle_cpu/</link>
+        <pubDate>Sat, 04 Jun 2022 11:43:15 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/multicycle_cpu/</guid>
+        <description>&lt;h1 id=&#34;多周期cpu&#34;&gt;多周期CPU&lt;/h1&gt;
+&lt;h2 id=&#34;多周期数据通路&#34;&gt;多周期数据通路&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;R&lt;/th&gt;
+&lt;th&gt;lw or sw&lt;/th&gt;
+&lt;th&gt;beq&lt;/th&gt;
+&lt;th&gt;J&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;IF&lt;/td&gt;
+&lt;td&gt;PC&amp;lt;=PC+4; IR &amp;lt;=MemInst[PC];&lt;/td&gt;
+&lt;td&gt;*&lt;/td&gt;
+&lt;td&gt;*&lt;/td&gt;
+&lt;td&gt;*&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ID&lt;/td&gt;
+&lt;td&gt;opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]]; ALUOut&amp;lt;=PC+(signext(IR[15:0]&amp;laquo;2))&lt;/td&gt;
+&lt;td&gt;*&lt;/td&gt;
+&lt;td&gt;*&lt;/td&gt;
+&lt;td&gt;*&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;EX&lt;/td&gt;
+&lt;td&gt;ALUOut &amp;lt;= A op B&lt;/td&gt;
+&lt;td&gt;ALUOut&amp;lt;=A+sign-ext(IR[15:0])&lt;/td&gt;
+&lt;td&gt;if (A=B)PC&amp;lt;=ALUOut&lt;/td&gt;
+&lt;td&gt;PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;MEM&lt;/td&gt;
+&lt;td&gt;Reg[IR[15:11]]&amp;lt;=ALUOut&lt;/td&gt;
+&lt;td&gt;Lw:MDR&amp;lt;=MemData[ALUOut];&lt;!-- raw HTML omitted --&gt;Sw:MemData[ALUout] &amp;lt;=B&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;WB&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Reg[IR[20:16]]&amp;lt;=MDR&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;重点控制信号的周期：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;IRWrite&lt;/strong&gt;：在Instruction fench阶段被置为1，&lt;strong&gt;但在lw的Memory access&lt;/strong&gt;阶段被置为0，因为在lw的Register writeback阶段，Instruction Register不能再更新，如果更新的话，会被读出的数据覆盖。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MemRead&lt;/strong&gt;：在Instruction fench阶段被置为1（用于读取指令），在Instruction decode阶段为0，在lw的Memory access阶段被置为1。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MemWrite&lt;/strong&gt;：默认0，在sw的Memory access阶段被置为1。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ALUSrc1&lt;/strong&gt;：在Instruction fench阶段为00（PC），在Execution阶段根据实际情况修改。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ALUSrc2&lt;/strong&gt;：在Instruction fench阶段为01（4），在Instruction decode阶段为11（imm&amp;laquo;2），在Execution阶段根据实际情况修改。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;PCWrite&lt;/strong&gt;：在Instruction fench阶段为1（PC&amp;lt;=PC+4），在Instruction decode阶段为0，此后若执行跳转类指令则被置为1。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;PCSource&lt;/strong&gt;：默认为00（PC&amp;lt;=PC+4），在Execution阶段视情况改变。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;IorD&lt;/strong&gt;：默认0（取指令），在Memory access阶段被置为1。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;PCWriteCond&lt;/strong&gt;：在beq的Execution阶段被置为1。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MemtoReg&lt;/strong&gt;：默认00。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RegDst&lt;/strong&gt;：默认00。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RegWrite&lt;/strong&gt;：默认0，在jal和jalr以及Register writeback中被置为1。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ExtOp&lt;/strong&gt;：在Instruction decode阶段被置为1，因为需要算跳转地址。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ALUOp&lt;/strong&gt;：在Instruction fench和Instruction decode均为00，因为需要执行加法操作；R type被置为10，beq被置为01。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;多周期异常和中断处理&#34;&gt;多周期异常和中断处理&lt;/h2&gt;
+&lt;p&gt;异常指内部不可预知事件（溢出，同步），中断指外部不可预知事件（I/O，异步）。&lt;/p&gt;
+&lt;p&gt;简单起见，假设我们需要处理两种异常：1)未定义指令的执行 2)算术溢出，异常处理程序的入口为0x80000180。&lt;/p&gt;
+&lt;p&gt;我们需要添加2个寄存器：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;EPC Register&lt;/strong&gt;：保存受影响的指令的地址。注意写入EPC的地址应该为PC-4。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cause Register&lt;/strong&gt;：记录产生异常事件原因。此处0为未定义指令，1为算术溢出。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;4个控制信号：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;EPCWrite&lt;/strong&gt;：EPC写入使能，在触发异常/中断时被置为1。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CauseWrite&lt;/strong&gt;：Cause写入使能。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;PCSource&lt;/strong&gt;：增加0x80000180。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;IntCause&lt;/strong&gt;：异常原因选择信号。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;异常处理的步骤大致如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;异常检测。通过检测 ALU 的溢出信号，判断是否发生溢出异常。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;保存现场。在异常程序计数器（Exception Program Counter，EPC）中保存出错的指令地址。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;跳转到异常处理程序。通过修改程序计数器（PC）的值，使得处理器进入异常处理程序。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;异常/中断处理程序采取操作，比如可以执行对溢出情况实现定义的一些操作，或者终止程序运行并报告。在异常处理完成后，异常处理程序可以选择终止程序，也可以根据 EPC 存储的指令地址恢复并继续执行程序。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        <item>
         <title>Control_signal</title>
         <link>https://ther-nullptr.github.io/posts/control_signal/</link>
         <pubDate>Sat, 04 Jun 2022 10:34:25 +0800</pubDate>
@@ -30,12 +135,16 @@
     &gt;https://web.cse.ohio-state.edu/~crawfis.3/cse675-02/Slides/MIPS&lt;/a&gt; Instruction Set.pdf) which breaks down each instruction showing 016 || [I15..0] for zero-extension or [I15]16 || [I15..0] for sign-extension.&lt;/p&gt;
 &lt;p&gt;And usually you don&amp;rsquo;t want to raise an exception on signed overflow, so normally compilers use &lt;code&gt;addu&lt;/code&gt; / &lt;code&gt;addiu&lt;/code&gt; even on signed integers. &lt;code&gt;addiu&lt;/code&gt; is badly named: it&amp;rsquo;s not &amp;ldquo;for unsigned integers&amp;rdquo;, it&amp;rsquo;s just a wrapping-allowed / never-faulting version of &lt;code&gt;add&lt;/code&gt;/&lt;code&gt;addi&lt;/code&gt;. It sort of makes sense if you think of C, where signed overflow is undefined behaviour (and thus could use &lt;code&gt;add&lt;/code&gt; and raise an exception in that case if the compiler wanted to implement it that way), but unsigned integers have well-defined overflow behaviour: base 2 wraparound.&lt;/p&gt;
 &lt;h2 id=&#34;可以为x的控制信号&#34;&gt;可以为X的控制信号&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;控制数据来源的信号（&lt;code&gt;RegDst&lt;/code&gt;，&lt;code&gt;MemtoReg&lt;/code&gt;）等，不需要用到时可以为X。&lt;/li&gt;
+&lt;li&gt;控制是否执行某操作（&lt;code&gt;RegWrite&lt;/code&gt;）等，必须为0/1。&lt;/li&gt;
+&lt;/ul&gt;
 </description>
         </item>
         <item>
         <title>Assembly</title>
         <link>https://ther-nullptr.github.io/posts/assembly/</link>
-        <pubDate>Fri, 03 Jun 2022 14:33:48 +0800</pubDate>
+        <pubDate>Fri, 03 Jun 2022 00:00:00 +0000</pubDate>
         
         <guid>https://ther-nullptr.github.io/posts/assembly/</guid>
         <description>&lt;h1 id=&#34;处理器&#34;&gt;处理器&lt;/h1&gt;
@@ -207,7 +316,7 @@ $$
         <item>
         <title>Electromagnetic_Fields_and_Waves05</title>
         <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves05/</link>
-        <pubDate>Wed, 01 Jun 2022 14:44:33 +0800</pubDate>
+        <pubDate>Wed, 01 Jun 2022 00:00:00 +0000</pubDate>
         
         <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves05/</guid>
         <description>&lt;h1 id=&#34;谐振腔和波导&#34;&gt;谐振腔和波导&lt;/h1&gt;
@@ -334,21 +443,6 @@ $$
 &lt;td&gt;1~10ns&lt;/td&gt;
 &lt;td&gt;10~100ns&lt;/td&gt;
 &lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;常见问答：&lt;/p&gt;
@@ -429,6 +523,11 @@ $$
 &gt;&lt;/p&gt;
 &lt;p&gt;可以直接写成AB、AC，但是只适用于直接映像。&lt;/p&gt;
 &lt;p&gt;对于32位内存系统，假设cache每行有$x$byte，cache共$y$行，则低$\log_2x$位为块内地址，中间$\log_2y$位为cache行号，剩下$(32-\log_2x-\log_2y)$位为主存标签。&lt;/p&gt;
+&lt;p&gt;在这种情况下，由于每行cache的数据有$4x$bit，还有1 bit有效位，所以cache的实际总位数为：
+$$
+y[4x+1+(32-\log_2x-\log_2y)]
+$$
+注意到cache每行至少储存1个word，所以$x$一定是4的倍数，地址的后两位一定是0。载入cache数据时仍然以word为单位进行载入。&lt;/p&gt;
 &lt;h4 id=&#34;全相联映像&#34;&gt;全相联映像&lt;/h4&gt;
 &lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531211641361.png&#34;
 	
@@ -453,6 +552,7 @@ $$
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;对于32位内存系统，假设cache每行有$x$byte，cache共$y$行，$z$路组相连，则低$\log_2x$位为块内地址，中间$\log_2(\frac{y}{z})$位作为cache组号，剩下$(32-\log_2x-\log_2(\frac{y}{z}))$位作为主存标签。&lt;/p&gt;
+&lt;p&gt;直接映像为$z=1$，全相联映像为$z=y$。&lt;/p&gt;
 &lt;h3 id=&#34;cache数据替换&#34;&gt;cache数据替换&lt;/h3&gt;
 &lt;p&gt;每个cache行有一个有效标志位v，表明“这一行的主存数据副本是有效的”。v=1时cache行才能被命中。&lt;/p&gt;
 &lt;ul&gt;
@@ -475,7 +575,7 @@ $$
         <item>
         <title>Pipeline_CPU</title>
         <link>https://ther-nullptr.github.io/posts/cpu_hazard/</link>
-        <pubDate>Tue, 31 May 2022 14:30:40 +0800</pubDate>
+        <pubDate>Tue, 31 May 2022 00:00:00 +0000</pubDate>
         
         <guid>https://ther-nullptr.github.io/posts/cpu_hazard/</guid>
         <description>&lt;h1 id=&#34;流水线计算公式&#34;&gt;流水线计算公式&lt;/h1&gt;
@@ -1990,86 +2090,95 @@ $$&lt;/p&gt;
 </description>
         </item>
         <item>
-        <title>Electromagnetic_Fields_and_Waves04</title>
-        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves04/</link>
-        <pubDate>Mon, 30 May 2022 15:28:02 +0800</pubDate>
+        <title>Electromagnetic_Fields_and_Waves02</title>
+        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves02/</link>
+        <pubDate>Mon, 30 May 2022 00:00:00 +0000</pubDate>
         
-        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves04/</guid>
-        <description>&lt;h1 id=&#34;导体中电磁场的传播&#34;&gt;导体中电磁场的传播&lt;/h1&gt;
-&lt;h2 id=&#34;自由电荷&#34;&gt;自由电荷&lt;/h2&gt;
-&lt;p&gt;根据电荷守恒定律和Maxwell方程第3式，可得：
+        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves02/</guid>
+        <description>&lt;h1 id=&#34;平面电磁场&#34;&gt;平面电磁场&lt;/h1&gt;
+&lt;h2 id=&#34;平面波&#34;&gt;平面波&lt;/h2&gt;
+&lt;p&gt;在计算电磁场的传播时，我们默认$\rho=0$，$J=0$。&lt;/p&gt;
+&lt;p&gt;对Maxwell方程第一式求旋度，整理可得：
 $$
-\rho = \rho_0e^{-\frac{\sigma}{\epsilon}t},\tau=\frac{\epsilon}{\sigma}
+\nabla^2 E - \mu\epsilon\frac{\partial^2E}{\partial t^2} = 0
 $$
-良导体（即$\rho$衰减很快）满足：
+也可以在频域中表示：
 $$
-\frac{\sigma}{\epsilon\omega}&amp;raquo;1
+\nabla^2 E +\omega^2\mu\epsilon E = 0
+$$
+令$k^2=\omega^2\mu\epsilon$，上式即为Helmholtz方程。&lt;/p&gt;
+&lt;p&gt;但Helmholtz方程的解不一定为Maxwell方程的解，所以有必要进行一定的约束：
+$$
+\nabla^2E+k^2E=0 \
+\nabla \cdot E = 0\
+H = \frac{1}{i\omega\mu}\nabla\times E
+$$
+上式即为完整Helmholtz方程组。&lt;/p&gt;
+&lt;p&gt;在一维条件下，Helmholtz的一个解为（$x$表示电磁波沿$x$轴方向传播）：
+$$
+E=E(x)=E_0e^{ikx}
+$$
+全表示式为：
+$$
+E(x,t)=E_0e^{i(kx-\omega t)}
+$$
+其中等相位面$\theta=kx-\omega t$&lt;/p&gt;
+&lt;p&gt;由于：
+$$
+\nabla \cdot E = \nabla \cdot (E_0e^{ikx}) = ikE_0e^{ikx} \cdot \hat e_x = 0
+$$
+所以$E_x = 0$。&lt;/p&gt;
+&lt;p&gt;再将$E$代入计算$H$：
+$$
+H=\frac{1}{i\omega \mu}\nabla\times(E_0e^{ikx}) =  \frac{1}{i\omega \mu}ik\times E_0 e^{ikx}=\hat k\times\frac{E_0}{\eta}e^{ikx}
+$$
+$B$：
+$$
+B = \sqrt{\mu\epsilon}\hat k \times E=\frac{1}{\omega}k\times E
+$$
+根据上式也可以推导出电磁波的一些基本量：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;相速度&lt;/strong&gt; $v_p=\frac{\omega}{k}=\frac{1}{\sqrt{\mu\epsilon}}=\frac{c}{n}(n=\sqrt{\mu_r\epsilon_r})$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;群速度&lt;/strong&gt; $v_g = \frac{d\omega}{dk}$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;波阻抗&lt;/strong&gt; $\eta=\sqrt\frac{\mu}{\epsilon}$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;振幅比&lt;/strong&gt; $|\frac{E}{B}| = \frac{c}{n} = v_p$&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下考虑电磁波的能量和能流。在平面电磁波中，电场能量和磁场能量相同，能量密度：
+$$
+w = \frac{1}{2}(E\times D+H\times B) = \frac{1}{2}(\epsilon E^2+\frac{1}{\mu}B^2) =   \epsilon E^2=\frac{1}{\mu}B^2
+$$
+能流：
+$$
+S = E\times H = E\times\sqrt{\frac{\epsilon}{\mu}}\hat k \times E = \sqrt\frac{\epsilon}{\mu}E^2\hat e_k=\frac{1}{\eta}E^2\hat e_k
+$$
+平均能量密度：
+$$
+\bar w =\frac{1}{2}\epsilon E_0^2=\frac{1}{2\mu}B_0^2
+$$
+平均能流：
+$$
+\bar S =\frac{1}{2}\sqrt{\frac{\epsilon}{\mu}}E_0^2\hat e_k =\frac{1}{2\eta}E_0^2\hat e_k
 $$&lt;/p&gt;
-&lt;h2 id=&#34;电磁波&#34;&gt;电磁波&lt;/h2&gt;
-&lt;p&gt;对比介质中和导体中的Maxwell方程组，可以发现导体中多了传导电流项$\sigma E$。为使得两者形式一致，引入复电容率：
-$$
-\epsilon^{\prime} = \epsilon+i\frac{\sigma}{\omega}
-$$
-此时：
-$$
-k=\omega\sqrt{\mu\epsilon^{\prime}}=\omega\sqrt{\mu(\epsilon+i\frac{\sigma}{\omega})}
-$$
-设$k=\beta+i\alpha$，下考虑垂直入射（入射方向为$z$轴）的情形，$E$满足：
-$$
-E = E_0e^{-\alpha z}e^{i(\beta z-\omega t)}
-$$
-在良导体条件下：
-$$
-\alpha \approx \beta \approx \sqrt\frac{\omega\mu\sigma}{2}
-$$
-定义强度降为表面的$e^{-1}$时的深度为穿透深度：
-$$
-\delta = \frac{1}{\alpha}=\sqrt\frac{2}{\omega\mu\sigma}
-$$
-还可求出磁场：
-$$
-H = \sqrt\frac{\sigma}{\omega\mu}e^{i\frac{\pi}{4}}\hat e_n\times E
-$$
-根据下式可以看出，磁场能量占据主导：
-$$
-\frac{&amp;lt;w_e&amp;gt;}{&amp;lt;w_m&amp;gt;} = \frac{\frac{1}{4}\epsilon|E_0|^2}{\frac{1}{4}\mu|H_0|^2}=\frac{\omega \epsilon}{\sigma}&amp;laquo;1
-$$
-下考虑反射系数。边界条件为：
-$$
-E+E^{\prime}=E^{\prime\prime}\
-H-H^{\prime}=H^{\prime\prime}\quad(E-E^{\prime}=\sqrt\frac{\sigma}{2\omega\epsilon_0}(1+i)E^{\prime\prime})
-$$
-幅度比：
-$$
-\frac{E^{\prime}}{E} = \frac{\sqrt\frac{2\omega\epsilon_0}{\sigma}-1-i}{\sqrt\frac{2\omega\epsilon_0}{\sigma}+1+i}
-$$&lt;/p&gt;
-&lt;p&gt;反射系数：
-$$
-R=|\frac{E^{\prime}}{E}|^2=1-2\sqrt\frac{2\omega\epsilon_0}{\sigma}
-$$&lt;/p&gt;
-&lt;p&gt;当电磁波照射到良导体表面时，有部分电磁场能量转换为导体的焦耳热。&lt;/p&gt;
-&lt;p&gt;导体平均损耗功率密度$P_{\sigma}$：
-$$
-P_\sigma = \frac{1}{2}E_{0t}\cdot J_\sigma^\star = \frac{1}{2}\sigma|E_{0}|^2e^{-2\alpha z}
-$$&lt;/p&gt;
-&lt;p&gt;表面电阻$R_s$：
-$$
-R_s=\frac{1}{\sigma\delta}
-$$
-单位表面焦耳热总功率$P_d$：
-$$
-P_d = \frac{1}{2}|J_s|^2R_s
-$$
-表面电流密度$J_s$：
-$$
-J_s=\frac{\sigma E_0}{\sqrt{\alpha^2+\beta^2}}e^{i\arctan(\frac{\beta}{\alpha})}
-$$&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;注意到在瞬时计算公式中用的是$E$，而在平均计算公式中用的是$E_0$&lt;/li&gt;
+&lt;li&gt;$E^2$不可写作$|E|^2$，因为$|E|^2=E\cdot E^\star$，与$E\cdot E$不同！&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
 </description>
         </item>
         <item>
         <title>Electromagnetic_Fields_and_Waves03</title>
         <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves03/</link>
-        <pubDate>Mon, 30 May 2022 10:34:37 +0800</pubDate>
+        <pubDate>Mon, 30 May 2022 00:00:00 +0000</pubDate>
         
         <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves03/</guid>
         <description>&lt;h1 id=&#34;电磁场的反射与折射&#34;&gt;电磁场的反射与折射&lt;/h1&gt;
@@ -2195,95 +2304,86 @@ $$&lt;/p&gt;
 </description>
         </item>
         <item>
-        <title>Electromagnetic_Fields_and_Waves02</title>
-        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves02/</link>
-        <pubDate>Mon, 30 May 2022 09:17:23 +0800</pubDate>
+        <title>Electromagnetic_Fields_and_Waves04</title>
+        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves04/</link>
+        <pubDate>Mon, 30 May 2022 00:00:00 +0000</pubDate>
         
-        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves02/</guid>
-        <description>&lt;h1 id=&#34;平面电磁场&#34;&gt;平面电磁场&lt;/h1&gt;
-&lt;h2 id=&#34;平面波&#34;&gt;平面波&lt;/h2&gt;
-&lt;p&gt;在计算电磁场的传播时，我们默认$\rho=0$，$J=0$。&lt;/p&gt;
-&lt;p&gt;对Maxwell方程第一式求旋度，整理可得：
+        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves04/</guid>
+        <description>&lt;h1 id=&#34;导体中电磁场的传播&#34;&gt;导体中电磁场的传播&lt;/h1&gt;
+&lt;h2 id=&#34;自由电荷&#34;&gt;自由电荷&lt;/h2&gt;
+&lt;p&gt;根据电荷守恒定律和Maxwell方程第3式，可得：
 $$
-\nabla^2 E - \mu\epsilon\frac{\partial^2E}{\partial t^2} = 0
+\rho = \rho_0e^{-\frac{\sigma}{\epsilon}t},\tau=\frac{\epsilon}{\sigma}
 $$
-也可以在频域中表示：
+良导体（即$\rho$衰减很快）满足：
 $$
-\nabla^2 E +\omega^2\mu\epsilon E = 0
-$$
-令$k^2=\omega^2\mu\epsilon$，上式即为Helmholtz方程。&lt;/p&gt;
-&lt;p&gt;但Helmholtz方程的解不一定为Maxwell方程的解，所以有必要进行一定的约束：
-$$
-\nabla^2E+k^2E=0 \
-\nabla \cdot E = 0\
-H = \frac{1}{i\omega\mu}\nabla\times E
-$$
-上式即为完整Helmholtz方程组。&lt;/p&gt;
-&lt;p&gt;在一维条件下，Helmholtz的一个解为（$x$表示电磁波沿$x$轴方向传播）：
-$$
-E=E(x)=E_0e^{ikx}
-$$
-全表示式为：
-$$
-E(x,t)=E_0e^{i(kx-\omega t)}
-$$
-其中等相位面$\theta=kx-\omega t$&lt;/p&gt;
-&lt;p&gt;由于：
-$$
-\nabla \cdot E = \nabla \cdot (E_0e^{ikx}) = ikE_0e^{ikx} \cdot \hat e_x = 0
-$$
-所以$E_x = 0$。&lt;/p&gt;
-&lt;p&gt;再将$E$代入计算$H$：
-$$
-H=\frac{1}{i\omega \mu}\nabla\times(E_0e^{ikx}) =  \frac{1}{i\omega \mu}ik\times E_0 e^{ikx}=\hat k\times\frac{E_0}{\eta}e^{ikx}
-$$
-$B$：
-$$
-B = \sqrt{\mu\epsilon}\hat k \times E=\frac{1}{\omega}k\times E
-$$
-根据上式也可以推导出电磁波的一些基本量：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;相速度&lt;/strong&gt; $v_p=\frac{\omega}{k}=\frac{1}{\sqrt{\mu\epsilon}}=\frac{c}{n}(n=\sqrt{\mu_r\epsilon_r})$&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;群速度&lt;/strong&gt; $v_g = \frac{d\omega}{dk}$&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;波阻抗&lt;/strong&gt; $\eta=\sqrt\frac{\mu}{\epsilon}$&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;振幅比&lt;/strong&gt; $|\frac{E}{B}| = \frac{c}{n} = v_p$&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;下考虑电磁波的能量和能流。在平面电磁波中，电场能量和磁场能量相同，能量密度：
-$$
-w = \frac{1}{2}(E\times D+H\times B) = \frac{1}{2}(\epsilon E^2+\frac{1}{\mu}B^2) =   \epsilon E^2=\frac{1}{\mu}B^2
-$$
-能流：
-$$
-S = E\times H = E\times\sqrt{\frac{\epsilon}{\mu}}\hat k \times E = \sqrt\frac{\epsilon}{\mu}E^2\hat e_k=\frac{1}{\eta}E^2\hat e_k
-$$
-平均能量密度：
-$$
-\bar w =\frac{1}{2}\epsilon E_0^2=\frac{1}{2\mu}B_0^2
-$$
-平均能流：
-$$
-\bar S =\frac{1}{2}\sqrt{\frac{\epsilon}{\mu}}E_0^2\hat e_k =\frac{1}{2\eta}E_0^2\hat e_k
+\frac{\sigma}{\epsilon\omega}&amp;raquo;1
 $$&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ol&gt;
-&lt;li&gt;注意到在瞬时计算公式中用的是$E$，而在平均计算公式中用的是$E_0$&lt;/li&gt;
-&lt;li&gt;$E^2$不可写作$|E|^2$，因为$|E|^2=E\cdot E^\star$，与$E\cdot E$不同！&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/blockquote&gt;
+&lt;h2 id=&#34;电磁波&#34;&gt;电磁波&lt;/h2&gt;
+&lt;p&gt;对比介质中和导体中的Maxwell方程组，可以发现导体中多了传导电流项$\sigma E$。为使得两者形式一致，引入复电容率：
+$$
+\epsilon^{\prime} = \epsilon+i\frac{\sigma}{\omega}
+$$
+此时：
+$$
+k=\omega\sqrt{\mu\epsilon^{\prime}}=\omega\sqrt{\mu(\epsilon+i\frac{\sigma}{\omega})}
+$$
+设$k=\beta+i\alpha$，下考虑垂直入射（入射方向为$z$轴）的情形，$E$满足：
+$$
+E = E_0e^{-\alpha z}e^{i(\beta z-\omega t)}
+$$
+在良导体条件下：
+$$
+\alpha \approx \beta \approx \sqrt\frac{\omega\mu\sigma}{2}
+$$
+定义强度降为表面的$e^{-1}$时的深度为穿透深度：
+$$
+\delta = \frac{1}{\alpha}=\sqrt\frac{2}{\omega\mu\sigma}
+$$
+还可求出磁场：
+$$
+H = \sqrt\frac{\sigma}{\omega\mu}e^{i\frac{\pi}{4}}\hat e_n\times E
+$$
+根据下式可以看出，磁场能量占据主导：
+$$
+\frac{&amp;lt;w_e&amp;gt;}{&amp;lt;w_m&amp;gt;} = \frac{\frac{1}{4}\epsilon|E_0|^2}{\frac{1}{4}\mu|H_0|^2}=\frac{\omega \epsilon}{\sigma}&amp;laquo;1
+$$
+下考虑反射系数。边界条件为：
+$$
+E+E^{\prime}=E^{\prime\prime}\
+H-H^{\prime}=H^{\prime\prime}\quad(E-E^{\prime}=\sqrt\frac{\sigma}{2\omega\epsilon_0}(1+i)E^{\prime\prime})
+$$
+幅度比：
+$$
+\frac{E^{\prime}}{E} = \frac{\sqrt\frac{2\omega\epsilon_0}{\sigma}-1-i}{\sqrt\frac{2\omega\epsilon_0}{\sigma}+1+i}
+$$&lt;/p&gt;
+&lt;p&gt;反射系数：
+$$
+R=|\frac{E^{\prime}}{E}|^2=1-2\sqrt\frac{2\omega\epsilon_0}{\sigma}
+$$&lt;/p&gt;
+&lt;p&gt;当电磁波照射到良导体表面时，有部分电磁场能量转换为导体的焦耳热。&lt;/p&gt;
+&lt;p&gt;导体平均损耗功率密度$P_{\sigma}$：
+$$
+P_\sigma = \frac{1}{2}E_{0t}\cdot J_\sigma^\star = \frac{1}{2}\sigma|E_{0}|^2e^{-2\alpha z}
+$$&lt;/p&gt;
+&lt;p&gt;表面电阻$R_s$：
+$$
+R_s=\frac{1}{\sigma\delta}
+$$
+单位表面焦耳热总功率$P_d$：
+$$
+P_d = \frac{1}{2}|J_s|^2R_s
+$$
+表面电流密度$J_s$：
+$$
+J_s=\frac{\sigma E_0}{\sqrt{\alpha^2+\beta^2}}e^{i\arctan(\frac{\beta}{\alpha})}
+$$&lt;/p&gt;
 </description>
         </item>
         <item>
         <title>Electromagnetic_Fields_and_Waves00</title>
         <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves00/</link>
-        <pubDate>Sun, 29 May 2022 21:23:02 +0800</pubDate>
+        <pubDate>Sun, 29 May 2022 00:00:00 +0000</pubDate>
         
         <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves00/</guid>
         <description>&lt;h1 id=&#34;utils&#34;&gt;utils&lt;/h1&gt;
@@ -2330,7 +2430,7 @@ $$&lt;/p&gt;
         <item>
         <title>Electromagnetic_Fields_and_Waves01</title>
         <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves01/</link>
-        <pubDate>Sun, 29 May 2022 20:50:07 +0800</pubDate>
+        <pubDate>Sun, 29 May 2022 00:00:00 +0000</pubDate>
         
         <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves01/</guid>
         <description>&lt;h1 id=&#34;电磁场的能流&#34;&gt;电磁场的能流&lt;/h1&gt;

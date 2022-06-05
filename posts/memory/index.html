@@ -2,26 +2,32 @@
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Memory RAM random access是指该存储器的所有内容都可以被读取和写入，且与时间和位置无关。
-    SRAM DRAM     中文名 静态随机访问存储器 动态随机访问存储器   速度 快 慢（需要读取内容后刷新、定期刷新）   结构 由MOS管组成的锁存器（6T） 由MOS管和电容实现（1T1C）   容量 小 大   应用 缓存 主存   访问时间 1~10ns 10~100ns                   常见问答：
+    SRAM DRAM     中文名 静态随机访问存储器 动态随机访问存储器   速度 快 慢（需要读取内容后刷新、定期刷新）   结构 由MOS管组成的锁存器（6T） 由MOS管和电容实现（1T1C）   容量 小 大   应用 缓存 主存   访问时间 1~10ns 10~100ns    常见问答：
   DRAM电容量C的权衡：
- 大电容容量C的优势：提供更长的数据保持时间 大电容容量C的劣势：工艺实现难度加大，密度降低    RAS和CAS均为低电平有效，其中CAS可以作为输出使能信号。'><title>Memory</title>
+ 大电容容量C的优势：提供更长的数据保持时间 大电容容量C的劣势：工艺实现难度加大，密度降低    RAS和CAS均为低电平有效，其中CAS可以作为输出使能信号。
+  cache 原理 存储系统满足局部性原理：
+ 时间局部性——最近的将来要用到的信息很可能就是现在正在使用的信息。主要由循环造成。 空间局部性——最近的将来要用到的信息很可能与现在正在使用的信息在空间上是邻近的。主要由顺序执行和数据的聚集存放造成。  cache的访问时间 一级cache（$r$为访问时间比，$e$为访问效率）： $$ T_A=T_{A1}&#43;(1-H)T_{A2}\ r=\frac{T_{A2}}{T_{A1}}\ e=\frac{T_{A1}}{T_A} = \frac{1}{1&#43;(1-H)r} $$ 二级cache： $$ T_A=T_{A1}&#43;(1-H_1)[T_{A2}&#43;(1-H_2)T_{A3}] $$'><title>Memory</title>
 
 <link rel='canonical' href='https://ther-nullptr.github.io/posts/memory/'>
 
 <link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='Memory'>
 <meta property='og:description' content='Memory RAM random access是指该存储器的所有内容都可以被读取和写入，且与时间和位置无关。
-    SRAM DRAM     中文名 静态随机访问存储器 动态随机访问存储器   速度 快 慢（需要读取内容后刷新、定期刷新）   结构 由MOS管组成的锁存器（6T） 由MOS管和电容实现（1T1C）   容量 小 大   应用 缓存 主存   访问时间 1~10ns 10~100ns                   常见问答：
+    SRAM DRAM     中文名 静态随机访问存储器 动态随机访问存储器   速度 快 慢（需要读取内容后刷新、定期刷新）   结构 由MOS管组成的锁存器（6T） 由MOS管和电容实现（1T1C）   容量 小 大   应用 缓存 主存   访问时间 1~10ns 10~100ns    常见问答：
   DRAM电容量C的权衡：
- 大电容容量C的优势：提供更长的数据保持时间 大电容容量C的劣势：工艺实现难度加大，密度降低    RAS和CAS均为低电平有效，其中CAS可以作为输出使能信号。'>
+ 大电容容量C的优势：提供更长的数据保持时间 大电容容量C的劣势：工艺实现难度加大，密度降低    RAS和CAS均为低电平有效，其中CAS可以作为输出使能信号。
+  cache 原理 存储系统满足局部性原理：
+ 时间局部性——最近的将来要用到的信息很可能就是现在正在使用的信息。主要由循环造成。 空间局部性——最近的将来要用到的信息很可能与现在正在使用的信息在空间上是邻近的。主要由顺序执行和数据的聚集存放造成。  cache的访问时间 一级cache（$r$为访问时间比，$e$为访问效率）： $$ T_A=T_{A1}&#43;(1-H)T_{A2}\ r=\frac{T_{A2}}{T_{A1}}\ e=\frac{T_{A1}}{T_A} = \frac{1}{1&#43;(1-H)r} $$ 二级cache： $$ T_A=T_{A1}&#43;(1-H_1)[T_{A2}&#43;(1-H_2)T_{A3}] $$'>
 <meta property='og:url' content='https://ther-nullptr.github.io/posts/memory/'>
 <meta property='og:site_name' content='Ther&#39;s Blog'>
 <meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='study' /><meta property='article:published_time' content='2022-05-31T19:22:17&#43;08:00'/><meta property='article:modified_time' content='2022-05-31T19:22:17&#43;08:00'/>
 <meta name="twitter:site" content="@AdobePython">
     <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="Memory">
 <meta name="twitter:description" content="Memory RAM random access是指该存储器的所有内容都可以被读取和写入，且与时间和位置无关。
-    SRAM DRAM     中文名 静态随机访问存储器 动态随机访问存储器   速度 快 慢（需要读取内容后刷新、定期刷新）   结构 由MOS管组成的锁存器（6T） 由MOS管和电容实现（1T1C）   容量 小 大   应用 缓存 主存   访问时间 1~10ns 10~100ns                   常见问答：
+    SRAM DRAM     中文名 静态随机访问存储器 动态随机访问存储器   速度 快 慢（需要读取内容后刷新、定期刷新）   结构 由MOS管组成的锁存器（6T） 由MOS管和电容实现（1T1C）   容量 小 大   应用 缓存 主存   访问时间 1~10ns 10~100ns    常见问答：
   DRAM电容量C的权衡：
- 大电容容量C的优势：提供更长的数据保持时间 大电容容量C的劣势：工艺实现难度加大，密度降低    RAS和CAS均为低电平有效，其中CAS可以作为输出使能信号。">
+ 大电容容量C的优势：提供更长的数据保持时间 大电容容量C的劣势：工艺实现难度加大，密度降低    RAS和CAS均为低电平有效，其中CAS可以作为输出使能信号。
+  cache 原理 存储系统满足局部性原理：
+ 时间局部性——最近的将来要用到的信息很可能就是现在正在使用的信息。主要由循环造成。 空间局部性——最近的将来要用到的信息很可能与现在正在使用的信息在空间上是邻近的。主要由顺序执行和数据的聚集存放造成。  cache的访问时间 一级cache（$r$为访问时间比，$e$为访问效率）： $$ T_A=T_{A1}&#43;(1-H)T_{A2}\ r=\frac{T_{A2}}{T_{A1}}\ e=\frac{T_{A1}}{T_A} = \frac{1}{1&#43;(1-H)r} $$ 二级cache： $$ T_A=T_{A1}&#43;(1-H_1)[T_{A2}&#43;(1-H_2)T_{A3}] $$">
     </head>
     <body class="
     article-page
@@ -49,7 +55,7 @@
     })();
 </script>
 <div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
-    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
         <span class="hamburger-box">
             <span class="hamburger-inner"></span>
         </span>
@@ -162,6 +168,108 @@
         </ol><ol class="menu" id="main-menu">
         
         
+        
+
+        <li  class='current' >
+            <a href='/posts/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
 
         <div class="menu-bottom-section">
                 <li id="i18n-switch">  
@@ -178,9 +286,9 @@
 
                     <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
                         
-                            <option value="https://ther-nullptr.github.io/en/" >English</option>
+                            <option value="https://ther-nullptr.github.io/" selected>English</option>
                         
-                            <option value="https://ther-nullptr.github.io/" selected>中文</option>
+                            <option value="https://ther-nullptr.github.io/zh-cn/" >中文</option>
                         
                     </select>
                 </li>
@@ -204,7 +312,7 @@
 
 
 
-                    <span>暗色模式</span>
+                    <span>Dark Mode</span>
                 </li>
             
         </div>
@@ -246,7 +354,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">May 319, 313131</time>
+                <time class="article-time--published">May 31, 2022</time>
             </div>
         
 
@@ -261,7 +369,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 1 分钟
+                    1 minute read
                 </time>
             </div>
         
@@ -326,21 +434,6 @@
 <td>访问时间</td>
 <td>1~10ns</td>
 <td>10~100ns</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 </tbody>
 </table></div>
@@ -422,6 +515,11 @@ $$
 ></p>
 <p>可以直接写成AB、AC，但是只适用于直接映像。</p>
 <p>对于32位内存系统，假设cache每行有$x$byte，cache共$y$行，则低$\log_2x$位为块内地址，中间$\log_2y$位为cache行号，剩下$(32-\log_2x-\log_2y)$位为主存标签。</p>
+<p>在这种情况下，由于每行cache的数据有$4x$bit，还有1 bit有效位，所以cache的实际总位数为：
+$$
+y[4x+1+(32-\log_2x-\log_2y)]
+$$
+注意到cache每行至少储存1个word，所以$x$一定是4的倍数，地址的后两位一定是0。载入cache数据时仍然以word为单位进行载入。</p>
 <h4 id="全相联映像">全相联映像</h4>
 <p><img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531211641361.png"
 	
@@ -446,6 +544,7 @@ $$
 	
 ></p>
 <p>对于32位内存系统，假设cache每行有$x$byte，cache共$y$行，$z$路组相连，则低$\log_2x$位为块内地址，中间$\log_2(\frac{y}{z})$位作为cache组号，剩下$(32-\log_2x-\log_2(\frac{y}{z}))$位作为主存标签。</p>
+<p>直接映像为$z=1$，全相联映像为$z=y$。</p>
 <h3 id="cache数据替换">cache数据替换</h3>
 <p>每个cache行有一个有效标志位v，表明“这一行的主存数据副本是有效的”。v=1时cache行才能被命中。</p>
 <ul>
@@ -522,9 +621,21 @@ $$
     
 
 <aside class="related-contents--wrapper">
-    <h2 class="section-title">相关文章</h2>
+    <h2 class="section-title">Related contents</h2>
     <div class="related-contents">
         <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/posts/multicycle_cpu/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Multicycle_CPU</h2>
+        </div>
+    </a>
+</article>
             
                 
 <article class="">
@@ -570,18 +681,6 @@ $$
 
         <div class="article-details">
             <h2 class="article-title">Pipeline_CPU</h2>
-        </div>
-    </a>
-</article>
-            
-                
-<article class="">
-    <a href="/posts/electromagnetic_fields_and_waves04/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Electromagnetic_Fields_and_Waves04</h2>
         </div>
     </a>
 </article>
@@ -646,7 +745,7 @@ $$
     
     <section class="powerby">
         Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
-        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.11.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.11.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
     </section>
 </footer>
 
@@ -747,7 +846,7 @@ $$
 
 
         </div>
-        <h2 class="widget-title section-title">目录</h2>
+        <h2 class="widget-title section-title">Table of contents</h2>
         
         <div class="widget--toc">
             <nav id="TableOfContents">
