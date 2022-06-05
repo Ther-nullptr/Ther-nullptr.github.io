@@ -403,23 +403,23 @@ $$
 </span><span class="lnt">17
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">fact:
-</span></span><span class="line"><span class="cl">addi $sp, $sp, -8
-</span></span><span class="line"><span class="cl">sw $ra, 4($sp)
-</span></span><span class="line"><span class="cl">sw $a0, 0($sp)
-</span></span><span class="line"><span class="cl">slti $t0, $a0, 1
-</span></span><span class="line"><span class="cl">beq $t0, $zero, L1
-</span></span><span class="line"><span class="cl">addi $v0, $zero, 1
-</span></span><span class="line"><span class="cl">addi $sp, $sp, 8
-</span></span><span class="line"><span class="cl">jr $ra
-</span></span><span class="line"><span class="cl">L1:
-</span></span><span class="line"><span class="cl">addi $a0, $a0, -1
-</span></span><span class="line"><span class="cl">jal fact
-</span></span><span class="line"><span class="cl">lw $a0, 0($sp)
-</span></span><span class="line"><span class="cl">lw $ra, 4($sp)
-</span></span><span class="line"><span class="cl">addi $sp, $sp, 8
-</span></span><span class="line"><span class="cl">mul $v0, $a0, $v0
-</span></span><span class="line"><span class="cl">jr $ra
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nl">fact:</span>
+</span></span><span class="line"><span class="cl"><span class="nf">addi</span> <span class="no">$sp</span><span class="p">,</span> <span class="no">$sp</span><span class="p">,</span> <span class="p">-</span><span class="mi">8</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sw</span> <span class="no">$ra</span><span class="p">,</span> <span class="mi">4</span><span class="p">(</span><span class="no">$sp</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sw</span> <span class="no">$a0</span><span class="p">,</span> <span class="mi">0</span><span class="p">(</span><span class="no">$sp</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">slti</span> <span class="no">$t0</span><span class="p">,</span> <span class="no">$a0</span><span class="p">,</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="nf">beq</span> <span class="no">$t0</span><span class="p">,</span> <span class="no">$zero</span><span class="p">,</span> <span class="no">L1</span>
+</span></span><span class="line"><span class="cl"><span class="nf">addi</span> <span class="no">$v0</span><span class="p">,</span> <span class="no">$zero</span><span class="p">,</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="nf">addi</span> <span class="no">$sp</span><span class="p">,</span> <span class="no">$sp</span><span class="p">,</span> <span class="mi">8</span>
+</span></span><span class="line"><span class="cl"><span class="nf">jr</span> <span class="no">$ra</span>
+</span></span><span class="line"><span class="cl"><span class="nl">L1:</span>
+</span></span><span class="line"><span class="cl"><span class="nf">addi</span> <span class="no">$a0</span><span class="p">,</span> <span class="no">$a0</span><span class="p">,</span> <span class="p">-</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="nf">jal</span> <span class="no">fact</span>
+</span></span><span class="line"><span class="cl"><span class="nf">lw</span> <span class="no">$a0</span><span class="p">,</span> <span class="mi">0</span><span class="p">(</span><span class="no">$sp</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">lw</span> <span class="no">$ra</span><span class="p">,</span> <span class="mi">4</span><span class="p">(</span><span class="no">$sp</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">addi</span> <span class="no">$sp</span><span class="p">,</span> <span class="no">$sp</span><span class="p">,</span> <span class="mi">8</span>
+</span></span><span class="line"><span class="cl"><span class="nf">mul</span> <span class="no">$v0</span><span class="p">,</span> <span class="no">$a0</span><span class="p">,</span> <span class="no">$v0</span>
+</span></span><span class="line"><span class="cl"><span class="nf">jr</span> <span class="no">$ra</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>对应：</p>
