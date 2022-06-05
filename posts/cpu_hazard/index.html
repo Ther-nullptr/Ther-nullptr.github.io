@@ -3,7 +3,8 @@
     <head><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='流水线计算公式 $n$为指令数，$k$为流水线级数，级间延时$\Delta t$。
 实际吞吐率（单位时间内流水线处理的指令数）： $$ TP=\frac{n}{(k&#43;n-1)\Delta t} $$ 最大吞吐率： $$ TP_{max} = \frac{1}{\Delta t} $$ 实际加速比： $$ S = \frac{kn}{k&#43;n-1} $$ 最大加速比： $$ S_{max}=k $$
-流水线中的冒险 总览流水线数据通路：
+流水线中控制信号的流动 控制信号在IF之后的ID/RF阶段产生。
+ ID/RF：Extop EX：ALUSrc、ALUOp、RegDst？？ MEM：MemWrite、Branch WB：MemToReg、RegWrite  流水线中的冒险 总览流水线数据通路：
 首先列出未冒险时流水线CPU在各步中进行的操作：
     R lw or sw beq J     IF PC&amp;lt;=PC&#43;4; IR &amp;lt;=MemInst[PC]; * * *   ID opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]]; ALUOut&amp;lt;=PC&#43;(signext(IR[15:0]&amp;laquo;2)) * * PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}   EX ALUOut &amp;lt;= A op B ALUOut&amp;lt;=A&#43;sign-ext(IR[15:0]) if (A=B)PC&amp;lt;=ALUOut    MEM Reg[IR[15:11]]&amp;lt;=ALUOut Lw:MDR&amp;lt;=MemData[ALUOut];Sw:MemData[ALUout] &amp;lt;=B     WB  Reg[IR[20:16]] &amp;lt;=MDR      结构冒险 problem 流水线处理器中直接取消了InstMemory和DataMemory混用的做法，因此不必担心存储器访问的冲突。'><title>Pipeline_CPU</title>
 
@@ -12,7 +13,8 @@
 <link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='Pipeline_CPU'>
 <meta property='og:description' content='流水线计算公式 $n$为指令数，$k$为流水线级数，级间延时$\Delta t$。
 实际吞吐率（单位时间内流水线处理的指令数）： $$ TP=\frac{n}{(k&#43;n-1)\Delta t} $$ 最大吞吐率： $$ TP_{max} = \frac{1}{\Delta t} $$ 实际加速比： $$ S = \frac{kn}{k&#43;n-1} $$ 最大加速比： $$ S_{max}=k $$
-流水线中的冒险 总览流水线数据通路：
+流水线中控制信号的流动 控制信号在IF之后的ID/RF阶段产生。
+ ID/RF：Extop EX：ALUSrc、ALUOp、RegDst？？ MEM：MemWrite、Branch WB：MemToReg、RegWrite  流水线中的冒险 总览流水线数据通路：
 首先列出未冒险时流水线CPU在各步中进行的操作：
     R lw or sw beq J     IF PC&amp;lt;=PC&#43;4; IR &amp;lt;=MemInst[PC]; * * *   ID opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]]; ALUOut&amp;lt;=PC&#43;(signext(IR[15:0]&amp;laquo;2)) * * PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}   EX ALUOut &amp;lt;= A op B ALUOut&amp;lt;=A&#43;sign-ext(IR[15:0]) if (A=B)PC&amp;lt;=ALUOut    MEM Reg[IR[15:11]]&amp;lt;=ALUOut Lw:MDR&amp;lt;=MemData[ALUOut];Sw:MemData[ALUout] &amp;lt;=B     WB  Reg[IR[20:16]] &amp;lt;=MDR      结构冒险 problem 流水线处理器中直接取消了InstMemory和DataMemory混用的做法，因此不必担心存储器访问的冲突。'>
 <meta property='og:url' content='https://ther-nullptr.github.io/posts/cpu_hazard/'>
@@ -22,7 +24,8 @@
     <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="Pipeline_CPU">
 <meta name="twitter:description" content="流水线计算公式 $n$为指令数，$k$为流水线级数，级间延时$\Delta t$。
 实际吞吐率（单位时间内流水线处理的指令数）： $$ TP=\frac{n}{(k&#43;n-1)\Delta t} $$ 最大吞吐率： $$ TP_{max} = \frac{1}{\Delta t} $$ 实际加速比： $$ S = \frac{kn}{k&#43;n-1} $$ 最大加速比： $$ S_{max}=k $$
-流水线中的冒险 总览流水线数据通路：
+流水线中控制信号的流动 控制信号在IF之后的ID/RF阶段产生。
+ ID/RF：Extop EX：ALUSrc、ALUOp、RegDst？？ MEM：MemWrite、Branch WB：MemToReg、RegWrite  流水线中的冒险 总览流水线数据通路：
 首先列出未冒险时流水线CPU在各步中进行的操作：
     R lw or sw beq J     IF PC&amp;lt;=PC&#43;4; IR &amp;lt;=MemInst[PC]; * * *   ID opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]]; ALUOut&amp;lt;=PC&#43;(signext(IR[15:0]&amp;laquo;2)) * * PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}   EX ALUOut &amp;lt;= A op B ALUOut&amp;lt;=A&#43;sign-ext(IR[15:0]) if (A=B)PC&amp;lt;=ALUOut    MEM Reg[IR[15:11]]&amp;lt;=ALUOut Lw:MDR&amp;lt;=MemData[ALUOut];Sw:MemData[ALUout] &amp;lt;=B     WB  Reg[IR[20:16]] &amp;lt;=MDR      结构冒险 problem 流水线处理器中直接取消了InstMemory和DataMemory混用的做法，因此不必担心存储器访问的冲突。">
     </head>
@@ -296,6 +299,14 @@ $$
 $$
 S_{max}=k
 $$</p>
+<h1 id="流水线中控制信号的流动">流水线中控制信号的流动</h1>
+<p>控制信号在IF之后的ID/RF阶段产生。</p>
+<ul>
+<li>ID/RF：Extop</li>
+<li>EX：ALUSrc、ALUOp、<strong>RegDst</strong>？？</li>
+<li>MEM：MemWrite、Branch</li>
+<li>WB：MemToReg、RegWrite</li>
+</ul>
 <h1 id="流水线中的冒险">流水线中的冒险</h1>
 <p>总览流水线数据通路：</p>
 <p><img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531150254232.png"
@@ -508,11 +519,12 @@ $$</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">add r1,r2,r3
-</span></span><span class="line"><span class="cl">add r2,r1,r3
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">add $r1,$r2,$r3
+</span></span><span class="line"><span class="cl">add $r2,$r1,$r3
 </span></span></code></pre></td></tr></table>
 </div>
-</div><div class="table-wrapper"><table>
+</div><p><em>before:</em></p>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -527,7 +539,7 @@ $$</p>
 </thead>
 <tbody>
 <tr>
-<td>add r1,r2,r3</td>
+<td>add $r1,$r2,$r3</td>
 <td>IF</td>
 <td>ID</td>
 <td>EX</td>
@@ -557,7 +569,7 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td>add r2,r1,r3</td>
+<td>add $r2,$r1,$r3</td>
 <td></td>
 <td></td>
 <td></td>
@@ -565,16 +577,6 @@ $$</p>
 <td>ID</td>
 <td>EX</td>
 <td>MEM</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 </tbody>
 </table></div>
@@ -595,12 +597,13 @@ $$</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">add r1,r2,r3
-</span></span><span class="line"><span class="cl">sub r4,r1,r5
-</span></span><span class="line"><span class="cl">and r6,r1,r7
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">add $r1,$r2,$r3
+</span></span><span class="line"><span class="cl">sub $r4,$r1,$r5
+</span></span><span class="line"><span class="cl">and $r6,$r1,$r7
 </span></span></code></pre></td></tr></table>
 </div>
-</div><div class="table-wrapper"><table>
+</div><p><em>after:</em></p>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -615,7 +618,7 @@ $$</p>
 </thead>
 <tbody>
 <tr>
-<td>add r1,r2,r3</td>
+<td>add $r1,$r2,$r3</td>
 <td>IF</td>
 <td>ID</td>
 <td>EX</td>
@@ -625,7 +628,7 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td>sub r4,r1,r5</td>
+<td>sub $r4,$r1,$r5</td>
 <td></td>
 <td>IF</td>
 <td>ID</td>
@@ -635,7 +638,7 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td>and r6,r1,r7</td>
+<td>and $r6,$r1,$r7</td>
 <td></td>
 <td></td>
 <td>IF</td>
@@ -658,12 +661,13 @@ $$</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">lw r1,100(r2)
-</span></span><span class="line"><span class="cl">sub r4,r1,r5
-</span></span><span class="line"><span class="cl">and r6,r1,r7
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">lw $r1,100($r2)
+</span></span><span class="line"><span class="cl">sub $r4,$r1,$r5
+</span></span><span class="line"><span class="cl">and $r6,$r1,$r7
 </span></span></code></pre></td></tr></table>
 </div>
-</div><div class="table-wrapper"><table>
+</div><p><em>before:</em></p>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -678,7 +682,7 @@ $$</p>
 </thead>
 <tbody>
 <tr>
-<td>lw r1,100(r2)</td>
+<td>lw $r1,100($r2)</td>
 <td>IF</td>
 <td>ID</td>
 <td>EX</td>
@@ -698,7 +702,74 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td>sub r4,r1,r5</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sub $r4,$r1,$r5</td>
+<td></td>
+<td></td>
+<td></td>
+<td>IF</td>
+<td>ID</td>
+<td>EX</td>
+<td>MEM</td>
+</tr>
+<tr>
+<td>and $r6,$r1,$r7</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>IF</td>
+<td>ID</td>
+<td>EX</td>
+</tr>
+</tbody>
+</table></div>
+<p><em>after:</em></p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lw $r1,100($r2)</td>
+<td>IF</td>
+<td>ID</td>
+<td>EX</td>
+<td>MEM</td>
+<td>WB</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sub $r4,$r1,$r5</td>
 <td></td>
 <td></td>
 <td>IF</td>
@@ -708,7 +779,7 @@ $$</p>
 <td>WB</td>
 </tr>
 <tr>
-<td>and r6,r1,r7</td>
+<td>and $r6,$r1,$r7</td>
 <td></td>
 <td></td>
 <td></td>
@@ -778,11 +849,12 @@ $$</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">lw a0,10(a1)
-</span></span><span class="line"><span class="cl">sw a0,10(a2)
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">lw $a0,10($a1)
+</span></span><span class="line"><span class="cl">sw $a0,10($a2)
 </span></span></code></pre></td></tr></table>
 </div>
-</div><div class="table-wrapper"><table>
+</div><p><em>before</em></p>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -797,7 +869,7 @@ $$</p>
 </thead>
 <tbody>
 <tr>
-<td>lw a0,10(a1)</td>
+<td>lw $a0,10($a1)</td>
 <td>IF</td>
 <td>ID</td>
 <td>EX</td>
@@ -807,7 +879,54 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td>sw a0,10(a2)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sw $a0,10($a2)</td>
+<td></td>
+<td></td>
+<td>IF</td>
+<td>ID</td>
+<td>EX</td>
+<td>MEM</td>
+<td>WB</td>
+</tr>
+</tbody>
+</table></div>
+<p><em>after</em></p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lw $a0,10($a1)</td>
+<td>IF</td>
+<td>ID</td>
+<td>EX</td>
+<td>MEM</td>
+<td>WB</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sw $a0,10($a2)</td>
 <td></td>
 <td>IF</td>
 <td>ID</td>
@@ -819,6 +938,20 @@ $$</p>
 </tbody>
 </table></div>
 <p>lw在MEM阶段结束后更新a0的值，此时可以直接转发给sw，以供在下一时钟周期存入存储器。</p>
+<blockquote>
+<p>注意与以下情景做区分：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">lw</span> <span class="no">$t4</span><span class="p">,</span> <span class="mi">0</span><span class="p">(</span><span class="no">$t0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sw</span> <span class="no">$t0</span><span class="p">,</span> <span class="mi">0</span><span class="p">(</span><span class="no">$t4</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这就不是lw-sw type了，解决方案见lw-calculate type。</p>
+</blockquote>
 <h2 id="控制冒险">控制冒险</h2>
 <p>取到的指令可能不是所需要的，导致指令不能在预定的时钟周期内执行。控制冒险面对的是<strong>下一条指令的PC是多少</strong>的问题。</p>
 <div class="table-wrapper"><table>
@@ -877,78 +1010,11 @@ $$</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">beq t1,t2,0x10
-</span></span><span class="line"><span class="cl">add a3,a2,a1
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">beq $t1,$t2,0x10
+</span></span><span class="line"><span class="cl">add $a3,$a2,$a1
 </span></span></code></pre></td></tr></table>
 </div>
-</div><div class="table-wrapper"><table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>beq t1,t2,0x10</td>
-<td>IF</td>
-<td>ID</td>
-<td>EX</td>
-<td>MEM</td>
-<td>WB</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>add a3,a2,a1</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>IF</td>
-<td>ID</td>
-<td>EX</td>
-</tr>
-</tbody>
-</table></div>
-<p>beq在MEM阶段才执行跳转，下一条指令在IF阶段取用PC，默认情况下需要stall 3个周期，否则下一条指令执行可能会发生错误。</p>
-<p>但实际上判断是否需要跳转的所有条件在EX阶段执行后就可以全部掌握，可以将ALUOut转发的结果转发至IF，这样只需要stall 2个周期。</p>
+</div><p><em>before:</em></p>
 <div class="table-wrapper"><table>
 <thead>
 <tr>
@@ -964,7 +1030,7 @@ $$</p>
 </thead>
 <tbody>
 <tr>
-<td>beq t1,t2,0x10</td>
+<td>beq $t1,$t2,0x10</td>
 <td>IF</td>
 <td>ID</td>
 <td>EX</td>
@@ -994,7 +1060,76 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td>add a3,a2,a1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>add $a3,$a2,$a1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>IF</td>
+<td>ID</td>
+<td>EX</td>
+</tr>
+</tbody>
+</table></div>
+<p>beq在MEM阶段才执行跳转，在WB阶段将目标地址写入PC，写入PC后下一条指令在IF阶段取用PC，默认情况下需要stall 3个周期，否则下一条指令执行可能会发生错误。</p>
+<p>但实际上判断是否需要跳转的所有条件在EX阶段执行后就可以全部掌握，可以将ALUOut转发的结果转发至IF，这样只需要stall 2个周期。</p>
+<p><em>after(v1):</em></p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>beq $t1,$t2,0x10</td>
+<td>IF</td>
+<td>ID</td>
+<td>EX</td>
+<td>MEM</td>
+<td>WB</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>add $a3,$a2,$a1</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1108,16 +1243,6 @@ $$</p>
 <td>MEM</td>
 <td>WB</td>
 </tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
 </tbody>
 </table></div>
 <ul>
@@ -1138,7 +1263,7 @@ $$</p>
 </thead>
 <tbody>
 <tr>
-<td>lw a3,0(a2)</td>
+<td>lw $a3,0($a2)</td>
 <td>IF</td>
 <td>ID</td>
 <td>EX</td>
@@ -1168,7 +1293,7 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td>beq t0,a3,0x10</td>
+<td>beq $t0,$a3,0x10</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1197,7 +1322,7 @@ $$</p>
 </thead>
 <tbody>
 <tr>
-<td>lw a3,0(a2)</td>
+<td>lw $a3,0($a2)</td>
 <td>IF</td>
 <td>ID</td>
 <td>EX</td>
@@ -1207,7 +1332,7 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td>add t3,t2,t1</td>
+<td>add $t3,$t2,$t1</td>
 <td></td>
 <td>IF</td>
 <td>ID</td>
@@ -1227,7 +1352,7 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td>beq t0,a3,0x10</td>
+<td>beq $t0,$a3,0x10</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1269,7 +1394,7 @@ $$</p>
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">j label
-</span></span><span class="line"><span class="cl">add t3,t1,t2
+</span></span><span class="line"><span class="cl">add $t3,$t1,$t2
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="table-wrapper"><table>
@@ -1307,7 +1432,7 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td>add a3,a2,a1</td>
+<td>add $a3,$a2,$a1</td>
 <td></td>
 <td></td>
 <td>IF</td>
@@ -1346,7 +1471,7 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td>add a3,a2,a1(next)</td>
+<td>add $a3,$a2,$a1(next)</td>
 <td></td>
 <td>IF</td>
 <td>x</td>
@@ -1356,7 +1481,7 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td>add a3,a2,a1(jump target)</td>
+<td>add $a3,$a2,$a1(jump target)</td>
 <td></td>
 <td></td>
 <td>IF</td>
