@@ -380,8 +380,8 @@ $$</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">add $t0,$t1,$t2
-</span></span><span class="line"><span class="cl">beq $a0,$a1,label
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">add</span> <span class="no">$t0</span><span class="p">,</span><span class="no">$t1</span><span class="p">,</span><span class="no">$t2</span>
+</span></span><span class="line"><span class="cl"><span class="nf">beq</span> <span class="no">$a0</span><span class="p">,</span><span class="no">$a1</span><span class="p">,</span><span class="no">label</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>当add指令执行完EX时，beq指令执行完ID，ALU产生冲突的结果。</p>
@@ -394,8 +394,8 @@ $$</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">lw $a0,0($t0)
-</span></span><span class="line"><span class="cl">add $t0,$t1,$t2
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">lw</span> <span class="no">$a0</span><span class="p">,</span><span class="mi">0</span><span class="p">(</span><span class="no">$t0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">add</span> <span class="no">$t0</span><span class="p">,</span><span class="no">$t1</span><span class="p">,</span><span class="no">$t2</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>当add指令执行完MEM时，lw指令执行完WB，寄存器写入数据产生冲突的结果。</p>
@@ -519,8 +519,8 @@ $$</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">add $r1,$r2,$r3
-</span></span><span class="line"><span class="cl">add $r2,$r1,$r3
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">add</span> <span class="no">$r1</span><span class="p">,</span><span class="no">$r2</span><span class="p">,</span><span class="no">$r3</span>
+</span></span><span class="line"><span class="cl"><span class="nf">add</span> <span class="no">$r2</span><span class="p">,</span><span class="no">$r1</span><span class="p">,</span><span class="no">$r3</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><em>before:</em></p>
@@ -597,9 +597,9 @@ $$</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">add $r1,$r2,$r3
-</span></span><span class="line"><span class="cl">sub $r4,$r1,$r5
-</span></span><span class="line"><span class="cl">and $r6,$r1,$r7
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">add</span> <span class="no">$r1</span><span class="p">,</span><span class="no">$r2</span><span class="p">,</span><span class="no">$r3</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sub</span> <span class="no">$r4</span><span class="p">,</span><span class="no">$r1</span><span class="p">,</span><span class="no">$r5</span>
+</span></span><span class="line"><span class="cl"><span class="nf">and</span> <span class="no">$r6</span><span class="p">,</span><span class="no">$r1</span><span class="p">,</span><span class="no">$r7</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><em>after:</em></p>
@@ -661,9 +661,9 @@ $$</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">lw $r1,100($r2)
-</span></span><span class="line"><span class="cl">sub $r4,$r1,$r5
-</span></span><span class="line"><span class="cl">and $r6,$r1,$r7
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">lw</span> <span class="no">$r1</span><span class="p">,</span><span class="mi">100</span><span class="p">(</span><span class="no">$r2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sub</span> <span class="no">$r4</span><span class="p">,</span><span class="no">$r1</span><span class="p">,</span><span class="no">$r5</span>
+</span></span><span class="line"><span class="cl"><span class="nf">and</span> <span class="no">$r6</span><span class="p">,</span><span class="no">$r1</span><span class="p">,</span><span class="no">$r7</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><em>before:</em></p>
@@ -849,8 +849,8 @@ $$</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">lw $a0,10($a1)
-</span></span><span class="line"><span class="cl">sw $a0,10($a2)
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">lw</span> <span class="no">$a0</span><span class="p">,</span><span class="mi">10</span><span class="p">(</span><span class="no">$a1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">sw</span> <span class="no">$a0</span><span class="p">,</span><span class="mi">10</span><span class="p">(</span><span class="no">$a2</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><em>before</em></p>
@@ -1010,8 +1010,8 @@ $$</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">beq $t1,$t2,0x10
-</span></span><span class="line"><span class="cl">add $a3,$a2,$a1
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">beq</span> <span class="no">$t1</span><span class="p">,</span><span class="no">$t2</span><span class="p">,</span><span class="mi">0x10</span>
+</span></span><span class="line"><span class="cl"><span class="nf">add</span> <span class="no">$a3</span><span class="p">,</span><span class="no">$a2</span><span class="p">,</span><span class="no">$a1</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><em>before:</em></p>
@@ -1393,8 +1393,8 @@ $$</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">j label
-</span></span><span class="line"><span class="cl">add $t3,$t1,$t2
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">j</span> <span class="no">label</span>
+</span></span><span class="line"><span class="cl"><span class="nf">add</span> <span class="no">$t3</span><span class="p">,</span><span class="no">$t1</span><span class="p">,</span><span class="no">$t2</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="table-wrapper"><table>
@@ -1595,9 +1595,9 @@ $$</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">add $1,$1,$2
-</span></span><span class="line"><span class="cl">add $1,$1,$3
-</span></span><span class="line"><span class="cl">add $1,$1,$4
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">add</span> <span class="no">$1</span><span class="p">,</span><span class="no">$1</span><span class="p">,</span><span class="no">$2</span>
+</span></span><span class="line"><span class="cl"><span class="nf">add</span> <span class="no">$1</span><span class="p">,</span><span class="no">$1</span><span class="p">,</span><span class="no">$3</span>
+</span></span><span class="line"><span class="cl"><span class="nf">add</span> <span class="no">$1</span><span class="p">,</span><span class="no">$1</span><span class="p">,</span><span class="no">$4</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>综上可知，EX阶段的forward单元可以描述为（以操作数1为例）：</p>
