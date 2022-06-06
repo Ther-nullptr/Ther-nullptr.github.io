@@ -348,7 +348,7 @@ $$
 k_c^2=k^2_x+k^2_y \
 \beta = \sqrt{k^2-k_c^2} = \frac{1}{c}\sqrt{\omega^2-\omega^2_c}
 $$
-只有当$\beta$为实数时，波才能传播。$\omega_c=ck_c$为截止频率。&lt;/p&gt;
+只有当$\beta$为实数时，波才能传播。$\omega_c=ck_c=c\sqrt{(\frac{\pi}{a})^2+(\frac{\pi}{b})^2}$为截止频率。&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -363,7 +363,7 @@ $$
 &lt;td&gt;条件&lt;/td&gt;
 &lt;td&gt;$E_z=0$&lt;/td&gt;
 &lt;td&gt;$H_z=0$&lt;/td&gt;
-&lt;td&gt;$E_z=0,H_z=0$&lt;/td&gt;
+&lt;td&gt;$E_z=0,H_z=0$（波导横截面应当能够支持二维静电场）&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;$k_c$&lt;/td&gt;
@@ -388,6 +388,12 @@ $$
 &lt;td&gt;${c}{\sqrt{1-(\frac{\omega_c}{\omega})^2}}$&lt;/td&gt;
 &lt;td&gt;${c}{\sqrt{1-(\frac{\omega_c}{\omega})^2}}$&lt;/td&gt;
 &lt;td&gt;$c$&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;色散&lt;/td&gt;
+&lt;td&gt;有&lt;/td&gt;
+&lt;td&gt;有&lt;/td&gt;
+&lt;td&gt;无&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -2210,7 +2216,7 @@ $$
 &lt;li&gt;N波（此时$H$和$H^\prime$都指向内侧，指向外侧则第二式方向相反）
 $$
 E+E^\prime=E^{\prime\prime}\
-\frac{E}{\eta_1}\cos\theta_1-\frac{E^\prime}{\eta_1}\cos\theta_1=\frac{E^{\prime\prime}}{\eta_2}\cos\theta_1
+\frac{E}{\eta_1}\cos\theta_1-\frac{E^\prime}{\eta_1}\cos\theta_1=\frac{E^{\prime\prime}}{\eta_2}\cos\theta_2
 $$&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
@@ -2565,9 +2571,9 @@ $$&lt;/p&gt;
 &lt;p&gt;$$
 S(x,t)=E(x,t)\times H(x,t) = Re(E(x)e^{-i\omega t})\times Re(H(x)e^{-i\omega t})
 $$&lt;/p&gt;
-&lt;p&gt;根据$Re(a) = \frac{1}{2}(a+a^\star)$，可得：&lt;/p&gt;
+&lt;p&gt;化简可得：&lt;/p&gt;
 &lt;p&gt;$$
-S(x,t) = \frac{1}{2}(Re(E(x)\times H^\star(x))+Re(E(x)\times H(x)e^{-i2\omega t}))
+S(x,t) = \frac{1}{2}[Re(E(x)\times H^\star(x))+Re(E(x)\times H(x)e^{-i2\omega t})]
 $$&lt;/p&gt;
 &lt;p&gt;其中，第一项为时不变，第二项为时变。于是我们定义平均能流：&lt;/p&gt;
 &lt;p&gt;$$
@@ -2575,8 +2581,8 @@ $$&lt;/p&gt;
 $$&lt;/p&gt;
 &lt;p&gt;定义复数能流$\bar S = \frac{1}{2}(E\times H^\star)$，根据频域Maxwell方程组1，2式和矢量展开式，得：&lt;/p&gt;
 &lt;p&gt;$$
-\bar S =
-\nabla \times \frac{1}{2}(E\times H^\star)=
+-\nabla \cdot \bar S =
+-\nabla \cdot \frac{1}{2}(E\times H^\star)=
 \frac{1}{2}(-(\nabla \times E)\cdot H+(\nabla \times H^\star) \cdot E)=\frac{i\omega}{2}(E\cdot D^\star-B\times H^\star)+\frac{1}{2}E\times J^\star
 $$&lt;/p&gt;
 &lt;p&gt;其中$w_e=\frac{1}{4}(E\cdot D^{\star})$，$w_m=\frac{1}{4}(B\cdot H^{\star})$，此即复数Poynting定理，注意到磁场能前的符号为负。&lt;/p&gt;
@@ -2584,7 +2590,7 @@ $$&lt;/p&gt;
 &lt;p&gt;$$
 -\nabla &lt;!-- raw HTML omitted --&gt; =
 Re(\nabla \times\frac{1}{2}(E\times H^\star))=
--Im[\frac{\omega}{2}(E\cdot D^\star-B\times H^\star]+Re(\frac{1}{2}E\times J^\star)]
+-Im[\frac{\omega}{2}(E\cdot D^\star-B\times H^\star)+Re(\frac{1}{2}E\times J^\star)]
 $$&lt;/p&gt;
 </description>
         </item>

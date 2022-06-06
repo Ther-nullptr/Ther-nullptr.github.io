@@ -444,9 +444,9 @@ $$</p>
 <p>$$
 S(x,t)=E(x,t)\times H(x,t) = Re(E(x)e^{-i\omega t})\times Re(H(x)e^{-i\omega t})
 $$</p>
-<p>根据$Re(a) = \frac{1}{2}(a+a^\star)$，可得：</p>
+<p>化简可得：</p>
 <p>$$
-S(x,t) = \frac{1}{2}(Re(E(x)\times H^\star(x))+Re(E(x)\times H(x)e^{-i2\omega t}))
+S(x,t) = \frac{1}{2}[Re(E(x)\times H^\star(x))+Re(E(x)\times H(x)e^{-i2\omega t})]
 $$</p>
 <p>其中，第一项为时不变，第二项为时变。于是我们定义平均能流：</p>
 <p>$$
@@ -454,8 +454,8 @@ $$</p>
 $$</p>
 <p>定义复数能流$\bar S = \frac{1}{2}(E\times H^\star)$，根据频域Maxwell方程组1，2式和矢量展开式，得：</p>
 <p>$$
-\bar S =
-\nabla \times \frac{1}{2}(E\times H^\star)=
+-\nabla \cdot \bar S =
+-\nabla \cdot \frac{1}{2}(E\times H^\star)=
 \frac{1}{2}(-(\nabla \times E)\cdot H+(\nabla \times H^\star) \cdot E)=\frac{i\omega}{2}(E\cdot D^\star-B\times H^\star)+\frac{1}{2}E\times J^\star
 $$</p>
 <p>其中$w_e=\frac{1}{4}(E\cdot D^{\star})$，$w_m=\frac{1}{4}(B\cdot H^{\star})$，此即复数Poynting定理，注意到磁场能前的符号为负。</p>
@@ -463,7 +463,7 @@ $$</p>
 <p>$$
 -\nabla <!-- raw HTML omitted --> =
 Re(\nabla \times\frac{1}{2}(E\times H^\star))=
--Im[\frac{\omega}{2}(E\cdot D^\star-B\times H^\star]+Re(\frac{1}{2}E\times J^\star)]
+-Im[\frac{\omega}{2}(E\cdot D^\star-B\times H^\star)+Re(\frac{1}{2}E\times J^\star)]
 $$</p>
 
 </section>
