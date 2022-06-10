@@ -720,7 +720,7 @@ $$</p>
 </thead>
 <tbody>
 <tr>
-<td>add $r1,$r2,$r3</td>
+<td><code>add $r1,$r2,$r3</code></td>
 <td>IF</td>
 <td>ID</td>
 <td>EX</td>
@@ -730,7 +730,7 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td>sub $r4,$r1,$r5</td>
+<td><code>sub $r4,$r1,$r5</code></td>
 <td></td>
 <td>IF</td>
 <td>ID</td>
@@ -740,7 +740,7 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td>and $r6,$r1,$r7</td>
+<td><code>and $r6,$r1,$r7</code></td>
 <td></td>
 <td></td>
 <td>IF</td>
@@ -1132,7 +1132,7 @@ $$</p>
 </thead>
 <tbody>
 <tr>
-<td>beq $t1,$t2,0x10</td>
+<td><code>beq $t1,$t2,0x10</code></td>
 <td>IF</td>
 <td>ID</td>
 <td>EX</td>
@@ -1172,7 +1172,7 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td>add $a3,$a2,$a1</td>
+<td><code>add $a3,$a2,$a1</code></td>
 <td></td>
 <td></td>
 <td></td>
@@ -1201,7 +1201,7 @@ $$</p>
 </thead>
 <tbody>
 <tr>
-<td>beq $t1,$t2,0x10</td>
+<td><code>beq $t1,$t2,0x10</code></td>
 <td>IF</td>
 <td>ID</td>
 <td>EX</td>
@@ -1231,7 +1231,7 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td>add $a3,$a2,$a1</td>
+<td><code>add $a3,$a2,$a1</code></td>
 <td></td>
 <td></td>
 <td></td>
@@ -1316,7 +1316,7 @@ $$</p>
 </thead>
 <tbody>
 <tr>
-<td>add a3,a2,a1</td>
+<td><code>add $a3,$a2,$a1</code></td>
 <td>IF</td>
 <td>ID</td>
 <td>EX</td>
@@ -1326,7 +1326,7 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td></td>
+<td><code>nop</code></td>
 <td></td>
 <td></td>
 <td></td>
@@ -1336,7 +1336,7 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td>beq t0,a3,0x10</td>
+<td><code>beq $t0,$a3,0x10</code></td>
 <td></td>
 <td></td>
 <td>IF</td>
@@ -1375,7 +1375,7 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td></td>
+<td>stall</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1469,6 +1469,7 @@ $$</p>
 </ol>
 <h4 id="延迟槽技术">延迟槽技术</h4>
 <p>即使将beq的判断前移到ID阶段，在beq之后也必须stall一个周期。可以在stall周期内执行一些必定要执行的指令，这就是<strong>延迟槽技术</strong>。</p>
+<p>无特殊说明使用延迟槽技术的情况下，即使beq后面的指令必定执行，也必须要stall。</p>
 <h4 id="预测">预测</h4>
 <ul>
 <li>静态预测：总预测分支不执行或者执行，错误则撤销指令。若预测失误会导致不必要的流水线重置。</li>
@@ -1514,7 +1515,7 @@ $$</p>
 </thead>
 <tbody>
 <tr>
-<td>j label</td>
+<td><code>j label</code></td>
 <td>IF</td>
 <td>ID</td>
 <td>EX</td>
@@ -1524,7 +1525,7 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td></td>
+<td>stall</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1534,7 +1535,7 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td>add $a3,$a2,$a1</td>
+<td><code>add $a3,$a2,$a1</code></td>
 <td></td>
 <td></td>
 <td>IF</td>
@@ -1547,7 +1548,7 @@ $$</p>
 </table></div>
 <p>j在ID阶段完成目标地址的计算，需要stall一个周期。</p>
 <p>**但这种做法是错误的！**因为流水线直到ID阶段才能知道取出的指令为j，而此时下一条指令只能已经从指令存储中取出，<strong>只能延后执行，而不能不执行</strong>。</p>
-<p>于是我们不进行硬件阻塞。j指令执行完ID阶段时，可以判断出执行的是j指令，此时下一条指令（实际上不会执行）也执行完IF阶段，但之后的步骤都会被flush掉，ID阶段生成的新地址也被用于载入下下一条指令。</p>
+<p>于是我们不进行硬件阻塞。j指令执行完ID阶段时，可以判断出执行的是j指令，此时下一条指令（实际上不会执行）也执行完IF阶段，但之后的步骤都会被flush掉，ID阶段生成的新地址也被用于载入下下一条指令。从时间上看还是stall了一个周期。</p>
 <div class="table-wrapper"><table>
 <thead>
 <tr>
@@ -1563,7 +1564,7 @@ $$</p>
 </thead>
 <tbody>
 <tr>
-<td>j label</td>
+<td><code>j label </code></td>
 <td>IF</td>
 <td>ID</td>
 <td>EX</td>
@@ -1573,7 +1574,7 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td>add $a3,$a2,$a1(next)</td>
+<td><code>add $a3,$a2,$a1</code>(next)</td>
 <td></td>
 <td>IF</td>
 <td>x</td>
@@ -1583,7 +1584,7 @@ $$</p>
 <td></td>
 </tr>
 <tr>
-<td>add $a3,$a2,$a1(jump target)</td>
+<td><code>add $a3,$a2,$a1</code>(jump target)</td>
 <td></td>
 <td></td>
 <td>IF</td>
@@ -1595,8 +1596,10 @@ $$</p>
 </tbody>
 </table></div>
 <blockquote>
-<h2 id="转发方式总结">转发方式总结</h2>
-<h3 id="数据冒险-1">数据冒险</h3>
+<p><strong>转发方式总结</strong></p>
+<ul>
+<li>数据冒险</li>
+</ul>
 <p><img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220601092651113.png"
 	
 	
@@ -1613,7 +1616,9 @@ $$</p>
 <li>A4-&gt;B2 lw-sw转发</li>
 </ul>
 <p>此外，A4-&gt;B1无法转发，对应于lw-R型必须stall一个周期。</p>
-<h3 id="控制冒险beq">控制冒险(beq)</h3>
+<ul>
+<li>控制冒险(beq)</li>
+</ul>
 <p><img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220601093122950.png"
 	
 	
@@ -1630,6 +1635,7 @@ $$</p>
 <li>A4-&gt;B0 beq的前条为R型，需要stall 1个周期</li>
 <li>A5-&gt;B0 beq的前条为lw型，需要stall 2个周期</li>
 </ul>
+<p>注意在转发时不能跨时钟周期转发，比如上上条指令ALU的结果输出不能直接转发，必须要经过MEM/WB寄存器。</p>
 </blockquote>
 <h1 id="考虑冒险的数据通路设计">考虑冒险的数据通路设计</h1>
 <h2 id="forward-unit">Forward Unit</h2>
@@ -1878,6 +1884,16 @@ $$</p>
 </li>
 <li>
 <p><strong>超标量</strong> 动态决定哪些指令同时执行 （在运行时由硬件决定）。</p>
+<p><img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220606204510831.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20220606204510831"
+	
+	
+></p>
 <blockquote>
 <p>IOI-IOC,IOI-OOC,OOI-OOC</p>
 </blockquote>
@@ -2212,12 +2228,6 @@ $$</p>
           </ol>
         </li>
         <li><a href="#j-hazard">j hazard</a></li>
-      </ol>
-    </li>
-    <li><a href="#转发方式总结">转发方式总结</a>
-      <ol>
-        <li><a href="#数据冒险-1">数据冒险</a></li>
-        <li><a href="#控制冒险beq">控制冒险(beq)</a></li>
       </ol>
     </li>
   </ol>

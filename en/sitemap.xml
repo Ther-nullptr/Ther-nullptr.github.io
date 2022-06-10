@@ -3,7 +3,26 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://ther-nullptr.github.io/posts/</loc>
-    <lastmod>2022-06-06T19:37:34+08:00</lastmod>
+    <lastmod>2022-06-07T20:52:18+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/bus/</loc>
+    <lastmod>2022-06-07T20:52:18+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/</loc>
+    <lastmod>2022-06-07T20:52:18+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://ther-nullptr.github.io/zh-cn/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://ther-nullptr.github.io/"
+                />
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/cpu_utils/</loc>
+    <lastmod>2022-06-06T22:20:43+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/categories/</loc>
     <lastmod>2022-06-06T19:37:34+08:00</lastmod>
@@ -35,19 +54,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://ther-nullptr.github.io/tags/"
-                />
-  </url><url>
-    <loc>https://ther-nullptr.github.io/</loc>
-    <lastmod>2022-06-06T19:37:34+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://ther-nullptr.github.io/zh-cn/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://ther-nullptr.github.io/"
                 />
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/exam/</loc>

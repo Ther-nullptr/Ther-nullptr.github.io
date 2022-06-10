@@ -493,9 +493,9 @@ $$</p>
 <h3 id="cache地址映像方式">cache地址映像方式</h3>
 <p>三种地址映像方式：</p>
 <ul>
-<li>直接映像: 主存块只可能在Cache的某个特定行中</li>
-<li>全相联映像: 主存块可以放在Cache的任意行中</li>
-<li>组相联映像: 主存块可以放在Cache中的n个特定行中，n一般在2到8之间，将这n个行称为一个Cache组。</li>
+<li>直接映像: 主存块只可能在cache的某个特定行中</li>
+<li>全相联映像: 主存块可以放在cache的任意行中</li>
+<li>组相联映像: 主存块可以放在cache中的n个特定行中，n一般在2到8之间，将这n个行称为一个Cache组。</li>
 </ul>
 <h4 id="直接映像">直接映像</h4>
 <p>主存标号$i$，cache标号$j$满足以下关系：
@@ -546,22 +546,86 @@ $$
 <p>对于32位内存系统，假设cache每行有$x$byte，cache共$y$行，$z$路组相连，则低$\log_2x$位为块内地址，中间$\log_2(\frac{y}{z})$位作为cache组号，剩下$(32-\log_2x-\log_2(\frac{y}{z}))$位作为主存标签。</p>
 <p>直接映像为$z=1$，全相联映像为$z=y$。</p>
 <h3 id="cache数据替换">cache数据替换</h3>
-<p>每个cache行有一个有效标志位v，表明“这一行的主存数据副本是有效的”。v=1时cache行才能被命中。</p>
+<p>每个cache行有一个有效标志位v，表明“这一行的主存数据副本是有效的”。<strong>v=1时cache行才能被命中</strong>。</p>
 <ul>
 <li>复位、刚上电或清空cache时，所有行的v=0。</li>
 <li>cache行刚刚被替换时，对应行的v=1。</li>
 </ul>
-<p>当访问一个地址发现其不在cache中时，复制主存块到缓存的行中；当主存块对应的Cache行均被占用(有效位为1)时，需要选择一个Cache行进行替换。</p>
+<p>当访问一个地址发现其不在cache中时，复制主存块到缓存的行中；当主存块对应的cache行均被占用（有效位为1）时，需要选择一个cache行进行替换。</p>
 <ul>
 <li><strong>直接映像</strong> 只有一行可以被替换，不用选</li>
 <li><strong>组相联/全相联</strong>
 <ul>
 <li>随机法(Random)：在cache中随机选择一个主存块</li>
-<li>先进先出法(FIFO, First-In First-Out)：选择一个集合中最先进入cache中的主存块(即存在时间最长的块)</li>
+<li>先进先出法(FIFO, First-In First-Out)：选择一个集合中最先进入cache中的主存块(即存在时间最长的块)，类似于数据结构中的队列。</li>
 <li>最近最少使用法(LRU, Least recently used)：替换cache中最近最少被使用的主存块</li>
 </ul>
 </li>
 </ul>
+<h3 id="cache数据更新">cache数据更新</h3>
+<p>当需要向层次结构存储器写入数据时，需要考虑将数据存入cache还是主存的问题。</p>
+<h4 id="write-through">write through</h4>
+<p>指高速缓存和主存都写入。</p>
+<h4 id="write-back">write back</h4>
+<p>先将数据写入Cache中，之后在该块要被替换出Cache时才将数据写到主存储器中。</p>
+<p>在cache中会添加一个脏位（dirty bit）。脏位为1意味着cache里面的数据是更新后的，而主存储器里面的数据是过时的。不一致的数据在被替换时一定要写回主存中。</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th></th>
+<th>Write Through</th>
+<th>Write Back</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>既写到cache同时也更新主存储器</td>
+<td>只写cache，当数据被替换出cache时才将写回到主存储器</td>
+</tr>
+<tr>
+<td></td>
+<td>慢</td>
+<td>快</td>
+</tr>
+<tr>
+<td>被替换是否会导致写操作</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>重复的写操作是否重复写主存</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="cache性能评估">cache性能评估</h4>
+<ul>
+<li>强迫性缺失：第一次访问主存储器中的某一个数据块，只能先从主存储器将数据加载到cache中。</li>
+<li>容量缺失：由于cache容纳不了程序所需的所有主存块而引起的缺失。</li>
+<li>冲突缺失：在组相联或者直接映像中，多个的主存块竞争同一个cache组时引起的缺失，也称碰撞缺失。</li>
+</ul>
+<p><img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220607202149659.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20220607202149659"
+	
+	
+></p>
+<p><img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220607203259141.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20220607203259141"
+	
+	
+></p>
 
 </section>
 
@@ -865,6 +929,13 @@ $$
           </ol>
         </li>
         <li><a href="#cache数据替换">cache数据替换</a></li>
+        <li><a href="#cache数据更新">cache数据更新</a>
+          <ol>
+            <li><a href="#write-through">write through</a></li>
+            <li><a href="#write-back">write back</a></li>
+            <li><a href="#cache性能评估">cache性能评估</a></li>
+          </ol>
+        </li>
       </ol>
     </li>
   </ol>
