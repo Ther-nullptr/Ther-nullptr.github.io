@@ -3,7 +3,23 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://ther-nullptr.github.io/posts/</loc>
-    <lastmod>2022-06-14T23:12:44+08:00</lastmod>
+    <lastmod>2022-06-15T00:24:11+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/</loc>
+    <lastmod>2022-06-15T00:24:11+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://ther-nullptr.github.io/zh-cn/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://ther-nullptr.github.io/"
+                />
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/awesome_toolkits/websites/</loc>
+    <lastmod>2022-06-15T00:24:11+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/categories/</loc>
     <lastmod>2022-06-14T23:12:44+08:00</lastmod>
@@ -38,19 +54,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://ther-nullptr.github.io/tags/"
-                />
-  </url><url>
-    <loc>https://ther-nullptr.github.io/</loc>
-    <lastmod>2022-06-14T23:12:44+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://ther-nullptr.github.io/zh-cn/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://ther-nullptr.github.io/"
                 />
   </url><url>
     <loc>https://ther-nullptr.github.io/tags/small-talk/</loc>

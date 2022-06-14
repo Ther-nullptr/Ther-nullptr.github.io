@@ -6,7 +6,18 @@
         <description>Recent content on Ther&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Tue, 14 Jun 2022 23:12:44 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/posts/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 15 Jun 2022 00:24:11 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/posts/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Websites</title>
+        <link>https://ther-nullptr.github.io/posts/awesome_toolkits/websites/</link>
+        <pubDate>Wed, 15 Jun 2022 00:24:11 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/awesome_toolkits/websites/</guid>
+        <description>&lt;h2 id=&#34;优秀stack站点记录&#34;&gt;优秀stack站点记录&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.zhixuan.dev/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;zhixuan&amp;rsquo;s Blog&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>Hugo Text Snippet</title>
         <link>https://ther-nullptr.github.io/posts/cheatsheet/hugo_text/</link>
         <pubDate>Tue, 14 Jun 2022 23:12:44 +0800</pubDate>
