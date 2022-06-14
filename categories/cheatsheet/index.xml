@@ -13,25 +13,6 @@
         
         <guid>https://ther-nullptr.github.io/posts/cheatsheet/hugo_text/</guid>
         <description>&lt;h2 id=&#34;bilibili&#34;&gt;Bilibili&lt;/h2&gt;
-&lt;p&gt;&lt;code&gt;
-
-
-
-
-
-    
-
-
-&lt;div class=&#34;video-wrapper&#34;&gt;
-    &lt;iframe src=&#34;https://player.bilibili.com/player.html?as_wide=1&amp;amp;high_quality=1&amp;amp;page=1&amp;aid=%E5%8F%B7%E6%88%96bv%E5%8F%B7&#34;
-            scrolling=&#34;no&#34;
-            frameborder=&#34;no&#34;
-            framespacing=&#34;0&#34;
-            allowfullscreen=&#34;true&#34;
-    &gt;
-    &lt;/iframe&gt;
-&lt;/div&gt;
-&lt;/code&gt;&lt;/p&gt;
 
 
 
@@ -52,18 +33,8 @@
 &lt;/div&gt;
 
 &lt;h2 id=&#34;music&#34;&gt;Music&lt;/h2&gt;
-&lt;p&gt;&lt;code&gt;{{ &amp;lt; music netease song 28273424 &amp;gt; }}&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;{{ &amp;lt; music netease song 28273424 &amp;gt; }}&lt;/p&gt;
 &lt;h2 id=&#34;youtube&#34;&gt;Youtube&lt;/h2&gt;
-&lt;p&gt;&lt;code&gt;&lt;div class=&#34;video-wrapper&#34;&gt;
-    &lt;iframe loading=&#34;lazy&#34; 
-            src=&#34;https://www.youtube.com/embed/jflq6vNcZyA&#34; 
-            allowfullscreen 
-            title=&#34;YouTube Video&#34;
-    &gt;
-    &lt;/iframe&gt;
-&lt;/div&gt;
-&lt;/code&gt;&lt;/p&gt;
 &lt;div class=&#34;video-wrapper&#34;&gt;
     &lt;iframe loading=&#34;lazy&#34; 
             src=&#34;https://www.youtube.com/embed/GTjwYzFG54E&#34; 
