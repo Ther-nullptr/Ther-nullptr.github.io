@@ -7,11 +7,11 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <lastBuildDate>Sat, 04 Jun 2022 11:43:15 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/categories/study/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Multicycle_CPU</title>
-        <link>https://ther-nullptr.github.io/posts/multicycle_cpu/</link>
+        <title>Multicycle CPU</title>
+        <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/multicycle_cpu/</link>
         <pubDate>Sat, 04 Jun 2022 11:43:15 +0800</pubDate>
         
-        <guid>https://ther-nullptr.github.io/posts/multicycle_cpu/</guid>
+        <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/multicycle_cpu/</guid>
         <description>&lt;h1 id=&#34;多周期cpu&#34;&gt;多周期CPU&lt;/h1&gt;
 &lt;h2 id=&#34;多周期数据通路&#34;&gt;多周期数据通路&lt;/h2&gt;
 &lt;table&gt;
@@ -112,11 +112,11 @@
 </description>
         </item>
         <item>
-        <title>Control_signal</title>
-        <link>https://ther-nullptr.github.io/posts/control_signal/</link>
+        <title>CPU中的控制信号</title>
+        <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/control_signal/</link>
         <pubDate>Sat, 04 Jun 2022 10:34:25 +0800</pubDate>
         
-        <guid>https://ther-nullptr.github.io/posts/control_signal/</guid>
+        <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/control_signal/</guid>
         <description>&lt;h1 id=&#34;控制信号常见答疑&#34;&gt;控制信号常见答疑&lt;/h1&gt;
 &lt;h2 id=&#34;about-extop&#34;&gt;About Extop&lt;/h2&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://stackoverflow.com/questions/55290060/what-does-extend-immediate-to-32-bits-mean-in-mips&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -142,11 +142,11 @@
 </description>
         </item>
         <item>
-        <title>Assembly</title>
-        <link>https://ther-nullptr.github.io/posts/assembly/</link>
+        <title>MIPS汇编语言</title>
+        <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/assembly/</link>
         <pubDate>Fri, 03 Jun 2022 00:00:00 +0000</pubDate>
         
-        <guid>https://ther-nullptr.github.io/posts/assembly/</guid>
+        <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/assembly/</guid>
         <description>&lt;h1 id=&#34;处理器&#34;&gt;处理器&lt;/h1&gt;
 &lt;h2 id=&#34;处理器架构&#34;&gt;处理器架构&lt;/h2&gt;
 &lt;ul&gt;
@@ -314,11 +314,11 @@ $$
 &lt;/div&gt;</description>
         </item>
         <item>
-        <title>Electromagnetic_Fields_and_Waves05</title>
-        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves05/</link>
+        <title>谐振腔和波导</title>
+        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves/electromagnetic_fields_and_waves05/</link>
         <pubDate>Wed, 01 Jun 2022 00:00:00 +0000</pubDate>
         
-        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves05/</guid>
+        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves/electromagnetic_fields_and_waves05/</guid>
         <description>&lt;h1 id=&#34;谐振腔和波导&#34;&gt;谐振腔和波导&lt;/h1&gt;
 &lt;h2 id=&#34;谐振腔&#34;&gt;谐振腔&lt;/h2&gt;
 &lt;p&gt;$$
@@ -392,11 +392,11 @@ $$
 </description>
         </item>
         <item>
-        <title>Memory</title>
-        <link>https://ther-nullptr.github.io/posts/memory/</link>
+        <title>Cache</title>
+        <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/memory/</link>
         <pubDate>Tue, 31 May 2022 19:22:17 +0800</pubDate>
         
-        <guid>https://ther-nullptr.github.io/posts/memory/</guid>
+        <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/memory/</guid>
         <description>&lt;h1 id=&#34;memory&#34;&gt;Memory&lt;/h1&gt;
 &lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531195153980.png&#34;
 	
@@ -643,11 +643,11 @@ $$
 </description>
         </item>
         <item>
-        <title>Pipeline_CPU</title>
-        <link>https://ther-nullptr.github.io/posts/cpu_hazard/</link>
+        <title>Pipeline CPU</title>
+        <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/pipeline_cpu/</link>
         <pubDate>Tue, 31 May 2022 00:00:00 +0000</pubDate>
         
-        <guid>https://ther-nullptr.github.io/posts/cpu_hazard/</guid>
+        <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/pipeline_cpu/</guid>
         <description>&lt;h1 id=&#34;流水线计算公式&#34;&gt;流水线计算公式&lt;/h1&gt;
 &lt;p&gt;$n$为指令数，$k$为流水线级数，级间延时$\Delta t$。&lt;/p&gt;
 &lt;p&gt;实际吞吐率（单位时间内流水线处理的指令数）：
@@ -675,17 +675,6 @@ $$&lt;/p&gt;
 &lt;li&gt;WB：MemToReg、RegWrite&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h1 id=&#34;流水线中的冒险&#34;&gt;流水线中的冒险&lt;/h1&gt;
-&lt;p&gt;总览流水线数据通路：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531150254232.png&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;image-20220531150254232&#34;
-	
-	
-&gt;&lt;/p&gt;
 &lt;p&gt;首先列出未冒险时流水线CPU在各步中进行的操作：&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -700,36 +689,36 @@ $$&lt;/p&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;IF&lt;/td&gt;
-&lt;td&gt;PC&amp;lt;=PC+4; IR &amp;lt;=MemInst[PC];&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;PC&amp;lt;=PC+4; IR &amp;lt;=MemInst[PC]&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;*&lt;/td&gt;
 &lt;td&gt;*&lt;/td&gt;
 &lt;td&gt;*&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;ID&lt;/td&gt;
-&lt;td&gt;opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]]; &lt;strong&gt;ALUOut&lt;/strong&gt;&amp;lt;=PC+(signext(IR[15:0]&amp;laquo;2))&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]];&lt;/code&gt; &lt;strong&gt;&lt;code&gt;ALUOut&amp;lt;=PC+(signext(IR[15:0]&amp;lt;&amp;lt;2))&lt;/code&gt;&lt;/strong&gt;&lt;/td&gt;
 &lt;td&gt;*&lt;/td&gt;
 &lt;td&gt;*&lt;/td&gt;
-&lt;td&gt;PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}&lt;/code&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;EX&lt;/td&gt;
-&lt;td&gt;&lt;strong&gt;ALUOut&lt;/strong&gt; &amp;lt;= A op B&lt;/td&gt;
-&lt;td&gt;&lt;strong&gt;ALUOut&lt;/strong&gt;&amp;lt;=A+sign-ext(IR[15:0])&lt;/td&gt;
-&lt;td&gt;if (A=B)PC&amp;lt;=ALUOut&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;&lt;code&gt;ALUOut &amp;lt;= A op B&lt;/code&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;&lt;code&gt;ALUOut&amp;lt;=A+sign-ext(IR[15:0])&lt;/code&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;if (A=B)PC&amp;lt;=ALUOut&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;MEM&lt;/td&gt;
-&lt;td&gt;&lt;strong&gt;Reg[IR[15:11]]&lt;/strong&gt;&amp;lt;=ALUOut&lt;/td&gt;
-&lt;td&gt;Lw:MDR&amp;lt;=MemData[ALUOut];&lt;!-- raw HTML omitted --&gt;Sw:MemData[ALUout] &amp;lt;=B&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;&lt;code&gt;Reg[IR[15:11]]&amp;lt;=ALUOut&lt;/code&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Lw:MDR&amp;lt;=MemData[ALUOut];Sw:MemData[ALUout] &amp;lt;=B&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;WB&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;strong&gt;Reg[IR[20:16]]&lt;/strong&gt; &amp;lt;=MDR&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;&lt;code&gt;Reg[IR[20:16]] &amp;lt;=MDR&lt;/code&gt;&lt;/strong&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
@@ -792,36 +781,36 @@ $$&lt;/p&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;IF&lt;/td&gt;
-&lt;td&gt;PC&amp;lt;=PC+4; IR &amp;lt;=MemInst[PC];&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;PC&amp;lt;=PC+4; IR &amp;lt;=MemInst[PC];&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;*&lt;/td&gt;
 &lt;td&gt;*&lt;/td&gt;
 &lt;td&gt;*&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;ID&lt;/td&gt;
-&lt;td&gt;opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]];&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]];&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;*&lt;/td&gt;
 &lt;td&gt;*&lt;/td&gt;
-&lt;td&gt;PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}&lt;/code&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;EX&lt;/td&gt;
-&lt;td&gt;ALUOut &amp;lt;= A op B&lt;/td&gt;
-&lt;td&gt;ALUOut&amp;lt;=A+sign-ext(IR[15:0])&lt;/td&gt;
-&lt;td&gt;ALUOut&amp;lt;=A-B; PCAdd&amp;lt;=PC+(signext(IR[15:0]&amp;laquo;2))&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;ALUOut &amp;lt;= A op B&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;ALUOut&amp;lt;=A+sign-ext(IR[15:0])&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;ALUOut&amp;lt;=A-B; PCAdd&amp;lt;=PC+(signext(IR[15:0]&amp;lt;&amp;lt;2))&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;MEM&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
-&lt;td&gt;Lw:MDR&amp;lt;=MemData[ALUOut]; Sw:MemData[ALUout] &amp;lt;=B&lt;/td&gt;
-&lt;td&gt;if(Zero) PC&amp;lt;=PCAdd&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Lw:MDR&amp;lt;=MemData[ALUOut]; Sw:MemData[ALUout] &amp;lt;=B&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;if(Zero) PC&amp;lt;=PCAdd&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;WB&lt;/td&gt;
-&lt;td&gt;Reg[IR[15:11]]&amp;lt;=ALUOut&lt;/td&gt;
-&lt;td&gt;Reg[IR[20:16]] &amp;lt;=MDR&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Reg[IR[15:11]]&amp;lt;=ALUOut&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Reg[IR[20:16]] &amp;lt;=MDR&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
@@ -842,36 +831,36 @@ $$&lt;/p&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;IF&lt;/td&gt;
-&lt;td&gt;PC&amp;lt;=PC+4; IR &amp;lt;=MemInst[PC];&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;PC&amp;lt;=PC+4; IR &amp;lt;=MemInst[PC];&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;*&lt;/td&gt;
 &lt;td&gt;*&lt;/td&gt;
 &lt;td&gt;*&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;ID&lt;/td&gt;
-&lt;td&gt;opcode&amp;lt;=IR[31:26]; A&amp;lt;=&lt;strong&gt;Reg[IR[25:21]]&lt;/strong&gt;; B&amp;lt;=&lt;strong&gt;Reg[IR[20:16]]&lt;/strong&gt;;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;opcode&amp;lt;=IR[31:26];&lt;/code&gt; &lt;strong&gt;&lt;code&gt;A&amp;lt;=Reg[IR[25:21]];&lt;/code&gt;&lt;/strong&gt; &lt;strong&gt;&lt;code&gt;B&amp;lt;=Reg[IR[20:16]];&lt;/code&gt;&lt;/strong&gt;&lt;/td&gt;
 &lt;td&gt;*&lt;/td&gt;
 &lt;td&gt;*&lt;/td&gt;
-&lt;td&gt;PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}&lt;/code&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;EX&lt;/td&gt;
-&lt;td&gt;ALUOut &amp;lt;= A op B&lt;/td&gt;
-&lt;td&gt;ALUOut&amp;lt;=A+sign-ext(IR[15:0])&lt;/td&gt;
-&lt;td&gt;ALUOut&amp;lt;=A-B; PCAdd&amp;lt;=PC+(signext(IR[15:0]&amp;laquo;2))&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;ALUOut &amp;lt;= A op B&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;ALUOut&amp;lt;=A+sign-ext(IR[15:0])&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;ALUOut&amp;lt;=A-B; PCAdd&amp;lt;=PC+(signext(IR[15:0]&amp;lt;&amp;lt;2))&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;MEM&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
-&lt;td&gt;Lw:MDR&amp;lt;=MemData[ALUOut]; Sw:MemData[ALUout] &amp;lt;=B&lt;/td&gt;
-&lt;td&gt;if(Zero) PC&amp;lt;=PCAdd&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Lw:MDR&amp;lt;=MemData[ALUOut]; Sw:MemData[ALUout] &amp;lt;=B&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;if(Zero) PC&amp;lt;=PCAdd&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;WB&lt;/td&gt;
-&lt;td&gt;&lt;strong&gt;Reg[IR[15:11]]&lt;/strong&gt;&amp;lt;=ALUOut&lt;/td&gt;
-&lt;td&gt;&lt;strong&gt;Reg[IR[20:16]]&lt;/strong&gt; &amp;lt;=MDR&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;&lt;code&gt;Reg[IR[15:11]]&amp;lt;= ALUOut&lt;/code&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;&lt;code&gt;Reg[IR[20:16]] &amp;lt;= MDR&lt;/code&gt;&lt;/strong&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
@@ -906,7 +895,7 @@ $$&lt;/p&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td&gt;add $r1,$r2,$r3&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;add $r1,$r2,$r3&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;IF&lt;/td&gt;
 &lt;td&gt;ID&lt;/td&gt;
 &lt;td&gt;EX&lt;/td&gt;
@@ -916,17 +905,7 @@ $$&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;nop&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -936,7 +915,17 @@ $$&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;add $r2,$r1,$r3&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;nop&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;add $r2,$r1,$r3&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -1049,7 +1038,7 @@ $$&lt;/p&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td&gt;lw $r1,100($r2)&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;lw $r1,100($r2)&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;IF&lt;/td&gt;
 &lt;td&gt;ID&lt;/td&gt;
 &lt;td&gt;EX&lt;/td&gt;
@@ -1059,17 +1048,7 @@ $$&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;nop&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -1079,7 +1058,17 @@ $$&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;sub $r4,$r1,$r5&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;nop&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;sub $r4,$r1,$r5&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -1089,7 +1078,7 @@ $$&lt;/p&gt;
 &lt;td&gt;MEM&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;and $r6,$r1,$r7&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;and $r6,$r1,$r7&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -1116,7 +1105,7 @@ $$&lt;/p&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td&gt;lw $r1,100($r2)&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;lw $r1,100($r2)&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;IF&lt;/td&gt;
 &lt;td&gt;ID&lt;/td&gt;
 &lt;td&gt;EX&lt;/td&gt;
@@ -1136,7 +1125,7 @@ $$&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;sub $r4,$r1,$r5&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;sub $r4,$r1,$r5&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;IF&lt;/td&gt;
@@ -1146,7 +1135,7 @@ $$&lt;/p&gt;
 &lt;td&gt;WB&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;and $r6,$r1,$r7&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;and $r6,$r1,$r7&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -1236,7 +1225,7 @@ $$&lt;/p&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td&gt;lw $a0,10($a1)&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;lw $a0,10($a1)&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;IF&lt;/td&gt;
 &lt;td&gt;ID&lt;/td&gt;
 &lt;td&gt;EX&lt;/td&gt;
@@ -1246,7 +1235,7 @@ $$&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;nop&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -1256,7 +1245,7 @@ $$&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;sw $a0,10($a2)&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;sw $a0,10($a2)&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;IF&lt;/td&gt;
@@ -1283,7 +1272,7 @@ $$&lt;/p&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td&gt;lw $a0,10($a1)&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;lw $a0,10($a1)&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;IF&lt;/td&gt;
 &lt;td&gt;ID&lt;/td&gt;
 &lt;td&gt;EX&lt;/td&gt;
@@ -1293,7 +1282,7 @@ $$&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;sw $a0,10($a2)&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;sw $a0,10($a2)&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;IF&lt;/td&gt;
 &lt;td&gt;ID&lt;/td&gt;
@@ -1407,17 +1396,7 @@ $$&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;nop&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -1427,7 +1406,17 @@ $$&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
+&lt;td&gt;&lt;code&gt;nop&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;nop&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -1476,7 +1465,7 @@ $$&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;nop&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -1486,7 +1475,7 @@ $$&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;nop&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -1630,7 +1619,7 @@ $$&lt;/p&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td&gt;lw $a3,0($a2)&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;lw $a3,0($a2)&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;IF&lt;/td&gt;
 &lt;td&gt;ID&lt;/td&gt;
 &lt;td&gt;EX&lt;/td&gt;
@@ -1640,7 +1629,7 @@ $$&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;stall&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;nop&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -1650,7 +1639,7 @@ $$&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;nop&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -1660,7 +1649,7 @@ $$&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;beq $t0,$a3,0x10&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;beq $t0,$a3,0x10&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -1689,7 +1678,7 @@ $$&lt;/p&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td&gt;lw $a3,0($a2)&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;lw $a3,0($a2)&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;IF&lt;/td&gt;
 &lt;td&gt;ID&lt;/td&gt;
 &lt;td&gt;EX&lt;/td&gt;
@@ -1699,7 +1688,7 @@ $$&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;add $t3,$t2,$t1&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;add $t3,$t2,$t1&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;IF&lt;/td&gt;
 &lt;td&gt;ID&lt;/td&gt;
@@ -1709,7 +1698,7 @@ $$&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;nop&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -1719,7 +1708,7 @@ $$&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;beq $t0,$a3,0x10&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;beq $t0,$a3,0x10&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -2176,11 +2165,88 @@ $$&lt;/p&gt;
 </description>
         </item>
         <item>
-        <title>Electromagnetic_Fields_and_Waves02</title>
-        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves02/</link>
+        <title>导体中电磁场的传播</title>
+        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves/electromagnetic_fields_and_waves04/</link>
         <pubDate>Mon, 30 May 2022 00:00:00 +0000</pubDate>
         
-        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves02/</guid>
+        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves/electromagnetic_fields_and_waves04/</guid>
+        <description>&lt;h1 id=&#34;导体中电磁场的传播&#34;&gt;导体中电磁场的传播&lt;/h1&gt;
+&lt;h2 id=&#34;自由电荷&#34;&gt;自由电荷&lt;/h2&gt;
+&lt;p&gt;根据电荷守恒定律和Maxwell方程第3式，可得：
+$$
+\rho = \rho_0e^{-\frac{\sigma}{\epsilon}t},\tau=\frac{\epsilon}{\sigma}
+$$
+良导体（即$\rho$衰减很快）满足：
+$$
+\frac{\sigma}{\epsilon\omega}&amp;raquo;1
+$$&lt;/p&gt;
+&lt;h2 id=&#34;电磁波&#34;&gt;电磁波&lt;/h2&gt;
+&lt;p&gt;对比介质中和导体中的Maxwell方程组，可以发现导体中多了传导电流项$\sigma E$。为使得两者形式一致，引入复电容率：
+$$
+\epsilon^{\prime} = \epsilon+i\frac{\sigma}{\omega}
+$$
+此时：
+$$
+k=\omega\sqrt{\mu\epsilon^{\prime}}=\omega\sqrt{\mu(\epsilon+i\frac{\sigma}{\omega})}
+$$
+设$k=\beta+i\alpha$，下考虑垂直入射（入射方向为$z$轴）的情形，$E$满足：
+$$
+E = E_0e^{-\alpha z}e^{i(\beta z-\omega t)}
+$$
+在良导体条件下：
+$$
+\alpha \approx \beta \approx \sqrt\frac{\omega\mu\sigma}{2}
+$$
+定义强度降为表面的$e^{-1}$时的深度为穿透深度：
+$$
+\delta = \frac{1}{\alpha}=\sqrt\frac{2}{\omega\mu\sigma}
+$$
+还可求出磁场：
+$$
+H = \sqrt\frac{\sigma}{\omega\mu}e^{i\frac{\pi}{4}}\hat e_n\times E
+$$
+根据下式可以看出，磁场能量占据主导：
+$$
+\frac{&amp;lt;w_e&amp;gt;}{&amp;lt;w_m&amp;gt;} = \frac{\frac{1}{4}\epsilon|E_0|^2}{\frac{1}{4}\mu|H_0|^2}=\frac{\omega \epsilon}{\sigma}&amp;laquo;1
+$$
+下考虑反射系数。边界条件为：
+$$
+E+E^{\prime}=E^{\prime\prime}\
+H-H^{\prime}=H^{\prime\prime}\quad(E-E^{\prime}=\sqrt\frac{\sigma}{2\omega\epsilon_0}(1+i)E^{\prime\prime})
+$$
+幅度比：
+$$
+\frac{E^{\prime}}{E} = \frac{\sqrt\frac{2\omega\epsilon_0}{\sigma}-1-i}{\sqrt\frac{2\omega\epsilon_0}{\sigma}+1+i}
+$$&lt;/p&gt;
+&lt;p&gt;反射系数：
+$$
+R=|\frac{E^{\prime}}{E}|^2=1-2\sqrt\frac{2\omega\epsilon_0}{\sigma}
+$$&lt;/p&gt;
+&lt;p&gt;当电磁波照射到良导体表面时，有部分电磁场能量转换为导体的焦耳热。&lt;/p&gt;
+&lt;p&gt;导体平均损耗功率密度$P_{\sigma}$：
+$$
+P_\sigma = \frac{1}{2}E_{0t}\cdot J_\sigma^\star = \frac{1}{2}\sigma|E_{0}|^2e^{-2\alpha z}
+$$&lt;/p&gt;
+&lt;p&gt;表面电阻$R_s$：
+$$
+R_s=\frac{1}{\sigma\delta}
+$$
+单位表面焦耳热总功率$P_d$：
+$$
+P_d = \frac{1}{2}|J_s|^2R_s
+$$
+表面电流密度$J_s$：
+$$
+J_s=\frac{\sigma E_0}{\sqrt{\alpha^2+\beta^2}}e^{i\arctan(\frac{\beta}{\alpha})}
+$$&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>平面电磁场</title>
+        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves/electromagnetic_fields_and_waves02/</link>
+        <pubDate>Mon, 30 May 2022 00:00:00 +0000</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves/electromagnetic_fields_and_waves02/</guid>
         <description>&lt;h1 id=&#34;平面电磁场&#34;&gt;平面电磁场&lt;/h1&gt;
 &lt;h2 id=&#34;平面波&#34;&gt;平面波&lt;/h2&gt;
 &lt;p&gt;在计算电磁场的传播时，我们默认$\rho=0$，$J=0$。&lt;/p&gt;
@@ -2262,11 +2328,11 @@ $$&lt;/p&gt;
 </description>
         </item>
         <item>
-        <title>Electromagnetic_Fields_and_Waves03</title>
-        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves03/</link>
+        <title>电磁场的反射与折射</title>
+        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves/electromagnetic_fields_and_waves03/</link>
         <pubDate>Mon, 30 May 2022 00:00:00 +0000</pubDate>
         
-        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves03/</guid>
+        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves/electromagnetic_fields_and_waves03/</guid>
         <description>&lt;h1 id=&#34;电磁场的反射与折射&#34;&gt;电磁场的反射与折射&lt;/h1&gt;
 &lt;h2 id=&#34;振幅&#34;&gt;振幅&lt;/h2&gt;
 &lt;p&gt;边界条件满足：
@@ -2390,88 +2456,11 @@ $$&lt;/p&gt;
 </description>
         </item>
         <item>
-        <title>Electromagnetic_Fields_and_Waves04</title>
-        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves04/</link>
-        <pubDate>Mon, 30 May 2022 00:00:00 +0000</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves04/</guid>
-        <description>&lt;h1 id=&#34;导体中电磁场的传播&#34;&gt;导体中电磁场的传播&lt;/h1&gt;
-&lt;h2 id=&#34;自由电荷&#34;&gt;自由电荷&lt;/h2&gt;
-&lt;p&gt;根据电荷守恒定律和Maxwell方程第3式，可得：
-$$
-\rho = \rho_0e^{-\frac{\sigma}{\epsilon}t},\tau=\frac{\epsilon}{\sigma}
-$$
-良导体（即$\rho$衰减很快）满足：
-$$
-\frac{\sigma}{\epsilon\omega}&amp;raquo;1
-$$&lt;/p&gt;
-&lt;h2 id=&#34;电磁波&#34;&gt;电磁波&lt;/h2&gt;
-&lt;p&gt;对比介质中和导体中的Maxwell方程组，可以发现导体中多了传导电流项$\sigma E$。为使得两者形式一致，引入复电容率：
-$$
-\epsilon^{\prime} = \epsilon+i\frac{\sigma}{\omega}
-$$
-此时：
-$$
-k=\omega\sqrt{\mu\epsilon^{\prime}}=\omega\sqrt{\mu(\epsilon+i\frac{\sigma}{\omega})}
-$$
-设$k=\beta+i\alpha$，下考虑垂直入射（入射方向为$z$轴）的情形，$E$满足：
-$$
-E = E_0e^{-\alpha z}e^{i(\beta z-\omega t)}
-$$
-在良导体条件下：
-$$
-\alpha \approx \beta \approx \sqrt\frac{\omega\mu\sigma}{2}
-$$
-定义强度降为表面的$e^{-1}$时的深度为穿透深度：
-$$
-\delta = \frac{1}{\alpha}=\sqrt\frac{2}{\omega\mu\sigma}
-$$
-还可求出磁场：
-$$
-H = \sqrt\frac{\sigma}{\omega\mu}e^{i\frac{\pi}{4}}\hat e_n\times E
-$$
-根据下式可以看出，磁场能量占据主导：
-$$
-\frac{&amp;lt;w_e&amp;gt;}{&amp;lt;w_m&amp;gt;} = \frac{\frac{1}{4}\epsilon|E_0|^2}{\frac{1}{4}\mu|H_0|^2}=\frac{\omega \epsilon}{\sigma}&amp;laquo;1
-$$
-下考虑反射系数。边界条件为：
-$$
-E+E^{\prime}=E^{\prime\prime}\
-H-H^{\prime}=H^{\prime\prime}\quad(E-E^{\prime}=\sqrt\frac{\sigma}{2\omega\epsilon_0}(1+i)E^{\prime\prime})
-$$
-幅度比：
-$$
-\frac{E^{\prime}}{E} = \frac{\sqrt\frac{2\omega\epsilon_0}{\sigma}-1-i}{\sqrt\frac{2\omega\epsilon_0}{\sigma}+1+i}
-$$&lt;/p&gt;
-&lt;p&gt;反射系数：
-$$
-R=|\frac{E^{\prime}}{E}|^2=1-2\sqrt\frac{2\omega\epsilon_0}{\sigma}
-$$&lt;/p&gt;
-&lt;p&gt;当电磁波照射到良导体表面时，有部分电磁场能量转换为导体的焦耳热。&lt;/p&gt;
-&lt;p&gt;导体平均损耗功率密度$P_{\sigma}$：
-$$
-P_\sigma = \frac{1}{2}E_{0t}\cdot J_\sigma^\star = \frac{1}{2}\sigma|E_{0}|^2e^{-2\alpha z}
-$$&lt;/p&gt;
-&lt;p&gt;表面电阻$R_s$：
-$$
-R_s=\frac{1}{\sigma\delta}
-$$
-单位表面焦耳热总功率$P_d$：
-$$
-P_d = \frac{1}{2}|J_s|^2R_s
-$$
-表面电流密度$J_s$：
-$$
-J_s=\frac{\sigma E_0}{\sqrt{\alpha^2+\beta^2}}e^{i\arctan(\frac{\beta}{\alpha})}
-$$&lt;/p&gt;
-</description>
-        </item>
-        <item>
-        <title>Electromagnetic_Fields_and_Waves00</title>
-        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves00/</link>
+        <title>Maxwell&#39;s Equations</title>
+        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves/electromagnetic_fields_and_waves00/</link>
         <pubDate>Sun, 29 May 2022 00:00:00 +0000</pubDate>
         
-        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves00/</guid>
+        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves/electromagnetic_fields_and_waves00/</guid>
         <description>&lt;h1 id=&#34;utils&#34;&gt;utils&lt;/h1&gt;
 &lt;p&gt;本节记录一些期中之前常用的公式。&lt;/p&gt;
 &lt;h2 id=&#34;maxwell方程组的n种形式&#34;&gt;Maxwell方程组的n种形式&lt;/h2&gt;
@@ -2514,11 +2503,11 @@ $$&lt;/p&gt;
 </description>
         </item>
         <item>
-        <title>Electromagnetic_Fields_and_Waves01</title>
-        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves01/</link>
+        <title>电磁场的能流</title>
+        <link>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves/electromagnetic_fields_and_waves01/</link>
         <pubDate>Sun, 29 May 2022 00:00:00 +0000</pubDate>
         
-        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves01/</guid>
+        <guid>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves/electromagnetic_fields_and_waves01/</guid>
         <description>&lt;h1 id=&#34;电磁场的能流&#34;&gt;电磁场的能流&lt;/h1&gt;
 &lt;h2 id=&#34;瞬时poynting定理&#34;&gt;瞬时Poynting定理&lt;/h2&gt;
 &lt;p&gt;能流$w=w(x,t)$表示的是场单位体积的能量，场内的总能量：&lt;/p&gt;
