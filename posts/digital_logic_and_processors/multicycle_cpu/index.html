@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://ther-nullptr.github.io/posts/digital_logic_and_processors/multicycle_cpu/'>
 
-<link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='Multicycle CPU'>
+<link rel="stylesheet" href="/scss/style.min.cbd65bb3bdc1206609e44b215380d6562914c436bb43c31b46c17b42ed80a9f5.css"><meta property='og:title' content='Multicycle CPU'>
 <meta property='og:description' content='多周期CPU 多周期数据通路     R lw or sw beq J     IF PC&amp;lt;=PC&#43;4; IR &amp;lt;=MemInst[PC]; * * *   ID opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]]; ALUOut&amp;lt;=PC&#43;(signext(IR[15:0]&amp;laquo;2)) * * *   EX ALUOut &amp;lt;= A op B ALUOut&amp;lt;=A&#43;sign-ext(IR[15:0]) if (A=B)PC&amp;lt;=ALUOut PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}   MEM Reg[IR[15:11]]&amp;lt;=ALUOut Lw:MDR&amp;lt;=MemData[ALUOut];Sw:MemData[ALUout] &amp;lt;=B     WB  Reg[IR[20:16]]&amp;lt;=MDR      重点控制信号的周期：
  IRWrite：在Instruction fench阶段被置为1，但在lw的Memory access阶段被置为0，因为在lw的Register writeback阶段，Instruction Register不能再更新，如果更新的话，会被读出的数据覆盖。 MemRead：在Instruction fench阶段被置为1（用于读取指令），在Instruction decode阶段为0，在lw的Memory access阶段被置为1。 MemWrite：默认0，在sw的Memory access阶段被置为1。 ALUSrc1：在Instruction fench阶段为00（PC），在Execution阶段根据实际情况修改。 ALUSrc2：在Instruction fench阶段为01（4），在Instruction decode阶段为11（imm&amp;laquo;2），在Execution阶段根据实际情况修改。 PCWrite：在Instruction fench阶段为1（PC&amp;lt;=PC&#43;4），在Instruction decode阶段为0，此后若执行跳转类指令则被置为1。 PCSource：默认为00（PC&amp;lt;=PC&#43;4），在Execution阶段视情况改变。 IorD：默认0（取指令），在Memory access阶段被置为1。 PCWriteCond：在beq的Execution阶段被置为1。 MemtoReg：默认00。 RegDst：默认00。 RegWrite：默认0，在jal和jalr以及Register writeback中被置为1。 ExtOp：在Instruction decode阶段被置为1，因为需要算跳转地址。 ALUOp：在Instruction fench和Instruction decode均为00，因为需要执行加法操作；R type被置为10，beq被置为01。  多周期异常和中断处理 异常指内部不可预知事件（溢出，同步），中断指外部不可预知事件（I/O，异步）。'>
 <meta property='og:url' content='https://ther-nullptr.github.io/posts/digital_logic_and_processors/multicycle_cpu/'>
@@ -520,9 +520,9 @@
 
     
 
-<aside class="related-contents--wrapper">
-    <h2 class="section-title">Related contents</h2>
-    <div class="related-contents">
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
         <div class="flex article-list--tile">
             
                 
@@ -536,6 +536,7 @@
         </div>
     </a>
 </article>
+
             
                 
 <article class="">
@@ -548,6 +549,7 @@
         </div>
     </a>
 </article>
+
             
                 
 <article class="">
@@ -560,6 +562,7 @@
         </div>
     </a>
 </article>
+
             
                 
 <article class="">
@@ -572,6 +575,7 @@
         </div>
     </a>
 </article>
+
             
                 
 <article class="">
@@ -584,6 +588,7 @@
         </div>
     </a>
 </article>
+
             
         </div>
     </div>
@@ -643,7 +648,7 @@
     
     <section class="powerby">
         Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
-        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.11.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
 
         <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
         </script>
