@@ -378,13 +378,13 @@
     
     
     <h1 id="memory">Memory</h1>
-<p><img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531195153980.png"
+<p><img src="https://s2.loli.net/2022/06/15/UKqomr5ghY8psMx.png"
 	
 	
 	
 	loading="lazy"
 	
-		alt="image-20220531195153980"
+		alt="存储器结构"
 	
 	
 ></p>
@@ -474,13 +474,13 @@ $$</p>
 <li><strong>cache存储</strong> （标签）+cache行号+行内地址</li>
 </ul>
 <p>每个主存块和每个cache行储存的数据相同，两者的数据传输以块/行为单位。其中每个cache行的组成如下：数据+标签+有效位。</p>
-<p><img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531203832648.png"
+<p><img src="https://s2.loli.net/2022/06/15/9drX7hg2OSwcqMF.png"
 	
 	
 	
 	loading="lazy"
 	
-		alt="image-20220531203832648"
+		alt="cache基本结构"
 	
 	
 ></p>
@@ -497,7 +497,7 @@ $$
 j = i \mod N \
 i = j+Nk(k=0,1..)
 $$
-<img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531205418361.png"
+<img src="https://s2.loli.net/2022/06/15/N1X9zWl4qwVax3g.png"
 	
 	
 	
@@ -515,7 +515,7 @@ y[4x+1+(32-\log_2x-\log_2y)]
 $$
 注意到cache每行至少储存1个word，所以$x$一定是4的倍数，地址的后两位一定是0。载入cache数据时仍然以word为单位进行载入。</p>
 <h4 id="全相联映像">全相联映像</h4>
-<p><img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531211641361.png"
+<p><img src="https://s2.loli.net/2022/06/15/X62E9o4nNxIMOyf.png"
 	
 	
 	
@@ -527,7 +527,7 @@ $$
 ></p>
 <p>对于32位内存系统，假设cache每行有$x$byte，则低$\log_2x$位为块内地址，剩下$(32-\log_2x)$位作为主存标签。</p>
 <h4 id="组相联映像">组相联映像</h4>
-<p><img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531212131731.png"
+<p><img src="https://s2.loli.net/2022/06/15/V7rBYOEQ2Uquf1d.png"
 	
 	
 	
@@ -600,26 +600,6 @@ $$
 <li>容量缺失：由于cache容纳不了程序所需的所有主存块而引起的缺失。</li>
 <li>冲突缺失：在组相联或者直接映像中，多个的主存块竞争同一个cache组时引起的缺失，也称碰撞缺失。</li>
 </ul>
-<p><img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220607202149659.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="image-20220607202149659"
-	
-	
-></p>
-<p><img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220607203259141.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="image-20220607203259141"
-	
-	
-></p>
 
 </section>
 

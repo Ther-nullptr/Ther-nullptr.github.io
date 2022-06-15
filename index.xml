@@ -14,9 +14,11 @@
         <guid>https://ther-nullptr.github.io/posts/awesome_toolkits/websites/</guid>
         <description>&lt;h2 id=&#34;优秀stack站点记录&#34;&gt;优秀stack站点记录&lt;/h2&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.zhixuan.dev/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;zhixuan&amp;rsquo;s Blog&lt;/a&gt;
-&lt;a class=&#34;link&#34; href=&#34;https://zzzqiii.github.io/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;zhixuan&amp;rsquo;s Blog&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zzzqiii.github.io/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;相忘于江湖&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://basicgo.net/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Home&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         <item>
@@ -470,13 +472,13 @@ $$
         
         <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/memory/</guid>
         <description>&lt;h1 id=&#34;memory&#34;&gt;Memory&lt;/h1&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531195153980.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/UKqomr5ghY8psMx.png&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;image-20220531195153980&#34;
+		alt=&#34;存储器结构&#34;
 	
 	
 &gt;&lt;/p&gt;
@@ -566,13 +568,13 @@ $$&lt;/p&gt;
 &lt;li&gt;&lt;strong&gt;cache存储&lt;/strong&gt; （标签）+cache行号+行内地址&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;每个主存块和每个cache行储存的数据相同，两者的数据传输以块/行为单位。其中每个cache行的组成如下：数据+标签+有效位。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531203832648.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/9drX7hg2OSwcqMF.png&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;image-20220531203832648&#34;
+		alt=&#34;cache基本结构&#34;
 	
 	
 &gt;&lt;/p&gt;
@@ -589,7 +591,7 @@ $$
 j = i \mod N \
 i = j+Nk(k=0,1..)
 $$
-&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531205418361.png&#34;
+&lt;img src=&#34;https://s2.loli.net/2022/06/15/N1X9zWl4qwVax3g.png&#34;
 	
 	
 	
@@ -607,7 +609,7 @@ y[4x+1+(32-\log_2x-\log_2y)]
 $$
 注意到cache每行至少储存1个word，所以$x$一定是4的倍数，地址的后两位一定是0。载入cache数据时仍然以word为单位进行载入。&lt;/p&gt;
 &lt;h4 id=&#34;全相联映像&#34;&gt;全相联映像&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531211641361.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/X62E9o4nNxIMOyf.png&#34;
 	
 	
 	
@@ -619,7 +621,7 @@ $$
 &gt;&lt;/p&gt;
 &lt;p&gt;对于32位内存系统，假设cache每行有$x$byte，则低$\log_2x$位为块内地址，剩下$(32-\log_2x)$位作为主存标签。&lt;/p&gt;
 &lt;h4 id=&#34;组相联映像&#34;&gt;组相联映像&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220531212131731.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/V7rBYOEQ2Uquf1d.png&#34;
 	
 	
 	
@@ -692,26 +694,6 @@ $$
 &lt;li&gt;容量缺失：由于cache容纳不了程序所需的所有主存块而引起的缺失。&lt;/li&gt;
 &lt;li&gt;冲突缺失：在组相联或者直接映像中，多个的主存块竞争同一个cache组时引起的缺失，也称碰撞缺失。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220607202149659.png&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;image-20220607202149659&#34;
-	
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220607203259141.png&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;image-20220607203259141&#34;
-	
-	
-&gt;&lt;/p&gt;
 </description>
         </item>
         <item>
@@ -1926,13 +1908,13 @@ $$&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;数据冒险&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220601092651113.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/IBAWylfu5XLO8Eg.png&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;image-20220601092651113&#34;
+		alt=&#34;转发1&#34;
 	
 	
 &gt;&lt;/p&gt;
@@ -1945,13 +1927,13 @@ $$&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;控制冒险(beq)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220601093122950.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/DFGkKoyB5pOgaLM.png&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;image-20220601093122950&#34;
+		alt=&#34;转发2&#34;
 	
 	
 &gt;&lt;/p&gt;
@@ -2185,19 +2167,6 @@ $$&lt;/p&gt;
 &lt;p&gt;假设有3种异常：badop，IRQ（外部中断），ALUExp。&lt;/p&gt;
 &lt;p&gt;Exception被放置在EX阶段，因此badop要经过一次ID/EX寄存器。&lt;/p&gt;
 &lt;p&gt;触发异常时，该单元会flush掉当前指令的EX/MEM寄存器，下条指令的ID/EX寄存器，下下条指令的IF/ID寄存器。（注意flush由hazard和exception单元共同控制）&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220604152957008.png&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;image-20220604152957008&#34;
-	
-	
-&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;为什么是PC或PC+4？？&lt;/p&gt;
-&lt;/blockquote&gt;
 &lt;h1 id=&#34;扩展技术&#34;&gt;扩展技术&lt;/h1&gt;
 &lt;h2 id=&#34;指令级并行&#34;&gt;指令级并行&lt;/h2&gt;
 &lt;h3 id=&#34;超级流水线&#34;&gt;超级流水线&lt;/h3&gt;
@@ -2210,13 +2179,13 @@ $$&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;超标量&lt;/strong&gt; 动态决定哪些指令同时执行 （在运行时由硬件决定）。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220606204510831.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/6StxiOn9mB8sNej.png&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;image-20220606204510831&#34;
+		alt=&#34;RAW,WAW,WAR&#34;
 	
 	
 &gt;&lt;/p&gt;
