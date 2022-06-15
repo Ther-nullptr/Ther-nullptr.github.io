@@ -2696,6 +2696,188 @@ Re(\nabla \times\frac{1}{2}(E\times H^\star))=
 $$&lt;/p&gt;
 </description>
         </item>
+        <item>
+        <title>Oh My Posh</title>
+        <link>https://ther-nullptr.github.io/posts/awesome_toolkits/oh-my-posh/</link>
+        <pubDate>Thu, 19 Aug 2021 23:53:42 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/awesome_toolkits/oh-my-posh/</guid>
+        <description>&lt;h1 id=&#34;计算机美化指南&#34;&gt;计算机美化指南&lt;/h1&gt;
+&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;一个美观的开发界面，对于调试程序、管理代码版本、提升编程体验等有着至关重要的作用。本文介绍了windows平台下命令行界面的美化方法，以期让读者拥有更好的编程体验。&lt;/p&gt;
+&lt;p&gt;在图形化用户界面（GUI）大规模普及之前，命令行界面（CLI）一直是电脑界的主流。CLI开销小、运行快速，但是非专业用户使用不方便。如今，不从事开发的电脑用户接触到命令行的机会已经很少了（非计算机系学习C，可能只会在“命令行参数”一节接触到命令行），但如果从事软件开发，使用git、gcc等工具，熟练掌握命令行的使用还是有必要的。&lt;/p&gt;
+&lt;h3 id=&#34;cmd&#34;&gt;cmd&lt;/h3&gt;
+&lt;p&gt;点击&lt;code&gt;win&lt;/code&gt;+&lt;code&gt;R&lt;/code&gt;，输入&lt;code&gt;cmd&lt;/code&gt;，就会弹出&lt;code&gt;windows&lt;/code&gt;下最基本的命令行终端——&lt;code&gt;cmd&lt;/code&gt;。它的初始界面长这样：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/LREMDXtFAiZCrdf.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;cmd&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;且不说白+黑的配色毫无生机，字体看上去也十分违和。这种不美观的界面可能的确劝退了不少人学习它的欲望。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;科普：什么样的字体才能称之为好看？&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;serif：衬线字体，字体边缘具有明显的艺术修饰效果，如 &lt;!-- raw HTML omitted --&gt;宋体（simsun）&lt;!-- raw HTML omitted --&gt;、&lt;!-- raw HTML omitted --&gt;Times new roman&lt;!-- raw HTML omitted --&gt;。&lt;/p&gt;
+&lt;p&gt;这种字体适合做艺术字，但若用作代码字体，则会显得节外生枝，影响呈现效果。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;sans-serif：非衬线字体，字体比划一般粗细均匀、清晰，如 &lt;!-- raw HTML omitted --&gt;微软雅黑（Arial）。&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;这种字体一般用于正文写作。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;monospace：等宽字体，指每个英文字符（字母、数字、标点）宽度一致的字体。如 Consolas、&lt;!-- raw HTML omitted --&gt;Courier New&lt;!-- raw HTML omitted --&gt;。&lt;/p&gt;
+&lt;p&gt;这种字体由于呈现效果较好，被广泛地用于编程。&lt;/p&gt;
+&lt;p&gt;绝大多数开发工具都会有使用等宽字体的建议（如VS 2019）：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/pUMWF9TVSLz7QnH.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;字体设置&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我们试图给cmd换一个monospace的字体（右键边框，点击“属性”）。遗憾的是，cmd字体的选择十分匮乏，找不到合适的monospace字体。&lt;/p&gt;
+&lt;h3 id=&#34;powershell&#34;&gt;powershell&lt;/h3&gt;
+&lt;p&gt;我们看看windows上另一款更加强大的命令行界面：&lt;code&gt;powershell&lt;/code&gt;。在windows搜索框中键入powershell，打开。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/NwrZpckERo7fY3X.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;powershell&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;遗憾的是，除了黑色界面变成蓝色界面，字体的呈现效果并没有什么改观。而且，powershell也没有提供一种较为美观的monospace字体。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/gBkau5RTsNMmyxj.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;powershell界面&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;windows-terminal&#34;&gt;windows terminal&lt;/h3&gt;
+&lt;p&gt;长期以来，windows都没有像mac、Linux那样，为开发者提供一个较为美观的命令行界面。这种情况一直到2019年windows terminal的推出才有所改观。你可以在Microsoft Store中直接安装它。&lt;/p&gt;
+&lt;p&gt;安装完毕后，启动效果如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/cwAXLxzuf5SqZ7v.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;windows terminal界面&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;打开“设置-power shell图标-外观”，可以看到现在终端的字体是&lt;code&gt;Cascadia Mono&lt;/code&gt;，可以查证这是一种等宽字体。windows powershell的字体的选择十分丰富，你可以根据自己的喜好任意挑选。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/Z8pUPoGCf4X2xQj.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;windows terminal设置&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;oh-my-posh&#34;&gt;oh-my-posh&lt;/h3&gt;
+&lt;p&gt;还可以实现更加美观的效果吗？当然可以！我们需要借助oh-my-posh插件，先看下最终效果吧:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/1d5xpJMQHit3Wmc.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;oh my posh成品&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;可以看到，该插件不仅加入了彩色的图标、操作时间等元素，而且对文件夹的git仓库状态等也有较好的显示。&lt;/p&gt;
+&lt;p&gt;预安装要求：Windows terminal、git（后台回复：git，领取git安装程序，安装时只需一路点OK）。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;下载oh-my-posh和posh-git插件&lt;/p&gt;
+&lt;p&gt;由于一些众所周知的原因，网络上所展示的传统的下载途径可能需要一些特殊的手段。对此，小编准备了插件资源（后台回复：terminal，提取插件）。资源中有一个&lt;code&gt;Modules&lt;/code&gt;文件夹和一个&lt;code&gt;Microsoft.PowerShell_profile.ps1&lt;/code&gt;文件。&lt;/p&gt;
+&lt;p&gt;下载完毕后，在你的电脑中找到&lt;code&gt;C:\Users\用户名\Documents(或文档)\WindowsPowerShell&lt;/code&gt;文件夹（也有可能是其它的D盘或E盘，因人而异）。此时的文件夹中应该有一个&lt;code&gt;Scripts&lt;/code&gt;文件夹。将&lt;code&gt;Modules&lt;/code&gt;文件夹和一个&lt;code&gt;Microsoft.PowerShell_profile.ps1&lt;/code&gt;文件按照如下方式放置：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/R8oZVS6xCP5iQaf.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;powershell配置&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;启动windows terminal，会看到以下场景：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/ozRFwZACK6XJa4l.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;乱码？！&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这些方块是什么？是乱码。这是因为系统自带的字体不能渲染oh-my-posh的一些特定符号。我们需要下载对应的字体。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;终端后续配置&lt;/p&gt;
+&lt;p&gt;为渲染这些符号，我们需要下载名为&lt;code&gt;Nerd&lt;/code&gt;系列的字体。网址如下：https://www.nerdfonts.com/&lt;/p&gt;
+&lt;p&gt;（若网址打不开，也可后台回复：fonts，领取Nerd字体）。解压文件夹后，打开其中的.ttf文件，点击安装，即可使用字体。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/1zsjKBdktmq6RXu.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Nerd字体示例&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;重启windows terminal，选择刚才安装的字体，即可呈现出正确的效果。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/aRuIhcTUrOE6p7x.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;修改后的Powershell&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;还可以设置终端背景、终端透明度等，让你的命令行界面更加出彩。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/LgTkevRcIWn1hyJ.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;设置&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;至此，命令行界面美化完成！&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
         
     </channel>
 </rss>
