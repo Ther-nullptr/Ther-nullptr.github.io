@@ -5,7 +5,7 @@
     <loc>https://ther-nullptr.github.io/posts/</loc>
     <lastmod>2022-06-19T20:55:58+08:00</lastmod>
   </url><url>
-    <loc>https://ther-nullptr.github.io/posts/small_talk/love_death_robots/</loc>
+    <loc>https://ther-nullptr.github.io/posts/small_talk/</loc>
     <lastmod>2022-06-19T20:55:58+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/</loc>
@@ -24,8 +24,17 @@
     <loc>https://ther-nullptr.github.io/posts/awesome_toolkits/wsl_remote/</loc>
     <lastmod>2022-06-19T19:10:59+08:00</lastmod>
   </url><url>
+    <loc>https://ther-nullptr.github.io/posts/resource/cs_course/</loc>
+    <lastmod>2022-06-16T18:55:51+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/tags/awesome-kits/</loc>
+    <lastmod>2022-06-15T00:24:11+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/categories/awesome-kits/</loc>
+    <lastmod>2022-06-15T00:24:11+08:00</lastmod>
+  </url><url>
     <loc>https://ther-nullptr.github.io/categories/</loc>
-    <lastmod>2022-06-19T19:09:43+08:00</lastmod>
+    <lastmod>2022-06-15T00:24:11+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -37,14 +46,8 @@
                 href="https://ther-nullptr.github.io/categories/"
                 />
   </url><url>
-    <loc>https://ther-nullptr.github.io/tags/small-talk/</loc>
-    <lastmod>2022-06-19T19:09:43+08:00</lastmod>
-  </url><url>
-    <loc>https://ther-nullptr.github.io/categories/small-talk/</loc>
-    <lastmod>2022-06-19T19:09:43+08:00</lastmod>
-  </url><url>
     <loc>https://ther-nullptr.github.io/tags/</loc>
-    <lastmod>2022-06-19T19:09:43+08:00</lastmod>
+    <lastmod>2022-06-15T00:24:11+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -55,21 +58,6 @@
                 hreflang="en"
                 href="https://ther-nullptr.github.io/tags/"
                 />
-  </url><url>
-    <loc>https://ther-nullptr.github.io/posts/small_talk/eva/</loc>
-    <lastmod>2022-06-19T19:09:43+08:00</lastmod>
-  </url><url>
-    <loc>https://ther-nullptr.github.io/posts/resource/cs_course/</loc>
-    <lastmod>2022-06-16T18:55:51+08:00</lastmod>
-  </url><url>
-    <loc>https://ther-nullptr.github.io/posts/small_talk/%E6%97%A0%E9%A2%98/</loc>
-    <lastmod>2022-06-15T23:59:43+08:00</lastmod>
-  </url><url>
-    <loc>https://ther-nullptr.github.io/tags/awesome-kits/</loc>
-    <lastmod>2022-06-15T00:24:11+08:00</lastmod>
-  </url><url>
-    <loc>https://ther-nullptr.github.io/categories/awesome-kits/</loc>
-    <lastmod>2022-06-15T00:24:11+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/awesome_toolkits/websites/</loc>
     <lastmod>2022-06-15T00:24:11+08:00</lastmod>
@@ -82,9 +70,6 @@
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/cheatsheet/hugo_text/</loc>
     <lastmod>2022-06-14T23:12:44+08:00</lastmod>
-  </url><url>
-    <loc>https://ther-nullptr.github.io/posts/small_talk/exam/</loc>
-    <lastmod>2022-06-06T19:37:34+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/archives/</loc>
     <lastmod>2022-06-05T00:00:00+00:00</lastmod>
@@ -130,9 +115,6 @@
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/electromagnetic_fields_and_waves/electromagnetic_fields_and_waves03/</loc>
     <lastmod>2022-05-30T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://ther-nullptr.github.io/posts/small_talk/ice-cream/</loc>
-    <lastmod>2022-05-29T16:24:16+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/awesome_toolkits/command/</loc>
     <lastmod>2022-05-29T00:00:00+00:00</lastmod>
