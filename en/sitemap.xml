@@ -3,13 +3,10 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://ther-nullptr.github.io/posts/</loc>
-    <lastmod>2022-06-16T18:55:51+08:00</lastmod>
-  </url><url>
-    <loc>https://ther-nullptr.github.io/posts/resource/cs_course/</loc>
-    <lastmod>2022-06-16T18:55:51+08:00</lastmod>
+    <lastmod>2022-06-19T19:10:59+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/</loc>
-    <lastmod>2022-06-16T18:55:51+08:00</lastmod>
+    <lastmod>2022-06-19T19:10:59+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -21,8 +18,11 @@
                 href="https://ther-nullptr.github.io/"
                 />
   </url><url>
+    <loc>https://ther-nullptr.github.io/posts/awesome_toolkits/wsl_remote/</loc>
+    <lastmod>2022-06-19T19:10:59+08:00</lastmod>
+  </url><url>
     <loc>https://ther-nullptr.github.io/categories/</loc>
-    <lastmod>2022-06-15T23:59:43+08:00</lastmod>
+    <lastmod>2022-06-19T19:09:43+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -35,13 +35,13 @@
                 />
   </url><url>
     <loc>https://ther-nullptr.github.io/tags/small-talk/</loc>
-    <lastmod>2022-06-15T23:59:43+08:00</lastmod>
+    <lastmod>2022-06-19T19:09:43+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/categories/small-talk/</loc>
-    <lastmod>2022-06-15T23:59:43+08:00</lastmod>
+    <lastmod>2022-06-19T19:09:43+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/tags/</loc>
-    <lastmod>2022-06-15T23:59:43+08:00</lastmod>
+    <lastmod>2022-06-19T19:09:43+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -52,6 +52,12 @@
                 hreflang="en"
                 href="https://ther-nullptr.github.io/tags/"
                 />
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/small_talk/eva/</loc>
+    <lastmod>2022-06-19T19:09:43+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/resource/cs_course/</loc>
+    <lastmod>2022-06-16T18:55:51+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/small_talk/%E6%97%A0%E9%A2%98/</loc>
     <lastmod>2022-06-15T23:59:43+08:00</lastmod>
