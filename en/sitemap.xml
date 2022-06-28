@@ -53,6 +53,9 @@
                 href="https://ther-nullptr.github.io/"
                 />
   </url><url>
+    <loc>https://ther-nullptr.github.io/posts/programming/compile/</loc>
+    <lastmod>2022-06-23T20:47:58+08:00</lastmod>
+  </url><url>
     <loc>https://ther-nullptr.github.io/tags/csharp/</loc>
     <lastmod>2022-06-22T10:40:10+08:00</lastmod>
   </url><url>
@@ -66,6 +69,9 @@
     <lastmod>2022-06-20T20:07:09+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/programming/protobuf/</loc>
+    <lastmod>2022-06-20T20:07:09+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/programming/oop/</loc>
     <lastmod>2022-06-20T20:07:09+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/programming/grpc/</loc>

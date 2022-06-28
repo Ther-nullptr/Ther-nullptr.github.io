@@ -352,7 +352,7 @@
 
 
                 <time class="article-time--reading">
-                    2 minute read
+                    5 minute read
                 </time>
             </div>
         
@@ -366,7 +366,8 @@
     <section class="article-content">
     
     
-    <h2 id="数据的传输与解析浅谈序列化与反序列化">数据的传输与解析——浅谈序列化与反序列化</h2>
+    <h2 id="protobuf">Protobuf</h2>
+<h2 id="数据的传输与解析浅谈序列化与反序列化">数据的传输与解析——浅谈序列化与反序列化</h2>
 <p>在网络通信的过程中，服务器端和客户端之间常常需要进行对象的传输。对象中常常含有不同的变量：</p>
 <ul>
 <li>整数</li>
@@ -533,13 +534,6 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>以上操作会将<code>protoc</code>可执行文件（后续教程会介绍其使用方法）以及与protobuf相关的头文件、库安装至本机。</p>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/141415216"  target="_blank" rel="noopener"
-    >Protobuf</a>
-<a class="link" href="https://zhuanlan.zhihu.com/p/168610613"  target="_blank" rel="noopener"
-    >https://zhuanlan.zhihu.com/p/168610613</a>
-<a class="link" href="https://zhuanlan.zhihu.com/p/401958878"  target="_blank" rel="noopener"
-    >https://zhuanlan.zhihu.com/p/401958878</a>
-先讲一下常见的数据格式文件，然后通过一系列比较引出protobuf的优越性。</p>
 <h2 id="proto文件">proto文件</h2>
 <p>在使用protobuf时，我们首先需要在<code>.proto</code>文件中将需要被序列化的数据结构进行定义。</p>
 <p>一个<code>.proto</code>文件示例如下：</p>
@@ -568,15 +562,19 @@
 </span><span class="lnt">21
 </span><span class="lnt">22
 </span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="line"><span class="cl"><span class="n">syntax</span> <span class="o">=</span> <span class="s">&#34;proto3&#34;</span><span class="p">;</span> <span class="c1">// 指定protobuf遵循的语法格式是proto2还是proto3。在本教程和之后的开发中，我们都使用proto3语法格式。
+<pre tabindex="0" class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="line"><span class="cl"><span class="c1">// import &#34;other_protos.proto&#34;; // 如果需要引用其它的protobuf文件，可以使用import语句。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="n">syntax</span> <span class="o">=</span> <span class="s">&#34;proto3&#34;</span><span class="p">;</span> <span class="c1">// 指定protobuf遵循的语法格式是proto2还是proto3。在本教程和之后的开发中，我们都使用proto3语法格式。
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kn">package</span> <span class="nn">student</span><span class="p">;</span> <span class="c1">// 包名声明。如在本例中，proto文件生成的类都会被放在namespace student中，这一举措的意义在于防止命名冲突
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="kd">enum</span> <span class="n">Sex</span> <span class="c1">// 自定义枚举类型
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="n">male</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="n">female</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="n">MALE</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="n">FEMALE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">}</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="kd">message</span> <span class="nc">Course</span> <span class="c1">// protobuf中，使用message定义数据结构，类似于C中的结构体
@@ -587,7 +585,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="kd">message</span> <span class="nc">StudentInfo</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="c1">// 变量声明格式 &lt;限定符&gt; &lt;类型&gt; &lt;变量名&gt;=id
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="c1">// 变量声明格式 &lt;限定修饰符&gt; &lt;数据类型&gt; &lt;变量名&gt;=id
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int32</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="kt">string</span> <span class="n">name</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err"></span>    <span class="n">Sex</span> <span class="n">sex</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
@@ -595,26 +593,428 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span><span class="err">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><p>说明：</p>
-<ol>
-<li><code>syntax</code>关键字用于选择proto文件需要遵循的语言标准。</li>
-<li><code>package</code>关键字用来防止不同的消息类型有命名冲突。例如，如果使用proto文件生成C++代码，那么相应的数据结构将会被封装在该命名空间中。</li>
-<li>我们可以在message中定义以下数据类型<a class="link" href="https://developers.google.com/protocol-buffers/docs/proto3#scalar"  target="_blank" rel="noopener"
-    >Protobuf scalar types</a>：</li>
-</ol>
+</div><h3 id="编号">编号</h3>
+<p>消息定义中的每个字段都有一个唯一的编号，从1开始。这些字段号用于识别你在二进制格式消息中的信息。</p>
+<p>一个常见的约定是，我们会将经常使用的字段编号为1-15，不常用的字段编号为16以上的数字，因为1-15的编号编码仅需要1 byte，这样可以减小字节流的体积。</p>
+<h3 id="数据类型">数据类型</h3>
+<p>Protobuf中常见的基础数据类型与若干编程语言的对应关系如下：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th style="text-align:left">proto Type</th>
+<th style="text-align:left">C++ Type</th>
+<th style="text-align:left">Python Type</th>
+<th style="text-align:left">C# Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">double</td>
+<td style="text-align:left">double</td>
+<td style="text-align:left">float</td>
+<td style="text-align:left">double</td>
+</tr>
+<tr>
+<td style="text-align:left">float</td>
+<td style="text-align:left">float</td>
+<td style="text-align:left">float</td>
+<td style="text-align:left">float</td>
+</tr>
+<tr>
+<td style="text-align:left">int32</td>
+<td style="text-align:left">int32</td>
+<td style="text-align:left">int</td>
+<td style="text-align:left">int</td>
+</tr>
+<tr>
+<td style="text-align:left">int64</td>
+<td style="text-align:left">int64</td>
+<td style="text-align:left">int/long</td>
+<td style="text-align:left">long</td>
+</tr>
+<tr>
+<td style="text-align:left">uint32</td>
+<td style="text-align:left">uint32</td>
+<td style="text-align:left">int/long</td>
+<td style="text-align:left">uint</td>
+</tr>
+<tr>
+<td style="text-align:left">uint64</td>
+<td style="text-align:left">uint64</td>
+<td style="text-align:left">int/long</td>
+<td style="text-align:left">ulong</td>
+</tr>
+<tr>
+<td style="text-align:left">sint32</td>
+<td style="text-align:left">int32</td>
+<td style="text-align:left">int</td>
+<td style="text-align:left">int</td>
+</tr>
+<tr>
+<td style="text-align:left">sint64</td>
+<td style="text-align:left">int64</td>
+<td style="text-align:left">int/long</td>
+<td style="text-align:left">long</td>
+</tr>
+<tr>
+<td style="text-align:left">fixed32</td>
+<td style="text-align:left">uint32</td>
+<td style="text-align:left">int/long</td>
+<td style="text-align:left">uint</td>
+</tr>
+<tr>
+<td style="text-align:left">fixed64</td>
+<td style="text-align:left">uint64</td>
+<td style="text-align:left">int/long</td>
+<td style="text-align:left">ulong</td>
+</tr>
+<tr>
+<td style="text-align:left">sfixed32</td>
+<td style="text-align:left">int32</td>
+<td style="text-align:left">int</td>
+<td style="text-align:left">int</td>
+</tr>
+<tr>
+<td style="text-align:left">sfixed64</td>
+<td style="text-align:left">int64</td>
+<td style="text-align:left">int/long</td>
+<td style="text-align:left">long</td>
+</tr>
+<tr>
+<td style="text-align:left">bool</td>
+<td style="text-align:left">bool</td>
+<td style="text-align:left">bool</td>
+<td style="text-align:left">bool</td>
+</tr>
+<tr>
+<td style="text-align:left">string</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">str/unicode</td>
+<td style="text-align:left">string</td>
+</tr>
+<tr>
+<td style="text-align:left">bytes</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">str (Python 2) bytes (Python 3)</td>
+<td style="text-align:left">ByteString</td>
+</tr>
+</tbody>
+</table></div>
+<p>更多语言的对应关系参看<a class="link" href="https://developers.google.com/protocol-buffers/docs/proto3#scalar"  target="_blank" rel="noopener"
+    >Protobuf scalar types</a>。</p>
+<p>此外，Protobuf还支持使用<code>enum</code>关键字定义枚举类型。每个枚举定义都必须包含一个映射到0的常量作为枚举的默认值。</p>
+<p>为了尽可能多地压缩数据，Protobuf对各数据类型地默认值做了以下处理：</p>
+<ul>
+<li><code>numeric types</code>: 0</li>
+<li><code>bool</code>: false</li>
+<li><code>string</code>: 空字符串</li>
+<li><code>byte</code>: 空字节</li>
+<li><code>enum</code>: 第一个定义的枚举值（0）</li>
+<li><code>message</code>: 取决于目标编程语言</li>
+</ul>
+<h3 id="repeated"><code>repeated</code></h3>
+<p><code>repeated</code>关键字可以定义重复多次的信息（即数组），其顺序是有序的。</p>
+<h3 id="命名法">命名法</h3>
+<p>为了便于阅读，protobuf规定了一系列命名法：</p>
+<ul>
+<li>message、enum采用大驼峰命名法，如<code>message StudentInfo</code>。</li>
+<li>字段采用下划线分割法，且全部小写，如<code>string student_name</code>。</li>
+<li>枚举值采用下划线分割法，且全部大写，如<code>FIRST_VALUE</code>。</li>
+</ul>
+<h3 id="其它">其它</h3>
+<p>除上述所述之外，protobuf中还有很多关键字：<code>oneof</code>、<code>map</code>、<code>Any</code>等关键字，以及保留字段等语法，此处由于篇幅所限不再展开。</p>
 <h2 id="使用proto文件进行序列化和反序列化">使用proto文件进行序列化和反序列化</h2>
+<h3 id="生成目标语言文件">生成目标语言文件</h3>
+<p>编写好的protobuf文件不能直接应用于工程中，我们需要使用<code>protoc</code>工具生成对应的文件（以C++和Csharp为例）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ protoc --help <span class="c1"># 查看使用方法</span>
+</span></span><span class="line"><span class="cl">$ protoc test.proto --cpp_out<span class="o">=</span>. <span class="c1"># 在当前目录下生成.cpp文件和.h文件</span>
+</span></span><span class="line"><span class="cl">$ protoc test.proto --csharp_out<span class="o">=</span>. <span class="c1"># 在当前目录下生成.cs文件</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>若使用<code>--cpp_out</code>选项，则会生成<code>&lt;protobuf_name&gt;.pb.h</code>文件和<code>&lt;protobuf_name&gt;.pb.cc</code>文件；若使用<code>--csharp_out</code>选项，则会生成<code>&lt;protobuf_name&gt;.cs</code>文件。生成的文件中会将proto文件中定义的message转换为对应的类，供目标语言程序使用。</p>
+<h3 id="c">C++</h3>
+<p>在C++程序中使用protobuf工具的例程如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;fstream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;google/protobuf/message.h&gt; // for protobuf</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;test.pb.h&#34; // for protobuf source file</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 1. 如何实例化一个proto文件中定义的类 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">student</span><span class="o">::</span><span class="n">StudentInfo</span> <span class="n">student1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 2. 如何设置类的各个属性
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// a. 添加单一字段：使用set_&lt;xxx&gt;()语句
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">student1</span><span class="p">.</span><span class="n">set_age</span><span class="p">(</span><span class="mi">18</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">student1</span><span class="p">.</span><span class="n">set_name</span><span class="p">(</span><span class="s">&#34;Alice&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">student1</span><span class="p">.</span><span class="n">set_sex</span><span class="p">(</span><span class="n">student</span><span class="o">::</span><span class="n">Sex</span><span class="o">::</span><span class="n">female</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// b. 添加repeated字段：使用add_&lt;xxx&gt;()语句
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">student</span><span class="o">::</span><span class="n">Course</span><span class="o">*</span> <span class="n">course1</span> <span class="o">=</span> <span class="n">student1</span><span class="p">.</span><span class="n">add_courses</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">course1</span> <span class="o">-&gt;</span> <span class="n">set_name</span><span class="p">(</span><span class="s">&#34;calculus&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">course1</span> <span class="o">-&gt;</span> <span class="n">set_credit</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">student</span><span class="o">::</span><span class="n">Course</span><span class="o">*</span> <span class="n">course2</span> <span class="o">=</span> <span class="n">student1</span><span class="p">.</span><span class="n">add_courses</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">course2</span> <span class="o">-&gt;</span> <span class="n">set_name</span><span class="p">(</span><span class="s">&#34;Fundamentals of Electronic Circuits and System&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">course2</span> <span class="o">-&gt;</span> <span class="n">set_credit</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 3. 如何使用类的各个属性：使用&lt;xxx&gt;()语句
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;----------------student info----------------&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span>
+</span></span><span class="line"><span class="cl">              <span class="o">&lt;&lt;</span> <span class="s">&#34;age: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">student1</span><span class="p">.</span><span class="n">age</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span>
+</span></span><span class="line"><span class="cl">              <span class="o">&lt;&lt;</span> <span class="s">&#34;name: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">student1</span><span class="p">.</span><span class="n">name</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span>
+</span></span><span class="line"><span class="cl">              <span class="o">&lt;&lt;</span> <span class="s">&#34;sex (0:male, 1:female): &#34;</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">student1</span><span class="p">.</span><span class="n">sex</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span>
+</span></span><span class="line"><span class="cl">              <span class="o">&lt;&lt;</span> <span class="s">&#34;courses: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">student1</span><span class="p">.</span><span class="n">courses_size</span><span class="p">();</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;. &#34;</span> 
+</span></span><span class="line"><span class="cl">                  <span class="o">&lt;&lt;</span> <span class="s">&#34;name: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">student1</span><span class="p">.</span><span class="n">courses</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">name</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;  &#34;</span>
+</span></span><span class="line"><span class="cl">                  <span class="o">&lt;&lt;</span> <span class="s">&#34;credit: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">student1</span><span class="p">.</span><span class="n">courses</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">credit</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;--------------------------------------------&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 4. 序列化
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;serialize to file.&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">fstream</span> <span class="n">output</span><span class="p">(</span><span class="s">&#34;./output&#34;</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">ios</span><span class="o">::</span><span class="n">out</span> <span class="o">|</span> <span class="n">std</span><span class="o">::</span><span class="n">ios</span><span class="o">::</span><span class="n">binary</span> <span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">student1</span><span class="p">.</span><span class="n">SerializeToOstream</span><span class="p">(</span><span class="o">&amp;</span><span class="n">output</span><span class="p">);</span> <span class="c1">// 序列化为流
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;serialize to array.&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">size_t</span> <span class="n">size</span> <span class="o">=</span> <span class="n">student1</span><span class="p">.</span><span class="n">ByteSizeLong</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span> <span class="n">data</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="p">[</span><span class="n">size</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="n">student1</span><span class="p">.</span><span class="n">SerializeToArray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">student1</span><span class="p">.</span><span class="n">ByteSizeLong</span><span class="p">());</span> <span class="c1">// 序列化为数组
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 5. 反序列化和debug
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;deserialize from array.&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">student</span><span class="o">::</span><span class="n">StudentInfo</span> <span class="n">studentInfoFromArray</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">studentInfoFromArray</span><span class="p">.</span><span class="n">ParseFromArray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">studentInfoFromArray</span><span class="p">.</span><span class="n">DebugString</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// 输出字符串化的信息
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>需要指出的是，想要生成可执行文件，需要链接protobuf的静态库和动态库。在本例中，库的依赖关系由CMake工具处理。</p>
+<h3 id="csharp">Csharp</h3>
+<p>在Csharp程序中使用protobuf工具的例程如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">System.IO</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">Google.Protobuf</span><span class="p">;</span> <span class="c1">// for protobuf</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">Student</span><span class="p">;</span> <span class="c1">// for protobuf source file</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">namespace</span> <span class="nn">example</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">class</span> <span class="nc">Program</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">static</span> <span class="k">void</span> <span class="n">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 1. 如何实例化一个proto文件中定义的类 </span>
+</span></span><span class="line"><span class="cl">            <span class="kt">var</span> <span class="n">student1</span> <span class="p">=</span> <span class="k">new</span> <span class="n">StudentInfo</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// 2. 如何设置类的各个属性</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// a. 添加单一字段（回忆Csharp一讲中的“字段”）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">student1</span><span class="p">.</span><span class="n">Age</span> <span class="p">=</span> <span class="m">18</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">student1</span><span class="p">.</span><span class="n">Name</span> <span class="p">=</span> <span class="s">&#34;Alice&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">student1</span><span class="p">.</span><span class="n">Sex</span> <span class="p">=</span> <span class="n">Sex</span><span class="p">.</span><span class="n">Female</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// b. 添加repeated字段（使用Add()方法）</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">var</span> <span class="n">course1</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Course</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">course1</span><span class="p">.</span><span class="n">Name</span> <span class="p">=</span> <span class="s">&#34;calculus&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">course1</span><span class="p">.</span><span class="n">Credit</span> <span class="p">=</span> <span class="m">5</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">student1</span><span class="p">.</span><span class="n">Courses</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">course1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="kt">var</span> <span class="n">course2</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Course</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">course2</span><span class="p">.</span><span class="n">Name</span> <span class="p">=</span> <span class="s">&#34;Fundamentals of Electronic Circuits and System&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">course2</span><span class="p">.</span><span class="n">Credit</span> <span class="p">=</span> <span class="m">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">student1</span><span class="p">.</span><span class="n">Courses</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">course2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// 3. 如何使用类的各个属性（回忆Csharp一讲中的“字段”）</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&#34;----------------student info----------------&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">$&#34;age: {student1.Age}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">$&#34;name: {student1.Name}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">$&#34;sex (0:male, 1:female): {student1.Sex}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">$&#34;courses: &#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">foreach</span><span class="p">(</span><span class="n">Course</span> <span class="n">course</span> <span class="k">in</span> <span class="n">student1</span><span class="p">.</span><span class="n">Courses</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">$&#34;name: {course.Name}  credit: {course.Credit}&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// 4. 序列化</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&#34;serialize to array.&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">byte</span><span class="p">[]</span> <span class="n">data</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="p">[</span><span class="n">student1</span><span class="p">.</span><span class="n">CalculateSize</span><span class="p">()];</span>
+</span></span><span class="line"><span class="cl">            <span class="n">MemoryStream</span> <span class="n">ostream</span> <span class="p">=</span> <span class="k">new</span> <span class="n">MemoryStream</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">var</span> <span class="n">Content</span> <span class="p">=</span> <span class="n">Activator</span><span class="p">.</span><span class="n">CreateInstance</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="n">StudentInfo</span><span class="p">))</span> <span class="k">as</span> <span class="n">IMessage</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">using</span> <span class="p">(</span><span class="n">CodedOutputStream</span> <span class="n">output</span> <span class="p">=</span> <span class="k">new</span> <span class="n">CodedOutputStream</span><span class="p">(</span><span class="n">ostream</span><span class="p">,</span> <span class="k">true</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Content</span><span class="p">?.</span><span class="n">WriteTo</span><span class="p">(</span><span class="n">output</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">output</span><span class="p">.</span><span class="n">Flush</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="n">data</span> <span class="p">=</span> <span class="n">ostream</span><span class="p">.</span><span class="n">ToArray</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// 5. 反序列化和debug</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&#34;deserialize from array.&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">MemoryStream</span> <span class="n">istream</span> <span class="p">=</span> <span class="k">new</span> <span class="n">MemoryStream</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">var</span> <span class="n">newContent</span> <span class="p">=</span> <span class="n">Activator</span><span class="p">.</span><span class="n">CreateInstance</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="n">StudentInfo</span><span class="p">))</span> <span class="k">as</span> <span class="n">IMessage</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">using</span> <span class="p">(</span><span class="n">CodedInputStream</span> <span class="n">input</span> <span class="p">=</span> <span class="k">new</span> <span class="n">CodedInputStream</span><span class="p">(</span><span class="n">istream</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Content</span><span class="p">?.</span><span class="n">MergeFrom</span><span class="p">(</span><span class="n">input</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">Content</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在Csharp程序中，需要在NuGet程序包中搜索并下载<code>Google.Protobuf</code>安装包。</p>
 <h2 id="写在最后">写在最后</h2>
 <p>由于篇幅所限，我们仍然有许多内容没有展开：</p>
 <ul>
 <li><a class="link" href="https://izualzhy.cn/protobuf-encode-varint-and-zigzag"  target="_blank" rel="noopener"
     >protobuf编码之varint/zigzag</a> protobuf为什么可以获得如此高效的编码效果？这涉及到其底层算法——varint和zigzag算法。</li>
+<li>proto2语法和proto3语法的区别、联系。</li>
+<li>&hellip;</li>
 </ul>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/141415216"  target="_blank" rel="noopener"
-    >https://zhuanlan.zhihu.com/p/141415216</a>
-<a class="link" href="https://auth0.com/blog/beating-json-performance-with-protobuf/"  target="_blank" rel="noopener"
-    >https://auth0.com/blog/beating-json-performance-with-protobuf/</a>
-<a class="link" href="https://www.jianshu.com/p/27fbad553762"  target="_blank" rel="noopener"
-    >https://www.jianshu.com/p/27fbad553762</a></p>
+<p>略去上述内容不会对我们的教学产生太大影响，感兴趣的同学可以参考<a class="link" href="https://developers.google.com/protocol-buffers/docs/proto3"  target="_blank" rel="noopener"
+    >Protobuf官方文档</a>学习更多知识。</p>
 
 </section>
 
@@ -699,6 +1099,19 @@
 
         <div class="article-details">
             <h2 class="article-title">Makefile &amp; CMake</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/programming/compile/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">编译、链接、静态库、动态库</h2>
         </div>
     </a>
 </article>
@@ -908,10 +1321,25 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
+    <li><a href="#protobuf">Protobuf</a></li>
     <li><a href="#数据的传输与解析浅谈序列化与反序列化">数据的传输与解析——浅谈序列化与反序列化</a></li>
     <li><a href="#protobuf的安装">protobuf的安装</a></li>
-    <li><a href="#proto文件">proto文件</a></li>
-    <li><a href="#使用proto文件进行序列化和反序列化">使用proto文件进行序列化和反序列化</a></li>
+    <li><a href="#proto文件">proto文件</a>
+      <ol>
+        <li><a href="#编号">编号</a></li>
+        <li><a href="#数据类型">数据类型</a></li>
+        <li><a href="#repeated"><code>repeated</code></a></li>
+        <li><a href="#命名法">命名法</a></li>
+        <li><a href="#其它">其它</a></li>
+      </ol>
+    </li>
+    <li><a href="#使用proto文件进行序列化和反序列化">使用proto文件进行序列化和反序列化</a>
+      <ol>
+        <li><a href="#生成目标语言文件">生成目标语言文件</a></li>
+        <li><a href="#c">C++</a></li>
+        <li><a href="#csharp">Csharp</a></li>
+      </ol>
+    </li>
     <li><a href="#写在最后">写在最后</a></li>
   </ol>
 </nav>

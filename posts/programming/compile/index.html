@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='清华大学电子工程系软件部暑培。未完待续。'><title>grpc</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='清华大学电子工程系软件部暑培。未完待续。'><title>编译、链接、静态库、动态库</title>
 
-<link rel='canonical' href='https://ther-nullptr.github.io/posts/programming/grpc/'>
+<link rel='canonical' href='https://ther-nullptr.github.io/posts/programming/compile/'>
 
-<link rel="stylesheet" href="/scss/style.min.cbd65bb3bdc1206609e44b215380d6562914c436bb43c31b46c17b42ed80a9f5.css"><meta property='og:title' content='grpc'>
+<link rel="stylesheet" href="/scss/style.min.cbd65bb3bdc1206609e44b215380d6562914c436bb43c31b46c17b42ed80a9f5.css"><meta property='og:title' content='编译、链接、静态库、动态库'>
 <meta property='og:description' content='清华大学电子工程系软件部暑培。未完待续。'>
-<meta property='og:url' content='https://ther-nullptr.github.io/posts/programming/grpc/'>
+<meta property='og:url' content='https://ther-nullptr.github.io/posts/programming/compile/'>
 <meta property='og:site_name' content='Ther&#39;s Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='programming utils' /><meta property='article:published_time' content='2022-06-20T19:55:32&#43;08:00'/><meta property='article:modified_time' content='2022-06-20T19:55:32&#43;08:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='C&#43;&#43;' /><meta property='article:published_time' content='2022-06-23T20:47:58&#43;08:00'/><meta property='article:modified_time' content='2022-06-23T20:47:58&#43;08:00'/>
 <meta name="twitter:site" content="@AdobePython">
-    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="grpc">
+    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="编译、链接、静态库、动态库">
 <meta name="twitter:description" content="清华大学电子工程系软件部暑培。未完待续。"><style>
     :root {
         --article-font-family: "Noto Serif SC", var(--base-font-family);
@@ -314,7 +314,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/posts/programming/grpc/">grpc</a>
+            <a href="/posts/programming/compile/">编译、链接、静态库、动态库</a>
         </h2>
     
         
@@ -337,7 +337,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">Jun 20, 2022</time>
+                <time class="article-time--published">Jun 23, 2022</time>
             </div>
         
 
@@ -352,7 +352,7 @@
 
 
                 <time class="article-time--reading">
-                    1 minute read
+                    2 minute read
                 </time>
             </div>
         
@@ -366,128 +366,183 @@
     <section class="article-content">
     
     
-    <h2 id="什么是grpc">什么是grpc？</h2>
-<p>gRPC可以使用协议缓冲区作为其接口定义语言（IDL）和基础消息交换格式。</p>
-<p>在gRPC中，客户端应用程序可以直接调用不同机器上的服务器应用程序的方法，就像它是一个本地对象一样，使你更容易创建分布式应用程序和服务。就像许多RPC系统一样，gRPC是围绕着定义服务的想法，指定可以远程调用的方法及其参数和返回类型。在服务器端，服务器实现这个接口并运行gRPC服务器来处理客户端的调用。在客户端，客户端有一个存根（在某些语言中被称为只是一个客户端），提供与服务器相同的方法。</p>
-<p>gRPC客户端和服务器可以在各种环境中运行并相互交谈&ndash;从Google内部的服务器到你自己的桌面&ndash;并且可以用任何gRPC支持的语言编写。因此，举例来说，你可以很容易地用Java创建一个gRPC服务器，客户端用Go、Python或Ruby。此外，最新的谷歌API将有gRPC版本的接口，让你轻松地在你的应用程序中建立谷歌功能。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="line"><span class="cl"><span class="c1">// The greeter service definition.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">service</span> <span class="n">Greeter</span> <span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="c1">// Sends a greeting
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">rpc</span> <span class="n">SayHello</span> <span class="p">(</span><span class="n">HelloRequest</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">HelloReply</span><span class="p">)</span> <span class="p">{}</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">}</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c1">// The request message containing the user&#39;s name.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">message</span> <span class="nc">HelloRequest</span> <span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="kt">string</span> <span class="n">name</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">}</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c1">// The response message containing the greetings
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">message</span> <span class="nc">HelloReply</span> <span class="p">{</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="kt">string</span> <span class="kd">message</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">}</span><span class="err">
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="核心概念">核心概念</h2>
-<h3 id="服务定义service-definition">服务定义（service definition）</h3>
-<p>grpc可以定义以下4种服务：</p>
-<ul>
-<li>单一RPC（Unary RPCs），客户端向服务器发送一个请求，并得到一个响应，就像一个正常的函数调用。简单来讲就是<strong>一个请求对象对应一个返回对象</strong>。</li>
-</ul>
+    <h2 id="目录">目录</h2>
+<p>[TOC]</p>
+<h2 id="前言">前言</h2>
+<p>在程设课上，我们运行一个C++程序的步骤通常是这样的：打开Visual Studio 2008，在文件中写好程序，然后点击“开始调试”或者“开始执行（不调试）”，一个黑色的方框就会弹出来。</p>
+<p>实际上，从C++源代码文件到可执行文件的过程是十分复杂的，Visual Studio等现代化的IDE（Integrated Development Environment，集成开发环境）掩盖了程序构建的复杂流程。本节我们就以linux平台上的C++程序为例，简略介绍C++工程中的一些概念。</p>
+<p>为了获得更好的实验体验，建议大家使用linux操作系统（虚拟机或WSL）来运行本节的程序。</p>
+<p>本讲需要使用到的工具有：<code>gcc</code>，<code>g++</code>。可以通过以下方式安装：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="line"><span class="cl"><span class="k">rpc</span> <span class="n">SayHello</span><span class="p">(</span><span class="n">HelloRequest</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">HelloResponse</span><span class="p">);</span><span class="err">
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>服务器流式RPC（Server streaming RPCs），客户端向服务器发送请求，并获得一个流来读回一连串的消息。客户端从返回的流中读取信息，直到没有更多的信息。gRPC保证在单个RPC调用中的信息排序。简单来讲就是<strong>发送一个请求对象，服务端可以传回多个结果对象</strong>。</li>
-</ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="line"><span class="cl"><span class="k">rpc</span> <span class="n">LotsOfReplies</span><span class="p">(</span><span class="n">HelloRequest</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">stream</span> <span class="n">HelloResponse</span><span class="p">);</span><span class="err">
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>客户端流式RPC（Client streaming RPCs），客户端写了一串消息并将它们发送给服务器，同样使用一个提供的流。一旦客户端完成了消息的写入，它就等待服务器读取它们并返回其响应。gRPC再次保证了单个RPC调用中的消息排序。简单来讲就是<strong>客户端传入多个请求对象，服务端返回一个响应结果</strong>。</li>
-</ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="line"><span class="cl"><span class="k">rpc</span> <span class="n">LotsOfGreetings</span><span class="p">(</span><span class="n">stream</span> <span class="n">HelloRequest</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">HelloResponse</span><span class="p">);</span><span class="err">
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>双向流RPC（Bidirectional streaming RPCs），双方使用读写流发送一连串的消息。这两个流独立运行，因此客户和服务器可以按照他们喜欢的顺序进行读写：例如，服务器可以等待收到所有客户的消息，然后再写它的响应，或者它可以交替地读一个消息，然后再写一个消息，或者其他一些读和写的组合。每个流中的消息的顺序被保留下来。简单来讲就是<strong>结合客户端流式rpc和服务端流式rpc，可以传入多个对象，返回多个响应对象</strong>。</li>
-</ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="line"><span class="cl"><span class="k">rpc</span> <span class="n">BidiHello</span><span class="p">(</span><span class="n">stream</span> <span class="n">HelloRequest</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">stream</span> <span class="n">HelloResponse</span><span class="p">);</span><span class="err">
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="安装grpc">安装grpc</h2>
-<h3 id="c">C++</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git clone -b v1.46.3 --depth <span class="m">1</span> --shallow-submodules https://github.com/grpc/grpc
-</span></span><span class="line"><span class="cl">$ <span class="nb">cd</span> grpc
-</span></span><span class="line"><span class="cl">$ git submodule update --init --recursive
-</span></span><span class="line"><span class="cl">$ mkdir -p cmake/build
-</span></span><span class="line"><span class="cl">$ <span class="nb">pushd</span> cmake/build
-</span></span><span class="line"><span class="cl">$ cmake -DgRPC_INSTALL<span class="o">=</span>ON <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>      -DgRPC_BUILD_TESTS<span class="o">=</span>OFF <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>      ../..
-</span></span><span class="line"><span class="cl">$ make -j
-</span></span><span class="line"><span class="cl">$ make install <span class="c1"># or sudo make install</span>
-</span></span><span class="line"><span class="cl">$ <span class="nb">popd</span>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ sudo apt-get install gcc g++
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="c-1">C#</h3>
-<h3 id="python">Python</h3>
-<h2 id="参考">参考</h2>
-<p><a class="link" href="https://docs.microsoft.com/zh-cn/dotnet/csharp/programming-guide/concepts/async/"  target="_blank" rel="noopener"
-    >https://docs.microsoft.com/zh-cn/dotnet/csharp/programming-guide/concepts/async/</a></p>
+</div><h2 id="从cpp到exe--cc程序的构建过程">从.cpp到.exe —— C/C++程序的构建过程</h2>
+<p>C/C++程序生成一个可执行文件的过程可以分为4个步骤：<strong>预处理（Preprocessing）</strong>、<strong>编译（Compiling）</strong>、<strong>汇编（Assembly）<strong>和</strong>链接（Linking）</strong>。之后我们将通过演示实例介绍每一步发生的故事。</p>
+<h3 id="编译工具">编译工具</h3>
+<p>针对不同的应用场景和平台，各大厂家设计了不同的C++编译工具。</p>
+<ul>
+<li>
+<p>MSVC（Microsoft Visual C++）：MSVC是微软公司开发的C++开发工具，我们程设课上使用的Visual Studio就内置了MSVC。</p>
+</li>
+<li>
+<p>GCC（GNU Compiler Collection）：GCC是由GNU（GNU&rsquo;s Not Unix）开发的一套编译工具，支持C、C++、Fortran、Go等一系列语言。本教程中我们使用的编译工具就是GCC。</p>
+<p>GCC提供给用户的前端程序为<code>gcc</code>（针对C）和<code>g++</code>（针对C++）。它们的区别详见<a class="link" href="https://stackoverflow.com/questions/172587/what-is-the-difference-between-g-and-gcc"  target="_blank" rel="noopener"
+    >gcc vs g++</a>。</p>
+</li>
+<li>
+<p>此外还有Clang、NVCC等编译工具。不同的编译工具对C++的支持不尽然相同，此处不再赘述。</p>
+</li>
+</ul>
+<h3 id="1-预处理">1 预处理</h3>
+<p>C++程序在预处理阶段会执行以下操作：宏的替换、头文件的插入、删除条件编译中不满足条件的部分。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ g++ –E invsqrt.cpp –o invsqrt.i
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2-编译">2 编译</h3>
+<p>C++程序在编译阶段会将C++文件转换为汇编文件。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># from .i file</span>
+</span></span><span class="line"><span class="cl">$ g++ –S invsqrt.i –o invsqrt.s
+</span></span><span class="line"><span class="cl"><span class="c1"># from .cpp file</span>
+</span></span><span class="line"><span class="cl">$ g++ –S invsqrt.cpp –o invsqrt.s
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3-汇编">3 汇编</h3>
+<p>汇编语言文件经过汇编，生成目标文件.o文件（二进制文件，机器码），每一个源文件都对应一个目标文件。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># from .s file</span>
+</span></span><span class="line"><span class="cl">$ g++ –c invsqrt.s –o invsqrt.o
+</span></span><span class="line"><span class="cl"><span class="c1"># from .cpp file</span>
+</span></span><span class="line"><span class="cl">$ g++ –c invsqrt.cpp –o invsqrt.o
+</span></span><span class="line"><span class="cl">$ g++ -c main.cpp -o main.o
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>生成的<code>invsqrt.o</code>和<code>main.o</code>文件不能直接打开，你可以使用<code>readelf -a &lt;object file&gt;</code>阅读其信息。</p>
+</blockquote>
+<h3 id="4-链接">4 链接</h3>
+<p>每个源文件对应的目标.o文件被链接起来，就生成一个可执行程序文件。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ g++ invsqrt.o main.o -o main.exe
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当然，如果想要使用.cpp文件一步到位生成可执行文件，可以使用以下指令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ g++ invsqrt.cpp main.cpp -o main.exe
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>实际上在linux系统上，可执行文件一般是没有后缀名的。此处为了方便说明添加了<code>.exe</code>文件。</p>
+</blockquote>
+<blockquote>
+<p><strong>语法总结</strong></p>
+<p><code>g++</code>和<code>gcc</code>工具中使用的一些命令行参数：</p>
+<ul>
+<li>
+<p><code>-E</code> 只进行预处理</p>
+</li>
+<li>
+<p><code>-S</code> 只进行编译</p>
+</li>
+<li>
+<p><code>-c</code> 只生成目标文件</p>
+</li>
+<li>
+<p><code>-o &lt;file&gt;</code> 指定输出文件的名称。我们约定：<code>.i</code>为预处理后的文件，<code>.s</code>为汇编文件，<code>.o</code>为目标文件。</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="静态库和动态库">静态库和动态库</h3>
+<p>出于便于复用、封装细节或防止源码泄露等原因，在实际应用过程中，我们需要把C++源码封装为库(library)。</p>
+<p>根据其行为不同，可以将库分为静态库(static library)和动态库(shared library)。</p>
+<h4 id="静态库">静态库</h4>
+<p><strong>静态库</strong>的代码在编译的过程中，会被直接载入到可执行文件中。这样做的好处是：可执行文件在执行时，不再需要静态库本身。但缺点也显而易见：生成的可执行文件的体积会比较大。</p>
+<p>linux平台下静态库的后缀通常为<code>.a</code>，命名方式通常为<code>libxxx.a</code>;windows平台下静态库的后缀通常为<code>.lib</code>。</p>
+<p>在linux平台上生成静态库，并使用动态库链接形成可执行文件的方法为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># generate static lib</span>
+</span></span><span class="line"><span class="cl">$ ar crv libinvsqrt.a invsqrt.cpp 
+</span></span><span class="line"><span class="cl"><span class="c1"># link to generate the executable file</span>
+</span></span><span class="line"><span class="cl">$ g++ -static main.cpp -L . -linvsqrt -o main_shared.exe
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="动态库">动态库</h4>
+<p><strong>动态库</strong>在程序编译时并不会被连接到目标代码中，而是在程序运行是才被载入。这就带来了一个明显的好处：不同的应用程序如果调用相同的库，那么在内存里只需要有一份该共享库的实例，减小了各个模块之间的耦合程度，也减小了可执行文件的体积。然而，这也要求用户的电脑上需要同时拥有可执行文件和动态库，也有可能因为版本不匹配等问题发生<a class="link" href="https://en.wikipedia.org/wiki/DLL_Hell"  target="_blank" rel="noopener"
+    >DLL Hell</a>等问题。</p>
+<p>linux平台下静态库的后缀通常为<code>.so</code>，命名方式通常为<code>libxxx.so</code>;windows平台下静态库的后缀通常为<code>.dll</code>。</p>
+<p>在linux平台上生成动态库，并使用动态库链接形成可执行文件的方法为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># generate shared lib</span>
+</span></span><span class="line"><span class="cl">$ g++ invsqrt.cpp -I ./ -fPIC -shared -o libinvsqrt.so
+</span></span><span class="line"><span class="cl"><span class="c1"># link to generate the executable file</span>
+</span></span><span class="line"><span class="cl">$ g++ main.cpp -L . -linvsqrt -o main_shared.exe
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="写在最后">写在最后</h2>
+<p>由于时间所限，还有很多有趣的内容我们没有涉及：</p>
+<ul>
+<li>gcc/g++有着丰富的命令行参数设置，比如程序优化、C/C++语言标准设置等。</li>
+<li>在本节中，我们只介绍了如何在linux平台上生成和使用静态库、动态库。实际上，利用Visual Studio也可以便捷地在windows平台上生成静态库、动态库。</li>
+<li>&hellip;</li>
+</ul>
+<p>略过上述内容不会对我们的教学产生太大影响。感兴趣的同学可以参考以下文档：</p>
+<ul>
+<li><a class="link" href="https://gcc.gnu.org/"  target="_blank" rel="noopener"
+    >GCC官网</a></li>
+<li><a class="link" href="https://www.learncpp.com/"  target="_blank" rel="noopener"
+    >learn cpp</a> 一份新手友好的C++入门文档。</li>
+<li><a class="link" href="https://docs.microsoft.com/zh-cn/cpp/build/walkthrough-creating-and-using-a-static-library-cpp?view=msvc-170"  target="_blank" rel="noopener"
+    >演练：使用Visual Studio创建并使用静态库</a></li>
+<li><a class="link" href="https://docs.microsoft.com/zh-cn/cpp/build/walkthrough-creating-and-using-a-dynamic-link-library-cpp?view=msvc-170"  target="_blank" rel="noopener"
+    >演练：使用Visual Studio创建并使用动态库</a></li>
+</ul>
 
 </section>
 
@@ -496,7 +551,7 @@
     
     <section class="article-tags">
         
-            <a href="/tags/programming-utils/">programming utils</a>
+            <a href="/tags/c&#43;&#43;/">C&#43;&#43;</a>
         
     </section>
 
@@ -553,19 +608,6 @@
             
                 
 <article class="">
-    <a href="/posts/programming/protobuf/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Protobuf</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
     <a href="/posts/programming/cmake/">
         
         
@@ -579,12 +621,12 @@
             
                 
 <article class="">
-    <a href="/posts/programming/compile/">
+    <a href="/posts/programming/oop/">
         
         
 
         <div class="article-details">
-            <h2 class="article-title">编译、链接、静态库、动态库</h2>
+            <h2 class="article-title">面向对象设计理论</h2>
         </div>
     </a>
 </article>
@@ -611,6 +653,19 @@
 
         <div class="article-details">
             <h2 class="article-title">Csharp on Linux</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/programming/protobuf/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Protobuf</h2>
         </div>
     </a>
 </article>
@@ -794,20 +849,24 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#什么是grpc">什么是grpc？</a></li>
-    <li><a href="#核心概念">核心概念</a>
+    <li><a href="#目录">目录</a></li>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#从cpp到exe--cc程序的构建过程">从.cpp到.exe —— C/C++程序的构建过程</a>
       <ol>
-        <li><a href="#服务定义service-definition">服务定义（service definition）</a></li>
+        <li><a href="#编译工具">编译工具</a></li>
+        <li><a href="#1-预处理">1 预处理</a></li>
+        <li><a href="#2-编译">2 编译</a></li>
+        <li><a href="#3-汇编">3 汇编</a></li>
+        <li><a href="#4-链接">4 链接</a></li>
+        <li><a href="#静态库和动态库">静态库和动态库</a>
+          <ol>
+            <li><a href="#静态库">静态库</a></li>
+            <li><a href="#动态库">动态库</a></li>
+          </ol>
+        </li>
       </ol>
     </li>
-    <li><a href="#安装grpc">安装grpc</a>
-      <ol>
-        <li><a href="#c">C++</a></li>
-        <li><a href="#c-1">C#</a></li>
-        <li><a href="#python">Python</a></li>
-      </ol>
-    </li>
-    <li><a href="#参考">参考</a></li>
+    <li><a href="#写在最后">写在最后</a></li>
   </ol>
 </nav>
         </div>
