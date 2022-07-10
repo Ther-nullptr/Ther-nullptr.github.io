@@ -2526,26 +2526,7 @@
         <pubDate>Mon, 20 Jun 2022 19:55:32 +0800</pubDate>
         
         <guid>https://ther-nullptr.github.io/posts/programming/grpc/</guid>
-        <description>&lt;hr&gt;
-&lt;p&gt;title: &amp;ldquo;grpc&amp;rdquo;
-description: 清华大学电子工程系软件部暑培。未完待续。
-date: 2022-06-20T19:55:32+08:00
-image:
-math:
-license:
-hidden: false
-comments: true
-tags : [                                 &lt;br&gt;
-&amp;ldquo;programming utils&amp;rdquo;,
-]
-categories : [                           &lt;br&gt;
-&amp;ldquo;programming&amp;rdquo;,
-]
-keywords : [                             &lt;br&gt;
-&amp;ldquo;programming&amp;rdquo;,
-]&lt;/p&gt;
-&lt;hr&gt;
-&lt;h1 id=&#34;grpc&#34;&gt;gRPC&lt;/h1&gt;
+        <description>&lt;h1 id=&#34;grpc&#34;&gt;gRPC&lt;/h1&gt;
 &lt;p&gt;无03 王与进&lt;/p&gt;
 &lt;h2 id=&#34;目录&#34;&gt;目录&lt;/h2&gt;
 &lt;p&gt;[TOC]&lt;/p&gt;
