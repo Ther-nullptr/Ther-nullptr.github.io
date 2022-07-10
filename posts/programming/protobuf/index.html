@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='清华大学电子工程系软件部暑培。未完待续。'><title>Protobuf</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='清华大学电子工程系软件部暑培。'><title>Protobuf</title>
 
 <link rel='canonical' href='https://ther-nullptr.github.io/posts/programming/protobuf/'>
 
 <link rel="stylesheet" href="/scss/style.min.cbd65bb3bdc1206609e44b215380d6562914c436bb43c31b46c17b42ed80a9f5.css"><meta property='og:title' content='Protobuf'>
-<meta property='og:description' content='清华大学电子工程系软件部暑培。未完待续。'>
+<meta property='og:description' content='清华大学电子工程系软件部暑培。'>
 <meta property='og:url' content='https://ther-nullptr.github.io/posts/programming/protobuf/'>
 <meta property='og:site_name' content='Ther&#39;s Blog'>
 <meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='programming utils' /><meta property='article:published_time' content='2022-06-20T20:07:09&#43;08:00'/><meta property='article:modified_time' content='2022-06-20T20:07:09&#43;08:00'/>
 <meta name="twitter:site" content="@AdobePython">
     <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="Protobuf">
-<meta name="twitter:description" content="清华大学电子工程系软件部暑培。未完待续。"><style>
+<meta name="twitter:description" content="清华大学电子工程系软件部暑培。"><style>
     :root {
         --article-font-family: "Noto Serif SC", var(--base-font-family);
     }
@@ -319,7 +319,7 @@
     
         
         <h3 class="article-subtitle">
-            清华大学电子工程系软件部暑培。未完待续。
+            清华大学电子工程系软件部暑培。
         </h3>
         
     </div>
@@ -366,7 +366,10 @@
     <section class="article-content">
     
     
-    <h2 id="protobuf">Protobuf</h2>
+    <h1 id="protobuf">Protobuf</h1>
+<p>无03 王与进</p>
+<h2 id="目录">目录</h2>
+<p>[TOC]</p>
 <h2 id="数据的传输与解析浅谈序列化与反序列化">数据的传输与解析——浅谈序列化与反序列化</h2>
 <p>在网络通信的过程中，服务器端和客户端之间常常需要进行对象的传输。对象中常常含有不同的变量：</p>
 <ul>
@@ -519,13 +522,17 @@
 </span><span class="lnt"> 8
 </span><span class="lnt"> 9
 </span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ sudo apt-get install autoconf automake libtool curl make g++ unzip <span class="c1"># 安装所需要的工具包</span>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ sudo apt-get install autoconf automake libtool curl make g++ unzip 
+</span></span><span class="line"><span class="cl">  <span class="c1"># 安装所需要的工具包</span>
 </span></span><span class="line"><span class="cl">$ git clone https://github.com/protocolbuffers/protobuf.git
-</span></span><span class="line"><span class="cl">$ git checkout 3.20.x <span class="c1"># 根据版本需求选择不同的分支</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># 若网络不佳，可以将指令换为 git clone https://gitee.com/mirrors/protobuf_source.git ./protobuf</span>
 </span></span><span class="line"><span class="cl">$ <span class="nb">cd</span> protobuf
 </span></span><span class="line"><span class="cl">  <span class="c1"># (optional) git submodule update --init --recursive</span>
+</span></span><span class="line"><span class="cl">$ git checkout 3.20.x <span class="c1"># 根据版本需求选择不同的分支</span>
 </span></span><span class="line"><span class="cl">$ ./autogen.sh
 </span></span><span class="line"><span class="cl">$ ./configure
 </span></span><span class="line"><span class="cl">$ make -j<span class="k">$(</span>nproc<span class="k">)</span> 
@@ -533,8 +540,19 @@
 </span></span><span class="line"><span class="cl">$ sudo ldconfig
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>以上操作会将<code>protoc</code>可执行文件（后续教程会介绍其使用方法）以及与protobuf相关的头文件、库安装至本机。</p>
+</div><p>以上操作会将<code>protoc</code>可执行文件（后续教程会介绍其使用方法）以及与protobuf相关的头文件、库安装至本机。在终端输入<code>protoc</code>，若输出提示信息，则表示安装成功。</p>
+<p><img src="https://s2.loli.net/2022/07/02/ikBloyAqhTXGWFd.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="protoc安装成功"
+	
+	
+></p>
 <h2 id="proto文件">proto文件</h2>
+<h3 id="基础使用">基础使用</h3>
 <p>在使用protobuf时，我们首先需要在<code>.proto</code>文件中将需要被序列化的数据结构进行定义。</p>
 <p>一个<code>.proto</code>文件示例如下：</p>
 <div class="highlight"><div class="chroma">
@@ -593,10 +611,14 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span><span class="err">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="编号">编号</h3>
+</div><h4 id="protobuf语法标准">protobuf语法标准</h4>
+<p>protobuf有两套语法标准：proto2和proto3，两套语法不完全兼容。我们可以使用<code>syntax</code>关键字指定protobuf遵循的语法标准。</p>
+<h4 id="package">package</h4>
+<p>为了防止命名冲突，protobuf文件中可以声明包名（package）。具体效果将在后续章节介绍。</p>
+<h4 id="编号">编号</h4>
 <p>消息定义中的每个字段都有一个唯一的编号，从1开始。这些字段号用于识别你在二进制格式消息中的信息。</p>
 <p>一个常见的约定是，我们会将经常使用的字段编号为1-15，不常用的字段编号为16以上的数字，因为1-15的编号编码仅需要1 byte，这样可以减小字节流的体积。</p>
-<h3 id="数据类型">数据类型</h3>
+<h4 id="数据类型">数据类型</h4>
 <p>Protobuf中常见的基础数据类型与若干编程语言的对应关系如下：</p>
 <div class="table-wrapper"><table>
 <thead>
@@ -712,17 +734,89 @@
 <li><code>enum</code>: 第一个定义的枚举值（0）</li>
 <li><code>message</code>: 取决于目标编程语言</li>
 </ul>
-<h3 id="repeated"><code>repeated</code></h3>
+<h4 id="repeated"><code>repeated</code></h4>
 <p><code>repeated</code>关键字可以定义重复多次的信息（即数组），其顺序是有序的。</p>
-<h3 id="命名法">命名法</h3>
+<h4 id="命名法">命名法</h4>
 <p>为了便于阅读，protobuf规定了一系列命名法：</p>
 <ul>
 <li>message、enum采用大驼峰命名法，如<code>message StudentInfo</code>。</li>
 <li>字段采用下划线分割法，且全部小写，如<code>string student_name</code>。</li>
 <li>枚举值采用下划线分割法，且全部大写，如<code>FIRST_VALUE</code>。</li>
 </ul>
-<h3 id="其它">其它</h3>
-<p>除上述所述之外，protobuf中还有很多关键字：<code>oneof</code>、<code>map</code>、<code>Any</code>等关键字，以及保留字段等语法，此处由于篇幅所限不再展开。</p>
+<h3 id="进阶使用">进阶使用</h3>
+<p>protobuf中还有一些高级语法：</p>
+<h4 id="oneof"><code>oneof</code></h4>
+<p>如果你有一个信息，它可能包含若干种字段，并且最多只有一个字段会同时被设置（回忆C/C++中的联合体<code>union</code>），你可以使用<code>oneof</code>字段来节省空间。</p>
+<p>oneof块中可以定义除了map字段（后续会讲到）和repeated字段外的所有类型字段。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="line"><span class="cl"><span class="n">syntax</span> <span class="o">=</span> <span class="s">&#34;proto3&#34;</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="kn">package</span> <span class="nn">oneof_demo</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="kd">message</span> <span class="nc">MessageA</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>	<span class="kt">string</span> <span class="n">name_a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">}</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="kd">message</span> <span class="nc">MessageOneof</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>	<span class="k">oneof</span> <span class="n">test_oneof</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>	<span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>		<span class="kt">string</span> <span class="n">name</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>		<span class="n">MessageA</span> <span class="n">message_a</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>	<span class="p">}</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">}</span><span class="err">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="map"><code>map</code></h4>
+<p><code>map</code>字段可以定义关联映射类型（类似于Python中的字典<code>dict()</code>）。</p>
+<p><code>map</code>字段的定义方式如下：<code>map&lt;key_type, value_type&gt; map_field = N;</code>。其中，<code>key_value</code>可以为整数类型或字符串类型，<code>value_type</code>为除<code>map</code>类型的任意类型。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="line"><span class="cl"><span class="n">syntax</span> <span class="o">=</span> <span class="s">&#34;proto3&#34;</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="kn">package</span> <span class="nn">map_demo</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="kd">message</span> <span class="nc">StudentInfo</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>	<span class="n">map</span><span class="p">&lt;</span><span class="kt">int32</span><span class="p">,</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">id_name_pairs</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">}</span><span class="err">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>除此之外，protobuf中还有很多高阶语法：</p>
+<ul>
+<li><code>Any</code></li>
+<li>保留字段（Reserved Values）</li>
+<li>嵌套类型（Nested Types）</li>
+<li>&hellip;</li>
+</ul>
+<p>此处由于篇幅所限，我们不做过多展开。</p>
 <h2 id="使用proto文件进行序列化和反序列化">使用proto文件进行序列化和反序列化</h2>
 <h3 id="生成目标语言文件">生成目标语言文件</h3>
 <p>编写好的protobuf文件不能直接应用于工程中，我们需要使用<code>protoc</code>工具生成对应的文件（以C++和Csharp为例）：</p>
@@ -801,6 +895,8 @@
 </span><span class="lnt">56
 </span><span class="lnt">57
 </span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
@@ -812,6 +908,8 @@
 </span></span></span><span class="line"><span class="cl"><span class="cp"></span>
 </span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 可以看到，protobuf文件中的信息都被封装在namespace student中，这是之前protobuf中的`package`语法所规定的。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
 </span></span><span class="line"><span class="cl">    <span class="c1">// 1. 如何实例化一个proto文件中定义的类 
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">student</span><span class="o">::</span><span class="n">StudentInfo</span> <span class="n">student1</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
@@ -863,7 +961,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>需要指出的是，想要生成可执行文件，需要链接protobuf的静态库和动态库。在本例中，库的依赖关系由CMake工具处理。</p>
+</div><p>需要指出的是，想要成功生成可执行文件，需要链接protobuf的静态库和动态库。在linux系统上应用使用到protobuf的C++工程，最好的方法是使用CMake。在本例中，库的依赖关系由CMake工具处理。</p>
 <h3 id="csharp">Csharp</h3>
 <p>在Csharp程序中使用protobuf工具的例程如下：</p>
 <div class="highlight"><div class="chroma">
@@ -933,13 +1031,12 @@
 </span><span class="lnt">63
 </span><span class="lnt">64
 </span><span class="lnt">65
-</span><span class="lnt">66
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">System.IO</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">Google.Protobuf</span><span class="p">;</span> <span class="c1">// for protobuf</span>
-</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">Student</span><span class="p">;</span> <span class="c1">// for protobuf source file</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">Google.Protobuf</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">Student</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">namespace</span> <span class="nn">example</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
@@ -973,7 +1070,7 @@
 </span></span><span class="line"><span class="cl">            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">$&#34;name: {student1.Name}&#34;</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">$&#34;sex (0:male, 1:female): {student1.Sex}&#34;</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">$&#34;courses: &#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            <span class="k">foreach</span><span class="p">(</span><span class="n">Course</span> <span class="n">course</span> <span class="k">in</span> <span class="n">student1</span><span class="p">.</span><span class="n">Courses</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">foreach</span> <span class="p">(</span><span class="n">Course</span> <span class="n">course</span> <span class="k">in</span> <span class="n">student1</span><span class="p">.</span><span class="n">Courses</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">            <span class="p">{</span>
 </span></span><span class="line"><span class="cl">                <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">$&#34;name: {course.Name}  credit: {course.Credit}&#34;</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">            <span class="p">}</span>
@@ -982,35 +1079,81 @@
 </span></span><span class="line"><span class="cl">            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&#34;serialize to array.&#34;</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">            <span class="kt">byte</span><span class="p">[]</span> <span class="n">data</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="p">[</span><span class="n">student1</span><span class="p">.</span><span class="n">CalculateSize</span><span class="p">()];</span>
 </span></span><span class="line"><span class="cl">            <span class="n">MemoryStream</span> <span class="n">ostream</span> <span class="p">=</span> <span class="k">new</span> <span class="n">MemoryStream</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">            <span class="kt">var</span> <span class="n">Content</span> <span class="p">=</span> <span class="n">Activator</span><span class="p">.</span><span class="n">CreateInstance</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="n">StudentInfo</span><span class="p">))</span> <span class="k">as</span> <span class="n">IMessage</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">            <span class="k">using</span> <span class="p">(</span><span class="n">CodedOutputStream</span> <span class="n">output</span> <span class="p">=</span> <span class="k">new</span> <span class="n">CodedOutputStream</span><span class="p">(</span><span class="n">ostream</span><span class="p">,</span> <span class="k">true</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">            <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="n">Content</span><span class="p">?.</span><span class="n">WriteTo</span><span class="p">(</span><span class="n">output</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">student1</span><span class="p">.</span><span class="n">WriteTo</span><span class="p">(</span><span class="n">output</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">                <span class="n">output</span><span class="p">.</span><span class="n">Flush</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl">            <span class="p">}</span>
 </span></span><span class="line"><span class="cl">            <span class="n">data</span> <span class="p">=</span> <span class="n">ostream</span><span class="p">.</span><span class="n">ToArray</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">            <span class="c1">// 5. 反序列化和debug</span>
 </span></span><span class="line"><span class="cl">            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&#34;deserialize from array.&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">var</span> <span class="n">student2</span> <span class="p">=</span> <span class="k">new</span> <span class="n">StudentInfo</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl">            <span class="n">MemoryStream</span> <span class="n">istream</span> <span class="p">=</span> <span class="k">new</span> <span class="n">MemoryStream</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            <span class="kt">var</span> <span class="n">newContent</span> <span class="p">=</span> <span class="n">Activator</span><span class="p">.</span><span class="n">CreateInstance</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="n">StudentInfo</span><span class="p">))</span> <span class="k">as</span> <span class="n">IMessage</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">            <span class="k">using</span> <span class="p">(</span><span class="n">CodedInputStream</span> <span class="n">input</span> <span class="p">=</span> <span class="k">new</span> <span class="n">CodedInputStream</span><span class="p">(</span><span class="n">istream</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">            <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="n">Content</span><span class="p">?.</span><span class="n">MergeFrom</span><span class="p">(</span><span class="n">input</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">student2</span><span class="p">?.</span><span class="n">MergeFrom</span><span class="p">(</span><span class="n">input</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">            <span class="p">}</span>
-</span></span><span class="line"><span class="cl">            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">Content</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">student2</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>在Csharp程序中，需要在NuGet程序包中搜索并下载<code>Google.Protobuf</code>安装包。</p>
+<blockquote>
+<p><strong>补充说明：如何在Visual Studio中使用NuGet为Csharp程序安装第三方库？</strong></p>
+<p><a class="link" href="https://zh.wikipedia.org/zh-cn/NuGet"  target="_blank" rel="noopener"
+    >NuGet</a>是一个自由开源软件包管理系统，作为Visual Studio的一个扩展，可以简化在Visual Studio中添加、更新和删除库的操作。</p>
+<p>我们在开发Csharp程序时不可避免地要用到第三方库，NuGet是一种很好用的工具。以下将以<code>protobuf</code>为例简要介绍NuGet的使用。</p>
+<ol>
+<li>
+<p>右键项目，点击“管理NuGet程序包”。</p>
+<p><img src="https://s2.loli.net/2022/07/02/PqspSdej78KAU4Q.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="stage 1"
+	
+	
+></p>
+</li>
+<li>
+<p>点击“浏览”，搜索你想要安装的包名。可以根据项目所需要切换不同的版本。</p>
+<p><img src="https://s2.loli.net/2022/07/02/Asvzb7n3KhdwL6x.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="stage 2"
+	
+	
+></p>
+</li>
+<li>
+<p>点击安装。在编辑器内输入<code>using Google.Protobuf</code>，若无报错，说明安装成功。</p>
+<p><img src="https://s2.loli.net/2022/07/02/NTij9evAfu2R3yF.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="stage 3"
+	
+	
+></p>
+</li>
+</ol>
+</blockquote>
 <h2 id="写在最后">写在最后</h2>
 <p>由于篇幅所限，我们仍然有许多内容没有展开：</p>
 <ul>
 <li><a class="link" href="https://izualzhy.cn/protobuf-encode-varint-and-zigzag"  target="_blank" rel="noopener"
     >protobuf编码之varint/zigzag</a> protobuf为什么可以获得如此高效的编码效果？这涉及到其底层算法——varint和zigzag算法。</li>
-<li>proto2语法和proto3语法的区别、联系。</li>
+<li>proto2语法和proto3语法的区别。</li>
 <li>&hellip;</li>
 </ul>
 <p>略去上述内容不会对我们的教学产生太大影响，感兴趣的同学可以参考<a class="link" href="https://developers.google.com/protocol-buffers/docs/proto3"  target="_blank" rel="noopener"
@@ -1080,6 +1223,19 @@
             
                 
 <article class="">
+    <a href="/posts/programming/oop/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">面向对象程序设计基础</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
     <a href="/posts/programming/grpc/">
         
         
@@ -1125,19 +1281,6 @@
 
         <div class="article-details">
             <h2 class="article-title">Csharp async</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/posts/programming/csharp_on_linux/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Csharp on Linux</h2>
         </div>
     </a>
 </article>
@@ -1321,16 +1464,27 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#protobuf">Protobuf</a></li>
+    <li><a href="#目录">目录</a></li>
     <li><a href="#数据的传输与解析浅谈序列化与反序列化">数据的传输与解析——浅谈序列化与反序列化</a></li>
     <li><a href="#protobuf的安装">protobuf的安装</a></li>
     <li><a href="#proto文件">proto文件</a>
       <ol>
-        <li><a href="#编号">编号</a></li>
-        <li><a href="#数据类型">数据类型</a></li>
-        <li><a href="#repeated"><code>repeated</code></a></li>
-        <li><a href="#命名法">命名法</a></li>
-        <li><a href="#其它">其它</a></li>
+        <li><a href="#基础使用">基础使用</a>
+          <ol>
+            <li><a href="#protobuf语法标准">protobuf语法标准</a></li>
+            <li><a href="#package">package</a></li>
+            <li><a href="#编号">编号</a></li>
+            <li><a href="#数据类型">数据类型</a></li>
+            <li><a href="#repeated"><code>repeated</code></a></li>
+            <li><a href="#命名法">命名法</a></li>
+          </ol>
+        </li>
+        <li><a href="#进阶使用">进阶使用</a>
+          <ol>
+            <li><a href="#oneof"><code>oneof</code></a></li>
+            <li><a href="#map"><code>map</code></a></li>
+          </ol>
+        </li>
       </ol>
     </li>
     <li><a href="#使用proto文件进行序列化和反序列化">使用proto文件进行序列化和反序列化</a>

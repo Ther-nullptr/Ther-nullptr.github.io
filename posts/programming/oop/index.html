@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='清华大学电子工程系软件部暑培。未完待续。'><title>面向对象设计理论</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='清华大学电子工程系软件部暑培。'><title>面向对象程序设计基础</title>
 
 <link rel='canonical' href='https://ther-nullptr.github.io/posts/programming/oop/'>
 
-<link rel="stylesheet" href="/scss/style.min.cbd65bb3bdc1206609e44b215380d6562914c436bb43c31b46c17b42ed80a9f5.css"><meta property='og:title' content='面向对象设计理论'>
-<meta property='og:description' content='清华大学电子工程系软件部暑培。未完待续。'>
+<link rel="stylesheet" href="/scss/style.min.cbd65bb3bdc1206609e44b215380d6562914c436bb43c31b46c17b42ed80a9f5.css"><meta property='og:title' content='面向对象程序设计基础'>
+<meta property='og:description' content='清华大学电子工程系软件部暑培。'>
 <meta property='og:url' content='https://ther-nullptr.github.io/posts/programming/oop/'>
 <meta property='og:site_name' content='Ther&#39;s Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='C&#43;&#43;' /><meta property='article:published_time' content='2022-06-20T20:07:09&#43;08:00'/><meta property='article:modified_time' content='2022-06-20T20:07:09&#43;08:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='programming utils' /><meta property='article:published_time' content='2022-06-20T20:07:09&#43;08:00'/><meta property='article:modified_time' content='2022-06-20T20:07:09&#43;08:00'/>
 <meta name="twitter:site" content="@AdobePython">
-    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="面向对象设计理论">
-<meta name="twitter:description" content="清华大学电子工程系软件部暑培。未完待续。"><style>
+    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="面向对象程序设计基础">
+<meta name="twitter:description" content="清华大学电子工程系软件部暑培。"><style>
     :root {
         --article-font-family: "Noto Serif SC", var(--base-font-family);
     }
@@ -314,12 +314,12 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/posts/programming/oop/">面向对象设计理论</a>
+            <a href="/posts/programming/oop/">面向对象程序设计基础</a>
         </h2>
     
         
         <h3 class="article-subtitle">
-            清华大学电子工程系软件部暑培。未完待续。
+            清华大学电子工程系软件部暑培。
         </h3>
         
     </div>
@@ -352,7 +352,7 @@
 
 
                 <time class="article-time--reading">
-                    5 minute read
+                    7 minute read
                 </time>
             </div>
         
@@ -367,13 +367,15 @@
     
     
     <h1 id="面向对象程序设计基础">面向对象程序设计基础</h1>
+<h2 id="目录">目录</h2>
+<p>[TOC]</p>
 <p>在大一的程设课上，我们系统学习了C++的语法，掌握了一些编写小型程序的技能。实际上，要想写出一个可读性好、可复用、鲁棒性强的程序，掌握一些基本的设计原则是十分必要的。</p>
 <p>本讲的内容并不针对具体的某一语言，而且相比之前的一些内容，本讲的知识更需要在长期的实践中“内化”；与此同时，与软件工程相关的理论博大精深，本讲仅仅挑选一些代表性的原则，只能带领大家入门，想要了解更多还需要仔细阅读文末提供的书单~</p>
 <h2 id="kiss">KISS</h2>
 <p>KISS代表着“Keep It Simple and Stupid”。KISS原则指出，简单性应该是软件开发的主要目标，应该避免不必要的复杂性。</p>
 <p>不过，如何界定“简单”？KISS原则指出，为了保证代码的<strong>灵活性</strong>和<strong>可扩展性</strong>，我们可能不得不增加代码的复杂度。但除此之外，在这种问题固有复杂性的基础之上增加自制的复杂性，是十分不明智的做法——程序并非程序员炫技的场所，而应该是一件简约的艺术品。</p>
 <p>一言以概之：如无必要，勿增实体。</p>
-<h2 id="loose-coupling">Loose Coupling</h2>
+<h2 id="loose-coupling">Loose Coupling⭐</h2>
 <p>Loose Coupling，即松耦合原则。这一原则指出：模块与模块之间的耦合（即相互关联的程度）应该越小越好，或者说，它们应该尽可能少地感知到对方的存在。</p>
 <p>举一个例子吧（本例选自 <em>Clean C++</em> 一书）：</p>
 <p>考虑你有一台电灯，和一个用于控制电灯的开关：</p>
@@ -606,7 +608,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>在以上更改中，开关与其它电器耦合的部分被抽象为一个接口<code>Switchable</code>，开关只需要对这一接口进行操作，避免了开关与具体电器类的耦合。</p>
-<h2 id="solid">SOLID</h2>
+<h2 id="solid">SOLID⭐</h2>
 <p>SOLID是以下五大面向对象设计原则的缩写：</p>
 <ul>
 <li>单一功能原则（<strong>S</strong>ingle Responsibility Principle，SRP）</li>
@@ -621,7 +623,7 @@
 <h3 id="开闭原则">开闭原则</h3>
 <p>开闭原则指出，软件单元（类、函数等）应该对于扩展是开放的，但是对于修改是封闭的。</p>
 <p>具体来讲，如果我们需要给一个软件添加新的功能，我们通常不建议修改源码，而更加建议通过<strong>继承</strong>的方式。</p>
-<h3 id="里氏替换原则">里氏替换原则</h3>
+<h3 id="里氏替换原则">里氏替换原则⭐</h3>
 <p>里氏原则指出，派生类（子类）对象可以在程序中代替其基类（超类）对象。</p>
 <p>换句话说，一个软件实体如果使用的是一个父类，那么也一定适用于其子类——把一个软件里面的父类都替换为它的子类，程序的行为是不会发生变化的。</p>
 <p>利用这一原则，我们可以判断类与类之间的继承关系是否合适。</p>
@@ -729,7 +731,7 @@
 <li>第二个操作则会直接违背正方形的定义。</li>
 </ul>
 <p>可以看到，派生类对象在此处替换基类对象会产生很多问题，这一继承是不科学的！</p>
-<h3 id="接口隔离原则">接口隔离原则</h3>
+<h3 id="接口隔离原则">接口隔离原则⭐</h3>
 <p>接口隔离原则指出，程序员在设计接口时应当将臃肿庞大的接口拆分成更小的和更具体的接口，让接口中只包含客户感兴趣的方法——使用多个专门的接口比使用单一的总接口要好。</p>
 <p>换句话讲，接口约束了类的行为，是一种减轻代码耦合程度的好方法。但如果一个接口太过宽泛，可能会带来一些不必要的麻烦。举例说明：</p>
 <p>我们想要定义一个“鸟”接口：</p>
@@ -938,7 +940,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>如上文所示，所有的鸟类都需要呼吸和进食，我们可以大胆地将其封装为<code>Lifeform</code>接口，而并非所有鸟类都会飞，所以需要将其单独提取出来作为<code>Flyable</code>接口。在实现不同的鸟类时，我们将这些接口进行筛选组合即可。</p>
-<h3 id="依赖倒转原则">依赖倒转原则</h3>
+<h3 id="依赖倒转原则">依赖倒转原则⭐</h3>
 <p>依赖倒转原则指出，在实际的开发场景中，类与类之间的依赖关系是十分复杂，在设计依赖关系时，高层模块不应该依赖低层模块，二者都应该依赖其抽象。</p>
 <p>什么意思呢？考虑以下实例，一个用户在某在线网络平台上拥有一个账户，而这个账户又存储着该用户的信息。由此，两者不可避免地产生了下列的循环依赖关系——你中有我，我中有你：</p>
 <div class="highlight"><div class="chroma">
@@ -1109,21 +1111,321 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>经过修改之后，<code>Account</code>类将不依赖于<code>Customer</code>类。</p>
-<h2 id="设计模式">设计模式</h2>
+<h2 id="设计模式">设计模式⭐</h2>
 <p>C++、C#、Python等语言为实现继承、多态等面向对象特性提供了丰富的语法。那么在具体的软件工程中，又该如何使用这些特性呢？这就是设计模式。设计模式是上述SOLID原则在软件工程中的具体体现。</p>
 <p>设计模式共计分为3大类22小类：</p>
 <ul>
 <li>
-<p>创建型模式提供创建对象的机制， 增加已有代码的灵活性和可复用性。</p>
+<p><strong>创建型模式</strong>提供创建对象的机制， 增加已有代码的灵活性和可复用性。</p>
 </li>
 <li>
-<p>结构型模式介绍如何将对象和类组装成较大的结构， 并同时保持结构的灵活和高效。</p>
+<p><strong>结构型模式</strong>介绍如何将对象和类组装成较大的结构， 并同时保持结构的灵活和高效。</p>
 </li>
 <li>
-<p>行为模式负责对象间的高效沟通和职责委派。</p>
+<p><strong>行为模式</strong>负责对象间的高效沟通和职责委派。</p>
 </li>
 </ul>
 <p>不同的设计模式之间有着相似的理念和重叠之处。合理利用设计模式可以让代码更加规范、更容易维护，但盲目使用设计模式也不是明智之举。</p>
+<p>本讲将介绍一个难度较大，而且应用较为广泛的设计模式——<strong>桥接模式</strong>（属于结构型模式）。</p>
+<p>桥接模式的定义如下：桥接模式是将类<strong>抽象部分</strong>与<strong>实现部分</strong>分离，使它们都可以独立地变化。</p>
+<p><img src="https://s2.loli.net/2022/07/03/TKqRdsVU73LSc5Q.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="桥接模式示意图"
+	
+	
+></p>
+<p>什么是<strong>抽象部分</strong>？什么是<strong>实现部分</strong>？让我们先考虑以下场景：一家奶茶店售卖不同种类的奶茶，奶茶既有不同的容量，也有不同的口味。如果我们只需要改变奶茶的容量，可以做出如下设计：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">IMilkTea</span> <span class="c1">// 通用接口
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">order</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MilkTeaSmallCup</span><span class="o">:</span> <span class="k">public</span> <span class="n">IMilkTea</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">order</span><span class="p">()</span> <span class="k">override</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;order info:&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;size: small cup&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MilkTeaMediumCup</span><span class="o">:</span> <span class="k">public</span> <span class="n">IMilkTea</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">order</span><span class="p">()</span> <span class="k">override</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;order info:&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;size: medium cup&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MilkTeaLargeCup</span><span class="o">:</span> <span class="k">public</span> <span class="n">IMilkTea</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">order</span><span class="p">()</span> <span class="k">override</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;order info:&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;size: large cup&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当类的变化只有一个维度时，继承的思路是比较直接而简单的。但当我们将“口味”也加入继承体系中，也就是当类的变化有两个维度时，沿用上面的思路将会使得类的数量急剧增长：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MilkTeaSmallCupFairyGrass</span><span class="o">:</span> <span class="k">public</span> <span class="n">IMilkTea</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">order</span><span class="p">()</span> <span class="k">override</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;order info:&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;size: small cup&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;flavor: fairy grass&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MilkTeaSmallCupPearl</span><span class="o">:</span> <span class="k">public</span> <span class="n">IMilkTea</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">order</span><span class="p">()</span> <span class="k">override</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;order info:&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;size: small cup&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;flavor: pearl&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// class MilkTeaMediumCupPearl, class MilkTeaLargeCupFairyGrass, ...
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>问题的根源在于，我们试图在两个独立的维度（“容量”和“口味”）上扩展奶茶类。这时候，桥接模式就派上了用场：我们将容量视为<strong>抽象部分</strong>，将口味视为<strong>实现部分</strong>，并将两者桥接。</p>
+<blockquote>
+<p>“抽象部分”和“实现部分”所承担的角色：</p>
+<ul>
+<li>抽象部分：抽象化给出的定义，只提供高层控制逻辑，依赖于完成底层实际工作的实现对象。抽象部分保存一个对实现化对象的引用（指针）。</li>
+<li>实现部分：给出实现化角色的通用接口，抽象部分仅能通过在这里声明的方法与实现对象交互。</li>
+</ul>
+</blockquote>
+<p>例如在本例中，可以做如下修改：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="c1">// 实现化部分
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">class</span> <span class="nc">IMilkTeaFlavorBase</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">GetFlavor</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MilkTeaPearl</span><span class="o">:</span> <span class="k">public</span> <span class="n">IMilkTeaFlavorBase</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="n">GetFlavor</span><span class="p">()</span> <span class="k">override</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;flavor: pearl&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MilkTeaFairyGrass</span><span class="o">:</span> <span class="k">public</span> <span class="n">IMilkTeaFlavorBase</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="n">GetFlavor</span><span class="p">()</span> <span class="k">override</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;flavor: fairy grass&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 抽象化部分
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">class</span> <span class="nc">IMilkTeaSizeBase</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">SetFlavor</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">IMilkTeaFlavorBase</span><span class="o">&gt;</span> <span class="n">flavorBase</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">-&gt;</span><span class="n">flavorBase</span> <span class="o">=</span> <span class="n">flavorBase</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">Order</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">protected</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">IMilkTeaFlavorBase</span><span class="o">&gt;</span> <span class="n">flavorBase</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MilkTeaSmall</span><span class="o">:</span> <span class="k">public</span> <span class="n">IMilkTeaSizeBase</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="n">Order</span><span class="p">()</span> <span class="k">override</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;size: small&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">flavorBase</span><span class="o">-&gt;</span><span class="n">GetFlavor</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MilkTeaMedium</span><span class="o">:</span> <span class="k">public</span> <span class="n">IMilkTeaSizeBase</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="n">Order</span><span class="p">()</span> <span class="k">override</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;size: medium&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">flavorBase</span><span class="o">-&gt;</span><span class="n">GetFlavor</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MilkTeaLarge</span><span class="o">:</span> <span class="k">public</span> <span class="n">IMilkTeaSizeBase</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="n">Order</span><span class="p">()</span> <span class="k">override</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;size: large&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">flavorBase</span><span class="o">-&gt;</span><span class="n">GetFlavor</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 使用方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 大杯烧仙草
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">MilkTeaFairyGrass</span><span class="o">&gt;</span> <span class="n">milkTeaFairyGrass</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">MilkTeaFairyGrass</span><span class="o">&gt;</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">MilkTeaLarge</span><span class="o">&gt;</span> <span class="n">milkTeaLargeWithFairyGrass</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">MilkTeaLarge</span><span class="o">&gt;</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">milkTeaLargeWithFairyGrass</span><span class="o">-&gt;</span><span class="n">SetFlavor</span><span class="p">(</span><span class="n">milkTeaFairyGrass</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">milkTeaLargeWithFairyGrass</span><span class="o">-&gt;</span><span class="n">Order</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以在上述示例中看到：抽象部分各类中，都含有一个实现部分的指针。如果需要访问实现部分的方法，可以通过该指针进行访问。这样，我们就通过桥接的方式分离了两个不同的维度，使得类的可扩展性更好。</p>
 <p>由于篇幅所限，我们在此处不能对设计模式进行一一介绍，感兴趣的同学可以参考文末给出的阅读清单进行学习。</p>
 <h2 id="参考文献和荐读清单">参考文献和荐读清单</h2>
 <p><a class="link" href="https://refactoringguru.cn/"  target="_blank" rel="noopener"
@@ -1138,7 +1440,7 @@
     
     <section class="article-tags">
         
-            <a href="/tags/c&#43;&#43;/">C&#43;&#43;</a>
+            <a href="/tags/programming-utils/">programming utils</a>
         
     </section>
 
@@ -1195,6 +1497,32 @@
             
                 
 <article class="">
+    <a href="/posts/programming/protobuf/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Protobuf</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/programming/grpc/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">grpc</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
     <a href="/posts/programming/cmake/">
         
         
@@ -1227,32 +1555,6 @@
 
         <div class="article-details">
             <h2 class="article-title">Csharp async</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/posts/programming/csharp_on_linux/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Csharp on Linux</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/posts/programming/protobuf/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Protobuf</h2>
         </div>
     </a>
 </article>
@@ -1436,18 +1738,19 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
+    <li><a href="#目录">目录</a></li>
     <li><a href="#kiss">KISS</a></li>
-    <li><a href="#loose-coupling">Loose Coupling</a></li>
-    <li><a href="#solid">SOLID</a>
+    <li><a href="#loose-coupling">Loose Coupling⭐</a></li>
+    <li><a href="#solid">SOLID⭐</a>
       <ol>
         <li><a href="#单一功能原则">单一功能原则</a></li>
         <li><a href="#开闭原则">开闭原则</a></li>
-        <li><a href="#里氏替换原则">里氏替换原则</a></li>
-        <li><a href="#接口隔离原则">接口隔离原则</a></li>
-        <li><a href="#依赖倒转原则">依赖倒转原则</a></li>
+        <li><a href="#里氏替换原则">里氏替换原则⭐</a></li>
+        <li><a href="#接口隔离原则">接口隔离原则⭐</a></li>
+        <li><a href="#依赖倒转原则">依赖倒转原则⭐</a></li>
       </ol>
     </li>
-    <li><a href="#设计模式">设计模式</a></li>
+    <li><a href="#设计模式">设计模式⭐</a></li>
     <li><a href="#参考文献和荐读清单">参考文献和荐读清单</a></li>
   </ol>
 </nav>
