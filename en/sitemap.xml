@@ -3,13 +3,10 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://ther-nullptr.github.io/posts/</loc>
-    <lastmod>2022-06-23T20:47:58+08:00</lastmod>
-  </url><url>
-    <loc>https://ther-nullptr.github.io/tags/c&#43;&#43;/</loc>
-    <lastmod>2022-06-23T20:47:58+08:00</lastmod>
+    <lastmod>2022-07-27T23:59:43+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/categories/</loc>
-    <lastmod>2022-06-23T20:47:58+08:00</lastmod>
+    <lastmod>2022-07-27T23:59:43+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -21,17 +18,14 @@
                 href="https://ther-nullptr.github.io/categories/"
                 />
   </url><url>
-    <loc>https://ther-nullptr.github.io/posts/programming/cmake/</loc>
-    <lastmod>2022-06-23T20:47:58+08:00</lastmod>
+    <loc>https://ther-nullptr.github.io/tags/small-talk/</loc>
+    <lastmod>2022-07-27T23:59:43+08:00</lastmod>
   </url><url>
-    <loc>https://ther-nullptr.github.io/categories/programming/</loc>
-    <lastmod>2022-06-23T20:47:58+08:00</lastmod>
-  </url><url>
-    <loc>https://ther-nullptr.github.io/tags/summer-training/</loc>
-    <lastmod>2022-06-23T20:47:58+08:00</lastmod>
+    <loc>https://ther-nullptr.github.io/categories/small-talk/</loc>
+    <lastmod>2022-07-27T23:59:43+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/tags/</loc>
-    <lastmod>2022-06-23T20:47:58+08:00</lastmod>
+    <lastmod>2022-07-27T23:59:43+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -44,7 +38,7 @@
                 />
   </url><url>
     <loc>https://ther-nullptr.github.io/</loc>
-    <lastmod>2022-06-23T20:47:58+08:00</lastmod>
+    <lastmod>2022-07-27T23:59:43+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -56,6 +50,21 @@
                 href="https://ther-nullptr.github.io/"
                 />
   </url><url>
+    <loc>https://ther-nullptr.github.io/posts/small_talk/%E6%B2%89%E6%80%9D%E5%BD%95/</loc>
+    <lastmod>2022-07-27T23:59:43+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/tags/c&#43;&#43;/</loc>
+    <lastmod>2022-06-23T20:47:58+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/programming/cmake/</loc>
+    <lastmod>2022-06-23T20:47:58+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/categories/programming/</loc>
+    <lastmod>2022-06-23T20:47:58+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/tags/summer-training/</loc>
+    <lastmod>2022-06-23T20:47:58+08:00</lastmod>
+  </url><url>
     <loc>https://ther-nullptr.github.io/posts/programming/compile/</loc>
     <lastmod>2022-06-23T20:47:58+08:00</lastmod>
   </url><url>
@@ -63,6 +72,9 @@
     <lastmod>2022-06-22T10:40:10+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/programming/csharp_async/</loc>
+    <lastmod>2022-06-22T10:40:10+08:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/tags/qqqq.com/</loc>
     <lastmod>2022-06-22T10:40:10+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/programming/csharp_on_linux/</loc>
@@ -81,12 +93,6 @@
     <lastmod>2022-06-20T19:55:32+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/ldr/</loc>
-    <lastmod>2022-06-19T20:55:58+08:00</lastmod>
-  </url><url>
-    <loc>https://ther-nullptr.github.io/tags/small-talk/</loc>
-    <lastmod>2022-06-19T20:55:58+08:00</lastmod>
-  </url><url>
-    <loc>https://ther-nullptr.github.io/categories/small-talk/</loc>
     <lastmod>2022-06-19T20:55:58+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/awesome_toolkits/wsl_remote/</loc>

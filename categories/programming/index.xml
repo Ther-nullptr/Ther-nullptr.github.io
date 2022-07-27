@@ -922,7 +922,6 @@
         
         <guid>https://ther-nullptr.github.io/posts/programming/protobuf/</guid>
         <description>&lt;h1 id=&#34;protobuf&#34;&gt;Protobuf&lt;/h1&gt;
-&lt;p&gt;无03 王与进&lt;/p&gt;
 &lt;h2 id=&#34;目录&#34;&gt;目录&lt;/h2&gt;
 &lt;p&gt;[TOC]&lt;/p&gt;
 &lt;h2 id=&#34;数据的传输与解析浅谈序列化与反序列化&#34;&gt;数据的传输与解析——浅谈序列化与反序列化&lt;/h2&gt;
