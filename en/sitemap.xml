@@ -3,10 +3,10 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://ther-nullptr.github.io/posts/</loc>
-    <lastmod>2022-07-28T02:11:43+08:00</lastmod>
+    <lastmod>2022-08-04T01:09:43+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/categories/</loc>
-    <lastmod>2022-07-28T02:11:43+08:00</lastmod>
+    <lastmod>2022-08-04T01:09:43+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -19,13 +19,13 @@
                 />
   </url><url>
     <loc>https://ther-nullptr.github.io/tags/small-talk/</loc>
-    <lastmod>2022-07-28T02:11:43+08:00</lastmod>
+    <lastmod>2022-08-04T01:09:43+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/categories/small-talk/</loc>
-    <lastmod>2022-07-28T02:11:43+08:00</lastmod>
+    <lastmod>2022-08-04T01:09:43+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/tags/</loc>
-    <lastmod>2022-07-28T02:11:43+08:00</lastmod>
+    <lastmod>2022-08-04T01:09:43+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -38,7 +38,7 @@
                 />
   </url><url>
     <loc>https://ther-nullptr.github.io/</loc>
-    <lastmod>2022-07-28T02:11:43+08:00</lastmod>
+    <lastmod>2022-08-04T01:09:43+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -49,6 +49,9 @@
                 hreflang="en"
                 href="https://ther-nullptr.github.io/"
                 />
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/small_talk/%E5%B0%8F%E9%BB%91%E5%90%8E%E4%BC%A0/</loc>
+    <lastmod>2022-08-04T01:09:43+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/small_talk/review/</loc>
     <lastmod>2022-07-28T02:11:43+08:00</lastmod>
