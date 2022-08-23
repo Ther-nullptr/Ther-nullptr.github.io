@@ -6,10 +6,10 @@
         <description>Recent content in Tags on Ther&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Fri, 12 Aug 2022 00:13:05 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 17 Aug 2022 08:22:05 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>research</title>
         <link>https://ther-nullptr.github.io/tags/research/</link>
-        <pubDate>Fri, 12 Aug 2022 00:13:05 +0800</pubDate>
+        <pubDate>Wed, 17 Aug 2022 08:22:05 +0800</pubDate>
         
         <guid>https://ther-nullptr.github.io/tags/research/</guid>
         <description></description>
@@ -20,6 +20,14 @@
         <pubDate>Thu, 04 Aug 2022 01:09:43 +0800</pubDate>
         
         <guid>https://ther-nullptr.github.io/tags/small-talk/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>knowledge distillation</title>
+        <link>https://ther-nullptr.github.io/tags/knowledge-distillation/</link>
+        <pubDate>Mon, 18 Jul 2022 00:13:05 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/tags/knowledge-distillation/</guid>
         <description></description>
         </item>
         <item>
@@ -55,11 +63,27 @@
         <description></description>
         </item>
         <item>
+        <title>deep learning</title>
+        <link>https://ther-nullptr.github.io/tags/deep-learning/</link>
+        <pubDate>Mon, 20 Jun 2022 20:07:09 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/tags/deep-learning/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>programming utils</title>
         <link>https://ther-nullptr.github.io/tags/programming-utils/</link>
         <pubDate>Mon, 20 Jun 2022 20:07:09 +0800</pubDate>
         
         <guid>https://ther-nullptr.github.io/tags/programming-utils/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>python</title>
+        <link>https://ther-nullptr.github.io/tags/python/</link>
+        <pubDate>Mon, 20 Jun 2022 20:07:09 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/tags/python/</guid>
         <description></description>
         </item>
         <item>

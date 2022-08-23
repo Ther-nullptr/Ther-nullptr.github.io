@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='以下对于distill model的研究将不只局限于ASR领域，还包括CV和NLP领域等。
+loss algorithms 首先需要借助PyTorch平台简要介绍知识蒸馏中经常需要用到的一些loss api。
+KL loss KL div的计算方式如下：
+其中，PyTorch API为：torch.nn.KLDivLoss。
+KL div衡量的是给定任意分布偏离真实分布的程度。从公式中可以看出，$p(x_i)$ 有更高概率的匹配区域比低 $p(x_i)$ 概率的匹配区域更加重要。
+实际上，我们有：
+等式右边第一项为交叉熵，由于$H(X)$（某一事件的熵）是固定的，所以KL散度的含义就是，相对于最优的编码，使用错误的编码浪费的比特数。
+cos embedding loss PyTorch API为：torch.nn.CosineEmbeddingLoss。
+contrastive loss BCE loss BCEloss解决的是二分类问题，或者可以视作一种简化版的交叉熵损失函数——将所有的其它例子都视作负例。
+InfoNCE loss 同样可以使用温度参数$\tau$进行调节。
+$l1$/$l2$ loss l1: torch.nn.L1Loss
+l2: torch.nn.MSELoss
+distill基础思想 distill最初提出于论文Distilling the Knowledge in a Neural Network。
+文章在最初指出了混合模型在提高精度方面的作用，但混合模型具有开销较大的特点，一个较好的办法是将其蒸馏至一个student model中。在传统的认知中，我们认为知识蕴含在形式化的模型参数中，因此很难想象在变换模型形式的基础上保留学到的知识。
+该论文指出对知识的正确认识应该是“it is a learned mapping from input vectors to output vectors”。更具体地讲，teacher model具有良好的泛化能力，蒸馏的目的就是要让student model学会teacher model的泛化能力，从而起到比直接训练student model更好的结果。
+如何学习这种泛化能力？蒸馏的基础思想是使用teacher model的soft target（model预测的概率分布）训练student model（对应的，hard target指的是model预测的ground truth）。使用soft target训练有两个好处：'><title>knowledge distillation papers</title>
+
+<link rel='canonical' href='https://ther-nullptr.github.io/posts/research/knowledge-distillation-papers/'>
+
+<link rel="stylesheet" href="/scss/style.min.cbd65bb3bdc1206609e44b215380d6562914c436bb43c31b46c17b42ed80a9f5.css"><meta property='og:title' content='knowledge distillation papers'>
+<meta property='og:description' content='以下对于distill model的研究将不只局限于ASR领域，还包括CV和NLP领域等。
+loss algorithms 首先需要借助PyTorch平台简要介绍知识蒸馏中经常需要用到的一些loss api。
+KL loss KL div的计算方式如下：
+其中，PyTorch API为：torch.nn.KLDivLoss。
+KL div衡量的是给定任意分布偏离真实分布的程度。从公式中可以看出，$p(x_i)$ 有更高概率的匹配区域比低 $p(x_i)$ 概率的匹配区域更加重要。
+实际上，我们有：
+等式右边第一项为交叉熵，由于$H(X)$（某一事件的熵）是固定的，所以KL散度的含义就是，相对于最优的编码，使用错误的编码浪费的比特数。
+cos embedding loss PyTorch API为：torch.nn.CosineEmbeddingLoss。
+contrastive loss BCE loss BCEloss解决的是二分类问题，或者可以视作一种简化版的交叉熵损失函数——将所有的其它例子都视作负例。
+InfoNCE loss 同样可以使用温度参数$\tau$进行调节。
+$l1$/$l2$ loss l1: torch.nn.L1Loss
+l2: torch.nn.MSELoss
+distill基础思想 distill最初提出于论文Distilling the Knowledge in a Neural Network。
+文章在最初指出了混合模型在提高精度方面的作用，但混合模型具有开销较大的特点，一个较好的办法是将其蒸馏至一个student model中。在传统的认知中，我们认为知识蕴含在形式化的模型参数中，因此很难想象在变换模型形式的基础上保留学到的知识。
+该论文指出对知识的正确认识应该是“it is a learned mapping from input vectors to output vectors”。更具体地讲，teacher model具有良好的泛化能力，蒸馏的目的就是要让student model学会teacher model的泛化能力，从而起到比直接训练student model更好的结果。
+如何学习这种泛化能力？蒸馏的基础思想是使用teacher model的soft target（model预测的概率分布）训练student model（对应的，hard target指的是model预测的ground truth）。使用soft target训练有两个好处：'>
+<meta property='og:url' content='https://ther-nullptr.github.io/posts/research/knowledge-distillation-papers/'>
+<meta property='og:site_name' content='Ther&#39;s Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='research' /><meta property='article:published_time' content='2022-08-17T08:22:05&#43;08:00'/><meta property='article:modified_time' content='2022-08-17T08:22:05&#43;08:00'/>
+<meta name="twitter:site" content="@AdobePython">
+    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="knowledge distillation papers">
+<meta name="twitter:description" content="以下对于distill model的研究将不只局限于ASR领域，还包括CV和NLP领域等。
+loss algorithms 首先需要借助PyTorch平台简要介绍知识蒸馏中经常需要用到的一些loss api。
+KL loss KL div的计算方式如下：
+其中，PyTorch API为：torch.nn.KLDivLoss。
+KL div衡量的是给定任意分布偏离真实分布的程度。从公式中可以看出，$p(x_i)$ 有更高概率的匹配区域比低 $p(x_i)$ 概率的匹配区域更加重要。
+实际上，我们有：
+等式右边第一项为交叉熵，由于$H(X)$（某一事件的熵）是固定的，所以KL散度的含义就是，相对于最优的编码，使用错误的编码浪费的比特数。
+cos embedding loss PyTorch API为：torch.nn.CosineEmbeddingLoss。
+contrastive loss BCE loss BCEloss解决的是二分类问题，或者可以视作一种简化版的交叉熵损失函数——将所有的其它例子都视作负例。
+InfoNCE loss 同样可以使用温度参数$\tau$进行调节。
+$l1$/$l2$ loss l1: torch.nn.L1Loss
+l2: torch.nn.MSELoss
+distill基础思想 distill最初提出于论文Distilling the Knowledge in a Neural Network。
+文章在最初指出了混合模型在提高精度方面的作用，但混合模型具有开销较大的特点，一个较好的办法是将其蒸馏至一个student model中。在传统的认知中，我们认为知识蕴含在形式化的模型参数中，因此很难想象在变换模型形式的基础上保留学到的知识。
+该论文指出对知识的正确认识应该是“it is a learned mapping from input vectors to output vectors”。更具体地讲，teacher model具有良好的泛化能力，蒸馏的目的就是要让student model学会teacher model的泛化能力，从而起到比直接训练student model更好的结果。
+如何学习这种泛化能力？蒸馏的基础思想是使用teacher model的soft target（model预测的概率分布）训练student model（对应的，hard target指的是model预测的ground truth）。使用soft target训练有两个好处："><style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script>
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap";
+		
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/Ther_hu05dc40a2635fa510e0ad5a0d57bec723_1205262_300x0_resize_box_3.png" width="300"
+                            height="272" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Ther&#39;s Blog</a></h1>
+            <h2 class="site-description">萌生此等惬意，实乃徒增彷徨。</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/Ther-nullptr'
+                        target="_blank"
+                        title="GitHub"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.instagram.com/donald.biden.18/'
+                        target="_blank"
+                        title="Instagram"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="4" y="4" width="16" height="16" rx="4" />
+  <circle cx="12" cy="12" r="3" />
+  <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com/AdobePython'
+                        target="_blank"
+                        title="Twitter"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li  class='current' >
+            <a href='/posts/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://ther-nullptr.github.io/" selected>English</option>
+                        
+                            <option value="https://ther-nullptr.github.io/zh-cn/" >中文</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/research/" >
+                research
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/posts/research/knowledge-distillation-papers/">knowledge distillation papers</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Aug 17, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    2 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>以下对于distill model的研究将不只局限于ASR领域，还包括CV和NLP领域等。</p>
+<h2 id="loss-algorithms">loss algorithms</h2>
+<p>首先需要借助PyTorch平台简要介绍知识蒸馏中经常需要用到的一些loss api。</p>
+<h3 id="kl-loss">KL loss</h3>
+<p>KL div的计算方式如下：</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818174343816.png?token=AQ7WYGGEAZFC7WXSHYEFL6LDATA36"
+	
+	
+	
+	loading="lazy"
+	
+		alt="KL div"
+	
+	
+></p>
+<p>其中，PyTorch API为：<code>torch.nn.KLDivLoss</code>。</p>
+<p>KL div衡量的是给定任意分布偏离真实分布的程度。从公式中可以看出，$p(x_i)$ 有更高概率的匹配区域比低 $p(x_i)$ 概率的匹配区域更加重要。</p>
+<p>实际上，我们有：</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818180040162.png?token=AQ7WYGC4J5HFQYFDFFMYR3TDATA4Y"
+	
+	
+	
+	loading="lazy"
+	
+		alt="KL vs CE"
+	
+	
+></p>
+<p>等式右边第一项为交叉熵，由于$H(X)$（某一事件的熵）是固定的，所以KL散度的含义就是，相对于最优的编码，使用错误的编码浪费的比特数。</p>
+<h3 id="cos-embedding-loss">cos embedding loss</h3>
+<p>PyTorch API为：<code>torch.nn.CosineEmbeddingLoss</code>。</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818195200570.png?token=AQ7WYGDPKFMNQG6ZBWSEUULDATA6C"
+	
+	
+	
+	loading="lazy"
+	
+		alt="cos loss"
+	
+	
+></p>
+<h3 id="contrastive-loss">contrastive loss</h3>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819175604937.png?token=AQ7WYGHIEIBC4K4EQCQI22DDATA7O"
+	
+	
+	
+	loading="lazy"
+	
+		alt="contrastive loss"
+	
+	
+></p>
+<h3 id="bce-loss">BCE loss</h3>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819180642611.png?token=AQ7WYGHG27FMO2KKIL7ASQTDATBB2"
+	
+	
+	
+	loading="lazy"
+	
+		alt="BCE loss"
+	
+	
+></p>
+<p>BCEloss解决的是二分类问题，或者可以视作一种简化版的交叉熵损失函数——将所有的其它例子都视作负例。</p>
+<h3 id="infonce-loss">InfoNCE loss</h3>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819181156002.png?token=AQ7WYGDHPDPQAAM64ZEL4TDDATBCC"
+	
+	
+	
+	loading="lazy"
+	
+		alt="info nce loss"
+	
+	
+></p>
+<p>同样可以使用温度参数$\tau$进行调节。</p>
+<h3 id="l1l2-loss">$l1$/$l2$ loss</h3>
+<p>l1: <code>torch.nn.L1Loss</code></p>
+<p>l2: <code>torch.nn.MSELoss</code></p>
+<h2 id="distill基础思想">distill基础思想</h2>
+<p>distill最初提出于论文<em>Distilling the Knowledge in a Neural Network</em>。</p>
+<p>文章在最初指出了混合模型在提高精度方面的作用，但混合模型具有开销较大的特点，一个较好的办法是将其蒸馏至一个student model中。在传统的认知中，我们认为知识蕴含在形式化的模型参数中，因此很难想象在变换模型形式的基础上保留学到的知识。</p>
+<p>该论文指出对知识的正确认识应该是“it is a learned mapping from input vectors to output vectors”。更具体地讲，teacher model具有良好的泛化能力，蒸馏的目的就是要让student model学会teacher model的泛化能力，从而起到比直接训练student model更好的结果。</p>
+<p>如何学习这种泛化能力？蒸馏的基础思想是使用teacher model的soft target（model预测的概率分布）训练student model（对应的，hard target指的是model预测的ground truth）。使用soft target训练有两个好处：</p>
+<ul>
+<li>相比hard target有更多信息——soft target中可以携带很多有用的信息，而这些信息不可能用一个hard target来编码。相当于提高了label的质量，允许model使用更少的参数。</li>
+<li>梯度差异小，lr可以更高。</li>
+</ul>
+<p>但使用soft target存在一个问题：有些概率分布很小，在计算loss时可以忽略不计，但其中蕴含的一些关键信息会丢失。前人的解决方案是使用logits（softmax的input）而不是probablity（实际上，后文指出，这是一种特殊情况的distillation）。本文中提出了一种叫做“distillation”的方法，用于提高softmax结果的“温度”。直到繁琐的模型产生一套合适的软目标。然后我们在训练小模型时使用同样的高温来匹配这些软目标。</p>
+<p>“温度”的使用方法如下。一般来说，$T$越大，产生的概率分布越柔和。值得注意的是，student model在训练时使用$T&gt;1$，但在推理时使用$T=1$。</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818122556744.png?token=AQ7WYGCS6YFA5GO2ZYUKWNLDATBEY"
+	
+	
+	
+	loading="lazy"
+	
+		alt="temperature in softmax"
+	
+	
+></p>
+<p>从以上分析可以看出，蒸馏实际上是一个自监督过程，我们也可以引入监督过程——使用两个不同目标函数的加权平均，第一个目标函数是与软目标的交叉熵，这个交叉熵的计算方法是使用蒸馏模型的softmax中的高温，就像从繁琐的模型中生成软目标时一样，第二个目标函数是与正确标签的交叉熵（通常使用较低的权重）。</p>
+<blockquote>
+<p>由于软目标产生的梯度的大小为$\frac{1}{T^2}$，因此在使用硬目标和软目标时，必须将其乘以$T^2$。这可以确保在试验元参数时，如果改变蒸馏所用的温度，硬目标和软目标的相对贡献大致保持不变。</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818160749384.png?token=AQ7WYGEDSMCV2Y7LYNWLO4LDATBFM"
+	
+	
+	
+	loading="lazy"
+	
+		alt="conclusion"
+	
+	
+></p>
+<h2 id="distill-model联合训练">distill model联合训练</h2>
+<p>参考自论文<em>Apprentice: Using KD Techniques to Improve Low-Precision Network Accuracy</em>。</p>
+<p>该论文主要针对低精度的学生网络而言。论文中一共提供了3种训练方法：第一种方案（方案A）联合训练两个网络&ndash;全精度的教师和低精度的学生网络。第二种方案（方案B）只训练低精度的学生网络，但在整个训练过程中从训练好的全精度教师网络中提取知识。第三种方案（方案C）从训练好的全精度教师和全精度学生网络开始，但在降低了学生网络的精度后对其进行微调。第二种相比第一种收敛更快，第三种准确率最高。在以上三种结构中，学生网络具有与教师网络类似的拓扑结构，只是学生网络具有低精度的神经元，而教师网络的神经元则以全精度运行。</p>
+<p>其训练方式可用下图概括：</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818172450825.png?token=AQ7WYGEW3Z24FVBD666IU3LDATBGM"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818172538944.png?token=AQ7WYGHX45AHE4QKJF6FACDDATBG6"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>其中$\alpha=1,\beta=0.5,\gamma=0.5$。</p>
+<h2 id="kl-div的应用">KL div的应用</h2>
+<p>总结一下，之前在蒸馏时计算loss的函数为：
+$$
+\mathtt {loss} = \alpha T^2 \mathtt{CEloss}(Q_s^\tau,Q_t^\tau)+(1-\alpha) \mathtt{CEloss}(Q_s,y)
+$$
+现在我们将其改写为：
+$$
+\mathtt {loss} = \alpha T^2 \mathtt{KLdiv}(Q_s^\tau,Q_t^\tau)+(1-\alpha) \mathtt{CEloss}(Q_s,y)
+$$
+两者的本质是一样的。</p>
+<h2 id="distill-teacher的hidden-states">distill teacher的hidden states</h2>
+<p>参考自论文<em>FITNETS: HINTS FOR THIN DEEP NETS</em>：</p>
+<p>论文指出，使用教师学到的中间表征作为提示，以改善训练过程和学生的最终表现。因为学生的中间隐藏层一般会比教师的中间隐藏层小，所以要引入额外的参数，将学生的隐藏层映射到教师隐藏层的预测上。</p>
+<p>论文指出了传统知识蒸馏模型的一个局限性：以前所有与卷积神经网络相关的工作都集中在将教师网络或网络集合压缩到宽度和深度相似的网络中，或者压缩到较浅和较宽的网络中；而没有利用深度的优势。因此本文指出了一种新的distill方法：使用同等深度但更窄的网络，从教师的隐藏层中引入中间层次的提示来指导学生的训练过程。</p>
+<p>在传统的知识蒸馏模型中，如果加深student model的深度，KDLoss的效果会变差。因此，此处引入了“提示层”和“引导层”的概念。一个提示被定义为负责指导学生学习过程的教师隐藏层的输出。类似地，我们选择FitNet的一个隐藏层，即引导层，从教师的提示层学习。我们希望引导层能够预测提示层的输出。我们选择提示层为教师网络的中间层。同样地，我们选择引导层作为学生网络的中间层。</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818184502630.png?token=AQ7WYGBEZ3R7LTFZX6N77C3DATBHS"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>其中$\mathbf{W_r}$指的是回归器。为了减小参数量，回归器一般使用卷积层而不是全连接层。</p>
+<p>训练分为两个阶段：第一个阶段利用Hint-based loss诱导学生网络达到一个合适的初始化状态（只更新$\mathbf{W_Guided}$与$\mathbf{W_r}$）；第二个阶段利用教师网络的soft label指导整个学生网络的训练（即知识蒸馏），且Total loss中Soft target相关部分所占比重逐渐降低，从而让学生网络能够全面辨别简单样本与困难样本（教师网络能够有效辨别简单样本，而困难样本则需要借助真实标注，即Hard target）。</p>
+<h2 id="distill在nlp领域的应用distilbert和tinybert">distill在NLP领域的应用——DistilBERT和TinyBERT</h2>
+<h3 id="distilbert">DistilBERT</h3>
+<p>参考自论文<em>DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter</em>和<em>TinyBERT: Distilling BERT for Natural Language Understanding</em>。</p>
+<p>DistillBERT用到了3种loss——除了传统无监督的$L_{CE}$和有监督的$L_{mlm}$，还引入了一个cos embedding loss $L_{cos}$。它将倾向于对齐学生和教师隐藏状态向量的方向。权重为5:2:1。</p>
+<p>DistillBERT每隔两层就抽取一层进行初始化，缩减了一半的层数。</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818200933588.png?token=AQ7WYGFARJJHV6WPZY7TZ7TDATBIA"
+	
+	
+	
+	loading="lazy"
+	
+		alt="steps"
+	
+	
+></p>
+<h3 id="tinybert">TinyBERT</h3>
+<p>TinyBERT的蒸馏分为两个阶段：在一般蒸馏阶段，没有微调的原始BERT作为教师模型。学生的TinyBERT通过提议的Transformer蒸馏法在一般领域的语料库上模仿教师的行为。之后，我们得到一个一般的TinyBERT，作为学生模型的初始化，用于进一步的蒸馏。在特定任务的蒸馏阶段，我们首先进行数据增强，然后使用经过微调的BERT作为教师模型在增强后的数据集上进行蒸馏。应该指出的是，这两个阶段对于提高TinyBERT的性能和泛化能力至关重要。</p>
+<p>一般蒸馏帮助TinyBERT学习嵌入在预训练的BERT中的丰富知识，这对提高TinyBERT的泛化能力起到了重要作用。特定任务蒸馏进一步向TinyBERT传授来自微调的BERT的知识。</p>
+<p>需要指出的是，在finetune阶段进行蒸馏时，需要对数据进行增强。</p>
+<p>而模型的loss来源有3种：1）嵌入层的输出；2）来自Transformer层的隐藏状态和注意矩阵；3）预测层输出的logits。</p>
+<p>具体来讲，其计算方法如下：</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818230118223.png?token=AQ7WYGE4ASQ4WV73M3T5NU3DATBIM"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>其中，teacher model有$N$层，student model有$M$层，$m=0$为embedding层，$m=M+1$为logits。</p>
+<p>在计算时，我们需要使用attention和hidden states，两者的区别如下：</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818231839284.png?token=AQ7WYGHUYUWUVLQIJDODGPLDATBIY"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>$\mathcal{L_layer}$的定义如下：</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232212961.png?token=AQ7WYGAC5LNPEIDSREZMO23DATBJC"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232117006.png?token=AQ7WYGHW6OLWRJUIGIVTHTTDATBJM"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232130513.png?token=AQ7WYGHVIP5FG7POY5JUFCTDATBJ4"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232150529.png?token=AQ7WYGBGGMI6ELWYDYV5MU3DATBKG"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232201396.png?token=AQ7WYGHBE6Z4A2JHQIKG7S3DATBKS"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="distill在asr领域的应用distilhubert">distill在ASR领域的应用——DistilHubert</h2>
+<p>distilhubert在计算loss时，并不是直接使用层的特征，而是使用student model第二层的输出映射过的特征与teacher model进行计算loss。</p>
+<p>我们可以与tinybert做一个对比：distilhubert在训练时没有使用student各层的信息，而是使用末端output的信息；但tinybert的计算则是基于层的，而且分为attention metrics和hidden state。当然一个可能的考量是distilhubert层数较少而tinybert层数较多。</p>
+<h2 id="distill与对比学习">distill与对比学习</h2>
+<p>参考自论文<em>From Dense to Sparse: Contrastive Pruning for Better Pre-trained Language Model Compression</em>。</p>
+<p>大多数研究只注意在剪枝过程中对下游任务的特定知识，而忽略了在剪枝模型中是否很好地保持了原PLM的任务诊断性知识。这会导致严重的灾难问题；此外在极高的稀疏度下，修剪后的模型与原始密集模型相比性能急剧下降。</p>
+<p>我们有三种修剪模块：PrC、SnC和FiC。</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819002709910.png?token=AQ7WYGC4UUGOQMZ65NTA2D3DATBLC"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>其loss分为两部分：无监督和监督。其中监督数据的正例只需要其对应的标签相同。</p>
+<ul>
+<li><strong>PrC</strong> Contrastive Learning with Pre-trained Model。在向特定的下游任务转移学习时，原始PLM中与任务无关的知识倾向于丢失，这可能导致灾难性的遗忘问题。因此我们需要引入一个PrC模块来维护这种基于对比学习的通用语言知识。</li>
+<li>**SnC **该模型使用了迭代修剪的算法，这些中间模型会被保存。当前的剪枝模型能够基于对比学习从这些快照中学习。</li>
+<li><strong>FiC</strong> 在finetune model上的学习。</li>
+</ul>
+<p>文章提供了两种剪枝方式：</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819003822771.png?token=AQ7WYGA7NXZIIVYY6XN7GYDDATBLM"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>最后将loss相加即可：</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819003855452.png?token=AQ7WYGB4OGAOA22KG2L5DWTDATBL2"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="无监督少量数据的distill">无监督少量数据的distill</h2>
+<p>参考自论文<em>From Dense to Sparse: Contrastive Pruning for Better Pre-trained Language Model Compression</em>。</p>
+<p>该方法适用于只有少量的无标签数据。</p>
+<p>(1)通过压缩教师网获得学生网；(2)在学生网的每个区块末尾增加一个1×1的卷积层，并通过最小二乘回归估计1×1卷积层的参数来对齐教师和学生；(3)将增加的1×1卷积层合并到先前的卷积层中，获得最终的学生网。</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819110039500.png?token=AQ7WYGGBEC7PDMCKXBX65KLDATBMC"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="reference">reference</h2>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/research/">research</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/posts/research/ssl-model-finetune/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">SSL model finetune</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/research/superb-downstream/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">SUPERB downstream</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/research/cofi-model-and-hubert-model-keys/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">CoFi model &amp; Hubert model keys</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/research/fairseq-functions/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">fairseq functions</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="Ther-nullptr/Ther-nullptr.github.io"
+        issue-term="pathname"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2022 Ther&#39;s Blog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+            <br />visitors: <span id="busuanzi_value_site_uv"></span>
+            total visits: <span id="busuanzi_value_site_pv"></span> time(s)
+            reads: <span id="busuanzi_value_page_pv"></span> time(s)
+    
+    </section>
+
+    <script async src="https://busuanzi.icodeq.com/busuanzi.pure.mini.js">
+    </script>
+
+
+
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#loss-algorithms">loss algorithms</a>
+      <ol>
+        <li><a href="#kl-loss">KL loss</a></li>
+        <li><a href="#cos-embedding-loss">cos embedding loss</a></li>
+        <li><a href="#contrastive-loss">contrastive loss</a></li>
+        <li><a href="#bce-loss">BCE loss</a></li>
+        <li><a href="#infonce-loss">InfoNCE loss</a></li>
+        <li><a href="#l1l2-loss">$l1$/$l2$ loss</a></li>
+      </ol>
+    </li>
+    <li><a href="#distill基础思想">distill基础思想</a></li>
+    <li><a href="#distill-model联合训练">distill model联合训练</a></li>
+    <li><a href="#kl-div的应用">KL div的应用</a></li>
+    <li><a href="#distill-teacher的hidden-states">distill teacher的hidden states</a></li>
+    <li><a href="#distill在nlp领域的应用distilbert和tinybert">distill在NLP领域的应用——DistilBERT和TinyBERT</a>
+      <ol>
+        <li><a href="#distilbert">DistilBERT</a></li>
+        <li><a href="#tinybert">TinyBERT</a></li>
+      </ol>
+    </li>
+    <li><a href="#distill在asr领域的应用distilhubert">distill在ASR领域的应用——DistilHubert</a></li>
+    <li><a href="#distill与对比学习">distill与对比学习</a></li>
+    <li><a href="#无监督少量数据的distill">无监督少量数据的distill</a></li>
+    <li><a href="#reference">reference</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script>
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap";
+		
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+<script
+    src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    async
+></script>
+    </body>
+</html>
