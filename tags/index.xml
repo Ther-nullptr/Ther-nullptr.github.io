@@ -1,123 +1,141 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>Tags on Ther&#39;s Blog</title>
-        <link>https://ther-nullptr.github.io/tags/</link>
-        <description>Recent content in Tags on Ther&#39;s Blog</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>en-us</language>
-        <lastBuildDate>Wed, 17 Aug 2022 08:22:05 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>research</title>
-        <link>https://ther-nullptr.github.io/tags/research/</link>
-        <pubDate>Wed, 17 Aug 2022 08:22:05 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/tags/research/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>small talk</title>
-        <link>https://ther-nullptr.github.io/tags/small-talk/</link>
-        <pubDate>Thu, 04 Aug 2022 01:09:43 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/tags/small-talk/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>knowledge distillation</title>
-        <link>https://ther-nullptr.github.io/tags/knowledge-distillation/</link>
-        <pubDate>Mon, 18 Jul 2022 00:13:05 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/tags/knowledge-distillation/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>C&#43;&#43;</title>
-        <link>https://ther-nullptr.github.io/tags/c&#43;&#43;/</link>
-        <pubDate>Thu, 23 Jun 2022 20:47:58 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/tags/c&#43;&#43;/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>summer training</title>
-        <link>https://ther-nullptr.github.io/tags/summer-training/</link>
-        <pubDate>Thu, 23 Jun 2022 20:47:58 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/tags/summer-training/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Csharp</title>
-        <link>https://ther-nullptr.github.io/tags/csharp/</link>
-        <pubDate>Wed, 22 Jun 2022 10:40:10 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/tags/csharp/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>qqqq.com</title>
-        <link>https://ther-nullptr.github.io/tags/qqqq.com/</link>
-        <pubDate>Wed, 22 Jun 2022 10:40:10 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/tags/qqqq.com/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>deep learning</title>
-        <link>https://ther-nullptr.github.io/tags/deep-learning/</link>
-        <pubDate>Mon, 20 Jun 2022 20:07:09 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/tags/deep-learning/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>programming utils</title>
-        <link>https://ther-nullptr.github.io/tags/programming-utils/</link>
-        <pubDate>Mon, 20 Jun 2022 20:07:09 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/tags/programming-utils/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>python</title>
-        <link>https://ther-nullptr.github.io/tags/python/</link>
-        <pubDate>Mon, 20 Jun 2022 20:07:09 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/tags/python/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>awesome kits</title>
-        <link>https://ther-nullptr.github.io/tags/awesome-kits/</link>
-        <pubDate>Wed, 15 Jun 2022 00:24:11 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/tags/awesome-kits/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>cheatsheet</title>
-        <link>https://ther-nullptr.github.io/tags/cheatsheet/</link>
-        <pubDate>Tue, 14 Jun 2022 23:12:44 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/tags/cheatsheet/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>digital logic and processors</title>
-        <link>https://ther-nullptr.github.io/tags/digital-logic-and-processors/</link>
-        <pubDate>Sat, 04 Jun 2022 11:43:15 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/tags/digital-logic-and-processors/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>quotes</title>
-        <link>https://ther-nullptr.github.io/tags/quotes/</link>
-        <pubDate>Fri, 03 Dec 2021 00:13:05 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/tags/quotes/</guid>
-        <description></description>
-        </item>
-        
-    </channel>
+  <channel>
+    <title>Tags on Ther&#39;s Blog</title>
+    <link>https://ther-nullptr.github.io/tags/</link>
+    <description>Recent content in Tags on Ther&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 17 Aug 2022 08:22:05 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>research</title>
+      <link>https://ther-nullptr.github.io/tags/research/</link>
+      <pubDate>Wed, 17 Aug 2022 08:22:05 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/tags/research/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>small talk</title>
+      <link>https://ther-nullptr.github.io/tags/small-talk/</link>
+      <pubDate>Thu, 04 Aug 2022 01:09:43 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/tags/small-talk/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>knowledge distillation</title>
+      <link>https://ther-nullptr.github.io/tags/knowledge-distillation/</link>
+      <pubDate>Mon, 18 Jul 2022 00:13:05 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/tags/knowledge-distillation/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;</title>
+      <link>https://ther-nullptr.github.io/tags/c&#43;&#43;/</link>
+      <pubDate>Thu, 23 Jun 2022 20:47:58 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/tags/c&#43;&#43;/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>summer training</title>
+      <link>https://ther-nullptr.github.io/tags/summer-training/</link>
+      <pubDate>Thu, 23 Jun 2022 20:47:58 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/tags/summer-training/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Csharp</title>
+      <link>https://ther-nullptr.github.io/tags/csharp/</link>
+      <pubDate>Wed, 22 Jun 2022 10:40:10 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/tags/csharp/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>qqqq.com</title>
+      <link>https://ther-nullptr.github.io/tags/qqqq.com/</link>
+      <pubDate>Wed, 22 Jun 2022 10:40:10 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/tags/qqqq.com/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>deep learning</title>
+      <link>https://ther-nullptr.github.io/tags/deep-learning/</link>
+      <pubDate>Mon, 20 Jun 2022 20:07:09 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/tags/deep-learning/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>programming utils</title>
+      <link>https://ther-nullptr.github.io/tags/programming-utils/</link>
+      <pubDate>Mon, 20 Jun 2022 20:07:09 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/tags/programming-utils/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>https://ther-nullptr.github.io/tags/python/</link>
+      <pubDate>Mon, 20 Jun 2022 20:07:09 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/tags/python/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>awesome kits</title>
+      <link>https://ther-nullptr.github.io/tags/awesome-kits/</link>
+      <pubDate>Wed, 15 Jun 2022 00:24:11 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/tags/awesome-kits/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>digital logic and processors</title>
+      <link>https://ther-nullptr.github.io/tags/digital-logic-and-processors/</link>
+      <pubDate>Sat, 04 Jun 2022 11:43:15 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/tags/digital-logic-and-processors/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>quotes</title>
+      <link>https://ther-nullptr.github.io/tags/quotes/</link>
+      <pubDate>Fri, 03 Dec 2021 00:13:05 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/tags/quotes/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+  </channel>
 </rss>

@@ -1,92 +1,55 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>research on Ther&#39;s Blog</title>
-        <link>https://ther-nullptr.github.io/tags/research/</link>
-        <description>Recent content in research on Ther&#39;s Blog</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>en-us</language>
-        <lastBuildDate>Wed, 17 Aug 2022 08:22:05 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/tags/research/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>knowledge distillation papers</title>
-        <link>https://ther-nullptr.github.io/posts/research/knowledge-distillation-papers/</link>
-        <pubDate>Wed, 17 Aug 2022 08:22:05 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/research/knowledge-distillation-papers/</guid>
-        <description>&lt;p&gt;以下对于distill model的研究将不只局限于ASR领域，还包括CV和NLP领域等。&lt;/p&gt;
+  <channel>
+    <title>research on Ther&#39;s Blog</title>
+    <link>https://ther-nullptr.github.io/tags/research/</link>
+    <description>Recent content in research on Ther&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 17 Aug 2022 08:22:05 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/tags/research/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>knowledge distillation papers</title>
+      <link>https://ther-nullptr.github.io/posts/research/knowledge-distillation-papers/</link>
+      <pubDate>Wed, 17 Aug 2022 08:22:05 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/posts/research/knowledge-distillation-papers/</guid>
+      <description>以下对于distill model的研究将不只局限于ASR领域，还包括CV和NLP领域等。
+loss algorithms 首先需要借助PyTorch平台简要介绍知识蒸馏中经常需要用到的一些loss api。
+KL loss KL div的计算方式如下：
+其中，PyTorch API为：torch.nn.KLDivLoss。
+KL div衡量的是给定任意分布偏离真实分布的程度。从公式中可以看出，$p(x_i)$ 有更高概率的匹配区域比低 $p(x_i)$ 概率的匹配区域更加重要。
+实际上，我们有：
+等式右边第一项为交叉熵，由于$H(X)$（某一事件的熵）是固定的，所以KL散度的含义就是，相对于最优的编码，使用错误的编码浪费的比特数。
+cos embedding loss PyTorch API为：torch.nn.CosineEmbeddingLoss。
+contrastive loss BCE loss BCEloss解决的是二分类问题，或者可以视作一种简化版的交叉熵损失函数——将所有的其它例子都视作负例。
+InfoNCE loss 同样可以使用温度参数$\tau$进行调节。
+$l1$/$l2$ loss l1: torch.nn.L1Loss
+l2: torch.nn.MSELoss
+distill基础思想 distill最初提出于论文Distilling the Knowledge in a Neural Network。
+文章在最初指出了混合模型在提高精度方面的作用，但混合模型具有开销较大的特点，一个较好的办法是将其蒸馏至一个student model中。在传统的认知中，我们认为知识蕴含在形式化的模型参数中，因此很难想象在变换模型形式的基础上保留学到的知识。
+该论文指出对知识的正确认识应该是“it is a learned mapping from input vectors to output vectors”。更具体地讲，teacher model具有良好的泛化能力，蒸馏的目的就是要让student model学会teacher model的泛化能力，从而起到比直接训练student model更好的结果。
+如何学习这种泛化能力？蒸馏的基础思想是使用teacher model的soft target（model预测的概率分布）训练student model（对应的，hard target指的是model预测的ground truth）。使用soft target训练有两个好处：</description>
+      <content>&lt;p&gt;以下对于distill model的研究将不只局限于ASR领域，还包括CV和NLP领域等。&lt;/p&gt;
 &lt;h2 id=&#34;loss-algorithms&#34;&gt;loss algorithms&lt;/h2&gt;
 &lt;p&gt;首先需要借助PyTorch平台简要介绍知识蒸馏中经常需要用到的一些loss api。&lt;/p&gt;
 &lt;h3 id=&#34;kl-loss&#34;&gt;KL loss&lt;/h3&gt;
 &lt;p&gt;KL div的计算方式如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818174343816.png?token=AQ7WYGGEAZFC7WXSHYEFL6LDATA36&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;KL div&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818174343816.png&#34; alt=&#34;KL div&#34;&gt;&lt;/p&gt;
 &lt;p&gt;其中，PyTorch API为：&lt;code&gt;torch.nn.KLDivLoss&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;KL div衡量的是给定任意分布偏离真实分布的程度。从公式中可以看出，$p(x_i)$ 有更高概率的匹配区域比低 $p(x_i)$ 概率的匹配区域更加重要。&lt;/p&gt;
 &lt;p&gt;实际上，我们有：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818180040162.png?token=AQ7WYGC4J5HFQYFDFFMYR3TDATA4Y&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;KL vs CE&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818180040162.png&#34; alt=&#34;KL vs CE&#34;&gt;&lt;/p&gt;
 &lt;p&gt;等式右边第一项为交叉熵，由于$H(X)$（某一事件的熵）是固定的，所以KL散度的含义就是，相对于最优的编码，使用错误的编码浪费的比特数。&lt;/p&gt;
 &lt;h3 id=&#34;cos-embedding-loss&#34;&gt;cos embedding loss&lt;/h3&gt;
 &lt;p&gt;PyTorch API为：&lt;code&gt;torch.nn.CosineEmbeddingLoss&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818195200570.png?token=AQ7WYGDPKFMNQG6ZBWSEUULDATA6C&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;cos loss&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://github.com/Ther-nullptr/ImageRepository/main/img/image-20220818195200570.png&#34; alt=&#34;cos loss&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;contrastive-loss&#34;&gt;contrastive loss&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819175604937.png?token=AQ7WYGHIEIBC4K4EQCQI22DDATA7O&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;contrastive loss&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://github.com/Ther-nullptr/ImageRepository/tree/main/img/image-20220819175604937.png&#34; alt=&#34;contrastive loss&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;bce-loss&#34;&gt;BCE loss&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819180642611.png?token=AQ7WYGHG27FMO2KKIL7ASQTDATBB2&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;BCE loss&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819180642611.png?token=AQ7WYGHG27FMO2KKIL7ASQTDATBB2&#34; alt=&#34;BCE loss&#34;&gt;&lt;/p&gt;
 &lt;p&gt;BCEloss解决的是二分类问题，或者可以视作一种简化版的交叉熵损失函数——将所有的其它例子都视作负例。&lt;/p&gt;
 &lt;h3 id=&#34;infonce-loss&#34;&gt;InfoNCE loss&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819181156002.png?token=AQ7WYGDHPDPQAAM64ZEL4TDDATBCC&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;info nce loss&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819181156002.png?token=AQ7WYGDHPDPQAAM64ZEL4TDDATBCC&#34; alt=&#34;info nce loss&#34;&gt;&lt;/p&gt;
 &lt;p&gt;同样可以使用温度参数$\tau$进行调节。&lt;/p&gt;
 &lt;h3 id=&#34;l1l2-loss&#34;&gt;$l1$/$l2$ loss&lt;/h3&gt;
 &lt;p&gt;l1: &lt;code&gt;torch.nn.L1Loss&lt;/code&gt;&lt;/p&gt;
@@ -102,50 +65,18 @@
 &lt;/ul&gt;
 &lt;p&gt;但使用soft target存在一个问题：有些概率分布很小，在计算loss时可以忽略不计，但其中蕴含的一些关键信息会丢失。前人的解决方案是使用logits（softmax的input）而不是probablity（实际上，后文指出，这是一种特殊情况的distillation）。本文中提出了一种叫做“distillation”的方法，用于提高softmax结果的“温度”。直到繁琐的模型产生一套合适的软目标。然后我们在训练小模型时使用同样的高温来匹配这些软目标。&lt;/p&gt;
 &lt;p&gt;“温度”的使用方法如下。一般来说，$T$越大，产生的概率分布越柔和。值得注意的是，student model在训练时使用$T&amp;gt;1$，但在推理时使用$T=1$。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818122556744.png?token=AQ7WYGCS6YFA5GO2ZYUKWNLDATBEY&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;temperature in softmax&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818122556744.png?token=AQ7WYGCS6YFA5GO2ZYUKWNLDATBEY&#34; alt=&#34;temperature in softmax&#34;&gt;&lt;/p&gt;
 &lt;p&gt;从以上分析可以看出，蒸馏实际上是一个自监督过程，我们也可以引入监督过程——使用两个不同目标函数的加权平均，第一个目标函数是与软目标的交叉熵，这个交叉熵的计算方法是使用蒸馏模型的softmax中的高温，就像从繁琐的模型中生成软目标时一样，第二个目标函数是与正确标签的交叉熵（通常使用较低的权重）。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;由于软目标产生的梯度的大小为$\frac{1}{T^2}$，因此在使用硬目标和软目标时，必须将其乘以$T^2$。这可以确保在试验元参数时，如果改变蒸馏所用的温度，硬目标和软目标的相对贡献大致保持不变。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818160749384.png?token=AQ7WYGEDSMCV2Y7LYNWLO4LDATBFM&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;conclusion&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818160749384.png?token=AQ7WYGEDSMCV2Y7LYNWLO4LDATBFM&#34; alt=&#34;conclusion&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;distill-model联合训练&#34;&gt;distill model联合训练&lt;/h2&gt;
 &lt;p&gt;参考自论文&lt;em&gt;Apprentice: Using KD Techniques to Improve Low-Precision Network Accuracy&lt;/em&gt;。&lt;/p&gt;
 &lt;p&gt;该论文主要针对低精度的学生网络而言。论文中一共提供了3种训练方法：第一种方案（方案A）联合训练两个网络&amp;ndash;全精度的教师和低精度的学生网络。第二种方案（方案B）只训练低精度的学生网络，但在整个训练过程中从训练好的全精度教师网络中提取知识。第三种方案（方案C）从训练好的全精度教师和全精度学生网络开始，但在降低了学生网络的精度后对其进行微调。第二种相比第一种收敛更快，第三种准确率最高。在以上三种结构中，学生网络具有与教师网络类似的拓扑结构，只是学生网络具有低精度的神经元，而教师网络的神经元则以全精度运行。&lt;/p&gt;
 &lt;p&gt;其训练方式可用下图概括：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818172450825.png?token=AQ7WYGEW3Z24FVBD666IU3LDATBGM&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818172538944.png?token=AQ7WYGHX45AHE4QKJF6FACDDATBG6&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818172450825.png?token=AQ7WYGEW3Z24FVBD666IU3LDATBGM&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818172538944.png?token=AQ7WYGHX45AHE4QKJF6FACDDATBG6&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;其中$\alpha=1,\beta=0.5,\gamma=0.5$。&lt;/p&gt;
 &lt;h2 id=&#34;kl-div的应用&#34;&gt;KL div的应用&lt;/h2&gt;
 &lt;p&gt;总结一下，之前在蒸馏时计算loss的函数为：
@@ -162,14 +93,7 @@ $$
 &lt;p&gt;论文指出，使用教师学到的中间表征作为提示，以改善训练过程和学生的最终表现。因为学生的中间隐藏层一般会比教师的中间隐藏层小，所以要引入额外的参数，将学生的隐藏层映射到教师隐藏层的预测上。&lt;/p&gt;
 &lt;p&gt;论文指出了传统知识蒸馏模型的一个局限性：以前所有与卷积神经网络相关的工作都集中在将教师网络或网络集合压缩到宽度和深度相似的网络中，或者压缩到较浅和较宽的网络中；而没有利用深度的优势。因此本文指出了一种新的distill方法：使用同等深度但更窄的网络，从教师的隐藏层中引入中间层次的提示来指导学生的训练过程。&lt;/p&gt;
 &lt;p&gt;在传统的知识蒸馏模型中，如果加深student model的深度，KDLoss的效果会变差。因此，此处引入了“提示层”和“引导层”的概念。一个提示被定义为负责指导学生学习过程的教师隐藏层的输出。类似地，我们选择FitNet的一个隐藏层，即引导层，从教师的提示层学习。我们希望引导层能够预测提示层的输出。我们选择提示层为教师网络的中间层。同样地，我们选择引导层作为学生网络的中间层。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818184502630.png?token=AQ7WYGBEZ3R7LTFZX6N77C3DATBHS&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818184502630.png?token=AQ7WYGBEZ3R7LTFZX6N77C3DATBHS&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;其中$\mathbf{W_r}$指的是回归器。为了减小参数量，回归器一般使用卷积层而不是全连接层。&lt;/p&gt;
 &lt;p&gt;训练分为两个阶段：第一个阶段利用Hint-based loss诱导学生网络达到一个合适的初始化状态（只更新$\mathbf{W_Guided}$与$\mathbf{W_r}$）；第二个阶段利用教师网络的soft label指导整个学生网络的训练（即知识蒸馏），且Total loss中Soft target相关部分所占比重逐渐降低，从而让学生网络能够全面辨别简单样本与困难样本（教师网络能够有效辨别简单样本，而困难样本则需要借助真实标注，即Hard target）。&lt;/p&gt;
 &lt;h2 id=&#34;distill在nlp领域的应用distilbert和tinybert&#34;&gt;distill在NLP领域的应用——DistilBERT和TinyBERT&lt;/h2&gt;
@@ -177,81 +101,23 @@ $$
 &lt;p&gt;参考自论文&lt;em&gt;DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter&lt;/em&gt;和&lt;em&gt;TinyBERT: Distilling BERT for Natural Language Understanding&lt;/em&gt;。&lt;/p&gt;
 &lt;p&gt;DistillBERT用到了3种loss——除了传统无监督的$L_{CE}$和有监督的$L_{mlm}$，还引入了一个cos embedding loss $L_{cos}$。它将倾向于对齐学生和教师隐藏状态向量的方向。权重为5:2:1。&lt;/p&gt;
 &lt;p&gt;DistillBERT每隔两层就抽取一层进行初始化，缩减了一半的层数。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818200933588.png?token=AQ7WYGFARJJHV6WPZY7TZ7TDATBIA&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;steps&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818200933588.png?token=AQ7WYGFARJJHV6WPZY7TZ7TDATBIA&#34; alt=&#34;steps&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;tinybert&#34;&gt;TinyBERT&lt;/h3&gt;
 &lt;p&gt;TinyBERT的蒸馏分为两个阶段：在一般蒸馏阶段，没有微调的原始BERT作为教师模型。学生的TinyBERT通过提议的Transformer蒸馏法在一般领域的语料库上模仿教师的行为。之后，我们得到一个一般的TinyBERT，作为学生模型的初始化，用于进一步的蒸馏。在特定任务的蒸馏阶段，我们首先进行数据增强，然后使用经过微调的BERT作为教师模型在增强后的数据集上进行蒸馏。应该指出的是，这两个阶段对于提高TinyBERT的性能和泛化能力至关重要。&lt;/p&gt;
 &lt;p&gt;一般蒸馏帮助TinyBERT学习嵌入在预训练的BERT中的丰富知识，这对提高TinyBERT的泛化能力起到了重要作用。特定任务蒸馏进一步向TinyBERT传授来自微调的BERT的知识。&lt;/p&gt;
 &lt;p&gt;需要指出的是，在finetune阶段进行蒸馏时，需要对数据进行增强。&lt;/p&gt;
 &lt;p&gt;而模型的loss来源有3种：1）嵌入层的输出；2）来自Transformer层的隐藏状态和注意矩阵；3）预测层输出的logits。&lt;/p&gt;
 &lt;p&gt;具体来讲，其计算方法如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818230118223.png?token=AQ7WYGE4ASQ4WV73M3T5NU3DATBIM&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818230118223.png?token=AQ7WYGE4ASQ4WV73M3T5NU3DATBIM&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;其中，teacher model有$N$层，student model有$M$层，$m=0$为embedding层，$m=M+1$为logits。&lt;/p&gt;
 &lt;p&gt;在计算时，我们需要使用attention和hidden states，两者的区别如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818231839284.png?token=AQ7WYGHUYUWUVLQIJDODGPLDATBIY&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818231839284.png?token=AQ7WYGHUYUWUVLQIJDODGPLDATBIY&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;$\mathcal{L_layer}$的定义如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232212961.png?token=AQ7WYGAC5LNPEIDSREZMO23DATBJC&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232117006.png?token=AQ7WYGHW6OLWRJUIGIVTHTTDATBJM&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232130513.png?token=AQ7WYGHVIP5FG7POY5JUFCTDATBJ4&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232150529.png?token=AQ7WYGBGGMI6ELWYDYV5MU3DATBKG&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232201396.png?token=AQ7WYGHBE6Z4A2JHQIKG7S3DATBKS&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232212961.png?token=AQ7WYGAC5LNPEIDSREZMO23DATBJC&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232117006.png?token=AQ7WYGHW6OLWRJUIGIVTHTTDATBJM&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232130513.png?token=AQ7WYGHVIP5FG7POY5JUFCTDATBJ4&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232150529.png?token=AQ7WYGBGGMI6ELWYDYV5MU3DATBKG&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232201396.png?token=AQ7WYGHBE6Z4A2JHQIKG7S3DATBKS&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;distill在asr领域的应用distilhubert&#34;&gt;distill在ASR领域的应用——DistilHubert&lt;/h2&gt;
 &lt;p&gt;distilhubert在计算loss时，并不是直接使用层的特征，而是使用student model第二层的输出映射过的特征与teacher model进行计算loss。&lt;/p&gt;
 &lt;p&gt;我们可以与tinybert做一个对比：distilhubert在训练时没有使用student各层的信息，而是使用末端output的信息；但tinybert的计算则是基于层的，而且分为attention metrics和hidden state。当然一个可能的考量是distilhubert层数较少而tinybert层数较多。&lt;/p&gt;
@@ -259,60 +125,35 @@ $$
 &lt;p&gt;参考自论文&lt;em&gt;From Dense to Sparse: Contrastive Pruning for Better Pre-trained Language Model Compression&lt;/em&gt;。&lt;/p&gt;
 &lt;p&gt;大多数研究只注意在剪枝过程中对下游任务的特定知识，而忽略了在剪枝模型中是否很好地保持了原PLM的任务诊断性知识。这会导致严重的灾难问题；此外在极高的稀疏度下，修剪后的模型与原始密集模型相比性能急剧下降。&lt;/p&gt;
 &lt;p&gt;我们有三种修剪模块：PrC、SnC和FiC。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819002709910.png?token=AQ7WYGC4UUGOQMZ65NTA2D3DATBLC&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819002709910.png?token=AQ7WYGC4UUGOQMZ65NTA2D3DATBLC&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;其loss分为两部分：无监督和监督。其中监督数据的正例只需要其对应的标签相同。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;PrC&lt;/strong&gt; Contrastive Learning with Pre-trained Model。在向特定的下游任务转移学习时，原始PLM中与任务无关的知识倾向于丢失，这可能导致灾难性的遗忘问题。因此我们需要引入一个PrC模块来维护这种基于对比学习的通用语言知识。&lt;/li&gt;
-&lt;li&gt;**SnC **该模型使用了迭代修剪的算法，这些中间模型会被保存。当前的剪枝模型能够基于对比学习从这些快照中学习。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SnC&lt;/strong&gt; 该模型使用了迭代修剪的算法，这些中间模型会被保存。当前的剪枝模型能够基于对比学习从这些快照中学习。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;FiC&lt;/strong&gt; 在finetune model上的学习。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;文章提供了两种剪枝方式：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819003822771.png?token=AQ7WYGA7NXZIIVYY6XN7GYDDATBLM&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819003822771.png?token=AQ7WYGA7NXZIIVYY6XN7GYDDATBLM&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;最后将loss相加即可：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819003855452.png?token=AQ7WYGB4OGAOA22KG2L5DWTDATBL2&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819003855452.png?token=AQ7WYGB4OGAOA22KG2L5DWTDATBL2&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;无监督少量数据的distill&#34;&gt;无监督少量数据的distill&lt;/h2&gt;
 &lt;p&gt;参考自论文&lt;em&gt;From Dense to Sparse: Contrastive Pruning for Better Pre-trained Language Model Compression&lt;/em&gt;。&lt;/p&gt;
 &lt;p&gt;该方法适用于只有少量的无标签数据。&lt;/p&gt;
 &lt;p&gt;(1)通过压缩教师网获得学生网；(2)在学生网的每个区块末尾增加一个1×1的卷积层，并通过最小二乘回归估计1×1卷积层的参数来对齐教师和学生；(3)将增加的1×1卷积层合并到先前的卷积层中，获得最终的学生网。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819110039500.png?token=AQ7WYGGBEC7PDMCKXBX65KLDATBMC&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819110039500.png?token=AQ7WYGGBEC7PDMCKXBX65KLDATBMC&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;reference&#34;&gt;reference&lt;/h2&gt;
-</description>
-        </item>
-        <item>
-        <title>SSL model finetune</title>
-        <link>https://ther-nullptr.github.io/posts/research/ssl-model-finetune/</link>
-        <pubDate>Fri, 12 Aug 2022 00:13:05 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/research/ssl-model-finetune/</guid>
-        <description>&lt;h2 id=&#34;structure-of-finetune-models&#34;&gt;structure of finetune models&lt;/h2&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>SSL model finetune</title>
+      <link>https://ther-nullptr.github.io/posts/research/ssl-model-finetune/</link>
+      <pubDate>Fri, 12 Aug 2022 00:13:05 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/posts/research/ssl-model-finetune/</guid>
+      <description>structure of finetune models 首先有必要记录一下finetune model的结构（以wav2vec2、hubert、data2vec）为例：
+wav2vec2 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82  Wav2VecCtc( (w2v_encoder): Wav2VecEncoder( (w2v_model): Wav2Vec2Model( (feature_extractor): ConvFeatureExtractionModel( (conv_layers): ModuleList( (0): Sequential( (0): Conv1d(1, 512, kernel_size=(10,), stride=(5,), bias=False) (1): Dropout(p=0.</description>
+      <content>&lt;h2 id=&#34;structure-of-finetune-models&#34;&gt;structure of finetune models&lt;/h2&gt;
 &lt;p&gt;首先有必要记录一下finetune model的结构（以wav2vec2、hubert、data2vec）为例：&lt;/p&gt;
 &lt;h3 id=&#34;wav2vec2&#34;&gt;wav2vec2&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1071,15 +912,18 @@ hubert:&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-</description>
-        </item>
-        <item>
-        <title>SUPERB downstream</title>
-        <link>https://ther-nullptr.github.io/posts/research/superb-downstream/</link>
-        <pubDate>Fri, 12 Aug 2022 00:13:05 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/research/superb-downstream/</guid>
-        <description>&lt;p&gt;以下记录了superb任务中不同的downstream model：&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>SUPERB downstream</title>
+      <link>https://ther-nullptr.github.io/posts/research/superb-downstream/</link>
+      <pubDate>Fri, 12 Aug 2022 00:13:05 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/posts/research/superb-downstream/</guid>
+      <description>以下记录了superb任务中不同的downstream model：
+KS 1 2 3 4 5 6 7 8 9 10 11  DownstreamExpert( (projector): Linear(in_features=768, out_features=256, bias=True) (model): UtteranceLevel( (pooling): MeanPooling() (post_net): FrameLevel( (hiddens): Sequential() (linear): Linear(in_features=256, out_features=12, bias=True) ) ) (objective): CrossEntropyLoss() )   ASR 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  DownstreamExpert( (projector): Linear(in_features=768, out_features=1024, bias=True) (model): RNNs( (rnns): ModuleList( (0): RNNLayer( (layer): LSTM(1024, 1024, batch_first=True, bidirectional=True) (dp): Dropout(p=0.</description>
+      <content>&lt;p&gt;以下记录了superb任务中不同的downstream model：&lt;/p&gt;
 &lt;h2 id=&#34;ks&#34;&gt;KS&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -1179,15 +1023,18 @@ hubert:&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description>
-        </item>
-        <item>
-        <title>CoFi model &amp; Hubert model keys</title>
-        <link>https://ther-nullptr.github.io/posts/research/cofi-model-and-hubert-model-keys/</link>
-        <pubDate>Mon, 18 Jul 2022 00:13:05 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/research/cofi-model-and-hubert-model-keys/</guid>
-        <description>&lt;p&gt;为了便于一一对应与查找，在此处我们列出了CoFi-BERT中所有的key和Hubert中所有的key：&lt;/p&gt;
+&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>CoFi model &amp; Hubert model keys</title>
+      <link>https://ther-nullptr.github.io/posts/research/cofi-model-and-hubert-model-keys/</link>
+      <pubDate>Mon, 18 Jul 2022 00:13:05 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/posts/research/cofi-model-and-hubert-model-keys/</guid>
+      <description>为了便于一一对应与查找，在此处我们列出了CoFi-BERT中所有的key和Hubert中所有的key：
+CoFi 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207  bert.</description>
+      <content>&lt;p&gt;为了便于一一对应与查找，在此处我们列出了CoFi-BERT中所有的key和Hubert中所有的key：&lt;/p&gt;
 &lt;h2 id=&#34;cofi&#34;&gt;CoFi&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -2244,15 +2091,19 @@ hubert:&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;down None
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description>
-        </item>
-        <item>
-        <title>fairseq functions</title>
-        <link>https://ther-nullptr.github.io/posts/research/fairseq-functions/</link>
-        <pubDate>Mon, 18 Jul 2022 00:13:05 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/research/fairseq-functions/</guid>
-        <description>&lt;p&gt;本文旨在列出fairseq中一些常见的自定义函数：&lt;/p&gt;
+&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>fairseq functions</title>
+      <link>https://ther-nullptr.github.io/posts/research/fairseq-functions/</link>
+      <pubDate>Mon, 18 Jul 2022 00:13:05 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/posts/research/fairseq-functions/</guid>
+      <description>本文旨在列出fairseq中一些常见的自定义函数：
+virtual functions task setup  setup_task  builders  build_model build_dictionary build_dictionary build_generator(usually useless)  loaders  load_dictionary load_datasets  steps   train_step
+1 2 3 4 5 6 7 8 9 10 11  def train_step(self, sample, model, criterion, optimizer, update_num, ignore_grad=False): model.train() model.set_num_updates(update_num) with torch.autograd.profiler.record_function(&amp;#34;forward&amp;#34;): with torch.cuda.amp.autocast(enabled=(isinstance(optimizer, AMPOptimizer))): loss, sample_size, logging_output = criterion(model, sample) if ignore_grad: loss *= 0 with torch.autograd.profiler.record_function(&amp;#34;backward&amp;#34;): optimizer.backward(loss) return loss, sample_size, logging_output     valid_step</description>
+      <content>&lt;p&gt;本文旨在列出fairseq中一些常见的自定义函数：&lt;/p&gt;
 &lt;h2 id=&#34;virtual-functions&#34;&gt;virtual functions&lt;/h2&gt;
 &lt;h3 id=&#34;task&#34;&gt;task&lt;/h3&gt;
 &lt;h4 id=&#34;setup&#34;&gt;setup&lt;/h4&gt;
@@ -2567,8 +2418,8 @@ hubert:&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;optimizer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;step&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description>
-        </item>
-        
-    </channel>
+&lt;/div&gt;</content>
+    </item>
+    
+  </channel>
 </rss>

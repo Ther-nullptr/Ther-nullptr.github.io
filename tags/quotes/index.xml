@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>quotes on Ther&#39;s Blog</title>
-        <link>https://ther-nullptr.github.io/tags/quotes/</link>
-        <description>Recent content in quotes on Ther&#39;s Blog</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>en-us</language>
-        <lastBuildDate>Fri, 03 Dec 2021 00:13:05 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/tags/quotes/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>快速排序与归并排序的思想</title>
-        <link>https://ther-nullptr.github.io/posts/quotes/%E4%B8%87%E7%A5%9E/</link>
-        <pubDate>Fri, 03 Dec 2021 00:13:05 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/quotes/%E4%B8%87%E7%A5%9E/</guid>
-        <description>&lt;h2 id=&#34;快速排序与归并排序的思想&#34;&gt;快速排序与归并排序的思想&lt;/h2&gt;
+  <channel>
+    <title>quotes on Ther&#39;s Blog</title>
+    <link>https://ther-nullptr.github.io/tags/quotes/</link>
+    <description>Recent content in quotes on Ther&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 03 Dec 2021 00:13:05 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/tags/quotes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>快速排序与归并排序的思想</title>
+      <link>https://ther-nullptr.github.io/posts/quotes/%E4%B8%87%E7%A5%9E/</link>
+      <pubDate>Fri, 03 Dec 2021 00:13:05 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/posts/quotes/%E4%B8%87%E7%A5%9E/</guid>
+      <description>快速排序与归并排序的思想 起源是递归法——将序列分成两部分处理，或者说，用二叉树遍历的逻辑处理。二叉树的遍历基本有三种方式——前序、中序、后序。
+  归并是一种后序遍历：算法到手有两个已经处理好的序列，然后把这两个序列处理成最终的结果。处理的最后一步，当然是完成对序列的排序，因此，算法的内容就是：将两个排序好的序列排成一个新的序列——这就是归并。
+  快排是一种前序遍历：对一个序列进行处理，然后处理其子列。处理有这样的要求：将两个子列都完全完成处理以后，整个数列就排好了。因此：“划分点”是唯一的符合条件的处理方法。
+  那么有没有中序遍历？手里拿着一个序列：一半已经排好，另一半还是完全乱的，这一步处理的目的就是：这一步执行完成之后，再对右边进行排序，整个序列就排好了。所以，这一个步骤的内容就应该是：维持左边的序列完好，保证右边所有的元素都大于左边的所有元素。
+  </description>
+      <content>&lt;h2 id=&#34;快速排序与归并排序的思想&#34;&gt;快速排序与归并排序的思想&lt;/h2&gt;
 &lt;p&gt;起源是递归法——将序列分成两部分处理，或者说，用二叉树遍历的逻辑处理。二叉树的遍历基本有三种方式——前序、中序、后序。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -25,8 +31,8 @@
 &lt;p&gt;那么有没有中序遍历？手里拿着一个序列：一半已经排好，另一半还是完全乱的，这一步处理的目的就是：这一步执行完成之后，再对右边进行排序，整个序列就排好了。所以，这一个步骤的内容就应该是：维持左边的序列完好，保证右边所有的元素都大于左边的所有元素。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-</description>
-        </item>
-        
-    </channel>
+</content>
+    </item>
+    
+  </channel>
 </rss>

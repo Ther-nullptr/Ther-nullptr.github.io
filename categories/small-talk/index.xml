@@ -1,18 +1,56 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>small talk on Ther&#39;s Blog</title>
-        <link>https://ther-nullptr.github.io/categories/small-talk/</link>
-        <description>Recent content in small talk on Ther&#39;s Blog</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>en-us</language>
-        <lastBuildDate>Thu, 04 Aug 2022 01:09:43 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/categories/small-talk/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>小黑后传</title>
-        <link>https://ther-nullptr.github.io/posts/small_talk/%E5%B0%8F%E9%BB%91%E5%90%8E%E4%BC%A0/</link>
-        <pubDate>Thu, 04 Aug 2022 01:09:43 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/small_talk/%E5%B0%8F%E9%BB%91%E5%90%8E%E4%BC%A0/</guid>
-        <description>&lt;p&gt;小黑前传的名字叫作《追忆似火年华》，不过小黑后传似乎和“似火”并不怎么沾边，索性就叫小黑后传好了，以后有想法再更新一个文艺点的标题。&lt;/p&gt;
+  <channel>
+    <title>small talk on Ther&#39;s Blog</title>
+    <link>https://ther-nullptr.github.io/categories/small-talk/</link>
+    <description>Recent content in small talk on Ther&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 04 Aug 2022 01:09:43 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/categories/small-talk/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>小黑后传</title>
+      <link>https://ther-nullptr.github.io/posts/small_talk/%E5%B0%8F%E9%BB%91%E5%90%8E%E4%BC%A0/</link>
+      <pubDate>Thu, 04 Aug 2022 01:09:43 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/posts/small_talk/%E5%B0%8F%E9%BB%91%E5%90%8E%E4%BC%A0/</guid>
+      <description>小黑前传的名字叫作《追忆似火年华》，不过小黑后传似乎和“似火”并不怎么沾边，索性就叫小黑后传好了，以后有想法再更新一个文艺点的标题。
+一 2022.6.19 考完试的第一天。
+“您当日的听歌时间为8h42min，位居好友榜榜首，恭喜！”
+虽然知道自己网抑云的习惯由来已久（确切地来讲，网易云和QQ音乐都听，而且QQ更多一些），但看到这个数字小黑还是震惊了一下的。其他人排解心魔的方式有社交、有读书、也有游戏，小黑则是网抑云，嗯网抑云。
+小黑的听歌方式，比较奇怪。他不怎么关注日推，也不会从500多首红心中随机抽取音乐，而是这样的：在一个特定的时间段里，他会对歌单里的5~10首歌进行单曲循环，如果在这期间搜罗到了什么好音乐，单曲循环的队列就会被更新。
+ 从这个角度讲，这种听歌机制其实很像计算机里面cache的原理——平时单曲循环的歌存在cache里，适当的时候从主存里加载歌曲到cache里再单曲循环&amp;hellip;
+ 从这个听歌习惯，似乎也能看到小黑的一点习惯——或者更确切的说，叫秉性——念旧、保守&amp;hellip;&amp;hellip;
+小黑摇了摇头，网抑云不是这么抑的。不过说起来，这个习惯是怎么形成的？
+二 2022.5.22 小黑居然在大二下学期中刷完了一部番，不过是老番，也比较短——《新世纪福音战士》。
+男主似乎和小黑有不少共同点——弱不禁风，胆小，喜欢边喝着酒/饮料边瘫坐着听音乐。
+这里要特别说一下“边喝着酒/饮料边瘫坐着听音乐”，小黑在看到这些镜头时，竟然前所未有地产生了共鸣感——比起那种激励人奋进的鸡汤，小黑似乎对这样的状态更加向往。
+男主有一段台词让他十分印象深刻：
+ 你总是逃避自己讨厌的事情。
+我已经很努力地再试了！
+这有什么不好！
+逃避讨厌的事情又有什么不对！
+ 小黑感觉自己也在逃避，逃避的是什么？也许不只是眼前的困难——就像科研进度十分缓慢，小黑第一反应想的不是调整状态，多看几篇论文和代码，而是打开手机看eva——美其名曰寻找与自己和解的路子。
+从那以后，耳机便真的成了小黑的耳旁常伴的物品了。
+小黑更想逃避的，也许是真实的自己、阴暗的自己。不过，小黑是什么时候开始思考这些问题的呢？
+三 2022.4.12 这场不大不小的折磨终于结束了。
+身体的折磨是暂时结束了。不过从那以后，小黑似乎就变了一个人——头脑中无用的精神内耗开始变多，头脑里就好像有两个不同的政党在打架，最后也给不出什么具体的执行方案来，生活就这样原地踏步地进行着。
+这造成的直接后果就是：睡眠质量严重下降，上课难以集中精神，科研开始摆烂&amp;hellip;&amp;hellip;不过有一点，小黑始终认为，自己并没有失去对学习的兴趣，只是暂时失去了自己的方向。
+说起方向，小黑有过自己真正的方向吗？从某种意义上，小黑在战略决策上似乎从来只是一株墙头草——小黑从小到大，或者更确切地说，是进了大学之后，努力的出发点就只是“我想成为xxx那样的人”——A的笔记，B的钻研，C的个人魅力&amp;hellip;&amp;hellip;这本是一件好事，但小黑发现自己似乎哪一个人都变不成，而当别人告诉自己要“做自己”时，小黑甚至连“自我”的定义都难以下达——自己追寻了太多别人的足迹，却连自己本来的样子都忘记了。
+那么，自己到底想成为什么样的人？这要从一次谈话说起。
+四 2022.1.18 在入学前，小黑给自己的label是：社恐分子、小镇做题家、局外人。
+一年半后，小黑给自己的label是：孤勇者、想要成为文艺青年的理工男、安静、内向，自己将会在学习和科研的路上一路狂奔。
+但，果真如此吗？
+我与老友聊起了关于自身的定位问题，老友说：其实你一直是一个很有人情味的人，并列举种种事例。
+这时小黑才意识到，自己的内心中，本质上有很多感性的成分。自己也渴望社交、渴望沟通、渴望人与人之间微妙的联结——而不是仅仅一味扎进学术中。
+ &amp;ldquo;人有种奇怪的虚荣心，想让别人或自己相信他向往的是真理，但其实他有求于这个世界的是爱。&amp;ldquo;加缪一语道破天机。
+ 自己的一些label，似乎硬生生束缚住了自己的手脚。本我，似乎与展现在世人面前的我，以及小黑所期望的我，出现了前所未有的参差。它们相互交织，却又在触及人心最柔软的部分互斥。
+小黑原本以为自己的这些label大概是在高中时期形成的。但另一位老友给了他一个惊人的答案：
+ 小学。
+ 五 2022.8.4 递归似地分析完了所有问题，接下来要做的，就是要把所有问题层层出栈。只是，这样的思索是存在精确解的吗？如果没有，那这样的思索是无谓的吗？正如小黑不顾繁重的任务和压力，在深夜敲下废话连篇的意识流文章一样，此举意义何在？
+什么才能治好小黑的精神内耗？这个学期的经历似乎告诉小黑：不是忙碌，更不是让自己的身心投入到学习和工作中。
+那是什么？也许是慢慢地与留下太多遗憾地自己和解。但和解的过程，又何尝不是一个精神内耗的过程。
+小黑似乎又一次掉入了无限的递归之中。</description>
+      <content>&lt;p&gt;小黑前传的名字叫作《追忆似火年华》，不过小黑后传似乎和“似火”并不怎么沾边，索性就叫小黑后传好了，以后有想法再更新一个文艺点的标题。&lt;/p&gt;
 &lt;h3 id=&#34;一-2022619&#34;&gt;一 2022.6.19&lt;/h3&gt;
 &lt;p&gt;考完试的第一天。&lt;/p&gt;
 &lt;p&gt;“您当日的听歌时间为8h42min，位居好友榜榜首，恭喜！”&lt;/p&gt;
@@ -62,15 +100,18 @@
 &lt;p&gt;什么才能治好小黑的精神内耗？这个学期的经历似乎告诉小黑：不是忙碌，更不是让自己的身心投入到学习和工作中。&lt;/p&gt;
 &lt;p&gt;那是什么？也许是慢慢地与留下太多遗憾地自己和解。但和解的过程，又何尝不是一个精神内耗的过程。&lt;/p&gt;
 &lt;p&gt;小黑似乎又一次掉入了无限的递归之中。&lt;/p&gt;
-</description>
-        </item>
-        <item>
-        <title>试错，还是错逝？</title>
-        <link>https://ther-nullptr.github.io/posts/small_talk/review/</link>
-        <pubDate>Thu, 28 Jul 2022 02:11:43 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/small_talk/review/</guid>
-        <description>&lt;blockquote&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>试错，还是错逝？</title>
+      <link>https://ther-nullptr.github.io/posts/small_talk/review/</link>
+      <pubDate>Thu, 28 Jul 2022 02:11:43 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/posts/small_talk/review/</guid>
+      <description> “我们前后找了几十年以来的毕业生，在十六万人中分析了五百人，得到了结论。结果发现很多结果出乎清华校方的意料。 比如，我们分析了成绩因素，按理说成绩好应该更成功吧？但结果是，成绩对以后的发展并没有影响，就是说，成绩好并不代表发展好，当然也不可能发展差对吧。这是很出乎校方意料的一点。 那社工呢？大家都认为如果做了什么学生会主席、社会工作可能对未来发展有所帮助，结果还是没有关系。没有关系意思是有没有这些优势都不影响以后发展。 那么家庭影响应该足够重要了吧，比如有的家长眼界很高，有先进的观念，培养孩子很有方法，这是个影响因素吗？不是。 地域呢？比如有的同学来自偏远地区，有的在大城市，这是影响因素吗？不是。这些都不是，那我们发现了什么呢？ 我们在二十多个因素里，唯一发现很多人都具有的一个共同点就是，他们都很早地开始思考自己的未来并且着手做准备。
+ </description>
+      <content>&lt;blockquote&gt;
 &lt;p&gt;“我们前后找了几十年以来的毕业生，在十六万人中分析了五百人，得到了结论。结果发现很多结果出乎清华校方的意料。
 比如，我们分析了成绩因素，按理说成绩好应该更成功吧？但结果是，成绩对以后的发展并没有影响，就是说，成绩好并不代表发展好，当然也不可能发展差对吧。这是很出乎校方意料的一点。
 那社工呢？大家都认为如果做了什么学生会主席、社会工作可能对未来发展有所帮助，结果还是没有关系。没有关系意思是有没有这些优势都不影响以后发展。
@@ -78,15 +119,32 @@
 地域呢？比如有的同学来自偏远地区，有的在大城市，这是影响因素吗？不是。这些都不是，那我们发现了什么呢？
 我们在二十多个因素里，唯一发现很多人都具有的一个共同点就是，他们都很早地开始思考自己的未来并且着手做准备。&lt;/p&gt;
 &lt;/blockquote&gt;
-</description>
-        </item>
-        <item>
-        <title>日寄</title>
-        <link>https://ther-nullptr.github.io/posts/small_talk/%E6%97%A5%E5%AF%84/</link>
-        <pubDate>Wed, 27 Jul 2022 23:59:43 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/small_talk/%E6%97%A5%E5%AF%84/</guid>
-        <description>&lt;h2 id=&#34;失去的二十周&#34;&gt;“失去的二十周”&lt;/h2&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>日寄</title>
+      <link>https://ther-nullptr.github.io/posts/small_talk/%E6%97%A5%E5%AF%84/</link>
+      <pubDate>Wed, 27 Jul 2022 23:59:43 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/posts/small_talk/%E6%97%A5%E5%AF%84/</guid>
+      <description>“失去的二十周” 2022.1.21  “泡沫的顶峰”
+ 2022.3.1  “出校理由：北医三院” “原因玄学，大学生，压力大，作息不规律，有心理因素，正常”
+ 2022.3.8  “这就是世一大的教学水平吗” 自己的“看家本领”到底是什么？？
+ 2022.4.10  第一次大寄
+ 2022.4.17  “所以，你们到底做了些什么？”
+ 2022.4.23  “搞了半天，还是咱不够卷&amp;hellip;”
+ 2022.4.26  第二次大寄 “一段噩梦的结束” “人是会在同一个地方摔两次跟头的”
+ 2022.4.28  “今后还会像这般心想事成吗？”
+ 2022.4.30  “至少到现在这个阶段我觉得，我看到一个很强的人时，我会这样想：‘我虽然崇拜他，但我并不会说去完全变成他的样子，而只是在想怎么做好自己’” “很遗憾，我目前还做不到这一点”
+ 2022.5.2  “残酷な天使のように，少年よ神话になれ！”
+ 2022.5.3  一个并不光彩的W
+ 2022.5.4  “突然感觉，你清学子要花费很多时间在‘与自己和解’上”
+ 2022.5.17  “大家并不是真的有多反感封校和防疫，他们只是想借此机会抒发各自心中的不快罢了”
+ 2022.5.23  “千载难逢的机会，你不用吗？” “算了，我怕有后续影响”
+ 2022.6.8  “好多人都在讲好大学平台有多好，但是鄙人感觉这个平台并不属于只会埋头干活的人。。”
+ 2022.6.12  “有时候选择比努力更重要，以后在社会上更是这样，这也许是这魔幻的一学期带给我们的启示吧”</description>
+      <content>&lt;h2 id=&#34;失去的二十周&#34;&gt;“失去的二十周”&lt;/h2&gt;
 &lt;h3 id=&#34;2022121&#34;&gt;2022.1.21&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;“泡沫的顶峰”&lt;/p&gt;
@@ -170,15 +228,36 @@
 &lt;p&gt;“这他妈就是一个强者恒强的过程。。。”&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;so-where-is-the-way&#34;&gt;So where is the way?&lt;/h2&gt;
-</description>
-        </item>
-        <item>
-        <title>Love Death Robots</title>
-        <link>https://ther-nullptr.github.io/posts/ldr/</link>
-        <pubDate>Sun, 19 Jun 2022 20:55:58 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/ldr/</guid>
-        <description>&lt;img src="https://ther-nullptr.github.io/posts/ldr/LDR.jpg" alt="Featured image of post Love Death Robots" /&gt;&lt;h2 id=&#34;chapter-1&#34;&gt;chapter 1&lt;/h2&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Love Death Robots</title>
+      <link>https://ther-nullptr.github.io/posts/ldr/</link>
+      <pubDate>Sun, 19 Jun 2022 20:55:58 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/posts/ldr/</guid>
+      <description>chapter 1 是谁把这些星星撒过天空
+像闪光的尘埃
+像发光的云
+他们将乳白色的光芒
+倒入深黑色的碗中
+Who spilled those stars across the sky
+like sparkling dust
+like clouds of light?
+They pour their milky shine
+into the deep black bowl
+chapter 2 我是我所行走的世界
+我所见所闻所感都来自我自己
+I was the world in which I walked
+and what I saw or heard or felt
+came not but from myself
+chapter 3 大理石永久幻化成一个灵魂
+孤独地航行在陌生的
+思想海洋中
+The marble index of a mind forever
+Voyaging through strange seas of thought, alone</description>
+      <content>&lt;h2 id=&#34;chapter-1&#34;&gt;chapter 1&lt;/h2&gt;
 &lt;p&gt;是谁把这些星星撒过天空&lt;/p&gt;
 &lt;p&gt;像闪光的尘埃&lt;/p&gt;
 &lt;p&gt;像发光的云&lt;/p&gt;
@@ -206,15 +285,36 @@
 &lt;p&gt;恰是那台机器脉冲的颤跳&lt;/p&gt;
 &lt;p&gt;And now I see with eye serene&lt;/p&gt;
 &lt;p&gt;The very pulse of the machine&lt;/p&gt;
-</description>
-        </item>
-        <item>
-        <title>每日一遍</title>
-        <link>https://ther-nullptr.github.io/posts/small_talk/eva2/</link>
-        <pubDate>Sun, 19 Jun 2022 19:09:43 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/small_talk/eva2/</guid>
-        <description>&lt;p&gt;Q 现实世界或许不坏，可是我讨厌自己。&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>每日一遍</title>
+      <link>https://ther-nullptr.github.io/posts/small_talk/eva2/</link>
+      <pubDate>Sun, 19 Jun 2022 19:09:43 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/posts/small_talk/eva2/</guid>
+      <description>Q 现实世界或许不坏，可是我讨厌自己。
+A 你认为现实不好，所以心生厌恶。
+A 是你的内心把现实和真实对调了。
+A 只要看现实的角度和切入点稍有不同，心里就会有很大的变化。
+A 有多少种人就有多少种真实。
+A 但是，你自己的真实只有一个。它由狭义的世界观而生，是为了保护自己而修改过的信息。是被歪曲过的真实。
+A 不过仅有一个人所持的世界观是微不足道的。
+A 可是人只能用自己渺小的基准来测量事物，只愿意用别人给予的真实去看待事物。
+A 晴天使人快乐，雨天使人忧郁，被人这样教导之后就深信不疑。
+A 雨天也会有快乐的事，接受的方式不同就会产生完全不同的结果。人内心的真实，还真是脆弱啊。
+A 人的真实不过仅此而已，所以才会想要知道更深层的真实。
+A 只是，你不习惯被人喜欢罢了。
+A 所以你没有必要总是看别人的脸色。
+Q 但，大家不是都讨厌我吗？
+A 你是笨蛋吗？这只是你自己钻牛角尖而已。
+Q 可是，我讨厌自己。
+A 讨厌自己的人是无法喜欢和信赖他人的。
+Q 我悲怯，胆小，狡猾，懦弱。
+A 理解自己后，就可以对自己温柔一点了吧。
+Q 我讨厌自己，不过，也有可能会喜欢上自己。或许，我可以呆在这里。没错，我就是我自己。我就是我，我想做自己，我想呆在这里，我可以呆在这里！</description>
+      <content>&lt;p&gt;Q 现实世界或许不坏，可是我讨厌自己。&lt;/p&gt;
 &lt;p&gt;A 你认为现实不好，所以心生厌恶。&lt;/p&gt;
 &lt;p&gt;A 是你的内心把现实和真实对调了。&lt;/p&gt;
 &lt;p&gt;A 只要看现实的角度和切入点稍有不同，心里就会有很大的变化。&lt;/p&gt;
@@ -234,28 +334,52 @@
 &lt;p&gt;Q 我悲怯，胆小，狡猾，懦弱。&lt;/p&gt;
 &lt;p&gt;A 理解自己后，就可以对自己温柔一点了吧。&lt;/p&gt;
 &lt;p&gt;Q 我讨厌自己，不过，也有可能会喜欢上自己。或许，我可以呆在这里。没错，我就是我自己。我就是我，我想做自己，我想呆在这里，我可以呆在这里！&lt;/p&gt;
-</description>
-        </item>
-        <item>
-        <title>外溢</title>
-        <link>https://ther-nullptr.github.io/posts/small_talk/%E6%97%A0%E9%A2%98/</link>
-        <pubDate>Wed, 15 Jun 2022 23:59:43 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/small_talk/%E6%97%A0%E9%A2%98/</guid>
-        <description>&lt;blockquote&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>外溢</title>
+      <link>https://ther-nullptr.github.io/posts/small_talk/%E6%97%A0%E9%A2%98/</link>
+      <pubDate>Wed, 15 Jun 2022 23:59:43 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/posts/small_talk/%E6%97%A0%E9%A2%98/</guid>
+      <description>给您跪了。
+ 自己的负面情绪，真的已经外溢到如此严重的地步了吗？
+或者说，这种网抑云式的生活状态，本身就是不可理喻的吗？</description>
+      <content>&lt;blockquote&gt;
 &lt;p&gt;给您跪了。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;自己的负面情绪，真的已经外溢到如此严重的地步了吗？&lt;/p&gt;
 &lt;p&gt;或者说，这种网抑云式的生活状态，本身就是不可理喻的吗？&lt;/p&gt;
-</description>
-        </item>
-        <item>
-        <title>Ice Cream</title>
-        <link>https://ther-nullptr.github.io/posts/small_talk/ice-cream/</link>
-        <pubDate>Sun, 29 May 2022 16:24:16 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/small_talk/ice-cream/</guid>
-        <description>&lt;h1 id=&#34;冰菓&#34;&gt;冰菓&lt;/h1&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Ice Cream</title>
+      <link>https://ther-nullptr.github.io/posts/small_talk/ice-cream/</link>
+      <pubDate>Sun, 29 May 2022 16:24:16 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/posts/small_talk/ice-cream/</guid>
+      <description>冰菓 今夜与君
+爱梦相会
+务必觅得
+微眠之约
+萌生此等惬意
+实乃徒增彷徨
+予君之意
+君不知乎
+察其目光
+未萦他意
+宛如待友
+毫无二致
+许愿星逝于晓
+夜现晨湮之法
+愿君得察
+今夜与君
+爱梦相会
+务必觅得
+微眠之约</description>
+      <content>&lt;h1 id=&#34;冰菓&#34;&gt;冰菓&lt;/h1&gt;
 &lt;p&gt;今夜与君&lt;/p&gt;
 &lt;p&gt;爱梦相会&lt;/p&gt;
 &lt;p&gt;务必觅得&lt;/p&gt;
@@ -275,8 +399,8 @@
 &lt;p&gt;爱梦相会&lt;/p&gt;
 &lt;p&gt;务必觅得&lt;/p&gt;
 &lt;p&gt;微眠之约&lt;/p&gt;
-</description>
-        </item>
-        
-    </channel>
+</content>
+    </item>
+    
+  </channel>
 </rss>

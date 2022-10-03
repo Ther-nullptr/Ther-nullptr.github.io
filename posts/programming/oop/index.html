@@ -1,381 +1,189 @@
 <!DOCTYPE html>
-<html lang="en-us" dir="ltr">
-    <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='清华大学电子工程系软件部暑培。'><title>面向对象程序设计基础</title>
-
-<link rel='canonical' href='https://ther-nullptr.github.io/posts/programming/oop/'>
-
-<link rel="stylesheet" href="/scss/style.min.cbd65bb3bdc1206609e44b215380d6562914c436bb43c31b46c17b42ed80a9f5.css"><meta property='og:title' content='面向对象程序设计基础'>
-<meta property='og:description' content='清华大学电子工程系软件部暑培。'>
-<meta property='og:url' content='https://ther-nullptr.github.io/posts/programming/oop/'>
-<meta property='og:site_name' content='Ther&#39;s Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='programming utils' /><meta property='article:tag' content='summer training' /><meta property='article:published_time' content='2022-06-20T20:07:09&#43;08:00'/><meta property='article:modified_time' content='2022-06-20T20:07:09&#43;08:00'/>
-<meta name="twitter:site" content="@AdobePython">
-    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="面向对象程序设计基础">
-<meta name="twitter:description" content="清华大学电子工程系软件部暑培。"><style>
-    :root {
-        --article-font-family: "Noto Serif SC", var(--base-font-family);
-    }
-</style>
-
-<script>
-		(function () {
-		    const customFont = document.createElement('link');
-		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap";
-		
-		    customFont.type = "text/css";
-		    customFont.rel = "stylesheet";
-		
-		    document.head.appendChild(customFont);
-		}());
-</script>
-    </head>
-    <body class="
-    article-page
-    ">
-    <script>
-        (function() {
-            const colorSchemeKey = 'StackColorScheme';
-            if(!localStorage.getItem(colorSchemeKey)){
-                localStorage.setItem(colorSchemeKey, "auto");
-            }
-        })();
-    </script><script>
-    (function() {
-        const colorSchemeKey = 'StackColorScheme';
-        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
-        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
-
-        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
-            
-
-            document.documentElement.dataset.scheme = 'dark';
-        } else {
-            document.documentElement.dataset.scheme = 'light';
-        }
-    })();
-</script>
-<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
-    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
-        <span class="hamburger-box">
-            <span class="hamburger-inner"></span>
-        </span>
-    </button>
-
-    <header>
-        
-            
-            <figure class="site-avatar">
-                <a href="/">
-                
-                    
-                    
-                    
-                        
-                        <img src="/img/Ther_hu05dc40a2635fa510e0ad5a0d57bec723_1205262_300x0_resize_box_3.png" width="300"
-                            height="272" class="site-logo" loading="lazy" alt="Avatar">
-                    
-                
-                </a>
-                
-            </figure>
-            
-        
-        
-        <div class="site-meta">
-            <h1 class="site-name"><a href="/">Ther&#39;s Blog</a></h1>
-            <h2 class="site-description">萌生此等惬意，实乃徒增彷徨。</h2>
-        </div>
-    </header><ol class="social-menu">
-            
-                <li>
-                    <a 
-                        href='https://github.com/Ther-nullptr'
-                        target="_blank"
-                        title="GitHub"
-                    >
-                        
-                        
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-</svg>
+<html lang="en">
+<head>
+  
+    <title>面向对象程序设计基础 :: Ther&#39;s Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="清华大学电子工程系软件部暑培。" />
+<meta name="keywords" content="programming" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://ther-nullptr.github.io/posts/programming/oop/" />
 
 
 
-                        
-                    </a>
-                </li>
-            
-                <li>
-                    <a 
-                        href='https://www.instagram.com/donald.biden.18/'
-                        target="_blank"
-                        title="Instagram"
-                    >
-                        
-                        
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <rect x="4" y="4" width="16" height="16" rx="4" />
-  <circle cx="12" cy="12" r="3" />
-  <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" />
-</svg>
-                        
-                    </a>
-                </li>
-            
-                <li>
-                    <a 
-                        href='https://twitter.com/AdobePython'
-                        target="_blank"
-                        title="Twitter"
-                    >
-                        
-                        
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
-</svg>
+
+<link rel="stylesheet" href="https://ther-nullptr.github.io/assets/style.css">
+
+  <link rel="stylesheet" href="assets/%25!s%28%3cnil%3e%29.css">
 
 
 
-                        
-                    </a>
-                </li>
-            
-        </ol><ol class="menu" id="main-menu">
-        
-        
-        
-
-        <li  class='current' >
-            <a href='/posts/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <polyline points="5 12 3 12 12 3 21 12 19 12" />
-  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
-</svg>
 
 
 
-                
-                <span>Home</span>
-            </a>
-        </li>
-        
-        
+<link rel="apple-touch-icon" href="https://ther-nullptr.github.io/img/apple-touch-icon-192x192.png">
 
-        <li >
-            <a href='/about/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="7" r="4" />
-  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-</svg>
+  <link rel="shortcut icon" href="https://ther-nullptr.github.io/">
 
 
 
-                
-                <span>About</span>
-            </a>
-        </li>
-        
-        
-
-        <li >
-            <a href='/archives/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <rect x="3" y="4" width="18" height="4" rx="2" />
-  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
-  <line x1="10" y1="12" x2="14" y2="12" />
-</svg>
+<meta name="twitter:card" content="summary" />
 
 
 
-                
-                <span>Archives</span>
-            </a>
-        </li>
-        
-        
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="面向对象程序设计基础">
+<meta property="og:description" content="清华大学电子工程系软件部暑培。" />
+<meta property="og:url" content="https://ther-nullptr.github.io/posts/programming/oop/" />
+<meta property="og:site_name" content="Ther&#39;s Blog" />
 
-        <li >
-            <a href='/search/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="10" cy="10" r="7" />
-  <line x1="21" y1="21" x2="15" y2="15" />
-</svg>
+  
+    <meta property="og:image" content="https://ther-nullptr.github.io/">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+  <meta property="article:section" content="programming" />
 
 
-
-                
-                <span>Search</span>
-            </a>
-        </li>
-        
-        
-
-        <li >
-            <a href='/links/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
-  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
-</svg>
+  <meta property="article:published_time" content="2022-06-20 20:07:09 &#43;0800 CST" />
 
 
 
-                
-                <span>Links</span>
-            </a>
-        </li>
-        
-
-        <div class="menu-bottom-section">
-                <li id="i18n-switch">  
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M4 5h7" />
-  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
-  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
-  <path d="M12 20l4 -9l4 9" />
-  <path d="M19.1 18h-6.2" />
-</svg>
 
 
 
-                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
-                        
-                            <option value="https://ther-nullptr.github.io/" selected>English</option>
-                        
-                            <option value="https://ther-nullptr.github.io/zh-cn/" >中文</option>
-                        
-                    </select>
-                </li>
-            
-            
-            
-                <li id="dark-mode-toggle">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="8" cy="12" r="2" />
-  <rect x="2" y="6" width="20" height="12" rx="6" />
-</svg>
 
 
 
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="16" cy="12" r="2" />
-  <rect x="2" y="6" width="20" height="12" rx="6" />
-</svg>
 
 
 
-                    <span>Dark Mode</span>
-                </li>
-            
-        </div>
-    </ol>
-</aside>
-<main class="main full-width">
-    <article class="main-article">
-    <header class="article-header">
+</head>
+<body class="">
 
-    <div class="article-details">
-    
-    <header class="article-category">
-        
-            <a href="/categories/programming/" >
-                programming
-            </a>
-        
-    </header>
-    
 
-    <div class="article-title-wrapper">
-        <h2 class="article-title">
-            <a href="/posts/programming/oop/">面向对象程序设计基础</a>
-        </h2>
-    
-        
-        <h3 class="article-subtitle">
-            清华大学电子工程系软件部暑培。
-        </h3>
-        
+<div class="container headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://ther-nullptr.github.io/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
     </div>
-
     
-    <footer class="article-time">
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
         
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
-  <circle cx="18" cy="18" r="4" />
-  <path d="M15 3v4" />
-  <path d="M7 3v4" />
-  <path d="M3 11h16" />
-  <path d="M18 16.496v1.504l1 1" />
-</svg>
-                <time class="article-time--published">Jun 20, 2022</time>
-            </div>
+          <li><a href="/posts/">Home</a></li>
         
-
+      
         
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <polyline points="12 7 12 12 15 15" />
-</svg>
-
-
-
-                <time class="article-time--reading">
-                    7 minute read
-                </time>
-            </div>
+          <li><a href="/about/">About</a></li>
         
-    </footer>
+      
+        
+          <li><a href="/archives/">Archives</a></li>
+        
+      
+        
+          <li><a href="/search/">Search</a></li>
+        
+      
+        
+          <li><a href="/links/">Links</a></li>
+        
+      
     
 
     
-</div>
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/posts/">Home</a></li>
+      
+    
+      
+        <li><a href="/about/">About</a></li>
+      
+    
+      
+        <li><a href="/archives/">Archives</a></li>
+      
+    
+      
+        <li><a href="/search/">Search</a></li>
+      
+    
+      
+        <li><a href="/links/">Links</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
 </header>
 
-    <section class="article-content">
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://ther-nullptr.github.io/posts/programming/oop/">面向对象程序设计基础</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2022-06-20
+        
+      </span>
     
     
-    <h1 id="面向对象程序设计基础">面向对象程序设计基础</h1>
-<h2 id="目录">目录</h2>
+    
+  </div>
+
+  
+  <span class="post-tags">
+    
+    #<a href="https://ther-nullptr.github.io/tags/programming-utils/">programming utils</a>&nbsp;
+    
+    #<a href="https://ther-nullptr.github.io/tags/summer-training/">summer training</a>&nbsp;
+    
+  </span>
+  
+  
+
+
+  
+
+  <div class="post-content"><div>
+        <h1 id="面向对象程序设计基础">面向对象程序设计基础<a href="#面向对象程序设计基础" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<h2 id="目录">目录<a href="#目录" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>[TOC]</p>
 <p>在大一的程设课上，我们系统学习了C++的语法，掌握了一些编写小型程序的技能。实际上，要想写出一个可读性好、可复用、鲁棒性强的程序，掌握一些基本的设计原则是十分必要的。</p>
 <p>本讲的内容并不针对具体的某一语言，而且相比之前的一些内容，本讲的知识更需要在长期的实践中“内化”；与此同时，与软件工程相关的理论博大精深，本讲仅仅挑选一些代表性的原则，只能带领大家入门，想要了解更多还需要仔细阅读文末提供的书单~</p>
-<h2 id="kiss">KISS</h2>
+<h2 id="kiss">KISS<a href="#kiss" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>KISS代表着“Keep It Simple and Stupid”。KISS原则指出，简单性应该是软件开发的主要目标，应该避免不必要的复杂性。</p>
 <p>不过，如何界定“简单”？KISS原则指出，为了保证代码的<strong>灵活性</strong>和<strong>可扩展性</strong>，我们可能不得不增加代码的复杂度。但除此之外，在这种问题固有复杂性的基础之上增加自制的复杂性，是十分不明智的做法——程序并非程序员炫技的场所，而应该是一件简约的艺术品。</p>
 <p>一言以概之：如无必要，勿增实体。</p>
-<h2 id="loose-coupling">Loose Coupling⭐</h2>
+<h2 id="loose-coupling">Loose Coupling⭐<a href="#loose-coupling" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>Loose Coupling，即松耦合原则。这一原则指出：模块与模块之间的耦合（即相互关联的程度）应该越小越好，或者说，它们应该尽可能少地感知到对方的存在。</p>
 <p>举一个例子吧（本例选自 <em>Clean C++</em> 一书）：</p>
 <p>考虑你有一台电灯，和一个用于控制电灯的开关：</p>
@@ -608,7 +416,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>在以上更改中，开关与其它电器耦合的部分被抽象为一个接口<code>Switchable</code>，开关只需要对这一接口进行操作，避免了开关与具体电器类的耦合。</p>
-<h2 id="solid">SOLID⭐</h2>
+<h2 id="solid">SOLID⭐<a href="#solid" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>SOLID是以下五大面向对象设计原则的缩写：</p>
 <ul>
 <li>单一功能原则（<strong>S</strong>ingle Responsibility Principle，SRP）</li>
@@ -617,13 +425,13 @@
 <li>接口隔离原则（<strong>I</strong>nterface Segregation Principle，ISP）</li>
 <li>依赖反转原则（<strong>D</strong>ependency Inversion Principle，DIP）。</li>
 </ul>
-<h3 id="单一功能原则">单一功能原则</h3>
+<h3 id="单一功能原则">单一功能原则<a href="#单一功能原则" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>单一功能原则指出，每个软件单元（类、函数等），应该只有一个单一的、定义明确的责任。</p>
 <p>如何界定单一责任？一个比较普适的定义是，改变该软件单元只能有一个原因。如果有多个原因，那么该单元就应该拆分。</p>
-<h3 id="开闭原则">开闭原则</h3>
+<h3 id="开闭原则">开闭原则<a href="#开闭原则" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>开闭原则指出，软件单元（类、函数等）应该对于扩展是开放的，但是对于修改是封闭的。</p>
 <p>具体来讲，如果我们需要给一个软件添加新的功能，我们通常不建议修改源码，而更加建议通过<strong>继承</strong>的方式。</p>
-<h3 id="里氏替换原则">里氏替换原则⭐</h3>
+<h3 id="里氏替换原则">里氏替换原则⭐<a href="#里氏替换原则" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>里氏原则指出，派生类（子类）对象可以在程序中代替其基类（超类）对象。</p>
 <p>换句话说，一个软件实体如果使用的是一个父类，那么也一定适用于其子类——把一个软件里面的父类都替换为它的子类，程序的行为是不会发生变化的。</p>
 <p>利用这一原则，我们可以判断类与类之间的继承关系是否合适。</p>
@@ -731,7 +539,7 @@
 <li>第二个操作则会直接违背正方形的定义。</li>
 </ul>
 <p>可以看到，派生类对象在此处替换基类对象会产生很多问题，这一继承是不科学的！</p>
-<h3 id="接口隔离原则">接口隔离原则⭐</h3>
+<h3 id="接口隔离原则">接口隔离原则⭐<a href="#接口隔离原则" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>接口隔离原则指出，程序员在设计接口时应当将臃肿庞大的接口拆分成更小的和更具体的接口，让接口中只包含客户感兴趣的方法——使用多个专门的接口比使用单一的总接口要好。</p>
 <p>换句话讲，接口约束了类的行为，是一种减轻代码耦合程度的好方法。但如果一个接口太过宽泛，可能会带来一些不必要的麻烦。举例说明：</p>
 <p>我们想要定义一个“鸟”接口：</p>
@@ -940,7 +748,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>如上文所示，所有的鸟类都需要呼吸和进食，我们可以大胆地将其封装为<code>Lifeform</code>接口，而并非所有鸟类都会飞，所以需要将其单独提取出来作为<code>Flyable</code>接口。在实现不同的鸟类时，我们将这些接口进行筛选组合即可。</p>
-<h3 id="依赖倒转原则">依赖倒转原则⭐</h3>
+<h3 id="依赖倒转原则">依赖倒转原则⭐<a href="#依赖倒转原则" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>依赖倒转原则指出，在实际的开发场景中，类与类之间的依赖关系是十分复杂，在设计依赖关系时，高层模块不应该依赖低层模块，二者都应该依赖其抽象。</p>
 <p>什么意思呢？考虑以下实例，一个用户在某在线网络平台上拥有一个账户，而这个账户又存储着该用户的信息。由此，两者不可避免地产生了下列的循环依赖关系——你中有我，我中有你：</p>
 <div class="highlight"><div class="chroma">
@@ -1111,7 +919,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>经过修改之后，<code>Account</code>类将不依赖于<code>Customer</code>类。</p>
-<h2 id="设计模式">设计模式⭐</h2>
+<h2 id="设计模式">设计模式⭐<a href="#设计模式" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>C++、C#、Python等语言为实现继承、多态等面向对象特性提供了丰富的语法。那么在具体的软件工程中，又该如何使用这些特性呢？这就是设计模式。设计模式是上述SOLID原则在软件工程中的具体体现。</p>
 <p>设计模式共计分为3大类22小类：</p>
 <ul>
@@ -1128,16 +936,7 @@
 <p>不同的设计模式之间有着相似的理念和重叠之处。合理利用设计模式可以让代码更加规范、更容易维护，但盲目使用设计模式也不是明智之举。</p>
 <p>本讲将介绍一个难度较大，而且应用较为广泛的设计模式——<strong>桥接模式</strong>（属于结构型模式）。</p>
 <p>桥接模式的定义如下：桥接模式是将类<strong>抽象部分</strong>与<strong>实现部分</strong>分离，使它们都可以独立地变化。</p>
-<p><img src="https://s2.loli.net/2022/07/03/TKqRdsVU73LSc5Q.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="桥接模式示意图"
-	
-	
-></p>
+<p><img src="https://s2.loli.net/2022/07/03/TKqRdsVU73LSc5Q.png" alt="桥接模式示意图"></p>
 <p>什么是<strong>抽象部分</strong>？什么是<strong>实现部分</strong>？让我们先考虑以下场景：一家奶茶店售卖不同种类的奶茶，奶茶既有不同的容量，也有不同的口味。如果我们只需要改变奶茶的容量，可以做出如下设计：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1427,381 +1226,45 @@
 </div>
 </div><p>可以在上述示例中看到：抽象部分各类中，都含有一个实现部分的指针。如果需要访问实现部分的方法，可以通过该指针进行访问。这样，我们就通过桥接的方式分离了两个不同的维度，使得类的可扩展性更好。</p>
 <p>由于篇幅所限，我们在此处不能对设计模式进行一一介绍，感兴趣的同学可以参考文末给出的阅读清单进行学习。</p>
-<h2 id="参考文献和荐读清单">参考文献和荐读清单</h2>
-<p><a class="link" href="https://refactoringguru.cn/"  target="_blank" rel="noopener"
-    >Refactoring.Guru</a> 该网站详细介绍了各设计模式的特点，并提供了不同编程语言的实例。</p>
-<p><a class="link" href="https://link.springer.com/content/pdf/10.1007%2F978-1-4842-2793-0.pdf"  target="_blank" rel="noopener"
-    >Clean C++</a> 这本书的侧重点不在介绍C++语法，而侧重于使用C++语言介绍如何写出可读性强、符合面向对象规范的程序，强推！</p>
+<h2 id="参考文献和荐读清单">参考文献和荐读清单<a href="#参考文献和荐读清单" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p><a href="https://refactoringguru.cn/">Refactoring.Guru</a> 该网站详细介绍了各设计模式的特点，并提供了不同编程语言的实例。</p>
+<p><a href="https://link.springer.com/content/pdf/10.1007%2F978-1-4842-2793-0.pdf">Clean C++</a> 这本书的侧重点不在介绍C++语法，而侧重于使用C++语言介绍如何写出可读性强、符合面向对象规范的程序，强推！</p>
 
-</section>
+      </div></div>
 
+  
 
-    <footer class="article-footer">
+  
+  
+
+  
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
     
-    <section class="article-tags">
-        
-            <a href="/tags/programming-utils/">programming utils</a>
-        
-            <a href="/tags/summer-training/">summer training</a>
-        
-    </section>
-
-
+      <div class="copyright">
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
-    <section class="article-copyright">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
-</svg>
-
-
-
-        <span>Licensed under CC BY-NC-SA 4.0</span>
-    </section>
-    </footer>
-
-
-    
-        <link 
-                rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
-            ><script 
-                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
-                defer
-                >
-            </script><script 
-                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
-                defer
-                >
-            </script><script>
-    window.addEventListener("DOMContentLoaded", () => {
-        renderMathInElement(document.querySelector(`.article-content`), {
-            delimiters: [
-                { left: "$$", right: "$$", display: true },
-                { left: "$", right: "$", display: false },
-                { left: "\\(", right: "\\)", display: false },
-                { left: "\\[", right: "\\]", display: true }
-            ]
-        });})
-</script>
-    
-</article>
-
-    
-
-    
-
-<aside class="related-content--wrapper">
-    <h2 class="section-title">Related content</h2>
-    <div class="related-content">
-        <div class="flex article-list--tile">
-            
-                
-<article class="">
-    <a href="/posts/programming/protobuf/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Protobuf</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/posts/programming/grpc/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">grpc</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/posts/programming/cmake/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Makefile &amp; CMake</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/posts/programming/compile/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">编译、链接、静态库、动态库</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/posts/programming/csharp_async/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Csharp async</h2>
-        </div>
-    </a>
-</article>
-
-            
-        </div>
-    </div>
-</aside>
-
-     
-    
-        
-    <script src="https://utteranc.es/client.js" 
-        repo="Ther-nullptr/Ther-nullptr.github.io"
-        issue-term="pathname"
-        
-        crossorigin="anonymous"
-        async
-        >
-</script>
-
-<style>
-    .utterances {
-        max-width: unset;
-    }
-</style>
-
-<script>
-    function setUtterancesTheme(theme) {
-        let utterances = document.querySelector('.utterances iframe');
-        if (utterances) {
-            utterances.contentWindow.postMessage(
-                {
-                    type: 'set-theme',
-                    theme: `github-${theme}`
-                },
-                'https://utteranc.es'
-            );
-        }
-    }
-
-    addEventListener('message', event => {
-        if (event.origin !== 'https://utteranc.es') return;
-        setUtterancesTheme(document.documentElement.dataset.scheme)
-    });
-
-    window.addEventListener('onColorSchemeChange', (e) => {
-        setUtterancesTheme(e.detail)
-    })
-</script>
-
-
-    
-
-    <footer class="site-footer">
-    <section class="copyright">
-        &copy; 
-        
-        2022 Ther&#39;s Blog
-    </section>
-    
-    <section class="powerby">
-        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
-        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
-
-        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
-        </script>
-    
-            <br />visitors: <span id="busuanzi_value_site_uv"></span>
-            total visits: <span id="busuanzi_value_site_pv"></span> time(s)
-            reads: <span id="busuanzi_value_page_pv"></span> time(s)
-    
-    </section>
-
-    <script async src="https://busuanzi.icodeq.com/busuanzi.pure.mini.js">
-    </script>
-
-
-
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
 </footer>
 
-
-    
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-    
-    <div class="pswp__bg"></div>
-
-    
-    <div class="pswp__scroll-wrap">
-
-        
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-
-        
-        <div class="pswp__ui pswp__ui--hidden">
-
-            <div class="pswp__top-bar">
-
-                
-
-                <div class="pswp__counter"></div>
-
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-
-                
-                
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                        <div class="pswp__preloader__cut">
-                            <div class="pswp__preloader__donut"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div>
-            </div>
-
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-
-        </div>
-
-    </div>
-
-</div><script 
-                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
-                defer
-                >
-            </script><script 
-                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
-                defer
-                >
-            </script><link 
-                rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
-            ><link 
-                rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
-            >
-
-            </main>
-    <aside class="sidebar right-sidebar sticky">
-        
-            
-                
-    <section class="widget archives">
-        <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <line x1="5" y1="9" x2="19" y2="9" />
-  <line x1="5" y1="15" x2="19" y2="15" />
-  <line x1="11" y1="4" x2="7" y2="20" />
-  <line x1="17" y1="4" x2="13" y2="20" />
-</svg>
+<script src="https://ther-nullptr.github.io/assets/main.js"></script>
+<script src="https://ther-nullptr.github.io/assets/prism.js"></script>
 
 
 
-        </div>
-        <h2 class="widget-title section-title">Table of contents</h2>
-        
-        <div class="widget--toc">
-            <nav id="TableOfContents">
-  <ol>
-    <li><a href="#目录">目录</a></li>
-    <li><a href="#kiss">KISS</a></li>
-    <li><a href="#loose-coupling">Loose Coupling⭐</a></li>
-    <li><a href="#solid">SOLID⭐</a>
-      <ol>
-        <li><a href="#单一功能原则">单一功能原则</a></li>
-        <li><a href="#开闭原则">开闭原则</a></li>
-        <li><a href="#里氏替换原则">里氏替换原则⭐</a></li>
-        <li><a href="#接口隔离原则">接口隔离原则⭐</a></li>
-        <li><a href="#依赖倒转原则">依赖倒转原则⭐</a></li>
-      </ol>
-    </li>
-    <li><a href="#设计模式">设计模式⭐</a></li>
-    <li><a href="#参考文献和荐读清单">参考文献和荐读清单</a></li>
-  </ol>
-</nav>
-        </div>
-    </section>
-
-            
-        
-    </aside>
 
 
-        </div>
-        <script 
-                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
-                
-                >
-            </script><script type="text/javascript" src="/ts/main.js" defer></script>
-<script>
-    (function () {
-        const customFont = document.createElement('link');
-        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
 
-        customFont.type = "text/css";
-        customFont.rel = "stylesheet";
 
-        document.head.appendChild(customFont);
-    }());
-</script>
-<style>
-    :root {
-        --article-font-family: "Noto Serif SC", var(--base-font-family);
-    }
-</style>
+  
+</div>
 
-<script>
-		(function () {
-		    const customFont = document.createElement('link');
-		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap";
-		
-		    customFont.type = "text/css";
-		    customFont.rel = "stylesheet";
-		
-		    document.head.appendChild(customFont);
-		}());
-</script>
-
-<script
-    src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
-    async
-></script>
-    </body>
+</body>
 </html>

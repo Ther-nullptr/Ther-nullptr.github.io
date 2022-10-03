@@ -1,378 +1,186 @@
 <!DOCTYPE html>
-<html lang="en-us" dir="ltr">
-    <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='清华大学电子工程系软件部暑培。'><title>grpc</title>
-
-<link rel='canonical' href='https://ther-nullptr.github.io/posts/programming/grpc/'>
-
-<link rel="stylesheet" href="/scss/style.min.cbd65bb3bdc1206609e44b215380d6562914c436bb43c31b46c17b42ed80a9f5.css"><meta property='og:title' content='grpc'>
-<meta property='og:description' content='清华大学电子工程系软件部暑培。'>
-<meta property='og:url' content='https://ther-nullptr.github.io/posts/programming/grpc/'>
-<meta property='og:site_name' content='Ther&#39;s Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='programming utils' /><meta property='article:tag' content='summer training' /><meta property='article:published_time' content='2022-06-20T19:55:32&#43;08:00'/><meta property='article:modified_time' content='2022-06-20T19:55:32&#43;08:00'/>
-<meta name="twitter:site" content="@AdobePython">
-    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="grpc">
-<meta name="twitter:description" content="清华大学电子工程系软件部暑培。"><style>
-    :root {
-        --article-font-family: "Noto Serif SC", var(--base-font-family);
-    }
-</style>
-
-<script>
-		(function () {
-		    const customFont = document.createElement('link');
-		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap";
-		
-		    customFont.type = "text/css";
-		    customFont.rel = "stylesheet";
-		
-		    document.head.appendChild(customFont);
-		}());
-</script>
-    </head>
-    <body class="
-    article-page
-    ">
-    <script>
-        (function() {
-            const colorSchemeKey = 'StackColorScheme';
-            if(!localStorage.getItem(colorSchemeKey)){
-                localStorage.setItem(colorSchemeKey, "auto");
-            }
-        })();
-    </script><script>
-    (function() {
-        const colorSchemeKey = 'StackColorScheme';
-        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
-        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
-
-        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
-            
-
-            document.documentElement.dataset.scheme = 'dark';
-        } else {
-            document.documentElement.dataset.scheme = 'light';
-        }
-    })();
-</script>
-<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
-    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
-        <span class="hamburger-box">
-            <span class="hamburger-inner"></span>
-        </span>
-    </button>
-
-    <header>
-        
-            
-            <figure class="site-avatar">
-                <a href="/">
-                
-                    
-                    
-                    
-                        
-                        <img src="/img/Ther_hu05dc40a2635fa510e0ad5a0d57bec723_1205262_300x0_resize_box_3.png" width="300"
-                            height="272" class="site-logo" loading="lazy" alt="Avatar">
-                    
-                
-                </a>
-                
-            </figure>
-            
-        
-        
-        <div class="site-meta">
-            <h1 class="site-name"><a href="/">Ther&#39;s Blog</a></h1>
-            <h2 class="site-description">萌生此等惬意，实乃徒增彷徨。</h2>
-        </div>
-    </header><ol class="social-menu">
-            
-                <li>
-                    <a 
-                        href='https://github.com/Ther-nullptr'
-                        target="_blank"
-                        title="GitHub"
-                    >
-                        
-                        
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-</svg>
+<html lang="en">
+<head>
+  
+    <title>grpc :: Ther&#39;s Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="清华大学电子工程系软件部暑培。" />
+<meta name="keywords" content="programming" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://ther-nullptr.github.io/posts/programming/grpc/" />
 
 
 
-                        
-                    </a>
-                </li>
-            
-                <li>
-                    <a 
-                        href='https://www.instagram.com/donald.biden.18/'
-                        target="_blank"
-                        title="Instagram"
-                    >
-                        
-                        
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <rect x="4" y="4" width="16" height="16" rx="4" />
-  <circle cx="12" cy="12" r="3" />
-  <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" />
-</svg>
-                        
-                    </a>
-                </li>
-            
-                <li>
-                    <a 
-                        href='https://twitter.com/AdobePython'
-                        target="_blank"
-                        title="Twitter"
-                    >
-                        
-                        
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
-</svg>
+
+<link rel="stylesheet" href="https://ther-nullptr.github.io/assets/style.css">
+
+  <link rel="stylesheet" href="assets/%25!s%28%3cnil%3e%29.css">
 
 
 
-                        
-                    </a>
-                </li>
-            
-        </ol><ol class="menu" id="main-menu">
-        
-        
-        
-
-        <li  class='current' >
-            <a href='/posts/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <polyline points="5 12 3 12 12 3 21 12 19 12" />
-  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
-</svg>
 
 
 
-                
-                <span>Home</span>
-            </a>
-        </li>
-        
-        
+<link rel="apple-touch-icon" href="https://ther-nullptr.github.io/img/apple-touch-icon-192x192.png">
 
-        <li >
-            <a href='/about/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="7" r="4" />
-  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-</svg>
+  <link rel="shortcut icon" href="https://ther-nullptr.github.io/">
 
 
 
-                
-                <span>About</span>
-            </a>
-        </li>
-        
-        
-
-        <li >
-            <a href='/archives/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <rect x="3" y="4" width="18" height="4" rx="2" />
-  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
-  <line x1="10" y1="12" x2="14" y2="12" />
-</svg>
+<meta name="twitter:card" content="summary" />
 
 
 
-                
-                <span>Archives</span>
-            </a>
-        </li>
-        
-        
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="grpc">
+<meta property="og:description" content="清华大学电子工程系软件部暑培。" />
+<meta property="og:url" content="https://ther-nullptr.github.io/posts/programming/grpc/" />
+<meta property="og:site_name" content="Ther&#39;s Blog" />
 
-        <li >
-            <a href='/search/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="10" cy="10" r="7" />
-  <line x1="21" y1="21" x2="15" y2="15" />
-</svg>
+  
+    <meta property="og:image" content="https://ther-nullptr.github.io/">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+  <meta property="article:section" content="programming" />
 
 
-
-                
-                <span>Search</span>
-            </a>
-        </li>
-        
-        
-
-        <li >
-            <a href='/links/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
-  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
-</svg>
+  <meta property="article:published_time" content="2022-06-20 19:55:32 &#43;0800 CST" />
 
 
 
-                
-                <span>Links</span>
-            </a>
-        </li>
-        
-
-        <div class="menu-bottom-section">
-                <li id="i18n-switch">  
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M4 5h7" />
-  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
-  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
-  <path d="M12 20l4 -9l4 9" />
-  <path d="M19.1 18h-6.2" />
-</svg>
 
 
 
-                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
-                        
-                            <option value="https://ther-nullptr.github.io/" selected>English</option>
-                        
-                            <option value="https://ther-nullptr.github.io/zh-cn/" >中文</option>
-                        
-                    </select>
-                </li>
-            
-            
-            
-                <li id="dark-mode-toggle">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="8" cy="12" r="2" />
-  <rect x="2" y="6" width="20" height="12" rx="6" />
-</svg>
 
 
 
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="16" cy="12" r="2" />
-  <rect x="2" y="6" width="20" height="12" rx="6" />
-</svg>
 
 
 
-                    <span>Dark Mode</span>
-                </li>
-            
-        </div>
-    </ol>
-</aside>
-<main class="main full-width">
-    <article class="main-article">
-    <header class="article-header">
+</head>
+<body class="">
 
-    <div class="article-details">
-    
-    <header class="article-category">
-        
-            <a href="/categories/programming/" >
-                programming
-            </a>
-        
-    </header>
-    
 
-    <div class="article-title-wrapper">
-        <h2 class="article-title">
-            <a href="/posts/programming/grpc/">grpc</a>
-        </h2>
-    
-        
-        <h3 class="article-subtitle">
-            清华大学电子工程系软件部暑培。
-        </h3>
-        
+<div class="container headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://ther-nullptr.github.io/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
     </div>
-
     
-    <footer class="article-time">
+      <div class="menu-trigger">menu</div>
+    
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
         
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
-  <circle cx="18" cy="18" r="4" />
-  <path d="M15 3v4" />
-  <path d="M7 3v4" />
-  <path d="M3 11h16" />
-  <path d="M18 16.496v1.504l1 1" />
-</svg>
-                <time class="article-time--published">Jun 20, 2022</time>
-            </div>
+          <li><a href="/posts/">Home</a></li>
         
-
+      
         
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <polyline points="12 7 12 12 15 15" />
-</svg>
-
-
-
-                <time class="article-time--reading">
-                    6 minute read
-                </time>
-            </div>
+          <li><a href="/about/">About</a></li>
         
-    </footer>
+      
+        
+          <li><a href="/archives/">Archives</a></li>
+        
+      
+        
+          <li><a href="/search/">Search</a></li>
+        
+      
+        
+          <li><a href="/links/">Links</a></li>
+        
+      
     
 
     
-</div>
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/posts/">Home</a></li>
+      
+    
+      
+        <li><a href="/about/">About</a></li>
+      
+    
+      
+        <li><a href="/archives/">Archives</a></li>
+      
+    
+      
+        <li><a href="/search/">Search</a></li>
+      
+    
+      
+        <li><a href="/links/">Links</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
 </header>
 
-    <section class="article-content">
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://ther-nullptr.github.io/posts/programming/grpc/">grpc</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2022-06-20
+        
+      </span>
     
     
-    <h1 id="grpc">gRPC</h1>
+    
+  </div>
+
+  
+  <span class="post-tags">
+    
+    #<a href="https://ther-nullptr.github.io/tags/programming-utils/">programming utils</a>&nbsp;
+    
+    #<a href="https://ther-nullptr.github.io/tags/summer-training/">summer training</a>&nbsp;
+    
+  </span>
+  
+  
+
+
+  
+
+  <div class="post-content"><div>
+        <h1 id="grpc">gRPC<a href="#grpc" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
 <p>无03 王与进</p>
-<h2 id="目录">目录</h2>
+<h2 id="目录">目录<a href="#目录" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>[TOC]</p>
-<h2 id="前言">前言</h2>
+<h2 id="前言">前言<a href="#前言" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>在介绍gRPC之前，我们需要先介绍几个在通信中需要用到的概念。</p>
-<h3 id="client-server-modelstar">Client-Server model:star:</h3>
+<h3 id="client-server-modelstar">Client-Server model:star:<a href="#client-server-modelstar" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>Client-Server结构是一种经典的通信模型。它通常采取两层结构：</p>
 <ul>
 <li>服务器（Server）负责数据的处理。它有以下特征：
@@ -388,20 +196,10 @@
 </ul>
 </li>
 </ul>
-<p><a class="link" href="https://github.com/eesast/THUAI5"  target="_blank" rel="noopener"
-    >THUAI5</a>就是一个应用了Client-Server model的典型实例：</p>
-<p><img src="https://github.com/eesast/THUAI5/blob/dev/resource/structure.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="THUAI5架构"
-	
-	
-></p>
+<p><a href="https://github.com/eesast/THUAI5">THUAI5</a>就是一个应用了Client-Server model的典型实例：</p>
+<p><img src="https://github.com/eesast/THUAI5/blob/dev/resource/structure.png" alt="THUAI5架构"></p>
 <p>在游戏中，玩家通过在Client端编写C++代码来制定游戏策略，而Server端由Csharp语言写成，用于分析处理游戏逻辑。编译生成的Client端可执行文件将向Server端发送请求，请求处理完毕后Server端再向Client端发送处理后的结果，这样Client端就可以接受到游戏实况，以供下一步决策。</p>
-<h3 id="ip-address">IP Address</h3>
+<h3 id="ip-address">IP Address<a href="#ip-address" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>IP Address(Internet Protocol address，网际协议地址)，是网际协议中用于标识发送或接受数据报的设备的一串数字。</p>
 <p>当设备连接网络后，设备将被分配一个IP地址，对于一个具体的设备而言，IP地址是独一无二的。IP地址有两个主要的功能：<strong>标识主机</strong>（用户在互联网上可以识别）和<strong>网络寻址</strong>（允许计算机通过互联网发送和接受数据）。</p>
 <p>常见的IP地址分为IPv4和IPv6两大类：</p>
@@ -425,18 +223,17 @@
 <p><code>127.0.0.1</code>就是其中一个。它表示的是<strong>主机环回地址</strong>，表示的是任何数据包都不应该离开计算机，计算机本身即为接收者。</p>
 <p>当我们需要在本地测试一些网站服务，或者只想在本地设备上运行只有本地设备可以访问的服务，就可以使用<code>127.0.0.1</code>。</p>
 </blockquote>
-<h3 id="port">Port</h3>
+<h3 id="port">Port<a href="#port" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>Port(端口)在电脑网络中是一种经过软件创建的服务，在一个电脑的操作系统中扮演通信的端点。</p>
 <p>什么意思呢？利用IP地址，可以实现不同计算机之间的通信。但实际上，计算机中是运行着多个进程的——当不同的信息被传入计算机后，计算机需要一种手段来区分信息的接收者，以将不同进程的处理结果正确地发送给接收者。</p>
 <p>这个时候，端口就派上了用场。如果我们在通信时不仅指定IP地址，而且指定端口，计算机就可以正确地将不同的请求交给正确的进程处理。</p>
-<p>特定的服务一般对应于特定的端口，详见<a class="link" href="https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers"  target="_blank" rel="noopener"
-    >端口列表</a>。</p>
+<p>特定的服务一般对应于特定的端口，详见<a href="https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers">端口列表</a>。</p>
 <p>我们可以使用如下方法查看本机的端口使用情况：</p>
 <ul>
 <li>windows：<code>netstat -ano| findstr &quot;&lt;port&gt;&quot;</code></li>
 <li>linux：<code>netstat -tunlp | grep &lt;port&gt;</code>或<code>lsof -i:&lt;port&gt;</code></li>
 </ul>
-<h2 id="grpc概况">gRPC概况</h2>
+<h2 id="grpc概况">gRPC概况<a href="#grpc概况" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>gRPC的全称是gRPC Remote Procedure Calls。其中“Remote Procedure Calls”翻译为“远程过程调用”。“远程过程调用”指的是客户端（Client）可以像调用本地对象一样直接调用服务端（Server）应用的方法。具体过程如下：</p>
 <ol>
 <li>定义若干服务（Service），指定其能够被远程调用的方法（包含参数和返回类型）。这些定义都写在<code>.proto</code>文件里。</li>
@@ -444,16 +241,7 @@
 <li>在客户端（Client）建立一个存根（stub），提供与服务端相同的方法。</li>
 </ol>
 <p>下面的图形象地展示了gRPC的使用过程：</p>
-<p><img src="https://s2.loli.net/2022/07/03/xWtehfYFp5X9K1i.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="gRPC 模型"
-	
-	
-></p>
+<p><img src="https://s2.loli.net/2022/07/03/xWtehfYFp5X9K1i.png" alt="gRPC 模型"></p>
 <p>这样一来，用户在使用gRPC构建的应用程序时，不需要关心调用方法的内部逻辑（被封装在Server中），只需要调用Client端提供的方法向Server端提供请求，等待Server端返回结果即可——看上去就和在Client端本地调用方法一样。</p>
 <p>gRPC有诸多优点：</p>
 <ul>
@@ -473,8 +261,8 @@
 <li>在Client端提供用户需要直接调用的方法，而无需关心其具体实现。</li>
 </ul>
 <p>于是我们就实现了Server和Client的解耦。在此基础上，我们甚至可以提供不同种类语言的用户接口——你可以使用Python、Java或其它语言来编写你的游戏策略。</p>
-<h2 id="grpc安装">gRPC安装</h2>
-<h3 id="c">C++</h3>
+<h2 id="grpc安装">gRPC安装<a href="#grpc安装" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="c">C++<a href="#c" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>安装gRPC C++相关的库需要手动编译其源码：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -509,8 +297,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><blockquote>
-<p>需要指出的是，由于网络等问题，<code>git submodule update --init --recursive</code>一步往往无法正常运行。为此可以点击<a class="link" href="https://cloud.tsinghua.edu.cn/f/57ed9214f07e4b41a11c/"  target="_blank" rel="noopener"
-    >此处</a>下载<code>third_party.tar.gz</code>，并将<code>git submodule..</code>一步替换为以下操作：</p>
+<p>需要指出的是，由于网络等问题，<code>git submodule update --init --recursive</code>一步往往无法正常运行。为此可以点击<a href="https://cloud.tsinghua.edu.cn/f/57ed9214f07e4b41a11c/">此处</a>下载<code>third_party.tar.gz</code>，并将<code>git submodule..</code>一步替换为以下操作：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -526,19 +313,10 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div></blockquote>
-<h3 id="csharp">Csharp</h3>
+<h3 id="csharp">Csharp<a href="#csharp" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>Csharp中，我们可以使用NuGet程序包安装gRPC库（图中第一项）。</p>
-<p><img src="https://s2.loli.net/2022/07/04/xSqztYilfk5NHdw.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="gRPC安装"
-	
-	
-></p>
-<h2 id="grpc服务star">gRPC服务:star:</h2>
+<p><img src="https://s2.loli.net/2022/07/04/xSqztYilfk5NHdw.png" alt="gRPC安装"></p>
+<h2 id="grpc服务star">gRPC服务:star:<a href="#grpc服务star" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>grpc默认使用protobuf作为接口定义语言。定义方式见下例：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -623,9 +401,9 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>接下来我们将结合一些实例进一步了解它们的使用方法和区别。</p>
-<h2 id="grpc使用star">gRPC使用:star:</h2>
+<h2 id="grpc使用star">gRPC使用:star:<a href="#grpc使用star" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>在本例中，我们将使用Csharp语言实现一个简单的Client-Server模型——Client端提供两个数和一个操作符，而Server端则进行具体的运算过程并将计算结果返回给Client端。</p>
-<h3 id="proto">proto</h3>
+<h3 id="proto">proto<a href="#proto" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>我们不妨考虑以下服务场景：</p>
 <ul>
 <li>客户端发送一个包含两个操作数和一个运算符的元组，服务端返回一个结果：该场景符合单一RPC。</li>
@@ -709,7 +487,7 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>之后就可以使用该文件生成对应的CSharp文件以供使用。</p>
-<h3 id="server">Server</h3>
+<h3 id="server">Server<a href="#server" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>Server端有两个任务：</p>
 <ul>
 <li>实现我们服务定义的生成的服务接口：做我们的服务的实际的“工作”。</li>
@@ -977,7 +755,7 @@
 <li>指定想要接受客户端请求的地址和监听的端口。通过往 <code>Ports</code> 集合中添加 <code>ServerPort</code> 即可完成。</li>
 <li>在服务器实例上调用 <code>Start</code> 为我们的服务启动一个 RPC 服务器。</li>
 </ol>
-<h3 id="client">Client</h3>
+<h3 id="client">Client<a href="#client" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p>首先，我们需要建立一个Client对象：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1110,17 +888,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>运行结果如下：</p>
-<p><img src="https://s2.loli.net/2022/07/04/pcQgowRDOyLNfHZ.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="运行结果"
-	
-	
-></p>
-<h2 id="参考与荐读">参考与荐读</h2>
+<p><img src="https://s2.loli.net/2022/07/04/pcQgowRDOyLNfHZ.png" alt="运行结果"></p>
+<h2 id="参考与荐读">参考与荐读<a href="#参考与荐读" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>由于时间所限，有很多有趣的内容我们没有涉及：</p>
 <ul>
 <li>计算机网络模型</li>
@@ -1130,393 +899,46 @@
 </ul>
 <p>略过上述内容不会对我们的教学产生太大影响，感兴趣的同学可以参考以下文档和资源：</p>
 <ul>
-<li><a class="link" href="https://en.sg1lib.org/book/16826869/8f57d1"  target="_blank" rel="noopener"
-    >计算机网络——自顶向下方法</a></li>
-<li><a class="link" href="https://cs144.github.io/"  target="_blank" rel="noopener"
-    >Stanford CS144</a></li>
-<li><a class="link" href="https://grpc.io/"  target="_blank" rel="noopener"
-    >gRPC 官方文档</a></li>
+<li><a href="https://en.sg1lib.org/book/16826869/8f57d1">计算机网络——自顶向下方法</a></li>
+<li><a href="https://cs144.github.io/">Stanford CS144</a></li>
+<li><a href="https://grpc.io/">gRPC 官方文档</a></li>
 </ul>
 
-</section>
+      </div></div>
 
+  
 
-    <footer class="article-footer">
+  
+  
+
+  
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
     
-    <section class="article-tags">
-        
-            <a href="/tags/programming-utils/">programming utils</a>
-        
-            <a href="/tags/summer-training/">summer training</a>
-        
-    </section>
-
-
+      <div class="copyright">
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
     
-    <section class="article-copyright">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
-</svg>
-
-
-
-        <span>Licensed under CC BY-NC-SA 4.0</span>
-    </section>
-    </footer>
-
-
-    
-        <link 
-                rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
-            ><script 
-                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
-                defer
-                >
-            </script><script 
-                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
-                defer
-                >
-            </script><script>
-    window.addEventListener("DOMContentLoaded", () => {
-        renderMathInElement(document.querySelector(`.article-content`), {
-            delimiters: [
-                { left: "$$", right: "$$", display: true },
-                { left: "$", right: "$", display: false },
-                { left: "\\(", right: "\\)", display: false },
-                { left: "\\[", right: "\\]", display: true }
-            ]
-        });})
-</script>
-    
-</article>
-
-    
-
-    
-
-<aside class="related-content--wrapper">
-    <h2 class="section-title">Related content</h2>
-    <div class="related-content">
-        <div class="flex article-list--tile">
-            
-                
-<article class="">
-    <a href="/posts/programming/protobuf/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Protobuf</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/posts/programming/oop/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">面向对象程序设计基础</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/posts/programming/cmake/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Makefile &amp; CMake</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/posts/programming/compile/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">编译、链接、静态库、动态库</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/posts/programming/csharp_async/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Csharp async</h2>
-        </div>
-    </a>
-</article>
-
-            
-        </div>
-    </div>
-</aside>
-
-     
-    
-        
-    <script src="https://utteranc.es/client.js" 
-        repo="Ther-nullptr/Ther-nullptr.github.io"
-        issue-term="pathname"
-        
-        crossorigin="anonymous"
-        async
-        >
-</script>
-
-<style>
-    .utterances {
-        max-width: unset;
-    }
-</style>
-
-<script>
-    function setUtterancesTheme(theme) {
-        let utterances = document.querySelector('.utterances iframe');
-        if (utterances) {
-            utterances.contentWindow.postMessage(
-                {
-                    type: 'set-theme',
-                    theme: `github-${theme}`
-                },
-                'https://utteranc.es'
-            );
-        }
-    }
-
-    addEventListener('message', event => {
-        if (event.origin !== 'https://utteranc.es') return;
-        setUtterancesTheme(document.documentElement.dataset.scheme)
-    });
-
-    window.addEventListener('onColorSchemeChange', (e) => {
-        setUtterancesTheme(e.detail)
-    })
-</script>
-
-
-    
-
-    <footer class="site-footer">
-    <section class="copyright">
-        &copy; 
-        
-        2022 Ther&#39;s Blog
-    </section>
-    
-    <section class="powerby">
-        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
-        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
-
-        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
-        </script>
-    
-            <br />visitors: <span id="busuanzi_value_site_uv"></span>
-            total visits: <span id="busuanzi_value_site_pv"></span> time(s)
-            reads: <span id="busuanzi_value_page_pv"></span> time(s)
-    
-    </section>
-
-    <script async src="https://busuanzi.icodeq.com/busuanzi.pure.mini.js">
-    </script>
-
-
-
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
 </footer>
 
-
-    
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-    
-    <div class="pswp__bg"></div>
-
-    
-    <div class="pswp__scroll-wrap">
-
-        
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-
-        
-        <div class="pswp__ui pswp__ui--hidden">
-
-            <div class="pswp__top-bar">
-
-                
-
-                <div class="pswp__counter"></div>
-
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-
-                
-                
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                        <div class="pswp__preloader__cut">
-                            <div class="pswp__preloader__donut"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div>
-            </div>
-
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-
-        </div>
-
-    </div>
-
-</div><script 
-                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
-                defer
-                >
-            </script><script 
-                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
-                defer
-                >
-            </script><link 
-                rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
-            ><link 
-                rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
-            >
-
-            </main>
-    <aside class="sidebar right-sidebar sticky">
-        
-            
-                
-    <section class="widget archives">
-        <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <line x1="5" y1="9" x2="19" y2="9" />
-  <line x1="5" y1="15" x2="19" y2="15" />
-  <line x1="11" y1="4" x2="7" y2="20" />
-  <line x1="17" y1="4" x2="13" y2="20" />
-</svg>
+<script src="https://ther-nullptr.github.io/assets/main.js"></script>
+<script src="https://ther-nullptr.github.io/assets/prism.js"></script>
 
 
 
-        </div>
-        <h2 class="widget-title section-title">Table of contents</h2>
-        
-        <div class="widget--toc">
-            <nav id="TableOfContents">
-  <ol>
-    <li><a href="#目录">目录</a></li>
-    <li><a href="#前言">前言</a>
-      <ol>
-        <li><a href="#client-server-modelstar">Client-Server model:star:</a></li>
-        <li><a href="#ip-address">IP Address</a></li>
-        <li><a href="#port">Port</a></li>
-      </ol>
-    </li>
-    <li><a href="#grpc概况">gRPC概况</a></li>
-    <li><a href="#grpc安装">gRPC安装</a>
-      <ol>
-        <li><a href="#c">C++</a></li>
-        <li><a href="#csharp">Csharp</a></li>
-      </ol>
-    </li>
-    <li><a href="#grpc服务star">gRPC服务:star:</a></li>
-    <li><a href="#grpc使用star">gRPC使用:star:</a>
-      <ol>
-        <li><a href="#proto">proto</a></li>
-        <li><a href="#server">Server</a></li>
-        <li><a href="#client">Client</a></li>
-      </ol>
-    </li>
-    <li><a href="#参考与荐读">参考与荐读</a></li>
-  </ol>
-</nav>
-        </div>
-    </section>
-
-            
-        
-    </aside>
 
 
-        </div>
-        <script 
-                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
-                
-                >
-            </script><script type="text/javascript" src="/ts/main.js" defer></script>
-<script>
-    (function () {
-        const customFont = document.createElement('link');
-        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
 
-        customFont.type = "text/css";
-        customFont.rel = "stylesheet";
 
-        document.head.appendChild(customFont);
-    }());
-</script>
-<style>
-    :root {
-        --article-font-family: "Noto Serif SC", var(--base-font-family);
-    }
-</style>
+  
+</div>
 
-<script>
-		(function () {
-		    const customFont = document.createElement('link');
-		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap";
-		
-		    customFont.type = "text/css";
-		    customFont.rel = "stylesheet";
-		
-		    document.head.appendChild(customFont);
-		}());
-</script>
-
-<script
-    src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
-    async
-></script>
-    </body>
+</body>
 </html>

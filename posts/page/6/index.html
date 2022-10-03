@@ -1,652 +1,424 @@
 <!DOCTYPE html>
-<html lang="en-us" dir="ltr">
-    <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='萌生此等惬意，实乃徒增彷徨。'><title></title>
-
-<link rel='canonical' href='https://ther-nullptr.github.io/posts/'>
-
-<link rel="stylesheet" href="/scss/style.min.cbd65bb3bdc1206609e44b215380d6562914c436bb43c31b46c17b42ed80a9f5.css"><meta property='og:title' content=''>
-<meta property='og:description' content='萌生此等惬意，实乃徒增彷徨。'>
-<meta property='og:url' content='https://ther-nullptr.github.io/posts/'>
-<meta property='og:site_name' content='Ther&#39;s Blog'>
-<meta property='og:type' content='website'><meta property='og:updated_time' content=' 2022-08-17T08:22:05&#43;08:00 '/>
-<meta name="twitter:site" content="@AdobePython">
-    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="">
-<meta name="twitter:description" content="萌生此等惬意，实乃徒增彷徨。"><link rel="alternate" type="application/rss&#43;xml" href="https://ther-nullptr.github.io/posts/index.xml"><style>
-    :root {
-        --article-font-family: "Noto Serif SC", var(--base-font-family);
-    }
-</style>
-
-<script>
-		(function () {
-		    const customFont = document.createElement('link');
-		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap";
-		
-		    customFont.type = "text/css";
-		    customFont.rel = "stylesheet";
-		
-		    document.head.appendChild(customFont);
-		}());
-</script>
-    </head>
-    <body class="">
-    <script>
-        (function() {
-            const colorSchemeKey = 'StackColorScheme';
-            if(!localStorage.getItem(colorSchemeKey)){
-                localStorage.setItem(colorSchemeKey, "auto");
-            }
-        })();
-    </script><script>
-    (function() {
-        const colorSchemeKey = 'StackColorScheme';
-        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
-        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
-
-        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
-            
-
-            document.documentElement.dataset.scheme = 'dark';
-        } else {
-            document.documentElement.dataset.scheme = 'light';
-        }
-    })();
-</script>
-<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
-    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
-        <span class="hamburger-box">
-            <span class="hamburger-inner"></span>
-        </span>
-    </button>
-
-    <header>
-        
-            
-            <figure class="site-avatar">
-                <a href="/">
-                
-                    
-                    
-                    
-                        
-                        <img src="/img/Ther_hu05dc40a2635fa510e0ad5a0d57bec723_1205262_300x0_resize_box_3.png" width="300"
-                            height="272" class="site-logo" loading="lazy" alt="Avatar">
-                    
-                
-                </a>
-                
-            </figure>
-            
-        
-        
-        <div class="site-meta">
-            <h1 class="site-name"><a href="/">Ther&#39;s Blog</a></h1>
-            <h2 class="site-description">萌生此等惬意，实乃徒增彷徨。</h2>
-        </div>
-    </header><ol class="social-menu">
-            
-                <li>
-                    <a 
-                        href='https://github.com/Ther-nullptr'
-                        target="_blank"
-                        title="GitHub"
-                    >
-                        
-                        
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-</svg>
+<html lang="en">
+<head>
+  
+    <title> :: Ther&#39;s Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="人有种奇怪的虚荣心，想让别人或自己相信他向往的是真理，但其实他有求于这个世界的是爱。 &amp;ndash; Albert Camus" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://ther-nullptr.github.io/posts/" />
 
 
 
-                        
-                    </a>
-                </li>
-            
-                <li>
-                    <a 
-                        href='https://www.instagram.com/donald.biden.18/'
-                        target="_blank"
-                        title="Instagram"
-                    >
-                        
-                        
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <rect x="4" y="4" width="16" height="16" rx="4" />
-  <circle cx="12" cy="12" r="3" />
-  <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" />
-</svg>
-                        
-                    </a>
-                </li>
-            
-                <li>
-                    <a 
-                        href='https://twitter.com/AdobePython'
-                        target="_blank"
-                        title="Twitter"
-                    >
-                        
-                        
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
-</svg>
+
+<link rel="stylesheet" href="https://ther-nullptr.github.io/assets/style.css">
+
+  <link rel="stylesheet" href="assets/%25!s%28%3cnil%3e%29.css">
 
 
 
-                        
-                    </a>
-                </li>
-            
-        </ol><ol class="menu" id="main-menu">
-        
-        
-        
-
-        <li  class='current' >
-            <a href='/posts/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <polyline points="5 12 3 12 12 3 21 12 19 12" />
-  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
-</svg>
 
 
 
-                
-                <span>Home</span>
-            </a>
-        </li>
-        
-        
+<link rel="apple-touch-icon" href="https://ther-nullptr.github.io/img/apple-touch-icon-192x192.png">
 
-        <li >
-            <a href='/about/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="7" r="4" />
-  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-</svg>
+  <link rel="shortcut icon" href="https://ther-nullptr.github.io/">
 
 
 
-                
-                <span>About</span>
-            </a>
-        </li>
-        
-        
-
-        <li >
-            <a href='/archives/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <rect x="3" y="4" width="18" height="4" rx="2" />
-  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
-  <line x1="10" y1="12" x2="14" y2="12" />
-</svg>
+<meta name="twitter:card" content="summary" />
 
 
 
-                
-                <span>Archives</span>
-            </a>
-        </li>
-        
-        
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="">
+<meta property="og:description" content="人有种奇怪的虚荣心，想让别人或自己相信他向往的是真理，但其实他有求于这个世界的是爱。 &amp;ndash; Albert Camus" />
+<meta property="og:url" content="https://ther-nullptr.github.io/posts/" />
+<meta property="og:site_name" content="Ther&#39;s Blog" />
 
-        <li >
-            <a href='/search/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="10" cy="10" r="7" />
-  <line x1="21" y1="21" x2="15" y2="15" />
-</svg>
+  
+    <meta property="og:image" content="https://ther-nullptr.github.io/">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
 
 
 
-                
-                <span>Search</span>
-            </a>
-        </li>
-        
-        
 
-        <li >
-            <a href='/links/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
-  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
-</svg>
+
+  <link href="/posts/index.xml" rel="alternate" type="application/rss+xml" title="Ther&#39;s Blog" />
 
 
 
-                
-                <span>Links</span>
-            </a>
-        </li>
-        
-
-        <div class="menu-bottom-section">
-                <li id="i18n-switch">  
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M4 5h7" />
-  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
-  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
-  <path d="M12 20l4 -9l4 9" />
-  <path d="M19.1 18h-6.2" />
-</svg>
 
 
 
-                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
-                        
-                            <option value="https://ther-nullptr.github.io/" selected>English</option>
-                        
-                            <option value="https://ther-nullptr.github.io/zh-cn/" >中文</option>
-                        
-                    </select>
-                </li>
-            
-            
-            
-                <li id="dark-mode-toggle">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="8" cy="12" r="2" />
-  <rect x="2" y="6" width="20" height="12" rx="6" />
-</svg>
 
 
 
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="16" cy="12" r="2" />
-  <rect x="2" y="6" width="20" height="12" rx="6" />
-</svg>
+</head>
+<body class="">
 
 
+<div class="container headings--one-size">
 
-                    <span>Dark Mode</span>
-                </li>
-            
-        </div>
-    </ol>
-</aside>
-<main class="main full-width">
-    <header>
-        <h3 class="section-title">
-            
-                Section
-            
-        </h3>
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://ther-nullptr.github.io/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
 
-        <div class="section-card">
-            <div class="section-details">
-                <h3 class="section-count">33 pages</h3>
-                <h1 class="section-term"></h1>
-                
-            </div>
-        </div>
-    </header>
+    </div>
     
-    <section class="article-list--compact">
-        
-            <article>
-    <a href="/posts/digital_logic_and_processors/assembly/">
-        <div class="article-details">
-            <h2 class="article-title">MIPS汇编语言</h2>
-            <footer class="article-time">
-                <time datetime='2022-06-03T00:00:00Z'>Jun 03, 2022</time>
-            </footer>
-        </div>
-    </a>
-</article>
-        
-            <article>
-    <a href="/posts/digital_logic_and_processors/memory/">
-        <div class="article-details">
-            <h2 class="article-title">Cache</h2>
-            <footer class="article-time">
-                <time datetime='2022-05-31T19:22:17&#43;08:00'>May 31, 2022</time>
-            </footer>
-        </div>
-    </a>
-</article>
-        
-            <article>
-    <a href="/posts/digital_logic_and_processors/pipeline_cpu/">
-        <div class="article-details">
-            <h2 class="article-title">Pipeline CPU</h2>
-            <footer class="article-time">
-                <time datetime='2022-05-31T00:00:00Z'>May 31, 2022</time>
-            </footer>
-        </div>
-    </a>
-</article>
-        
-            <article>
-    <a href="/posts/small_talk/ice-cream/">
-        <div class="article-details">
-            <h2 class="article-title">Ice Cream</h2>
-            <footer class="article-time">
-                <time datetime='2022-05-29T16:24:16&#43;08:00'>May 29, 2022</time>
-            </footer>
-        </div>
-    </a>
-</article>
-        
-            <article>
-    <a href="/posts/awesome_toolkits/command/">
-        <div class="article-details">
-            <h2 class="article-title">Hugo Commands</h2>
-            <footer class="article-time">
-                <time datetime='2022-05-29T00:00:00Z'>May 29, 2022</time>
-            </footer>
-        </div>
-    </a>
-</article>
-        
-    </section>
-    <nav class='pagination'>
-        
-        
-
-        
-            
-                    <a class='page-link' href='/posts/'>1</a>
-                
-            
-            
-                    
-                        
-                        <span class='page-link dots'>&hellip;</span>
-                    
-                
-            
-            
-                    
-                
-            
-            
-                    
-                
-            
-            
-                    <a class='page-link' href='/posts/page/5/'>5</a>
-                
-            
-            
-                <span class='page-link current'>6</span>
-                
-            
-            
-                    <a class='page-link' href='/posts/page/7/'>7</a>
-                
-            
-    </nav>
-
-<footer class="site-footer">
-    <section class="copyright">
-        &copy; 
-        
-        2022 Ther&#39;s Blog
-    </section>
+      <div class="menu-trigger">menu</div>
     
-    <section class="powerby">
-        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
-        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
-
-        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
-        </script>
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
     
-            <br />visitors: <span id="busuanzi_value_site_uv"></span>
-            total visits: <span id="busuanzi_value_site_pv"></span> time(s)
-            reads: <span id="busuanzi_value_page_pv"></span> time(s)
+      
+        
+          <li><a href="/posts/">Home</a></li>
+        
+      
+        
+          <li><a href="/about/">About</a></li>
+        
+      
+        
+          <li><a href="/archives/">Archives</a></li>
+        
+      
+        
+          <li><a href="/search/">Search</a></li>
+        
+      
+        
+          <li><a href="/links/">Links</a></li>
+        
+      
     
-    </section>
 
-    <script async src="https://busuanzi.icodeq.com/busuanzi.pure.mini.js">
-    </script>
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/posts/">Home</a></li>
+      
+    
+      
+        <li><a href="/about/">About</a></li>
+      
+    
+      
+        <li><a href="/archives/">Archives</a></li>
+      
+    
+      
+        <li><a href="/search/">Search</a></li>
+      
+    
+      
+        <li><a href="/links/">Links</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
 
 
+  <div class="content">
+    
+  
+    <div class="index-content">
+      <p>人有种奇怪的虚荣心，想让别人或自己相信他向往的是真理，但其实他有求于这个世界的是爱。 &ndash; Albert Camus</p>
 
+    </div>
+  
+  <div class="posts">
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://ther-nullptr.github.io/posts/digital_logic_and_processors/memory/">Cache</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-05-31
+          </span>
+          
+        </div>
+
+        
+          <span class="post-tags">
+            
+            #<a href="https://ther-nullptr.github.io/tags/digital-logic-and-processors/">digital logic and processors</a>&nbsp;
+            
+          </span>
+        
+
+        
+
+
+      
+        <div class="post-content">
+          
+            Memory RAM random access是指该存储器的所有内容都可以被读取和写入，且与时间和位置无关。
+SRAM DRAM     中文名 静态随机访问存储器 动态随机访问存储器   速度 快 慢（需要读取内容后刷新、定期刷新）   结构 由MOS管组成的锁存器（6T） 由MOS管和电容实现（1T1C）   容量 小 大   应用 缓存 主存   访问时间 1~10ns 10~100ns    常见问答：
+DRAM电容量C的权衡：
+大电容容量C的优势：提供更长的数据保持时间 大电容容量C的劣势：工艺实现难度加大，密度降低    RAS和CAS均为低电平有效，其中CAS可以作为输出使能信号。
+cache 原理 存储系统满足局部性原理：
+时间局部性——最近的将来要用到的信息很可能就是现在正在使用的信息。主要由循环造成。 空间局部性——最近的将来要用到的信息很可能与现在正在使用的信息在空间上是邻近的。主要由顺序执行和数据的聚集存放造成。  cache的访问时间 一级cache（$r$为访问时间比，$e$为访问效率）： $$ T_A=T_{A1}+(1-H)T_{A2}\ r=\frac{T_{A2}}{T_{A1}}\ e=\frac{T_{A1}}{T_A} = \frac{1}{1+(1-H)r} $$ 二级cache： $$ T_A=T_{A1}+(1-H_1)[T_{A2}+(1-H_2)T_{A3}] $$
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/posts/digital_logic_and_processors/memory/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://ther-nullptr.github.io/posts/digital_logic_and_processors/pipeline_cpu/">Pipeline CPU</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-05-31
+          </span>
+          
+        </div>
+
+        
+          <span class="post-tags">
+            
+            #<a href="https://ther-nullptr.github.io/tags/digital-logic-and-processors/">digital logic and processors</a>&nbsp;
+            
+          </span>
+        
+
+        
+
+
+      
+        <div class="post-content">
+          
+            流水线计算公式 $n$为指令数，$k$为流水线级数，级间延时$\Delta t$。
+实际吞吐率（单位时间内流水线处理的指令数）： $$ TP=\frac{n}{(k+n-1)\Delta t} $$ 最大吞吐率： $$ TP_{max} = \frac{1}{\Delta t} $$ 实际加速比： $$ S = \frac{kn}{k+n-1} $$ 最大加速比： $$ S_{max}=k $$
+流水线中控制信号的流动 控制信号在IF之后的ID/RF阶段产生。
+ID/RF：Extop EX：ALUSrc、ALUOp、RegDst？？ MEM：MemWrite、Branch WB：MemToReg、RegWrite  流水线中的冒险 首先列出未冒险时流水线CPU在各步中进行的操作：
+R lw or sw beq J     IF PC&lt;=PC+4; IR &lt;=MemInst[PC] * * *   ID opcode&lt;=IR[31:26]; A&lt;=Reg[IR[25:21]]; B&lt;=Reg[IR[20:16]]; ALUOut&lt;=PC+(signext(IR[15:0]&lt;&lt;2)) * * PC &lt;= {PC[31:28],IR[25:0],2’b00}   EX ALUOut &lt;= A op B ALUOut&lt;=A+sign-ext(IR[15:0]) if (A=B)PC&lt;=ALUOut    MEM Reg[IR[15:11]]&lt;=ALUOut Lw:MDR&lt;=MemData[ALUOut];Sw:MemData[ALUout] &lt;=B     WB  Reg[IR[20:16]] &lt;=MDR      结构冒险 problem 流水线处理器中直接取消了InstMemory和DataMemory混用的做法，因此不必担心存储器访问的冲突。
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/posts/digital_logic_and_processors/pipeline_cpu/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://ther-nullptr.github.io/posts/small_talk/ice-cream/">Ice Cream</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-05-29
+          </span>
+          
+        </div>
+
+        
+          <span class="post-tags">
+            
+            #<a href="https://ther-nullptr.github.io/tags/small-talk/">small talk</a>&nbsp;
+            
+          </span>
+        
+
+        
+
+
+      
+        <div class="post-content">
+          
+            冰菓 今夜与君
+爱梦相会
+务必觅得
+微眠之约
+萌生此等惬意
+实乃徒增彷徨
+予君之意
+君不知乎
+察其目光
+未萦他意
+宛如待友
+毫无二致
+许愿星逝于晓
+夜现晨湮之法
+愿君得察
+今夜与君
+爱梦相会
+务必觅得
+微眠之约
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/posts/small_talk/ice-cream/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://ther-nullptr.github.io/posts/awesome_toolkits/command/">Hugo Commands</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-05-29
+          </span>
+          
+        </div>
+
+        
+          <span class="post-tags">
+            
+            #<a href="https://ther-nullptr.github.io/tags/awesome-kits/">awesome kits</a>&nbsp;
+            
+          </span>
+        
+
+        
+
+
+      
+        <div class="post-content">
+          
+            Hugo commands  create a article  1  $ hugo new post/first.md    start hugo server  1 2  $ hugo server # simple debug $ hugo server &ndash;theme=Mainroad &ndash;buildDrafts # debug with theme    watch environment info  1  $ hugo env
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/posts/awesome_toolkits/command/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://ther-nullptr.github.io/posts/awesome_toolkits/ss_mathematica/">Mathematica in Signal &amp; System</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2022-04-16
+          </span>
+          
+        </div>
+
+        
+          <span class="post-tags">
+            
+            #<a href="https://ther-nullptr.github.io/tags/awesome-kits/">awesome kits</a>&nbsp;
+            
+          </span>
+        
+
+        
+
+
+      
+        <div class="post-content">
+          
+            Fourier Transform:
+1  FourierTransform[HeavisideTheta[x],x,w]  Inverse Fourier Transform:
+1  InverseFourierTransform[1/(1+I<em>w),w,x]  Fourier coefficient:
+1 2 3  FourierSinCoefficient[SquareWave[x],x,n]FourierCosCoefficient[SquareWave[x],x,n]FourierCoefficient[SquareWave[x],x,n]  Convolution:
+1 2  Convolve[UnitBox[x],UnitBox[x],x,x]Convolve[Exp[-a</em>t]*HeavisideTheta[t],Sin[t]*HeavisideTheta[t],t,x]  DTFT:
+1  FourierSequenceTransform[HeavisideTheta[n]*a^n,n,w]  IDTFT:
+1  InverseFourierSequenceTransform[1,n,w]  Laplace:
+1  LaplaceTransform[t^4Sin[t],t,s]  InverseLaplace:
+1  LaplaceTransform[E^(-t),t,s]
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/posts/awesome_toolkits/ss_mathematica/"> →</a>
+        </div>
+        
+      </div>
+    
+    <div class="pagination">
+  <div class="pagination__buttons">
+    
+      <span class="button previous">
+        <a href="/posts/page/5/">
+          <span class="button__icon">←</span>
+          <span class="button__text">Newer posts</span>
+        </a>
+      </span>
+    
+    
+      <span class="button next">
+        <a href="/posts/page/7/">
+          <span class="button__text">Older posts</span>
+          <span class="button__icon">→</span>
+        </a>
+      </span>
+    
+  </div>
+</div>
+
+  </div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
 </footer>
 
-
-            </main>
-    <aside class="sidebar right-sidebar sticky">
-        
-            
-                <form action="/search/" class="search-form widget" >
-        <p>
-            <label>Search</label>
-            <input name="keyword" required placeholder="Type something..." />
-        
-            <button title="Search">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="10" cy="10" r="7" />
-  <line x1="21" y1="21" x2="15" y2="15" />
-</svg>
+<script src="https://ther-nullptr.github.io/assets/main.js"></script>
+<script src="https://ther-nullptr.github.io/assets/prism.js"></script>
 
 
 
-            </button>
-        </p>
-    </form>
-            
-        
-            
-                <section class="widget archives">
-        <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
-</svg>
 
 
 
-        </div>
-        <h2 class="widget-title section-title">Archives</h2>
 
-        
-        
-        
-        
-        
-        <div class="widget-archive--list">
-            <div class="archives-year">
-                    <a href="/archives/#2022">
-                        
-                            <span class="year">2022</span>
-                            <span class="count">31</span>
-                        
-                    </a> 
-                </div>
-            <div class="archives-year">
-                    <a href="/archives/#2021">
-                        
-                            <span class="year">2021</span>
-                            <span class="count">2</span>
-                        
-                    </a> 
-                </div>
-            
-        </div>
-    </section>
-            
-        
-            
-                <section class="widget tagCloud">
-    <div class="widget-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <line x1="5" y1="9" x2="19" y2="9" />
-  <line x1="5" y1="15" x2="19" y2="15" />
-  <line x1="11" y1="4" x2="7" y2="20" />
-  <line x1="17" y1="4" x2="13" y2="20" />
-</svg>
+  
+</div>
 
-
-
-    </div>
-    <h2 class="widget-title section-title">Categories</h2>
-
-    <div class="tagCloud-tags">
-        
-            <a href="/categories/programming/" class="font_size_8">
-                programming
-            </a>
-        
-            <a href="/categories/small-talk/" class="font_size_7">
-                small talk
-            </a>
-        
-            <a href="/categories/research/" class="font_size_5">
-                research
-            </a>
-        
-            <a href="/categories/study/" class="font_size_5">
-                study
-            </a>
-        
-            <a href="/categories/awesome-kits/" class="font_size_4">
-                awesome kits
-            </a>
-        
-            <a href="/categories/cheatsheet/" class="font_size_1">
-                cheatsheet
-            </a>
-        
-    </div>
-</section>
-
-            
-        
-            
-                <section class="widget tagCloud">
-    <div class="widget-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
-  <circle cx="9" cy="9" r="2" />
-</svg>
-
-
-
-    </div>
-    <h2 class="widget-title section-title">Tags</h2>
-
-    <div class="tagCloud-tags">
-        
-            <a href="/tags/small-talk/" class="font_size_7">
-                small talk
-            </a>
-        
-            <a href="/tags/digital-logic-and-processors/" class="font_size_5">
-                digital logic and processors
-            </a>
-        
-            <a href="/tags/research/" class="font_size_5">
-                research
-            </a>
-        
-            <a href="/tags/summer-training/" class="font_size_5">
-                summer training
-            </a>
-        
-            <a href="/tags/awesome-kits/" class="font_size_4">
-                awesome kits
-            </a>
-        
-            <a href="/tags/programming-utils/" class="font_size_3">
-                programming utils
-            </a>
-        
-            <a href="/tags/c&#43;&#43;/" class="font_size_2">
-                C&#43;&#43;
-            </a>
-        
-            <a href="/tags/csharp/" class="font_size_2">
-                Csharp
-            </a>
-        
-            <a href="/tags/cheatsheet/" class="font_size_1">
-                cheatsheet
-            </a>
-        
-            <a href="/tags/deep-learning/" class="font_size_1">
-                deep learning
-            </a>
-        
-    </div>
-</section>
-            
-        
-    </aside>
-
-
-        </div>
-        <script 
-                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
-                
-                >
-            </script><script type="text/javascript" src="/ts/main.js" defer></script>
-<script>
-    (function () {
-        const customFont = document.createElement('link');
-        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
-
-        customFont.type = "text/css";
-        customFont.rel = "stylesheet";
-
-        document.head.appendChild(customFont);
-    }());
-</script>
-<style>
-    :root {
-        --article-font-family: "Noto Serif SC", var(--base-font-family);
-    }
-</style>
-
-<script>
-		(function () {
-		    const customFont = document.createElement('link');
-		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap";
-		
-		    customFont.type = "text/css";
-		    customFont.rel = "stylesheet";
-		
-		    document.head.appendChild(customFont);
-		}());
-</script>
-
-<script
-    src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
-    async
-></script>
-    </body>
+</body>
 </html>

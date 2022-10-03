@@ -1,630 +1,304 @@
 <!DOCTYPE html>
-<html lang="en-us" dir="ltr">
-    <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='萌生此等惬意，实乃徒增彷徨。'><title></title>
-
-<link rel='canonical' href='https://ther-nullptr.github.io/posts/'>
-
-<link rel="stylesheet" href="/scss/style.min.cbd65bb3bdc1206609e44b215380d6562914c436bb43c31b46c17b42ed80a9f5.css"><meta property='og:title' content=''>
-<meta property='og:description' content='萌生此等惬意，实乃徒增彷徨。'>
-<meta property='og:url' content='https://ther-nullptr.github.io/posts/'>
-<meta property='og:site_name' content='Ther&#39;s Blog'>
-<meta property='og:type' content='website'><meta property='og:updated_time' content=' 2022-08-17T08:22:05&#43;08:00 '/>
-<meta name="twitter:site" content="@AdobePython">
-    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="">
-<meta name="twitter:description" content="萌生此等惬意，实乃徒增彷徨。"><link rel="alternate" type="application/rss&#43;xml" href="https://ther-nullptr.github.io/posts/index.xml"><style>
-    :root {
-        --article-font-family: "Noto Serif SC", var(--base-font-family);
-    }
-</style>
-
-<script>
-		(function () {
-		    const customFont = document.createElement('link');
-		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap";
-		
-		    customFont.type = "text/css";
-		    customFont.rel = "stylesheet";
-		
-		    document.head.appendChild(customFont);
-		}());
-</script>
-    </head>
-    <body class="">
-    <script>
-        (function() {
-            const colorSchemeKey = 'StackColorScheme';
-            if(!localStorage.getItem(colorSchemeKey)){
-                localStorage.setItem(colorSchemeKey, "auto");
-            }
-        })();
-    </script><script>
-    (function() {
-        const colorSchemeKey = 'StackColorScheme';
-        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
-        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
-
-        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
-            
-
-            document.documentElement.dataset.scheme = 'dark';
-        } else {
-            document.documentElement.dataset.scheme = 'light';
-        }
-    })();
-</script>
-<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
-    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
-        <span class="hamburger-box">
-            <span class="hamburger-inner"></span>
-        </span>
-    </button>
-
-    <header>
-        
-            
-            <figure class="site-avatar">
-                <a href="/">
-                
-                    
-                    
-                    
-                        
-                        <img src="/img/Ther_hu05dc40a2635fa510e0ad5a0d57bec723_1205262_300x0_resize_box_3.png" width="300"
-                            height="272" class="site-logo" loading="lazy" alt="Avatar">
-                    
-                
-                </a>
-                
-            </figure>
-            
-        
-        
-        <div class="site-meta">
-            <h1 class="site-name"><a href="/">Ther&#39;s Blog</a></h1>
-            <h2 class="site-description">萌生此等惬意，实乃徒增彷徨。</h2>
-        </div>
-    </header><ol class="social-menu">
-            
-                <li>
-                    <a 
-                        href='https://github.com/Ther-nullptr'
-                        target="_blank"
-                        title="GitHub"
-                    >
-                        
-                        
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-</svg>
+<html lang="en">
+<head>
+  
+    <title> :: Ther&#39;s Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="人有种奇怪的虚荣心，想让别人或自己相信他向往的是真理，但其实他有求于这个世界的是爱。 &amp;ndash; Albert Camus" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://ther-nullptr.github.io/posts/" />
 
 
 
-                        
-                    </a>
-                </li>
-            
-                <li>
-                    <a 
-                        href='https://www.instagram.com/donald.biden.18/'
-                        target="_blank"
-                        title="Instagram"
-                    >
-                        
-                        
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <rect x="4" y="4" width="16" height="16" rx="4" />
-  <circle cx="12" cy="12" r="3" />
-  <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" />
-</svg>
-                        
-                    </a>
-                </li>
-            
-                <li>
-                    <a 
-                        href='https://twitter.com/AdobePython'
-                        target="_blank"
-                        title="Twitter"
-                    >
-                        
-                        
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
-</svg>
+
+<link rel="stylesheet" href="https://ther-nullptr.github.io/assets/style.css">
+
+  <link rel="stylesheet" href="assets/%25!s%28%3cnil%3e%29.css">
 
 
 
-                        
-                    </a>
-                </li>
-            
-        </ol><ol class="menu" id="main-menu">
-        
-        
-        
-
-        <li  class='current' >
-            <a href='/posts/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <polyline points="5 12 3 12 12 3 21 12 19 12" />
-  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
-</svg>
 
 
 
-                
-                <span>Home</span>
-            </a>
-        </li>
-        
-        
+<link rel="apple-touch-icon" href="https://ther-nullptr.github.io/img/apple-touch-icon-192x192.png">
 
-        <li >
-            <a href='/about/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="7" r="4" />
-  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-</svg>
+  <link rel="shortcut icon" href="https://ther-nullptr.github.io/">
 
 
 
-                
-                <span>About</span>
-            </a>
-        </li>
-        
-        
-
-        <li >
-            <a href='/archives/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <rect x="3" y="4" width="18" height="4" rx="2" />
-  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
-  <line x1="10" y1="12" x2="14" y2="12" />
-</svg>
+<meta name="twitter:card" content="summary" />
 
 
 
-                
-                <span>Archives</span>
-            </a>
-        </li>
-        
-        
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="">
+<meta property="og:description" content="人有种奇怪的虚荣心，想让别人或自己相信他向往的是真理，但其实他有求于这个世界的是爱。 &amp;ndash; Albert Camus" />
+<meta property="og:url" content="https://ther-nullptr.github.io/posts/" />
+<meta property="og:site_name" content="Ther&#39;s Blog" />
 
-        <li >
-            <a href='/search/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="10" cy="10" r="7" />
-  <line x1="21" y1="21" x2="15" y2="15" />
-</svg>
+  
+    <meta property="og:image" content="https://ther-nullptr.github.io/">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
 
 
 
-                
-                <span>Search</span>
-            </a>
-        </li>
-        
-        
 
-        <li >
-            <a href='/links/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
-  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
-</svg>
+
+  <link href="/posts/index.xml" rel="alternate" type="application/rss+xml" title="Ther&#39;s Blog" />
 
 
 
-                
-                <span>Links</span>
-            </a>
-        </li>
-        
-
-        <div class="menu-bottom-section">
-                <li id="i18n-switch">  
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M4 5h7" />
-  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
-  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
-  <path d="M12 20l4 -9l4 9" />
-  <path d="M19.1 18h-6.2" />
-</svg>
 
 
 
-                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
-                        
-                            <option value="https://ther-nullptr.github.io/" selected>English</option>
-                        
-                            <option value="https://ther-nullptr.github.io/zh-cn/" >中文</option>
-                        
-                    </select>
-                </li>
-            
-            
-            
-                <li id="dark-mode-toggle">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="8" cy="12" r="2" />
-  <rect x="2" y="6" width="20" height="12" rx="6" />
-</svg>
 
 
 
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="16" cy="12" r="2" />
-  <rect x="2" y="6" width="20" height="12" rx="6" />
-</svg>
+</head>
+<body class="">
 
 
+<div class="container headings--one-size">
 
-                    <span>Dark Mode</span>
-                </li>
-            
-        </div>
-    </ol>
-</aside>
-<main class="main full-width">
-    <header>
-        <h3 class="section-title">
-            
-                Section
-            
-        </h3>
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://ther-nullptr.github.io/">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
 
-        <div class="section-card">
-            <div class="section-details">
-                <h3 class="section-count">33 pages</h3>
-                <h1 class="section-term"></h1>
-                
-            </div>
-        </div>
-    </header>
+    </div>
     
-    <section class="article-list--compact">
-        
-            <article>
-    <a href="/posts/awesome_toolkits/ss_mathematica/">
-        <div class="article-details">
-            <h2 class="article-title">Mathematica in Signal &amp; System</h2>
-            <footer class="article-time">
-                <time datetime='2022-04-16T00:14:35&#43;08:00'>Apr 16, 2022</time>
-            </footer>
-        </div>
-    </a>
-</article>
-        
-            <article>
-    <a href="/posts/quotes/%E4%B8%87%E7%A5%9E/">
-        <div class="article-details">
-            <h2 class="article-title">快速排序与归并排序的思想</h2>
-            <footer class="article-time">
-                <time datetime='2021-12-03T00:13:05&#43;08:00'>Dec 03, 2021</time>
-            </footer>
-        </div>
-    </a>
-</article>
-        
-            <article>
-    <a href="/posts/awesome_toolkits/oh-my-posh/">
-        <div class="article-details">
-            <h2 class="article-title">Oh My Posh</h2>
-            <footer class="article-time">
-                <time datetime='2021-08-19T23:53:42&#43;08:00'>Aug 19, 2021</time>
-            </footer>
-        </div>
-    </a>
-</article>
-        
-    </section>
-    <nav class='pagination'>
-        
-        
-
-        
-            
-                    <a class='page-link' href='/posts/'>1</a>
-                
-            
-            
-                    
-                        
-                        <span class='page-link dots'>&hellip;</span>
-                    
-                
-            
-            
-                    
-                
-            
-            
-                    
-                
-            
-            
-                    
-                
-            
-            
-                    <a class='page-link' href='/posts/page/6/'>6</a>
-                
-            
-            
-                <span class='page-link current'>7</span>
-                
-            
-    </nav>
-
-<footer class="site-footer">
-    <section class="copyright">
-        &copy; 
-        
-        2022 Ther&#39;s Blog
-    </section>
+      <div class="menu-trigger">menu</div>
     
-    <section class="powerby">
-        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
-        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
-
-        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
-        </script>
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
     
-            <br />visitors: <span id="busuanzi_value_site_uv"></span>
-            total visits: <span id="busuanzi_value_site_pv"></span> time(s)
-            reads: <span id="busuanzi_value_page_pv"></span> time(s)
+      
+        
+          <li><a href="/posts/">Home</a></li>
+        
+      
+        
+          <li><a href="/about/">About</a></li>
+        
+      
+        
+          <li><a href="/archives/">Archives</a></li>
+        
+      
+        
+          <li><a href="/search/">Search</a></li>
+        
+      
+        
+          <li><a href="/links/">Links</a></li>
+        
+      
     
-    </section>
 
-    <script async src="https://busuanzi.icodeq.com/busuanzi.pure.mini.js">
-    </script>
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/posts/">Home</a></li>
+      
+    
+      
+        <li><a href="/about/">About</a></li>
+      
+    
+      
+        <li><a href="/archives/">Archives</a></li>
+      
+    
+      
+        <li><a href="/search/">Search</a></li>
+      
+    
+      
+        <li><a href="/links/">Links</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
 
 
+  <div class="content">
+    
+  
+    <div class="index-content">
+      <p>人有种奇怪的虚荣心，想让别人或自己相信他向往的是真理，但其实他有求于这个世界的是爱。 &ndash; Albert Camus</p>
 
+    </div>
+  
+  <div class="posts">
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://ther-nullptr.github.io/posts/quotes/%E4%B8%87%E7%A5%9E/">快速排序与归并排序的思想</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2021-12-03
+          </span>
+          
+        </div>
+
+        
+          <span class="post-tags">
+            
+            #<a href="https://ther-nullptr.github.io/tags/quotes/">quotes</a>&nbsp;
+            
+          </span>
+        
+
+        
+
+
+      
+        <div class="post-content">
+          
+            快速排序与归并排序的思想 起源是递归法——将序列分成两部分处理，或者说，用二叉树遍历的逻辑处理。二叉树的遍历基本有三种方式——前序、中序、后序。
+归并是一种后序遍历：算法到手有两个已经处理好的序列，然后把这两个序列处理成最终的结果。处理的最后一步，当然是完成对序列的排序，因此，算法的内容就是：将两个排序好的序列排成一个新的序列——这就是归并。
+快排是一种前序遍历：对一个序列进行处理，然后处理其子列。处理有这样的要求：将两个子列都完全完成处理以后，整个数列就排好了。因此：“划分点”是唯一的符合条件的处理方法。
+那么有没有中序遍历？手里拿着一个序列：一半已经排好，另一半还是完全乱的，这一步处理的目的就是：这一步执行完成之后，再对右边进行排序，整个序列就排好了。所以，这一个步骤的内容就应该是：维持左边的序列完好，保证右边所有的元素都大于左边的所有元素。
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/posts/quotes/%E4%B8%87%E7%A5%9E/"> →</a>
+        </div>
+        
+      </div>
+    
+      <div class="post on-list">
+        <h1 class="post-title">
+          <a href="https://ther-nullptr.github.io/posts/awesome_toolkits/oh-my-posh/">Oh My Posh</a>
+        </h1>
+        <div class="post-meta">
+          <span class="post-date">
+            2021-08-19
+          </span>
+          
+        </div>
+
+        
+          <span class="post-tags">
+            
+            #<a href="https://ther-nullptr.github.io/tags/awesome-kits/">awesome kits</a>&nbsp;
+            
+          </span>
+        
+
+        
+
+
+      
+        <div class="post-content">
+          
+            计算机美化指南 前言 一个美观的开发界面，对于调试程序、管理代码版本、提升编程体验等有着至关重要的作用。本文介绍了windows平台下命令行界面的美化方法，以期让读者拥有更好的编程体验。
+在图形化用户界面（GUI）大规模普及之前，命令行界面（CLI）一直是电脑界的主流。CLI开销小、运行快速，但是非专业用户使用不方便。如今，不从事开发的电脑用户接触到命令行的机会已经很少了（非计算机系学习C，可能只会在“命令行参数”一节接触到命令行），但如果从事软件开发，使用git、gcc等工具，熟练掌握命令行的使用还是有必要的。
+cmd 点击win+R，输入cmd，就会弹出windows下最基本的命令行终端——cmd。它的初始界面长这样：
+且不说白+黑的配色毫无生机，字体看上去也十分违和。这种不美观的界面可能的确劝退了不少人学习它的欲望。
+科普：什么样的字体才能称之为好看？
+serif：衬线字体，字体边缘具有明显的艺术修饰效果，如 宋体（simsun）、Times new roman。
+这种字体适合做艺术字，但若用作代码字体，则会显得节外生枝，影响呈现效果。
+sans-serif：非衬线字体，字体比划一般粗细均匀、清晰，如 微软雅黑（Arial）。这种字体一般用于正文写作。
+monospace：等宽字体，指每个英文字符（字母、数字、标点）宽度一致的字体。如 Consolas、Courier New。
+这种字体由于呈现效果较好，被广泛地用于编程。
+绝大多数开发工具都会有使用等宽字体的建议（如VS 2019）：
+我们试图给cmd换一个monospace的字体（右键边框，点击“属性”）。遗憾的是，cmd字体的选择十分匮乏，找不到合适的monospace字体。
+powershell 我们看看windows上另一款更加强大的命令行界面：powershell。在windows搜索框中键入powershell，打开。
+遗憾的是，除了黑色界面变成蓝色界面，字体的呈现效果并没有什么改观。而且，powershell也没有提供一种较为美观的monospace字体。
+windows terminal 长期以来，windows都没有像mac、Linux那样，为开发者提供一个较为美观的命令行界面。这种情况一直到2019年windows terminal的推出才有所改观。你可以在Microsoft Store中直接安装它。
+安装完毕后，启动效果如下：
+打开“设置-power shell图标-外观”，可以看到现在终端的字体是Cascadia Mono，可以查证这是一种等宽字体。windows powershell的字体的选择十分丰富，你可以根据自己的喜好任意挑选。
+oh-my-posh 还可以实现更加美观的效果吗？当然可以！我们需要借助oh-my-posh插件，先看下最终效果吧:
+可以看到，该插件不仅加入了彩色的图标、操作时间等元素，而且对文件夹的git仓库状态等也有较好的显示。
+预安装要求：Windows terminal、git（后台回复：git，领取git安装程序，安装时只需一路点OK）。
+下载oh-my-posh和posh-git插件
+由于一些众所周知的原因，网络上所展示的传统的下载途径可能需要一些特殊的手段。对此，小编准备了插件资源（后台回复：terminal，提取插件）。资源中有一个Modules文件夹和一个Microsoft.PowerShell_profile.ps1文件。
+下载完毕后，在你的电脑中找到C:\Users\用户名\Documents(或文档)\WindowsPowerShell文件夹（也有可能是其它的D盘或E盘，因人而异）。此时的文件夹中应该有一个Scripts文件夹。将Modules文件夹和一个Microsoft.PowerShell_profile.ps1文件按照如下方式放置：
+启动windows terminal，会看到以下场景：
+这些方块是什么？是乱码。这是因为系统自带的字体不能渲染oh-my-posh的一些特定符号。我们需要下载对应的字体。
+终端后续配置
+为渲染这些符号，我们需要下载名为Nerd系列的字体。网址如下：https://www.nerdfonts.com/
+（若网址打不开，也可后台回复：fonts，领取Nerd字体）。解压文件夹后，打开其中的.ttf文件，点击安装，即可使用字体。
+重启windows terminal，选择刚才安装的字体，即可呈现出正确的效果。
+还可以设置终端背景、终端透明度等，让你的命令行界面更加出彩。
+至此，命令行界面美化完成！
+          
+        </div>
+
+        
+        <div>
+          <a class="read-more button"
+            href="/posts/awesome_toolkits/oh-my-posh/"> →</a>
+        </div>
+        
+      </div>
+    
+    <div class="pagination">
+  <div class="pagination__buttons">
+    
+      <span class="button previous">
+        <a href="/posts/page/6/">
+          <span class="button__icon">←</span>
+          <span class="button__text">Newer posts</span>
+        </a>
+      </span>
+    
+    
+  </div>
+</div>
+
+  </div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
 </footer>
 
-
-            </main>
-    <aside class="sidebar right-sidebar sticky">
-        
-            
-                <form action="/search/" class="search-form widget" >
-        <p>
-            <label>Search</label>
-            <input name="keyword" required placeholder="Type something..." />
-        
-            <button title="Search">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="10" cy="10" r="7" />
-  <line x1="21" y1="21" x2="15" y2="15" />
-</svg>
+<script src="https://ther-nullptr.github.io/assets/main.js"></script>
+<script src="https://ther-nullptr.github.io/assets/prism.js"></script>
 
 
 
-            </button>
-        </p>
-    </form>
-            
-        
-            
-                <section class="widget archives">
-        <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
-</svg>
 
 
 
-        </div>
-        <h2 class="widget-title section-title">Archives</h2>
 
-        
-        
-        
-        
-        
-        <div class="widget-archive--list">
-            <div class="archives-year">
-                    <a href="/archives/#2022">
-                        
-                            <span class="year">2022</span>
-                            <span class="count">31</span>
-                        
-                    </a> 
-                </div>
-            <div class="archives-year">
-                    <a href="/archives/#2021">
-                        
-                            <span class="year">2021</span>
-                            <span class="count">2</span>
-                        
-                    </a> 
-                </div>
-            
-        </div>
-    </section>
-            
-        
-            
-                <section class="widget tagCloud">
-    <div class="widget-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <line x1="5" y1="9" x2="19" y2="9" />
-  <line x1="5" y1="15" x2="19" y2="15" />
-  <line x1="11" y1="4" x2="7" y2="20" />
-  <line x1="17" y1="4" x2="13" y2="20" />
-</svg>
+  
+</div>
 
-
-
-    </div>
-    <h2 class="widget-title section-title">Categories</h2>
-
-    <div class="tagCloud-tags">
-        
-            <a href="/categories/programming/" class="font_size_8">
-                programming
-            </a>
-        
-            <a href="/categories/small-talk/" class="font_size_7">
-                small talk
-            </a>
-        
-            <a href="/categories/research/" class="font_size_5">
-                research
-            </a>
-        
-            <a href="/categories/study/" class="font_size_5">
-                study
-            </a>
-        
-            <a href="/categories/awesome-kits/" class="font_size_4">
-                awesome kits
-            </a>
-        
-            <a href="/categories/cheatsheet/" class="font_size_1">
-                cheatsheet
-            </a>
-        
-    </div>
-</section>
-
-            
-        
-            
-                <section class="widget tagCloud">
-    <div class="widget-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
-  <circle cx="9" cy="9" r="2" />
-</svg>
-
-
-
-    </div>
-    <h2 class="widget-title section-title">Tags</h2>
-
-    <div class="tagCloud-tags">
-        
-            <a href="/tags/small-talk/" class="font_size_7">
-                small talk
-            </a>
-        
-            <a href="/tags/digital-logic-and-processors/" class="font_size_5">
-                digital logic and processors
-            </a>
-        
-            <a href="/tags/research/" class="font_size_5">
-                research
-            </a>
-        
-            <a href="/tags/summer-training/" class="font_size_5">
-                summer training
-            </a>
-        
-            <a href="/tags/awesome-kits/" class="font_size_4">
-                awesome kits
-            </a>
-        
-            <a href="/tags/programming-utils/" class="font_size_3">
-                programming utils
-            </a>
-        
-            <a href="/tags/c&#43;&#43;/" class="font_size_2">
-                C&#43;&#43;
-            </a>
-        
-            <a href="/tags/csharp/" class="font_size_2">
-                Csharp
-            </a>
-        
-            <a href="/tags/cheatsheet/" class="font_size_1">
-                cheatsheet
-            </a>
-        
-            <a href="/tags/deep-learning/" class="font_size_1">
-                deep learning
-            </a>
-        
-    </div>
-</section>
-            
-        
-    </aside>
-
-
-        </div>
-        <script 
-                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
-                
-                >
-            </script><script type="text/javascript" src="/ts/main.js" defer></script>
-<script>
-    (function () {
-        const customFont = document.createElement('link');
-        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
-
-        customFont.type = "text/css";
-        customFont.rel = "stylesheet";
-
-        document.head.appendChild(customFont);
-    }());
-</script>
-<style>
-    :root {
-        --article-font-family: "Noto Serif SC", var(--base-font-family);
-    }
-</style>
-
-<script>
-		(function () {
-		    const customFont = document.createElement('link');
-		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap";
-		
-		    customFont.type = "text/css";
-		    customFont.rel = "stylesheet";
-		
-		    document.head.appendChild(customFont);
-		}());
-</script>
-
-<script
-    src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
-    async
-></script>
-    </body>
+</body>
 </html>

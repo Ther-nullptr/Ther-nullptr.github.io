@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>study on Ther&#39;s Blog</title>
-        <link>https://ther-nullptr.github.io/categories/study/</link>
-        <description>Recent content in study on Ther&#39;s Blog</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>en-us</language>
-        <lastBuildDate>Sat, 04 Jun 2022 11:43:15 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/categories/study/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Multicycle CPU</title>
-        <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/multicycle_cpu/</link>
-        <pubDate>Sat, 04 Jun 2022 11:43:15 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/multicycle_cpu/</guid>
-        <description>&lt;h1 id=&#34;多周期cpu&#34;&gt;多周期CPU&lt;/h1&gt;
+  <channel>
+    <title>study on Ther&#39;s Blog</title>
+    <link>https://ther-nullptr.github.io/categories/study/</link>
+    <description>Recent content in study on Ther&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 04 Jun 2022 11:43:15 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/categories/study/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Multicycle CPU</title>
+      <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/multicycle_cpu/</link>
+      <pubDate>Sat, 04 Jun 2022 11:43:15 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/multicycle_cpu/</guid>
+      <description>多周期CPU 多周期数据通路     R lw or sw beq J     IF PC&amp;lt;=PC+4; IR &amp;lt;=MemInst[PC]; * * *   ID opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]]; ALUOut&amp;lt;=PC+(signext(IR[15:0]&amp;laquo;2)) * * *   EX ALUOut &amp;lt;= A op B ALUOut&amp;lt;=A+sign-ext(IR[15:0]) if (A=B)PC&amp;lt;=ALUOut PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}   MEM Reg[IR[15:11]]&amp;lt;=ALUOut Lw:MDR&amp;lt;=MemData[ALUOut];Sw:MemData[ALUout] &amp;lt;=B     WB  Reg[IR[20:16]]&amp;lt;=MDR      重点控制信号的周期：
+ IRWrite：在Instruction fench阶段被置为1，但在lw的Memory access阶段被置为0，因为在lw的Register writeback阶段，Instruction Register不能再更新，如果更新的话，会被读出的数据覆盖。 MemRead：在Instruction fench阶段被置为1（用于读取指令），在Instruction decode阶段为0，在lw的Memory access阶段被置为1。 MemWrite：默认0，在sw的Memory access阶段被置为1。 ALUSrc1：在Instruction fench阶段为00（PC），在Execution阶段根据实际情况修改。 ALUSrc2：在Instruction fench阶段为01（4），在Instruction decode阶段为11（imm&amp;laquo;2），在Execution阶段根据实际情况修改。 PCWrite：在Instruction fench阶段为1（PC&amp;lt;=PC+4），在Instruction decode阶段为0，此后若执行跳转类指令则被置为1。 PCSource：默认为00（PC&amp;lt;=PC+4），在Execution阶段视情况改变。 IorD：默认0（取指令），在Memory access阶段被置为1。 PCWriteCond：在beq的Execution阶段被置为1。 MemtoReg：默认00。 RegDst：默认00。 RegWrite：默认0，在jal和jalr以及Register writeback中被置为1。 ExtOp：在Instruction decode阶段被置为1，因为需要算跳转地址。 ALUOp：在Instruction fench和Instruction decode均为00，因为需要执行加法操作；R type被置为10，beq被置为01。  多周期异常和中断处理 异常指内部不可预知事件（溢出，同步），中断指外部不可预知事件（I/O，异步）。</description>
+      <content>&lt;h1 id=&#34;多周期cpu&#34;&gt;多周期CPU&lt;/h1&gt;
 &lt;h2 id=&#34;多周期数据通路&#34;&gt;多周期数据通路&lt;/h2&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -109,45 +112,51 @@
 &lt;p&gt;异常/中断处理程序采取操作，比如可以执行对溢出情况实现定义的一些操作，或者终止程序运行并报告。在异常处理完成后，异常处理程序可以选择终止程序，也可以根据 EPC 存储的指令地址恢复并继续执行程序。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-</description>
-        </item>
-        <item>
-        <title>CPU中的控制信号</title>
-        <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/control_signal/</link>
-        <pubDate>Sat, 04 Jun 2022 10:34:25 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/control_signal/</guid>
-        <description>&lt;h1 id=&#34;控制信号常见答疑&#34;&gt;控制信号常见答疑&lt;/h1&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>CPU中的控制信号</title>
+      <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/control_signal/</link>
+      <pubDate>Sat, 04 Jun 2022 10:34:25 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/control_signal/</guid>
+      <description>控制信号常见答疑 About Extop https://stackoverflow.com/questions/55290060/what-does-extend-immediate-to-32-bits-mean-in-mips
+I-type instructions with 16-bit immediates are different.
+ addi / addiu immediates are sign-extended (by duplicating the top/sign bit of the immediate to all higher bits). https://en.wikipedia.org/wiki/Two%27s_complement#Sign_extension This allows 2&amp;rsquo;s complement numbers from -2^15 .. +2^15-1 to be encoded. (0xFFFF8000 to 0x00007FFF) ori/andi/xori boolean immediates are zero-extended (by setting all higher bits to zero) This allows unsigned / 2&amp;rsquo;s complement numbers from 0 .. 2^16-1 to be encoded.</description>
+      <content>&lt;h1 id=&#34;控制信号常见答疑&#34;&gt;控制信号常见答疑&lt;/h1&gt;
 &lt;h2 id=&#34;about-extop&#34;&gt;About Extop&lt;/h2&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://stackoverflow.com/questions/55290060/what-does-extend-immediate-to-32-bits-mean-in-mips&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://stackoverflow.com/questions/55290060/what-does-extend-immediate-to-32-bits-mean-in-mips&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://stackoverflow.com/questions/55290060/what-does-extend-immediate-to-32-bits-mean-in-mips&#34;&gt;https://stackoverflow.com/questions/55290060/what-does-extend-immediate-to-32-bits-mean-in-mips&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;I-type instructions with 16-bit immediates are different.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;addi&lt;/code&gt; / &lt;code&gt;addiu&lt;/code&gt; immediates are sign-extended (by duplicating the top/sign bit of the immediate to all higher bits). &lt;a class=&#34;link&#34; href=&#34;https://en.wikipedia.org/wiki/Two%27s_complement#Sign_extension&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://en.wikipedia.org/wiki/Two%27s_complement#Sign_extension&lt;/a&gt;
+&lt;li&gt;&lt;code&gt;addi&lt;/code&gt; / &lt;code&gt;addiu&lt;/code&gt; immediates are sign-extended (by duplicating the top/sign bit of the immediate to all higher bits). &lt;a href=&#34;https://en.wikipedia.org/wiki/Two&#39;s_complement#Sign_extension&#34;&gt;https://en.wikipedia.org/wiki/Two%27s_complement#Sign_extension&lt;/a&gt;
 &lt;strong&gt;This allows 2&amp;rsquo;s complement numbers from &lt;code&gt;-2^15&lt;/code&gt; .. &lt;code&gt;+2^15-1&lt;/code&gt; to be encoded.&lt;/strong&gt;
 &lt;strong&gt;(0xFFFF8000 to 0x00007FFF)&lt;/strong&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;ori&lt;/code&gt;/&lt;code&gt;andi&lt;/code&gt;/&lt;code&gt;xori&lt;/code&gt; boolean immediates are zero-extended (by setting all higher bits to zero)
 &lt;strong&gt;This allows unsigned / 2&amp;rsquo;s complement numbers from &lt;code&gt;0 .. 2^16-1&lt;/code&gt; to be encoded.&lt;/strong&gt;
 &lt;strong&gt;(0x00000000 to 0x0000FFFF)&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;For other instructions see this [instruction-set reference](&lt;a class=&#34;link&#34; href=&#34;https://web.cse.ohio-state.edu/~crawfis.3/cse675-02/Slides/MIPS&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://web.cse.ohio-state.edu/~crawfis.3/cse675-02/Slides/MIPS&lt;/a&gt; Instruction Set.pdf) which breaks down each instruction showing 016 || [I15..0] for zero-extension or [I15]16 || [I15..0] for sign-extension.&lt;/p&gt;
+&lt;p&gt;For other instructions see this [instruction-set reference](&lt;a href=&#34;https://web.cse.ohio-state.edu/~crawfis.3/cse675-02/Slides/MIPS&#34;&gt;https://web.cse.ohio-state.edu/~crawfis.3/cse675-02/Slides/MIPS&lt;/a&gt; Instruction Set.pdf) which breaks down each instruction showing 016 || [I15..0] for zero-extension or [I15]16 || [I15..0] for sign-extension.&lt;/p&gt;
 &lt;p&gt;And usually you don&amp;rsquo;t want to raise an exception on signed overflow, so normally compilers use &lt;code&gt;addu&lt;/code&gt; / &lt;code&gt;addiu&lt;/code&gt; even on signed integers. &lt;code&gt;addiu&lt;/code&gt; is badly named: it&amp;rsquo;s not &amp;ldquo;for unsigned integers&amp;rdquo;, it&amp;rsquo;s just a wrapping-allowed / never-faulting version of &lt;code&gt;add&lt;/code&gt;/&lt;code&gt;addi&lt;/code&gt;. It sort of makes sense if you think of C, where signed overflow is undefined behaviour (and thus could use &lt;code&gt;add&lt;/code&gt; and raise an exception in that case if the compiler wanted to implement it that way), but unsigned integers have well-defined overflow behaviour: base 2 wraparound.&lt;/p&gt;
 &lt;h2 id=&#34;可以为x的控制信号&#34;&gt;可以为X的控制信号&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;控制数据来源的信号（&lt;code&gt;RegDst&lt;/code&gt;，&lt;code&gt;MemtoReg&lt;/code&gt;）等，不需要用到时可以为X。&lt;/li&gt;
 &lt;li&gt;控制是否执行某操作（&lt;code&gt;RegWrite&lt;/code&gt;）等，必须为0/1。&lt;/li&gt;
 &lt;/ul&gt;
-</description>
-        </item>
-        <item>
-        <title>MIPS汇编语言</title>
-        <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/assembly/</link>
-        <pubDate>Fri, 03 Jun 2022 00:00:00 +0000</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/assembly/</guid>
-        <description>&lt;h1 id=&#34;处理器&#34;&gt;处理器&lt;/h1&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>MIPS汇编语言</title>
+      <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/assembly/</link>
+      <pubDate>Fri, 03 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/assembly/</guid>
+      <description>处理器 处理器架构  普林斯顿架构：存储器同时存储指令和其他数据 哈佛架构：数据存储和指令存储分开  处理器性能 执行时间 = 指令数 x CPI x 时钟周期
+或： $$ CPI = CPI_1\times p_1+&amp;hellip;+CPI_n\times p_n $$ 性能提升方法：
+ 优化编译技术（减少指令数） 快速电路技术或更为先进的电路结构（减少时钟周期）  寄存器 VS 存储器  寄存器：以编号进行访问，可同时访问不同寄存器。 存储器：以地址进行访问，不可同时访问不同地址，相邻数据的地址相差4字节。  数据单位约定 在32位MIPS中，1 word = 4 bytes = 32 bits，相邻数据的地址相差4字节。
+1 2 3 4 5 6 7 8 9 10 11  #include&amp;lt;stdio.h&amp;gt;int main() { printf(&amp;#34;%d\n&amp;#34;,sizeof(int)); // 4  printf(&amp;#34;%d\n&amp;#34;,sizeof(char)); // 1  printf(&amp;#34;%d\n&amp;#34;,sizeof(unsigned int)); // 4  printf(&amp;#34;%d\n&amp;#34;,sizeof(long int)); // 8  printf(&amp;#34;%d\n&amp;#34;,sizeof(long long int)); // 8  printf(&amp;#34;%d\n&amp;#34;,sizeof(float)); // 4  printf(&amp;#34;%d\n&amp;#34;,sizeof(double)); // 8 }   MIPS汇编指令 汇编优化相关问题   算数&amp;amp;逻辑指令11bit冗余能否利用起来？</description>
+      <content>&lt;h1 id=&#34;处理器&#34;&gt;处理器&lt;/h1&gt;
 &lt;h2 id=&#34;处理器架构&#34;&gt;处理器架构&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;普林斯顿架构：存储器同时存储指令和其他数据&lt;/li&gt;
@@ -241,16 +250,7 @@ $$
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Not Preserved（子程序可以改变这些寄存器的数据，如果主程序要用，需要主程序维护好）&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220603160128725.png&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;image-20220603160128725&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;C:%5CUsers%5C86181%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220603160128725.png&#34; alt=&#34;image-20220603160128725&#34;&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;考虑以下汇编：&lt;/p&gt;
@@ -311,25 +311,23 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description>
-        </item>
-        <item>
-        <title>Cache</title>
-        <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/memory/</link>
-        <pubDate>Tue, 31 May 2022 19:22:17 +0800</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/memory/</guid>
-        <description>&lt;h1 id=&#34;memory&#34;&gt;Memory&lt;/h1&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/UKqomr5ghY8psMx.png&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;存储器结构&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>Cache</title>
+      <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/memory/</link>
+      <pubDate>Tue, 31 May 2022 19:22:17 +0800</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/memory/</guid>
+      <description>Memory RAM random access是指该存储器的所有内容都可以被读取和写入，且与时间和位置无关。
+    SRAM DRAM     中文名 静态随机访问存储器 动态随机访问存储器   速度 快 慢（需要读取内容后刷新、定期刷新）   结构 由MOS管组成的锁存器（6T） 由MOS管和电容实现（1T1C）   容量 小 大   应用 缓存 主存   访问时间 1~10ns 10~100ns    常见问答：
+  DRAM电容量C的权衡：
+ 大电容容量C的优势：提供更长的数据保持时间 大电容容量C的劣势：工艺实现难度加大，密度降低    RAS和CAS均为低电平有效，其中CAS可以作为输出使能信号。
+  cache 原理 存储系统满足局部性原理：
+ 时间局部性——最近的将来要用到的信息很可能就是现在正在使用的信息。主要由循环造成。 空间局部性——最近的将来要用到的信息很可能与现在正在使用的信息在空间上是邻近的。主要由顺序执行和数据的聚集存放造成。  cache的访问时间 一级cache（$r$为访问时间比，$e$为访问效率）： $$ T_A=T_{A1}+(1-H)T_{A2}\ r=\frac{T_{A2}}{T_{A1}}\ e=\frac{T_{A1}}{T_A} = \frac{1}{1+(1-H)r} $$ 二级cache： $$ T_A=T_{A1}+(1-H_1)[T_{A2}+(1-H_2)T_{A3}] $$</description>
+      <content>&lt;h1 id=&#34;memory&#34;&gt;Memory&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/UKqomr5ghY8psMx.png&#34; alt=&#34;存储器结构&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;ram&#34;&gt;RAM&lt;/h2&gt;
 &lt;p&gt;random access是指该存储器的所有内容都可以被读取和写入，且与时间和位置无关。&lt;/p&gt;
 &lt;table&gt;
@@ -416,16 +414,7 @@ $$&lt;/p&gt;
 &lt;li&gt;&lt;strong&gt;cache存储&lt;/strong&gt; （标签）+cache行号+行内地址&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;每个主存块和每个cache行储存的数据相同，两者的数据传输以块/行为单位。其中每个cache行的组成如下：数据+标签+有效位。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/9drX7hg2OSwcqMF.png&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;cache基本结构&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/9drX7hg2OSwcqMF.png&#34; alt=&#34;cache基本结构&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;cache地址映像方式&#34;&gt;cache地址映像方式&lt;/h3&gt;
 &lt;p&gt;三种地址映像方式：&lt;/p&gt;
 &lt;ul&gt;
@@ -439,16 +428,7 @@ $$
 j = i \mod N \
 i = j+Nk(k=0,1..)
 $$
-&lt;img src=&#34;https://s2.loli.net/2022/06/15/N1X9zWl4qwVax3g.png&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;cache地址示例&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;img src=&#34;https://s2.loli.net/2022/06/15/N1X9zWl4qwVax3g.png&#34; alt=&#34;cache地址示例&#34;&gt;&lt;/p&gt;
 &lt;p&gt;可以直接写成AB、AC，但是只适用于直接映像。&lt;/p&gt;
 &lt;p&gt;对于32位内存系统，假设cache每行有$x$byte，cache共$y$行，则低$\log_2x$位为块内地址，中间$\log_2y$位为cache行号，剩下$(32-\log_2x-\log_2y)$位为主存标签。&lt;/p&gt;
 &lt;p&gt;在这种情况下，由于每行cache的数据有$4x$bit，还有1 bit有效位，所以cache的实际总位数为：
@@ -457,28 +437,10 @@ y[4x+1+(32-\log_2x-\log_2y)]
 $$
 注意到cache每行至少储存1个word，所以$x$一定是4的倍数，地址的后两位一定是0。载入cache数据时仍然以word为单位进行载入。&lt;/p&gt;
 &lt;h4 id=&#34;全相联映像&#34;&gt;全相联映像&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/X62E9o4nNxIMOyf.png&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;cache地址示例&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/X62E9o4nNxIMOyf.png&#34; alt=&#34;cache地址示例&#34;&gt;&lt;/p&gt;
 &lt;p&gt;对于32位内存系统，假设cache每行有$x$byte，则低$\log_2x$位为块内地址，剩下$(32-\log_2x)$位作为主存标签。&lt;/p&gt;
 &lt;h4 id=&#34;组相联映像&#34;&gt;组相联映像&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/V7rBYOEQ2Uquf1d.png&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;cache地址示例&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/V7rBYOEQ2Uquf1d.png&#34; alt=&#34;cache地址示例&#34;&gt;&lt;/p&gt;
 &lt;p&gt;对于32位内存系统，假设cache每行有$x$byte，cache共$y$行，$z$路组相连，则低$\log_2x$位为块内地址，中间$\log_2(\frac{y}{z})$位作为cache组号，剩下$(32-\log_2x-\log_2(\frac{y}{z}))$位作为主存标签。&lt;/p&gt;
 &lt;p&gt;直接映像为$z=1$，全相联映像为$z=y$。&lt;/p&gt;
 &lt;h3 id=&#34;cache数据替换&#34;&gt;cache数据替换&lt;/h3&gt;
@@ -542,15 +504,21 @@ $$
 &lt;li&gt;容量缺失：由于cache容纳不了程序所需的所有主存块而引起的缺失。&lt;/li&gt;
 &lt;li&gt;冲突缺失：在组相联或者直接映像中，多个的主存块竞争同一个cache组时引起的缺失，也称碰撞缺失。&lt;/li&gt;
 &lt;/ul&gt;
-</description>
-        </item>
-        <item>
-        <title>Pipeline CPU</title>
-        <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/pipeline_cpu/</link>
-        <pubDate>Tue, 31 May 2022 00:00:00 +0000</pubDate>
-        
-        <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/pipeline_cpu/</guid>
-        <description>&lt;h1 id=&#34;流水线计算公式&#34;&gt;流水线计算公式&lt;/h1&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Pipeline CPU</title>
+      <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/pipeline_cpu/</link>
+      <pubDate>Tue, 31 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/pipeline_cpu/</guid>
+      <description>流水线计算公式 $n$为指令数，$k$为流水线级数，级间延时$\Delta t$。
+实际吞吐率（单位时间内流水线处理的指令数）： $$ TP=\frac{n}{(k+n-1)\Delta t} $$ 最大吞吐率： $$ TP_{max} = \frac{1}{\Delta t} $$ 实际加速比： $$ S = \frac{kn}{k+n-1} $$ 最大加速比： $$ S_{max}=k $$
+流水线中控制信号的流动 控制信号在IF之后的ID/RF阶段产生。
+ ID/RF：Extop EX：ALUSrc、ALUOp、RegDst？？ MEM：MemWrite、Branch WB：MemToReg、RegWrite  流水线中的冒险 首先列出未冒险时流水线CPU在各步中进行的操作：
+    R lw or sw beq J     IF PC&amp;lt;=PC+4; IR &amp;lt;=MemInst[PC] * * *   ID opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]]; ALUOut&amp;lt;=PC+(signext(IR[15:0]&amp;lt;&amp;lt;2)) * * PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}   EX ALUOut &amp;lt;= A op B ALUOut&amp;lt;=A+sign-ext(IR[15:0]) if (A=B)PC&amp;lt;=ALUOut    MEM Reg[IR[15:11]]&amp;lt;=ALUOut Lw:MDR&amp;lt;=MemData[ALUOut];Sw:MemData[ALUout] &amp;lt;=B     WB  Reg[IR[20:16]] &amp;lt;=MDR      结构冒险 problem 流水线处理器中直接取消了InstMemory和DataMemory混用的做法，因此不必担心存储器访问的冲突。</description>
+      <content>&lt;h1 id=&#34;流水线计算公式&#34;&gt;流水线计算公式&lt;/h1&gt;
 &lt;p&gt;$n$为指令数，$k$为流水线级数，级间延时$\Delta t$。&lt;/p&gt;
 &lt;p&gt;实际吞吐率（单位时间内流水线处理的指令数）：
 $$
@@ -1756,16 +1724,7 @@ $$&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;数据冒险&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/IBAWylfu5XLO8Eg.png&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;转发1&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/IBAWylfu5XLO8Eg.png&#34; alt=&#34;转发1&#34;&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A2-&amp;gt;B1 R型的前前条为R型&lt;/li&gt;
 &lt;li&gt;A3-&amp;gt;B1 R型的前条为R型&lt;/li&gt;
@@ -1775,16 +1734,7 @@ $$&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;控制冒险(beq)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/DFGkKoyB5pOgaLM.png&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;转发2&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/DFGkKoyB5pOgaLM.png&#34; alt=&#34;转发2&#34;&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A2-&amp;gt;B0 beq的前前条为R型，可以使用转发解决&lt;/li&gt;
 &lt;li&gt;A3-&amp;gt;B0 beq的前前条为lw，需要stall 2个周期&lt;/li&gt;
@@ -2027,16 +1977,7 @@ $$&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;超标量&lt;/strong&gt; 动态决定哪些指令同时执行 （在运行时由硬件决定）。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/6StxiOn9mB8sNej.png&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;RAW,WAW,WAR&#34;
-	
-	
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/6StxiOn9mB8sNej.png&#34; alt=&#34;RAW,WAW,WAR&#34;&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;IOI-IOC,IOI-OOC,OOI-OOC&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -2051,8 +1992,8 @@ S=\frac{1}{(1-a)+\frac{a}{n}}
 $$&lt;/p&gt;
 &lt;h2 id=&#34;异构计算&#34;&gt;异构计算&lt;/h2&gt;
 &lt;p&gt;单指令流多数据流，具有更大的并行度，设计相对比较简单。&lt;/p&gt;
-</description>
-        </item>
-        
-    </channel>
+</content>
+    </item>
+    
+  </channel>
 </rss>
