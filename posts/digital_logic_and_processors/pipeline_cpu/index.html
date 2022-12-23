@@ -1,186 +1,380 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  
-    <title>Pipeline CPU :: Ther&#39;s Blog</title>
-  
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="流水线计算公式 $n$为指令数，$k$为流水线级数，级间延时$\Delta t$。
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='流水线计算公式 $n$为指令数，$k$为流水线级数，级间延时$\Delta t$。
 实际吞吐率（单位时间内流水线处理的指令数）： $$ TP=\frac{n}{(k&#43;n-1)\Delta t} $$ 最大吞吐率： $$ TP_{max} = \frac{1}{\Delta t} $$ 实际加速比： $$ S = \frac{kn}{k&#43;n-1} $$ 最大加速比： $$ S_{max}=k $$
 流水线中控制信号的流动 控制信号在IF之后的ID/RF阶段产生。
  ID/RF：Extop EX：ALUSrc、ALUOp、RegDst？？ MEM：MemWrite、Branch WB：MemToReg、RegWrite  流水线中的冒险 首先列出未冒险时流水线CPU在各步中进行的操作：
-    R lw or sw beq J     IF PC&amp;lt;=PC&#43;4; IR &amp;lt;=MemInst[PC] * * *   ID opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]]; ALUOut&amp;lt;=PC&#43;(signext(IR[15:0]&amp;lt;&amp;lt;2)) * * PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}   EX ALUOut &amp;lt;= A op B ALUOut&amp;lt;=A&#43;sign-ext(IR[15:0]) if (A=B)PC&amp;lt;=ALUOut    MEM Reg[IR[15:11]]&amp;lt;=ALUOut Lw:MDR&amp;lt;=MemData[ALUOut];Sw:MemData[ALUout] &amp;lt;=B     WB  Reg[IR[20:16]] &amp;lt;=MDR      结构冒险 problem 流水线处理器中直接取消了InstMemory和DataMemory混用的做法，因此不必担心存储器访问的冲突。" />
-<meta name="keywords" content="study" />
-<meta name="robots" content="noodp" />
-<link rel="canonical" href="https://ther-nullptr.github.io/posts/digital_logic_and_processors/pipeline_cpu/" />
+    R lw or sw beq J     IF PC&amp;lt;=PC&#43;4; IR &amp;lt;=MemInst[PC] * * *   ID opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]]; ALUOut&amp;lt;=PC&#43;(signext(IR[15:0]&amp;lt;&amp;lt;2)) * * PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}   EX ALUOut &amp;lt;= A op B ALUOut&amp;lt;=A&#43;sign-ext(IR[15:0]) if (A=B)PC&amp;lt;=ALUOut    MEM Reg[IR[15:11]]&amp;lt;=ALUOut Lw:MDR&amp;lt;=MemData[ALUOut];Sw:MemData[ALUout] &amp;lt;=B     WB  Reg[IR[20:16]] &amp;lt;=MDR      结构冒险 problem 流水线处理器中直接取消了InstMemory和DataMemory混用的做法，因此不必担心存储器访问的冲突。'><title>Pipeline CPU</title>
 
+<link rel='canonical' href='https://ther-nullptr.github.io/posts/digital_logic_and_processors/pipeline_cpu/'>
 
-
-
-<link rel="stylesheet" href="https://ther-nullptr.github.io/assets/style.css">
-
-  <link rel="stylesheet" href="assets/%25!s%28%3cnil%3e%29.css">
-
-
-
-
-
-
-<link rel="apple-touch-icon" href="https://ther-nullptr.github.io/img/apple-touch-icon-192x192.png">
-
-  <link rel="shortcut icon" href="https://ther-nullptr.github.io/">
-
-
-
-<meta name="twitter:card" content="summary" />
-
-
-
-<meta property="og:locale" content="en" />
-<meta property="og:type" content="article" />
-<meta property="og:title" content="Pipeline CPU">
-<meta property="og:description" content="流水线计算公式 $n$为指令数，$k$为流水线级数，级间延时$\Delta t$。
+<link rel="stylesheet" href="/scss/style.min.cbd65bb3bdc1206609e44b215380d6562914c436bb43c31b46c17b42ed80a9f5.css"><meta property='og:title' content='Pipeline CPU'>
+<meta property='og:description' content='流水线计算公式 $n$为指令数，$k$为流水线级数，级间延时$\Delta t$。
 实际吞吐率（单位时间内流水线处理的指令数）： $$ TP=\frac{n}{(k&#43;n-1)\Delta t} $$ 最大吞吐率： $$ TP_{max} = \frac{1}{\Delta t} $$ 实际加速比： $$ S = \frac{kn}{k&#43;n-1} $$ 最大加速比： $$ S_{max}=k $$
 流水线中控制信号的流动 控制信号在IF之后的ID/RF阶段产生。
  ID/RF：Extop EX：ALUSrc、ALUOp、RegDst？？ MEM：MemWrite、Branch WB：MemToReg、RegWrite  流水线中的冒险 首先列出未冒险时流水线CPU在各步中进行的操作：
-    R lw or sw beq J     IF PC&amp;lt;=PC&#43;4; IR &amp;lt;=MemInst[PC] * * *   ID opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]]; ALUOut&amp;lt;=PC&#43;(signext(IR[15:0]&amp;lt;&amp;lt;2)) * * PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}   EX ALUOut &amp;lt;= A op B ALUOut&amp;lt;=A&#43;sign-ext(IR[15:0]) if (A=B)PC&amp;lt;=ALUOut    MEM Reg[IR[15:11]]&amp;lt;=ALUOut Lw:MDR&amp;lt;=MemData[ALUOut];Sw:MemData[ALUout] &amp;lt;=B     WB  Reg[IR[20:16]] &amp;lt;=MDR      结构冒险 problem 流水线处理器中直接取消了InstMemory和DataMemory混用的做法，因此不必担心存储器访问的冲突。" />
-<meta property="og:url" content="https://ther-nullptr.github.io/posts/digital_logic_and_processors/pipeline_cpu/" />
-<meta property="og:site_name" content="Ther&#39;s Blog" />
+    R lw or sw beq J     IF PC&amp;lt;=PC&#43;4; IR &amp;lt;=MemInst[PC] * * *   ID opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]]; ALUOut&amp;lt;=PC&#43;(signext(IR[15:0]&amp;lt;&amp;lt;2)) * * PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}   EX ALUOut &amp;lt;= A op B ALUOut&amp;lt;=A&#43;sign-ext(IR[15:0]) if (A=B)PC&amp;lt;=ALUOut    MEM Reg[IR[15:11]]&amp;lt;=ALUOut Lw:MDR&amp;lt;=MemData[ALUOut];Sw:MemData[ALUout] &amp;lt;=B     WB  Reg[IR[20:16]] &amp;lt;=MDR      结构冒险 problem 流水线处理器中直接取消了InstMemory和DataMemory混用的做法，因此不必担心存储器访问的冲突。'>
+<meta property='og:url' content='https://ther-nullptr.github.io/posts/digital_logic_and_processors/pipeline_cpu/'>
+<meta property='og:site_name' content='Ther&#39;s Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='digital logic and processors' /><meta property='article:published_time' content='2022-05-31T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2022-05-31T00:00:00&#43;00:00'/>
+<meta name="twitter:site" content="@AdobePython">
+    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="Pipeline CPU">
+<meta name="twitter:description" content="流水线计算公式 $n$为指令数，$k$为流水线级数，级间延时$\Delta t$。
+实际吞吐率（单位时间内流水线处理的指令数）： $$ TP=\frac{n}{(k&#43;n-1)\Delta t} $$ 最大吞吐率： $$ TP_{max} = \frac{1}{\Delta t} $$ 实际加速比： $$ S = \frac{kn}{k&#43;n-1} $$ 最大加速比： $$ S_{max}=k $$
+流水线中控制信号的流动 控制信号在IF之后的ID/RF阶段产生。
+ ID/RF：Extop EX：ALUSrc、ALUOp、RegDst？？ MEM：MemWrite、Branch WB：MemToReg、RegWrite  流水线中的冒险 首先列出未冒险时流水线CPU在各步中进行的操作：
+    R lw or sw beq J     IF PC&amp;lt;=PC&#43;4; IR &amp;lt;=MemInst[PC] * * *   ID opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]]; ALUOut&amp;lt;=PC&#43;(signext(IR[15:0]&amp;lt;&amp;lt;2)) * * PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}   EX ALUOut &amp;lt;= A op B ALUOut&amp;lt;=A&#43;sign-ext(IR[15:0]) if (A=B)PC&amp;lt;=ALUOut    MEM Reg[IR[15:11]]&amp;lt;=ALUOut Lw:MDR&amp;lt;=MemData[ALUOut];Sw:MemData[ALUout] &amp;lt;=B     WB  Reg[IR[20:16]] &amp;lt;=MDR      结构冒险 problem 流水线处理器中直接取消了InstMemory和DataMemory混用的做法，因此不必担心存储器访问的冲突。"><style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
 
-  
-    <meta property="og:image" content="https://ther-nullptr.github.io/">
-  
+<script>
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap";
+		
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
 
-<meta property="og:image:width" content="2048">
-<meta property="og:image:height" content="1024">
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
 
-  <meta property="article:section" content="study" />
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/Ther_hu05dc40a2635fa510e0ad5a0d57bec723_1205262_300x0_resize_box_3.png" width="300"
+                            height="272" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Ther&#39;s Blog</a></h1>
+            <h2 class="site-description">萌生此等惬意，实乃徒增彷徨。</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/Ther-nullptr'
+                        target="_blank"
+                        title="GitHub"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
 
 
-  <meta property="article:published_time" content="2022-05-31 00:00:00 &#43;0000 UTC" />
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.instagram.com/donald.biden.18/'
+                        target="_blank"
+                        title="Instagram"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="4" y="4" width="16" height="16" rx="4" />
+  <circle cx="12" cy="12" r="3" />
+  <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com/AdobePython'
+                        target="_blank"
+                        title="Twitter"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
 
 
 
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li  class='current' >
+            <a href='/posts/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
 
 
 
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
 
 
 
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
 
 
 
-</head>
-<body class="">
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
 
 
-<div class="container headings--one-size">
 
-  <header class="header">
-  <div class="header__inner">
-    <div class="header__logo">
-      <a href="https://ther-nullptr.github.io/">
-  <div class="logo">
-    Terminal
-  </div>
-</a>
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
 
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://ther-nullptr.github.io/" selected>English</option>
+                        
+                            <option value="https://ther-nullptr.github.io/zh-cn/" >中文</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/study/" >
+                study
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/posts/digital_logic_and_processors/pipeline_cpu/">Pipeline CPU</a>
+        </h2>
+    
+        
     </div>
+
     
-      <div class="menu-trigger">menu</div>
-    
-  </div>
-  
-    <nav class="menu">
-  <ul class="menu__inner menu__inner--desktop">
-    
-      
+    <footer class="article-time">
         
-          <li><a href="/posts/">Home</a></li>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 31, 2022</time>
+            </div>
         
-      
+
         
-          <li><a href="/about/">About</a></li>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    5 minute read
+                </time>
+            </div>
         
-      
-        
-          <li><a href="/archives/">Archives</a></li>
-        
-      
-        
-          <li><a href="/search/">Search</a></li>
-        
-      
-        
-          <li><a href="/links/">Links</a></li>
-        
-      
+    </footer>
     
 
     
-  </ul>
-
-  <ul class="menu__inner menu__inner--mobile">
-    
-      
-        <li><a href="/posts/">Home</a></li>
-      
-    
-      
-        <li><a href="/about/">About</a></li>
-      
-    
-      
-        <li><a href="/archives/">Archives</a></li>
-      
-    
-      
-        <li><a href="/search/">Search</a></li>
-      
-    
-      
-        <li><a href="/links/">Links</a></li>
-      
-    
-    
-  </ul>
-</nav>
-
-  
+</div>
 </header>
 
-
-  <div class="content">
-    
-<div class="post">
-  <h1 class="post-title">
-    <a href="https://ther-nullptr.github.io/posts/digital_logic_and_processors/pipeline_cpu/">Pipeline CPU</a></h1>
-  <div class="post-meta">
-    
-      <span class="post-date">
-        2022-05-31
-        
-      </span>
+    <section class="article-content">
     
     
-    
-  </div>
-
-  
-  <span class="post-tags">
-    
-    #<a href="https://ther-nullptr.github.io/tags/digital-logic-and-processors/">digital logic and processors</a>&nbsp;
-    
-  </span>
-  
-  
-
-
-  
-
-  <div class="post-content"><div>
-        <h1 id="流水线计算公式">流水线计算公式<a href="#流水线计算公式" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+    <h1 id="流水线计算公式">流水线计算公式</h1>
 <p>$n$为指令数，$k$为流水线级数，级间延时$\Delta t$。</p>
 <p>实际吞吐率（单位时间内流水线处理的指令数）：
 $$
@@ -198,7 +392,7 @@ $$
 $$
 S_{max}=k
 $$</p>
-<h1 id="流水线中控制信号的流动">流水线中控制信号的流动<a href="#流水线中控制信号的流动" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<h1 id="流水线中控制信号的流动">流水线中控制信号的流动</h1>
 <p>控制信号在IF之后的ID/RF阶段产生。</p>
 <ul>
 <li>ID/RF：Extop</li>
@@ -206,9 +400,9 @@ $$</p>
 <li>MEM：MemWrite、Branch</li>
 <li>WB：MemToReg、RegWrite</li>
 </ul>
-<h1 id="流水线中的冒险">流水线中的冒险<a href="#流水线中的冒险" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<h1 id="流水线中的冒险">流水线中的冒险</h1>
 <p>首先列出未冒险时流水线CPU在各步中进行的操作：</p>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -255,9 +449,9 @@ $$</p>
 <td></td>
 </tr>
 </tbody>
-</table>
-<h2 id="结构冒险">结构冒险<a href="#结构冒险" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<h3 id="problem">problem<a href="#problem" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+</table></div>
+<h2 id="结构冒险">结构冒险</h2>
+<h3 id="problem">problem</h3>
 <p>流水线处理器中直接取消了InstMemory和DataMemory混用的做法，因此不必担心存储器访问的冲突。</p>
 <ol>
 <li>ALU使用冲突。考虑下列指令：</li>
@@ -287,7 +481,7 @@ $$</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>当add指令执行完MEM时，lw指令执行完WB，寄存器写入数据产生冲突的结果。</p>
-<h3 id="solution">solution<a href="#solution" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h3 id="solution">solution</h3>
 <ol>
 <li>
 <p>ALU使用冲突：</p>
@@ -300,7 +494,7 @@ $$</p>
 </li>
 </ol>
 <p>更新后的操作如下：</p>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -347,10 +541,10 @@ $$</p>
 <td></td>
 </tr>
 </tbody>
-</table>
-<h2 id="数据冒险">数据冒险<a href="#数据冒险" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+</table></div>
+<h2 id="数据冒险">数据冒险</h2>
 <p>无法得到所需的数据而导致不能执行后续指令。数据冒险面对的是<strong>操作数是否已经更新</strong>的问题。</p>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -397,9 +591,9 @@ $$</p>
 <td></td>
 </tr>
 </tbody>
-</table>
-<h3 id="read-after-write-data-hazardsraw">Read after write data hazards(RAW)<a href="#read-after-write-data-hazardsraw" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
-<h4 id="硬件优化">硬件优化<a href="#硬件优化" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+</table></div>
+<h3 id="read-after-write-data-hazardsraw">Read after write data hazards(RAW)</h3>
+<h4 id="硬件优化">硬件优化</h4>
 <p>考虑以下指令：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -412,7 +606,7 @@ $$</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><em>before:</em></p>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -467,7 +661,7 @@ $$</p>
 <td>MEM</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>注意到第一条指令在WB阶段将结果写回寄存器（注意已经不是MEM阶段了！），而第二条指令在ID阶段读取寄存器。可以不修改数据通路，但是需要保证寄存器先写后读（否则需要阻塞3个周期）。</p>
 <blockquote>
 <p>实现方法：</p>
@@ -476,7 +670,7 @@ $$</p>
 <li>比较写入地址和读取地址，当两者相同且要写入寄存器堆时，读取端的数据直接选择为写入端的数据而不从寄存器堆中读取。</li>
 </ol>
 </blockquote>
-<h4 id="forward转发">Forward(转发)<a href="#forward转发" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<h4 id="forward转发">Forward(转发)</h4>
 <p>考虑以下指令：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -491,7 +685,7 @@ $$</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><em>after:</em></p>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -536,11 +730,11 @@ $$</p>
 <td>WB</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>指令1在WB阶段写入r1寄存器，但指令2、3在ID阶段就要用到r1。不过实际上在指令的EX阶段该数值就已经计算完毕，需要在指令2、3的EX阶段用到。</p>
 <p>对于指令2，EX的操作数来源于EX/MEM.ALUOut；对于指令3，EX的操作数来源于MEM/WB.ALUOut；</p>
-<h3 id="load-use-data-hazardlw-calculate-type">Load-use data hazard(lw-calculate type)<a href="#load-use-data-hazardlw-calculate-type" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
-<h4 id="forward">Forward<a href="#forward" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<h3 id="load-use-data-hazardlw-calculate-type">Load-use data hazard(lw-calculate type)</h3>
+<h4 id="forward">Forward</h4>
 <p>考虑以下指令：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -555,7 +749,7 @@ $$</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><em>before:</em></p>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -620,9 +814,9 @@ $$</p>
 <td>EX</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p><em>after:</em></p>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -677,11 +871,11 @@ $$</p>
 <td>MEM</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>lw后r1的新值在MEM阶段后产生，随后被转发至MDR（注意此处的MDR与多周期中的MDR不同，此处的MDR应该是MEM/WB的一部分）中，在下个周期供sub的EX阶段使用。</p>
 <p>上述方法必须使用一次stall，可以重排指令，在lw之后运行一条不依赖r1寄存器的指令。</p>
 <p>更新后的操作如下：</p>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -728,8 +922,8 @@ $$</p>
 <td></td>
 </tr>
 </tbody>
-</table>
-<h3 id="load-use-data-hazardlw-sw-type">Load-use data hazard(lw-sw type)<a href="#load-use-data-hazardlw-sw-type" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+</table></div>
+<h3 id="load-use-data-hazardlw-sw-type">Load-use data hazard(lw-sw type)</h3>
 <p>考虑以下指令：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -742,7 +936,7 @@ $$</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><em>before</em></p>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -787,9 +981,9 @@ $$</p>
 <td>WB</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p><em>after</em></p>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -824,7 +1018,7 @@ $$</p>
 <td></td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>lw在MEM阶段结束后更新a0的值，此时可以直接转发给sw，以供在下一时钟周期存入存储器。</p>
 <blockquote>
 <p>注意与以下情景做区分：</p>
@@ -840,9 +1034,9 @@ $$</p>
 </div>
 </div><p>这就不是lw-sw type了，解决方案见lw-calculate type。</p>
 </blockquote>
-<h2 id="控制冒险">控制冒险<a href="#控制冒险" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h2 id="控制冒险">控制冒险</h2>
 <p>取到的指令可能不是所需要的，导致指令不能在预定的时钟周期内执行。控制冒险面对的是<strong>下一条指令的PC是多少</strong>的问题。</p>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -889,8 +1083,8 @@ $$</p>
 <td></td>
 </tr>
 </tbody>
-</table>
-<h3 id="beq-hazard">beq hazard<a href="#beq-hazard" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+</table></div>
+<h3 id="beq-hazard">beq hazard</h3>
 <p>考虑如下指令：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -903,7 +1097,7 @@ $$</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><em>before:</em></p>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -968,11 +1162,11 @@ $$</p>
 <td>EX</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>beq在MEM阶段才执行跳转，在WB阶段将目标地址写入PC，写入PC后下一条指令在IF阶段取用PC，默认情况下需要stall 3个周期，否则下一条指令执行可能会发生错误。</p>
 <p>但实际上判断是否需要跳转的所有条件在EX阶段执行后就可以全部掌握，可以将ALUOut转发的结果转发至IF，这样只需要stall 2个周期。</p>
 <p><em>after(v1):</em></p>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -1027,9 +1221,9 @@ $$</p>
 <td>MEM</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>实际上，也可以将分支判断移动到ID阶段：</p>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -1076,7 +1270,7 @@ $$</p>
 <td></td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>但是可能会带来一些新的问题：</p>
 <ol>
 <li>
@@ -1087,7 +1281,7 @@ $$</p>
 <ul>
 <li>beq前1条指令为R type指令，stall 1个周期（1EX-&gt;2ID）</li>
 </ul>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -1132,11 +1326,11 @@ $$</p>
 <td>WB</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <ul>
 <li>beq前1条指令为lw指令，stall 2个周期（1MEM-&gt;2ID）</li>
 </ul>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -1191,11 +1385,11 @@ $$</p>
 <td>MEM</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <ul>
 <li>beq前2条指令为lw指令，stall 1个周期（1MEM-&gt;3ID）</li>
 </ul>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -1250,13 +1444,13 @@ $$</p>
 <td>MEM</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 </li>
 </ol>
-<h4 id="延迟槽技术">延迟槽技术<a href="#延迟槽技术" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<h4 id="延迟槽技术">延迟槽技术</h4>
 <p>即使将beq的判断前移到ID阶段，在beq之后也必须stall一个周期。可以在stall周期内执行一些必定要执行的指令，这就是<strong>延迟槽技术</strong>。</p>
 <p>无特殊说明使用延迟槽技术的情况下，即使beq后面的指令必定执行，也必须要stall。</p>
-<h4 id="预测">预测<a href="#预测" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h4>
+<h4 id="预测">预测</h4>
 <ul>
 <li>静态预测：总预测分支不执行或者执行，错误则撤销指令。若预测失误会导致不必要的流水线重置。</li>
 <li>动态预测：在IF阶段进行分支预测缓存，可以用PC（或者PC的低位地址）为索引，记录过去是否跳转。</li>
@@ -1274,7 +1468,7 @@ $$</p>
 </li>
 </ol>
 </blockquote>
-<h3 id="j-hazard">j hazard<a href="#j-hazard" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h3 id="j-hazard">j hazard</h3>
 <p>考虑如下指令：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1286,7 +1480,7 @@ $$</p>
 </span></span><span class="line"><span class="cl"><span class="nf">add</span> <span class="no">$t3</span><span class="p">,</span><span class="no">$t1</span><span class="p">,</span><span class="no">$t2</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><table>
+</div><div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -1331,11 +1525,11 @@ $$</p>
 <td>WB</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>j在ID阶段完成目标地址的计算，需要stall一个周期。</p>
 <p>**但这种做法是错误的！**因为流水线直到ID阶段才能知道取出的指令为j，而此时下一条指令只能已经从指令存储中取出，<strong>只能延后执行，而不能不执行</strong>。</p>
 <p>于是我们不进行硬件阻塞。j指令执行完ID阶段时，可以判断出执行的是j指令，此时下一条指令（实际上不会执行）也执行完IF阶段，但之后的步骤都会被flush掉，ID阶段生成的新地址也被用于载入下下一条指令。从时间上看还是stall了一个周期。</p>
-<table>
+<div class="table-wrapper"><table>
 <thead>
 <tr>
 <th></th>
@@ -1380,13 +1574,22 @@ $$</p>
 <td>WB</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <blockquote>
 <p><strong>转发方式总结</strong></p>
 <ul>
 <li>数据冒险</li>
 </ul>
-<p><img src="https://s2.loli.net/2022/06/15/IBAWylfu5XLO8Eg.png" alt="转发1"></p>
+<p><img src="https://s2.loli.net/2022/06/15/IBAWylfu5XLO8Eg.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="转发1"
+	
+	
+></p>
 <ul>
 <li>A2-&gt;B1 R型的前前条为R型</li>
 <li>A3-&gt;B1 R型的前条为R型</li>
@@ -1396,7 +1599,16 @@ $$</p>
 <ul>
 <li>控制冒险(beq)</li>
 </ul>
-<p><img src="https://s2.loli.net/2022/06/15/DFGkKoyB5pOgaLM.png" alt="转发2"></p>
+<p><img src="https://s2.loli.net/2022/06/15/DFGkKoyB5pOgaLM.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="转发2"
+	
+	
+></p>
 <ul>
 <li>A2-&gt;B0 beq的前前条为R型，可以使用转发解决</li>
 <li>A3-&gt;B0 beq的前前条为lw，需要stall 2个周期</li>
@@ -1405,9 +1617,9 @@ $$</p>
 </ul>
 <p>注意在转发时不能跨时钟周期转发，比如上上条指令ALU的结果输出不能直接转发，必须要经过MEM/WB寄存器。</p>
 </blockquote>
-<h1 id="考虑冒险的数据通路设计">考虑冒险的数据通路设计<a href="#考虑冒险的数据通路设计" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
-<h2 id="forward-unit">Forward Unit<a href="#forward-unit" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<h3 id="r-r-type1">R-R type(1)<a href="#r-r-type1" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h1 id="考虑冒险的数据通路设计">考虑冒险的数据通路设计</h1>
+<h2 id="forward-unit">Forward Unit</h2>
+<h3 id="r-r-type1">R-R type(1)</h3>
 <p>若R型的前条为R型，则可能需要从EX_MEM寄存器中转发至EX阶段：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1431,7 +1643,7 @@ $$</p>
 </span></span><span class="line"><span class="cl">	<span class="n">ForwardB</span> <span class="o">=</span> <span class="mh">10</span><span class="p">;</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="r-r-type2">R-R type(2)<a href="#r-r-type2" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+</div><h3 id="r-r-type2">R-R type(2)</h3>
 <p>若R型的前前条为R型，则可能需要从MEM_WB寄存器中转发至EX阶段：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1499,7 +1711,7 @@ $$</p>
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="lw-sw-type">lw-sw type<a href="#lw-sw-type" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+</div><h3 id="lw-sw-type">lw-sw type</h3>
 <p>若sw的前条为lw，则可能需要从MEM/WB寄存器中转发至MEM阶段：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1538,7 +1750,7 @@ $$</p>
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="beq">beq<a href="#beq" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+</div><h3 id="beq">beq</h3>
 <p>若beq的前前一条指令为R type，则需要将EX_MEM中的ALU计算结果转发至ID阶段：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1573,8 +1785,8 @@ $$</p>
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="hazard-unit">Hazard Unit<a href="#hazard-unit" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<h3 id="lw-r-type">lw-R type<a href="#lw-r-type" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+</div><h2 id="hazard-unit">Hazard Unit</h2>
+<h3 id="lw-r-type">lw-R type</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1589,7 +1801,7 @@ $$</p>
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">stall</span> <span class="o">=</span> <span class="mh">5</span><span class="mb">&#39;b11000</span><span class="p">;</span> <span class="c1">// stall IF and ID
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="beq-1">beq<a href="#beq-1" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+</div><h3 id="beq-1">beq</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1609,7 +1821,7 @@ $$</p>
 </div><blockquote>
 <p>当 beq 前一条指令为 lw 指令时，我们阻塞流水线一个周期，在 lw 和 beq 中间插入一个气泡。此时这一情况自动退化为前前一条指令为 lw 的情况，会被上述逻辑再次处理，因此最终还是会完成 2 个周期的阻塞。</p>
 </blockquote>
-<h2 id="flush-unit">Flush Unit<a href="#flush-unit" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h2 id="flush-unit">Flush Unit</h2>
 <p>使用<code>flush[i]</code>清除第<code>i</code>级流水线上执行的指令（对应4级流水寄存器以及最终写回的寄存器堆）：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1623,15 +1835,15 @@ $$</p>
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h1 id="流水线cpu异常处理">流水线CPU异常处理<a href="#流水线cpu异常处理" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+</div><h1 id="流水线cpu异常处理">流水线CPU异常处理</h1>
 <p>假设有3种异常：badop，IRQ（外部中断），ALUExp。</p>
 <p>Exception被放置在EX阶段，因此badop要经过一次ID/EX寄存器。</p>
 <p>触发异常时，该单元会flush掉当前指令的EX/MEM寄存器，下条指令的ID/EX寄存器，下下条指令的IF/ID寄存器。（注意flush由hazard和exception单元共同控制）</p>
-<h1 id="扩展技术">扩展技术<a href="#扩展技术" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
-<h2 id="指令级并行">指令级并行<a href="#指令级并行" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<h3 id="超级流水线">超级流水线<a href="#超级流水线" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h1 id="扩展技术">扩展技术</h1>
+<h2 id="指令级并行">指令级并行</h2>
+<h3 id="超级流水线">超级流水线</h3>
 <p>用于缩短时钟周期。</p>
-<h3 id="多发射">多发射<a href="#多发射" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h3 id="多发射">多发射</h3>
 <p>用于降低CPI。</p>
 <ul>
 <li>
@@ -1639,57 +1851,438 @@ $$</p>
 </li>
 <li>
 <p><strong>超标量</strong> 动态决定哪些指令同时执行 （在运行时由硬件决定）。</p>
-<p><img src="https://s2.loli.net/2022/06/15/6StxiOn9mB8sNej.png" alt="RAW,WAW,WAR"></p>
+<p><img src="https://s2.loli.net/2022/06/15/6StxiOn9mB8sNej.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="RAW,WAW,WAR"
+	
+	
+></p>
 <blockquote>
 <p>IOI-IOC,IOI-OOC,OOI-OOC</p>
 </blockquote>
 </li>
 </ul>
-<h2 id="线程级并行">线程级并行<a href="#线程级并行" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<h3 id="超线程">超线程<a href="#超线程" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
-<h3 id="多核处理器">多核处理器<a href="#多核处理器" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<h2 id="线程级并行">线程级并行</h2>
+<h3 id="超线程">超线程</h3>
+<h3 id="多核处理器">多核处理器</h3>
 <p>$a$为并行部分的比例，$n$为并行部分的加速比。
 $$
 S=\frac{1}{(1-a)+\frac{a}{n}}
 $$</p>
-<h2 id="异构计算">异构计算<a href="#异构计算" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h2 id="异构计算">异构计算</h2>
 <p>单指令流多数据流，具有更大的并行度，设计相对比较简单。</p>
 
-      </div></div>
+</section>
 
-  
 
-  
-  
-
-  
-</div>
-
-  </div>
-
-  
-    <footer class="footer">
-  <div class="footer__inner">
+    <footer class="article-footer">
     
-      <div class="copyright">
-        <span>© 2022 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    <section class="article-tags">
+        
+            <a href="/tags/digital-logic-and-processors/">digital logic and processors</a>
+        
+    </section>
+
+
     
-        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
-      </div>
-  </div>
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/posts/digital_logic_and_processors/multicycle_cpu/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Multicycle CPU</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/digital_logic_and_processors/control_signal/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">CPU中的控制信号</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/digital_logic_and_processors/assembly/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MIPS汇编语言</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/digital_logic_and_processors/memory/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Cache</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="Ther-nullptr/Ther-nullptr.github.io"
+        issue-term="pathname"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2022 Ther&#39;s Blog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+            <br />visitors: <span id="busuanzi_value_site_uv"></span>
+            total visits: <span id="busuanzi_value_site_pv"></span> time(s)
+            reads: <span id="busuanzi_value_page_pv"></span> time(s)
+    
+    </section>
+
+    <script async src="https://busuanzi.icodeq.com/busuanzi.pure.mini.js">
+    </script>
+
+
+
 </footer>
 
-<script src="https://ther-nullptr.github.io/assets/main.js"></script>
-<script src="https://ther-nullptr.github.io/assets/prism.js"></script>
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
 
 
 
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#结构冒险">结构冒险</a>
+      <ol>
+        <li><a href="#problem">problem</a></li>
+        <li><a href="#solution">solution</a></li>
+      </ol>
+    </li>
+    <li><a href="#数据冒险">数据冒险</a>
+      <ol>
+        <li><a href="#read-after-write-data-hazardsraw">Read after write data hazards(RAW)</a>
+          <ol>
+            <li><a href="#硬件优化">硬件优化</a></li>
+            <li><a href="#forward转发">Forward(转发)</a></li>
+          </ol>
+        </li>
+        <li><a href="#load-use-data-hazardlw-calculate-type">Load-use data hazard(lw-calculate type)</a>
+          <ol>
+            <li><a href="#forward">Forward</a></li>
+          </ol>
+        </li>
+        <li><a href="#load-use-data-hazardlw-sw-type">Load-use data hazard(lw-sw type)</a></li>
+      </ol>
+    </li>
+    <li><a href="#控制冒险">控制冒险</a>
+      <ol>
+        <li><a href="#beq-hazard">beq hazard</a>
+          <ol>
+            <li><a href="#延迟槽技术">延迟槽技术</a></li>
+            <li><a href="#预测">预测</a></li>
+          </ol>
+        </li>
+        <li><a href="#j-hazard">j hazard</a></li>
+      </ol>
+    </li>
+  </ol>
+
+  <ol>
+    <li><a href="#forward-unit">Forward Unit</a>
+      <ol>
+        <li><a href="#r-r-type1">R-R type(1)</a></li>
+        <li><a href="#r-r-type2">R-R type(2)</a></li>
+        <li><a href="#lw-sw-type">lw-sw type</a></li>
+        <li><a href="#beq">beq</a></li>
+      </ol>
+    </li>
+    <li><a href="#hazard-unit">Hazard Unit</a>
+      <ol>
+        <li><a href="#lw-r-type">lw-R type</a></li>
+        <li><a href="#beq-1">beq</a></li>
+      </ol>
+    </li>
+    <li><a href="#flush-unit">Flush Unit</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#指令级并行">指令级并行</a>
+      <ol>
+        <li><a href="#超级流水线">超级流水线</a></li>
+        <li><a href="#多发射">多发射</a></li>
+      </ol>
+    </li>
+    <li><a href="#线程级并行">线程级并行</a>
+      <ol>
+        <li><a href="#超线程">超线程</a></li>
+        <li><a href="#多核处理器">多核处理器</a></li>
+      </ol>
+    </li>
+    <li><a href="#异构计算">异构计算</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
 
 
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
 
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
 
-  
-</div>
+        document.head.appendChild(customFont);
+    }());
+</script>
+<style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
 
-</body>
+<script>
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap";
+		
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+<script
+    src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    async
+></script>
+    </body>
 </html>

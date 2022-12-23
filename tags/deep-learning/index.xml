@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>deep learning on Ther&#39;s Blog</title>
-    <link>https://ther-nullptr.github.io/tags/deep-learning/</link>
-    <description>Recent content in deep learning on Ther&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Mon, 20 Jun 2022 20:07:09 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/tags/deep-learning/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Protobuf</title>
-      <link>https://ther-nullptr.github.io/posts/programming/pytorch/</link>
-      <pubDate>Mon, 20 Jun 2022 20:07:09 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/programming/pytorch/</guid>
-      <description>Parameters Parameters are Tensor subclasses, that have a very special property when used with Module s - when they’re assigned as Module attributes they are automatically added to the list of its parameters, and will appear e.g. in parameters() iterator.
-简单来讲，nn.Parameters用于注册可供训练的参数。e.g:
-1 2 3 4 5 6  In [6]: a = torch.nn.Parameter(torch.Tensor([0])) In [7]: a Out[7]: Parameter containing: tensor([0.], requires_grad=True)   nn.Parameter默认requires_grad=True
-一些常用参量（用于更新参数等）：
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40  &amp;gt;&amp;gt; class Net(torch.</description>
-      <content>&lt;h2 id=&#34;parameters&#34;&gt;Parameters&lt;/h2&gt;
-&lt;p&gt;Parameters are &lt;a href=&#34;https://pytorch.org/docs/stable/tensors.html#torch.Tensor&#34;&gt;&lt;code&gt;Tensor&lt;/code&gt;&lt;/a&gt; subclasses, that have a very special property when used with &lt;code&gt;Module&lt;/code&gt; s - when they’re assigned as Module attributes they are automatically added to the list of its parameters, and will appear e.g. in &lt;code&gt;parameters()&lt;/code&gt; iterator.&lt;/p&gt;
+    <channel>
+        <title>deep learning on Ther&#39;s Blog</title>
+        <link>https://ther-nullptr.github.io/tags/deep-learning/</link>
+        <description>Recent content in deep learning on Ther&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Mon, 20 Jun 2022 20:07:09 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/tags/deep-learning/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Protobuf</title>
+        <link>https://ther-nullptr.github.io/posts/programming/pytorch/</link>
+        <pubDate>Mon, 20 Jun 2022 20:07:09 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/programming/pytorch/</guid>
+        <description>&lt;h2 id=&#34;parameters&#34;&gt;Parameters&lt;/h2&gt;
+&lt;p&gt;Parameters are &lt;a class=&#34;link&#34; href=&#34;https://pytorch.org/docs/stable/tensors.html#torch.Tensor&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;code&gt;Tensor&lt;/code&gt;&lt;/a&gt; subclasses, that have a very special property when used with &lt;code&gt;Module&lt;/code&gt; s - when they’re assigned as Module attributes they are automatically added to the list of its parameters, and will appear e.g. in &lt;code&gt;parameters()&lt;/code&gt; iterator.&lt;/p&gt;
 &lt;p&gt;简单来讲，nn.Parameters用于注册可供训练的参数。e.g:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -156,8 +151,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;defaultdict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;dict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{})&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content>
-    </item>
-    
-  </channel>
+&lt;/div&gt;</description>
+        </item>
+        
+    </channel>
 </rss>

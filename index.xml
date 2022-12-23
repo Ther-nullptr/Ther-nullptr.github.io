@@ -1,55 +1,92 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Ther&#39;s Blog</title>
-    <link>https://ther-nullptr.github.io/</link>
-    <description>Recent content on Ther&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Wed, 17 Aug 2022 08:22:05 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>knowledge distillation papers</title>
-      <link>https://ther-nullptr.github.io/posts/research/knowledge-distillation-papers/</link>
-      <pubDate>Wed, 17 Aug 2022 08:22:05 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/research/knowledge-distillation-papers/</guid>
-      <description>以下对于distill model的研究将不只局限于ASR领域，还包括CV和NLP领域等。
-loss algorithms 首先需要借助PyTorch平台简要介绍知识蒸馏中经常需要用到的一些loss api。
-KL loss KL div的计算方式如下：
-其中，PyTorch API为：torch.nn.KLDivLoss。
-KL div衡量的是给定任意分布偏离真实分布的程度。从公式中可以看出，$p(x_i)$ 有更高概率的匹配区域比低 $p(x_i)$ 概率的匹配区域更加重要。
-实际上，我们有：
-等式右边第一项为交叉熵，由于$H(X)$（某一事件的熵）是固定的，所以KL散度的含义就是，相对于最优的编码，使用错误的编码浪费的比特数。
-cos embedding loss PyTorch API为：torch.nn.CosineEmbeddingLoss。
-contrastive loss BCE loss BCEloss解决的是二分类问题，或者可以视作一种简化版的交叉熵损失函数——将所有的其它例子都视作负例。
-InfoNCE loss 同样可以使用温度参数$\tau$进行调节。
-$l1$/$l2$ loss l1: torch.nn.L1Loss
-l2: torch.nn.MSELoss
-distill基础思想 distill最初提出于论文Distilling the Knowledge in a Neural Network。
-文章在最初指出了混合模型在提高精度方面的作用，但混合模型具有开销较大的特点，一个较好的办法是将其蒸馏至一个student model中。在传统的认知中，我们认为知识蕴含在形式化的模型参数中，因此很难想象在变换模型形式的基础上保留学到的知识。
-该论文指出对知识的正确认识应该是“it is a learned mapping from input vectors to output vectors”。更具体地讲，teacher model具有良好的泛化能力，蒸馏的目的就是要让student model学会teacher model的泛化能力，从而起到比直接训练student model更好的结果。
-如何学习这种泛化能力？蒸馏的基础思想是使用teacher model的soft target（model预测的概率分布）训练student model（对应的，hard target指的是model预测的ground truth）。使用soft target训练有两个好处：</description>
-      <content>&lt;p&gt;以下对于distill model的研究将不只局限于ASR领域，还包括CV和NLP领域等。&lt;/p&gt;
+    <channel>
+        <title>Ther&#39;s Blog</title>
+        <link>https://ther-nullptr.github.io/</link>
+        <description>Recent content on Ther&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Wed, 17 Aug 2022 08:22:05 +0800</lastBuildDate><atom:link href="https://ther-nullptr.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>knowledge distillation papers</title>
+        <link>https://ther-nullptr.github.io/posts/research/knowledge-distillation-papers/</link>
+        <pubDate>Wed, 17 Aug 2022 08:22:05 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/research/knowledge-distillation-papers/</guid>
+        <description>&lt;p&gt;以下对于distill model的研究将不只局限于ASR领域，还包括CV和NLP领域等。&lt;/p&gt;
 &lt;h2 id=&#34;loss-algorithms&#34;&gt;loss algorithms&lt;/h2&gt;
 &lt;p&gt;首先需要借助PyTorch平台简要介绍知识蒸馏中经常需要用到的一些loss api。&lt;/p&gt;
 &lt;h3 id=&#34;kl-loss&#34;&gt;KL loss&lt;/h3&gt;
 &lt;p&gt;KL div的计算方式如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818174343816.png&#34; alt=&#34;KL div&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818174343816.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;KL div&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;其中，PyTorch API为：&lt;code&gt;torch.nn.KLDivLoss&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;KL div衡量的是给定任意分布偏离真实分布的程度。从公式中可以看出，$p(x_i)$ 有更高概率的匹配区域比低 $p(x_i)$ 概率的匹配区域更加重要。&lt;/p&gt;
 &lt;p&gt;实际上，我们有：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818180040162.png&#34; alt=&#34;KL vs CE&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818180040162.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;KL vs CE&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;等式右边第一项为交叉熵，由于$H(X)$（某一事件的熵）是固定的，所以KL散度的含义就是，相对于最优的编码，使用错误的编码浪费的比特数。&lt;/p&gt;
 &lt;h3 id=&#34;cos-embedding-loss&#34;&gt;cos embedding loss&lt;/h3&gt;
 &lt;p&gt;PyTorch API为：&lt;code&gt;torch.nn.CosineEmbeddingLoss&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://github.com/Ther-nullptr/ImageRepository/main/img/image-20220818195200570.png&#34; alt=&#34;cos loss&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://github.com/Ther-nullptr/ImageRepository/main/img/image-20220818195200570.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;cos loss&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h3 id=&#34;contrastive-loss&#34;&gt;contrastive loss&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://github.com/Ther-nullptr/ImageRepository/tree/main/img/image-20220819175604937.png&#34; alt=&#34;contrastive loss&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://github.com/Ther-nullptr/ImageRepository/tree/main/img/image-20220819175604937.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;contrastive loss&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h3 id=&#34;bce-loss&#34;&gt;BCE loss&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819180642611.png?token=AQ7WYGHG27FMO2KKIL7ASQTDATBB2&#34; alt=&#34;BCE loss&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819180642611.png?token=AQ7WYGHG27FMO2KKIL7ASQTDATBB2&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;BCE loss&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;BCEloss解决的是二分类问题，或者可以视作一种简化版的交叉熵损失函数——将所有的其它例子都视作负例。&lt;/p&gt;
 &lt;h3 id=&#34;infonce-loss&#34;&gt;InfoNCE loss&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819181156002.png?token=AQ7WYGDHPDPQAAM64ZEL4TDDATBCC&#34; alt=&#34;info nce loss&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819181156002.png?token=AQ7WYGDHPDPQAAM64ZEL4TDDATBCC&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;info nce loss&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;同样可以使用温度参数$\tau$进行调节。&lt;/p&gt;
 &lt;h3 id=&#34;l1l2-loss&#34;&gt;$l1$/$l2$ loss&lt;/h3&gt;
 &lt;p&gt;l1: &lt;code&gt;torch.nn.L1Loss&lt;/code&gt;&lt;/p&gt;
@@ -65,18 +102,50 @@ distill基础思想 distill最初提出于论文Distilling the Knowledge in a Ne
 &lt;/ul&gt;
 &lt;p&gt;但使用soft target存在一个问题：有些概率分布很小，在计算loss时可以忽略不计，但其中蕴含的一些关键信息会丢失。前人的解决方案是使用logits（softmax的input）而不是probablity（实际上，后文指出，这是一种特殊情况的distillation）。本文中提出了一种叫做“distillation”的方法，用于提高softmax结果的“温度”。直到繁琐的模型产生一套合适的软目标。然后我们在训练小模型时使用同样的高温来匹配这些软目标。&lt;/p&gt;
 &lt;p&gt;“温度”的使用方法如下。一般来说，$T$越大，产生的概率分布越柔和。值得注意的是，student model在训练时使用$T&amp;gt;1$，但在推理时使用$T=1$。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818122556744.png?token=AQ7WYGCS6YFA5GO2ZYUKWNLDATBEY&#34; alt=&#34;temperature in softmax&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818122556744.png?token=AQ7WYGCS6YFA5GO2ZYUKWNLDATBEY&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;temperature in softmax&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;从以上分析可以看出，蒸馏实际上是一个自监督过程，我们也可以引入监督过程——使用两个不同目标函数的加权平均，第一个目标函数是与软目标的交叉熵，这个交叉熵的计算方法是使用蒸馏模型的softmax中的高温，就像从繁琐的模型中生成软目标时一样，第二个目标函数是与正确标签的交叉熵（通常使用较低的权重）。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;由于软目标产生的梯度的大小为$\frac{1}{T^2}$，因此在使用硬目标和软目标时，必须将其乘以$T^2$。这可以确保在试验元参数时，如果改变蒸馏所用的温度，硬目标和软目标的相对贡献大致保持不变。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818160749384.png?token=AQ7WYGEDSMCV2Y7LYNWLO4LDATBFM&#34; alt=&#34;conclusion&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818160749384.png?token=AQ7WYGEDSMCV2Y7LYNWLO4LDATBFM&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;conclusion&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h2 id=&#34;distill-model联合训练&#34;&gt;distill model联合训练&lt;/h2&gt;
 &lt;p&gt;参考自论文&lt;em&gt;Apprentice: Using KD Techniques to Improve Low-Precision Network Accuracy&lt;/em&gt;。&lt;/p&gt;
 &lt;p&gt;该论文主要针对低精度的学生网络而言。论文中一共提供了3种训练方法：第一种方案（方案A）联合训练两个网络&amp;ndash;全精度的教师和低精度的学生网络。第二种方案（方案B）只训练低精度的学生网络，但在整个训练过程中从训练好的全精度教师网络中提取知识。第三种方案（方案C）从训练好的全精度教师和全精度学生网络开始，但在降低了学生网络的精度后对其进行微调。第二种相比第一种收敛更快，第三种准确率最高。在以上三种结构中，学生网络具有与教师网络类似的拓扑结构，只是学生网络具有低精度的神经元，而教师网络的神经元则以全精度运行。&lt;/p&gt;
 &lt;p&gt;其训练方式可用下图概括：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818172450825.png?token=AQ7WYGEW3Z24FVBD666IU3LDATBGM&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818172538944.png?token=AQ7WYGHX45AHE4QKJF6FACDDATBG6&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818172450825.png?token=AQ7WYGEW3Z24FVBD666IU3LDATBGM&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818172538944.png?token=AQ7WYGHX45AHE4QKJF6FACDDATBG6&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;其中$\alpha=1,\beta=0.5,\gamma=0.5$。&lt;/p&gt;
 &lt;h2 id=&#34;kl-div的应用&#34;&gt;KL div的应用&lt;/h2&gt;
 &lt;p&gt;总结一下，之前在蒸馏时计算loss的函数为：
@@ -93,7 +162,14 @@ $$
 &lt;p&gt;论文指出，使用教师学到的中间表征作为提示，以改善训练过程和学生的最终表现。因为学生的中间隐藏层一般会比教师的中间隐藏层小，所以要引入额外的参数，将学生的隐藏层映射到教师隐藏层的预测上。&lt;/p&gt;
 &lt;p&gt;论文指出了传统知识蒸馏模型的一个局限性：以前所有与卷积神经网络相关的工作都集中在将教师网络或网络集合压缩到宽度和深度相似的网络中，或者压缩到较浅和较宽的网络中；而没有利用深度的优势。因此本文指出了一种新的distill方法：使用同等深度但更窄的网络，从教师的隐藏层中引入中间层次的提示来指导学生的训练过程。&lt;/p&gt;
 &lt;p&gt;在传统的知识蒸馏模型中，如果加深student model的深度，KDLoss的效果会变差。因此，此处引入了“提示层”和“引导层”的概念。一个提示被定义为负责指导学生学习过程的教师隐藏层的输出。类似地，我们选择FitNet的一个隐藏层，即引导层，从教师的提示层学习。我们希望引导层能够预测提示层的输出。我们选择提示层为教师网络的中间层。同样地，我们选择引导层作为学生网络的中间层。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818184502630.png?token=AQ7WYGBEZ3R7LTFZX6N77C3DATBHS&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818184502630.png?token=AQ7WYGBEZ3R7LTFZX6N77C3DATBHS&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;其中$\mathbf{W_r}$指的是回归器。为了减小参数量，回归器一般使用卷积层而不是全连接层。&lt;/p&gt;
 &lt;p&gt;训练分为两个阶段：第一个阶段利用Hint-based loss诱导学生网络达到一个合适的初始化状态（只更新$\mathbf{W_Guided}$与$\mathbf{W_r}$）；第二个阶段利用教师网络的soft label指导整个学生网络的训练（即知识蒸馏），且Total loss中Soft target相关部分所占比重逐渐降低，从而让学生网络能够全面辨别简单样本与困难样本（教师网络能够有效辨别简单样本，而困难样本则需要借助真实标注，即Hard target）。&lt;/p&gt;
 &lt;h2 id=&#34;distill在nlp领域的应用distilbert和tinybert&#34;&gt;distill在NLP领域的应用——DistilBERT和TinyBERT&lt;/h2&gt;
@@ -101,23 +177,81 @@ $$
 &lt;p&gt;参考自论文&lt;em&gt;DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter&lt;/em&gt;和&lt;em&gt;TinyBERT: Distilling BERT for Natural Language Understanding&lt;/em&gt;。&lt;/p&gt;
 &lt;p&gt;DistillBERT用到了3种loss——除了传统无监督的$L_{CE}$和有监督的$L_{mlm}$，还引入了一个cos embedding loss $L_{cos}$。它将倾向于对齐学生和教师隐藏状态向量的方向。权重为5:2:1。&lt;/p&gt;
 &lt;p&gt;DistillBERT每隔两层就抽取一层进行初始化，缩减了一半的层数。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818200933588.png?token=AQ7WYGFARJJHV6WPZY7TZ7TDATBIA&#34; alt=&#34;steps&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818200933588.png?token=AQ7WYGFARJJHV6WPZY7TZ7TDATBIA&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;steps&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h3 id=&#34;tinybert&#34;&gt;TinyBERT&lt;/h3&gt;
 &lt;p&gt;TinyBERT的蒸馏分为两个阶段：在一般蒸馏阶段，没有微调的原始BERT作为教师模型。学生的TinyBERT通过提议的Transformer蒸馏法在一般领域的语料库上模仿教师的行为。之后，我们得到一个一般的TinyBERT，作为学生模型的初始化，用于进一步的蒸馏。在特定任务的蒸馏阶段，我们首先进行数据增强，然后使用经过微调的BERT作为教师模型在增强后的数据集上进行蒸馏。应该指出的是，这两个阶段对于提高TinyBERT的性能和泛化能力至关重要。&lt;/p&gt;
 &lt;p&gt;一般蒸馏帮助TinyBERT学习嵌入在预训练的BERT中的丰富知识，这对提高TinyBERT的泛化能力起到了重要作用。特定任务蒸馏进一步向TinyBERT传授来自微调的BERT的知识。&lt;/p&gt;
 &lt;p&gt;需要指出的是，在finetune阶段进行蒸馏时，需要对数据进行增强。&lt;/p&gt;
 &lt;p&gt;而模型的loss来源有3种：1）嵌入层的输出；2）来自Transformer层的隐藏状态和注意矩阵；3）预测层输出的logits。&lt;/p&gt;
 &lt;p&gt;具体来讲，其计算方法如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818230118223.png?token=AQ7WYGE4ASQ4WV73M3T5NU3DATBIM&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818230118223.png?token=AQ7WYGE4ASQ4WV73M3T5NU3DATBIM&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;其中，teacher model有$N$层，student model有$M$层，$m=0$为embedding层，$m=M+1$为logits。&lt;/p&gt;
 &lt;p&gt;在计算时，我们需要使用attention和hidden states，两者的区别如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818231839284.png?token=AQ7WYGHUYUWUVLQIJDODGPLDATBIY&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818231839284.png?token=AQ7WYGHUYUWUVLQIJDODGPLDATBIY&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;$\mathcal{L_layer}$的定义如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232212961.png?token=AQ7WYGAC5LNPEIDSREZMO23DATBJC&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232117006.png?token=AQ7WYGHW6OLWRJUIGIVTHTTDATBJM&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232130513.png?token=AQ7WYGHVIP5FG7POY5JUFCTDATBJ4&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232150529.png?token=AQ7WYGBGGMI6ELWYDYV5MU3DATBKG&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232201396.png?token=AQ7WYGHBE6Z4A2JHQIKG7S3DATBKS&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232212961.png?token=AQ7WYGAC5LNPEIDSREZMO23DATBJC&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232117006.png?token=AQ7WYGHW6OLWRJUIGIVTHTTDATBJM&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232130513.png?token=AQ7WYGHVIP5FG7POY5JUFCTDATBJ4&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232150529.png?token=AQ7WYGBGGMI6ELWYDYV5MU3DATBKG&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220818232201396.png?token=AQ7WYGHBE6Z4A2JHQIKG7S3DATBKS&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h2 id=&#34;distill在asr领域的应用distilhubert&#34;&gt;distill在ASR领域的应用——DistilHubert&lt;/h2&gt;
 &lt;p&gt;distilhubert在计算loss时，并不是直接使用层的特征，而是使用student model第二层的输出映射过的特征与teacher model进行计算loss。&lt;/p&gt;
 &lt;p&gt;我们可以与tinybert做一个对比：distilhubert在训练时没有使用student各层的信息，而是使用末端output的信息；但tinybert的计算则是基于层的，而且分为attention metrics和hidden state。当然一个可能的考量是distilhubert层数较少而tinybert层数较多。&lt;/p&gt;
@@ -125,7 +259,14 @@ $$
 &lt;p&gt;参考自论文&lt;em&gt;From Dense to Sparse: Contrastive Pruning for Better Pre-trained Language Model Compression&lt;/em&gt;。&lt;/p&gt;
 &lt;p&gt;大多数研究只注意在剪枝过程中对下游任务的特定知识，而忽略了在剪枝模型中是否很好地保持了原PLM的任务诊断性知识。这会导致严重的灾难问题；此外在极高的稀疏度下，修剪后的模型与原始密集模型相比性能急剧下降。&lt;/p&gt;
 &lt;p&gt;我们有三种修剪模块：PrC、SnC和FiC。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819002709910.png?token=AQ7WYGC4UUGOQMZ65NTA2D3DATBLC&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819002709910.png?token=AQ7WYGC4UUGOQMZ65NTA2D3DATBLC&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;其loss分为两部分：无监督和监督。其中监督数据的正例只需要其对应的标签相同。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;PrC&lt;/strong&gt; Contrastive Learning with Pre-trained Model。在向特定的下游任务转移学习时，原始PLM中与任务无关的知识倾向于丢失，这可能导致灾难性的遗忘问题。因此我们需要引入一个PrC模块来维护这种基于对比学习的通用语言知识。&lt;/li&gt;
@@ -133,27 +274,45 @@ $$
 &lt;li&gt;&lt;strong&gt;FiC&lt;/strong&gt; 在finetune model上的学习。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;文章提供了两种剪枝方式：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819003822771.png?token=AQ7WYGA7NXZIIVYY6XN7GYDDATBLM&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819003822771.png?token=AQ7WYGA7NXZIIVYY6XN7GYDDATBLM&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;最后将loss相加即可：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819003855452.png?token=AQ7WYGB4OGAOA22KG2L5DWTDATBL2&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819003855452.png?token=AQ7WYGB4OGAOA22KG2L5DWTDATBL2&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h2 id=&#34;无监督少量数据的distill&#34;&gt;无监督少量数据的distill&lt;/h2&gt;
 &lt;p&gt;参考自论文&lt;em&gt;From Dense to Sparse: Contrastive Pruning for Better Pre-trained Language Model Compression&lt;/em&gt;。&lt;/p&gt;
 &lt;p&gt;该方法适用于只有少量的无标签数据。&lt;/p&gt;
 &lt;p&gt;(1)通过压缩教师网获得学生网；(2)在学生网的每个区块末尾增加一个1×1的卷积层，并通过最小二乘回归估计1×1卷积层的参数来对齐教师和学生；(3)将增加的1×1卷积层合并到先前的卷积层中，获得最终的学生网。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819110039500.png?token=AQ7WYGGBEC7PDMCKXBX65KLDATBMC&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20220819110039500.png?token=AQ7WYGGBEC7PDMCKXBX65KLDATBMC&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h2 id=&#34;reference&#34;&gt;reference&lt;/h2&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>SSL model finetune</title>
-      <link>https://ther-nullptr.github.io/posts/research/ssl-model-finetune/</link>
-      <pubDate>Fri, 12 Aug 2022 00:13:05 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/research/ssl-model-finetune/</guid>
-      <description>structure of finetune models 首先有必要记录一下finetune model的结构（以wav2vec2、hubert、data2vec）为例：
-wav2vec2 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82  Wav2VecCtc( (w2v_encoder): Wav2VecEncoder( (w2v_model): Wav2Vec2Model( (feature_extractor): ConvFeatureExtractionModel( (conv_layers): ModuleList( (0): Sequential( (0): Conv1d(1, 512, kernel_size=(10,), stride=(5,), bias=False) (1): Dropout(p=0.</description>
-      <content>&lt;h2 id=&#34;structure-of-finetune-models&#34;&gt;structure of finetune models&lt;/h2&gt;
+</description>
+        </item>
+        <item>
+        <title>SSL model finetune</title>
+        <link>https://ther-nullptr.github.io/posts/research/ssl-model-finetune/</link>
+        <pubDate>Fri, 12 Aug 2022 00:13:05 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/research/ssl-model-finetune/</guid>
+        <description>&lt;h2 id=&#34;structure-of-finetune-models&#34;&gt;structure of finetune models&lt;/h2&gt;
 &lt;p&gt;首先有必要记录一下finetune model的结构（以wav2vec2、hubert、data2vec）为例：&lt;/p&gt;
 &lt;h3 id=&#34;wav2vec2&#34;&gt;wav2vec2&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -912,18 +1071,15 @@ hubert:&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>SUPERB downstream</title>
-      <link>https://ther-nullptr.github.io/posts/research/superb-downstream/</link>
-      <pubDate>Fri, 12 Aug 2022 00:13:05 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/research/superb-downstream/</guid>
-      <description>以下记录了superb任务中不同的downstream model：
-KS 1 2 3 4 5 6 7 8 9 10 11  DownstreamExpert( (projector): Linear(in_features=768, out_features=256, bias=True) (model): UtteranceLevel( (pooling): MeanPooling() (post_net): FrameLevel( (hiddens): Sequential() (linear): Linear(in_features=256, out_features=12, bias=True) ) ) (objective): CrossEntropyLoss() )   ASR 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  DownstreamExpert( (projector): Linear(in_features=768, out_features=1024, bias=True) (model): RNNs( (rnns): ModuleList( (0): RNNLayer( (layer): LSTM(1024, 1024, batch_first=True, bidirectional=True) (dp): Dropout(p=0.</description>
-      <content>&lt;p&gt;以下记录了superb任务中不同的downstream model：&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>SUPERB downstream</title>
+        <link>https://ther-nullptr.github.io/posts/research/superb-downstream/</link>
+        <pubDate>Fri, 12 Aug 2022 00:13:05 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/research/superb-downstream/</guid>
+        <description>&lt;p&gt;以下记录了superb任务中不同的downstream model：&lt;/p&gt;
 &lt;h2 id=&#34;ks&#34;&gt;KS&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -1023,53 +1179,15 @@ KS 1 2 3 4 5 6 7 8 9 10 11  DownstreamExpert( (projector): Linear(in_features=76
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content>
-    </item>
-    
-    <item>
-      <title>小黑后传</title>
-      <link>https://ther-nullptr.github.io/posts/small_talk/%E5%B0%8F%E9%BB%91%E5%90%8E%E4%BC%A0/</link>
-      <pubDate>Thu, 04 Aug 2022 01:09:43 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/small_talk/%E5%B0%8F%E9%BB%91%E5%90%8E%E4%BC%A0/</guid>
-      <description>小黑前传的名字叫作《追忆似火年华》，不过小黑后传似乎和“似火”并不怎么沾边，索性就叫小黑后传好了，以后有想法再更新一个文艺点的标题。
-一 2022.6.19 考完试的第一天。
-“您当日的听歌时间为8h42min，位居好友榜榜首，恭喜！”
-虽然知道自己网抑云的习惯由来已久（确切地来讲，网易云和QQ音乐都听，而且QQ更多一些），但看到这个数字小黑还是震惊了一下的。其他人排解心魔的方式有社交、有读书、也有游戏，小黑则是网抑云，嗯网抑云。
-小黑的听歌方式，比较奇怪。他不怎么关注日推，也不会从500多首红心中随机抽取音乐，而是这样的：在一个特定的时间段里，他会对歌单里的5~10首歌进行单曲循环，如果在这期间搜罗到了什么好音乐，单曲循环的队列就会被更新。
- 从这个角度讲，这种听歌机制其实很像计算机里面cache的原理——平时单曲循环的歌存在cache里，适当的时候从主存里加载歌曲到cache里再单曲循环&amp;hellip;
- 从这个听歌习惯，似乎也能看到小黑的一点习惯——或者更确切的说，叫秉性——念旧、保守&amp;hellip;&amp;hellip;
-小黑摇了摇头，网抑云不是这么抑的。不过说起来，这个习惯是怎么形成的？
-二 2022.5.22 小黑居然在大二下学期中刷完了一部番，不过是老番，也比较短——《新世纪福音战士》。
-男主似乎和小黑有不少共同点——弱不禁风，胆小，喜欢边喝着酒/饮料边瘫坐着听音乐。
-这里要特别说一下“边喝着酒/饮料边瘫坐着听音乐”，小黑在看到这些镜头时，竟然前所未有地产生了共鸣感——比起那种激励人奋进的鸡汤，小黑似乎对这样的状态更加向往。
-男主有一段台词让他十分印象深刻：
- 你总是逃避自己讨厌的事情。
-我已经很努力地再试了！
-这有什么不好！
-逃避讨厌的事情又有什么不对！
- 小黑感觉自己也在逃避，逃避的是什么？也许不只是眼前的困难——就像科研进度十分缓慢，小黑第一反应想的不是调整状态，多看几篇论文和代码，而是打开手机看eva——美其名曰寻找与自己和解的路子。
-从那以后，耳机便真的成了小黑的耳旁常伴的物品了。
-小黑更想逃避的，也许是真实的自己、阴暗的自己。不过，小黑是什么时候开始思考这些问题的呢？
-三 2022.4.12 这场不大不小的折磨终于结束了。
-身体的折磨是暂时结束了。不过从那以后，小黑似乎就变了一个人——头脑中无用的精神内耗开始变多，头脑里就好像有两个不同的政党在打架，最后也给不出什么具体的执行方案来，生活就这样原地踏步地进行着。
-这造成的直接后果就是：睡眠质量严重下降，上课难以集中精神，科研开始摆烂&amp;hellip;&amp;hellip;不过有一点，小黑始终认为，自己并没有失去对学习的兴趣，只是暂时失去了自己的方向。
-说起方向，小黑有过自己真正的方向吗？从某种意义上，小黑在战略决策上似乎从来只是一株墙头草——小黑从小到大，或者更确切地说，是进了大学之后，努力的出发点就只是“我想成为xxx那样的人”——A的笔记，B的钻研，C的个人魅力&amp;hellip;&amp;hellip;这本是一件好事，但小黑发现自己似乎哪一个人都变不成，而当别人告诉自己要“做自己”时，小黑甚至连“自我”的定义都难以下达——自己追寻了太多别人的足迹，却连自己本来的样子都忘记了。
-那么，自己到底想成为什么样的人？这要从一次谈话说起。
-四 2022.1.18 在入学前，小黑给自己的label是：社恐分子、小镇做题家、局外人。
-一年半后，小黑给自己的label是：孤勇者、想要成为文艺青年的理工男、安静、内向，自己将会在学习和科研的路上一路狂奔。
-但，果真如此吗？
-我与老友聊起了关于自身的定位问题，老友说：其实你一直是一个很有人情味的人，并列举种种事例。
-这时小黑才意识到，自己的内心中，本质上有很多感性的成分。自己也渴望社交、渴望沟通、渴望人与人之间微妙的联结——而不是仅仅一味扎进学术中。
- &amp;ldquo;人有种奇怪的虚荣心，想让别人或自己相信他向往的是真理，但其实他有求于这个世界的是爱。&amp;ldquo;加缪一语道破天机。
- 自己的一些label，似乎硬生生束缚住了自己的手脚。本我，似乎与展现在世人面前的我，以及小黑所期望的我，出现了前所未有的参差。它们相互交织，却又在触及人心最柔软的部分互斥。
-小黑原本以为自己的这些label大概是在高中时期形成的。但另一位老友给了他一个惊人的答案：
- 小学。
- 五 2022.8.4 递归似地分析完了所有问题，接下来要做的，就是要把所有问题层层出栈。只是，这样的思索是存在精确解的吗？如果没有，那这样的思索是无谓的吗？正如小黑不顾繁重的任务和压力，在深夜敲下废话连篇的意识流文章一样，此举意义何在？
-什么才能治好小黑的精神内耗？这个学期的经历似乎告诉小黑：不是忙碌，更不是让自己的身心投入到学习和工作中。
-那是什么？也许是慢慢地与留下太多遗憾地自己和解。但和解的过程，又何尝不是一个精神内耗的过程。
-小黑似乎又一次掉入了无限的递归之中。</description>
-      <content>&lt;p&gt;小黑前传的名字叫作《追忆似火年华》，不过小黑后传似乎和“似火”并不怎么沾边，索性就叫小黑后传好了，以后有想法再更新一个文艺点的标题。&lt;/p&gt;
+&lt;/div&gt;</description>
+        </item>
+        <item>
+        <title>小黑后传</title>
+        <link>https://ther-nullptr.github.io/posts/small_talk/%E5%B0%8F%E9%BB%91%E5%90%8E%E4%BC%A0/</link>
+        <pubDate>Thu, 04 Aug 2022 01:09:43 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/small_talk/%E5%B0%8F%E9%BB%91%E5%90%8E%E4%BC%A0/</guid>
+        <description>&lt;p&gt;小黑前传的名字叫作《追忆似火年华》，不过小黑后传似乎和“似火”并不怎么沾边，索性就叫小黑后传好了，以后有想法再更新一个文艺点的标题。&lt;/p&gt;
 &lt;h3 id=&#34;一-2022619&#34;&gt;一 2022.6.19&lt;/h3&gt;
 &lt;p&gt;考完试的第一天。&lt;/p&gt;
 &lt;p&gt;“您当日的听歌时间为8h42min，位居好友榜榜首，恭喜！”&lt;/p&gt;
@@ -1119,18 +1237,15 @@ KS 1 2 3 4 5 6 7 8 9 10 11  DownstreamExpert( (projector): Linear(in_features=76
 &lt;p&gt;什么才能治好小黑的精神内耗？这个学期的经历似乎告诉小黑：不是忙碌，更不是让自己的身心投入到学习和工作中。&lt;/p&gt;
 &lt;p&gt;那是什么？也许是慢慢地与留下太多遗憾地自己和解。但和解的过程，又何尝不是一个精神内耗的过程。&lt;/p&gt;
 &lt;p&gt;小黑似乎又一次掉入了无限的递归之中。&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>试错，还是错逝？</title>
-      <link>https://ther-nullptr.github.io/posts/small_talk/review/</link>
-      <pubDate>Thu, 28 Jul 2022 02:11:43 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/small_talk/review/</guid>
-      <description> “我们前后找了几十年以来的毕业生，在十六万人中分析了五百人，得到了结论。结果发现很多结果出乎清华校方的意料。 比如，我们分析了成绩因素，按理说成绩好应该更成功吧？但结果是，成绩对以后的发展并没有影响，就是说，成绩好并不代表发展好，当然也不可能发展差对吧。这是很出乎校方意料的一点。 那社工呢？大家都认为如果做了什么学生会主席、社会工作可能对未来发展有所帮助，结果还是没有关系。没有关系意思是有没有这些优势都不影响以后发展。 那么家庭影响应该足够重要了吧，比如有的家长眼界很高，有先进的观念，培养孩子很有方法，这是个影响因素吗？不是。 地域呢？比如有的同学来自偏远地区，有的在大城市，这是影响因素吗？不是。这些都不是，那我们发现了什么呢？ 我们在二十多个因素里，唯一发现很多人都具有的一个共同点就是，他们都很早地开始思考自己的未来并且着手做准备。
- </description>
-      <content>&lt;blockquote&gt;
+</description>
+        </item>
+        <item>
+        <title>试错，还是错逝？</title>
+        <link>https://ther-nullptr.github.io/posts/small_talk/review/</link>
+        <pubDate>Thu, 28 Jul 2022 02:11:43 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/small_talk/review/</guid>
+        <description>&lt;blockquote&gt;
 &lt;p&gt;“我们前后找了几十年以来的毕业生，在十六万人中分析了五百人，得到了结论。结果发现很多结果出乎清华校方的意料。
 比如，我们分析了成绩因素，按理说成绩好应该更成功吧？但结果是，成绩对以后的发展并没有影响，就是说，成绩好并不代表发展好，当然也不可能发展差对吧。这是很出乎校方意料的一点。
 那社工呢？大家都认为如果做了什么学生会主席、社会工作可能对未来发展有所帮助，结果还是没有关系。没有关系意思是有没有这些优势都不影响以后发展。
@@ -1138,32 +1253,15 @@ KS 1 2 3 4 5 6 7 8 9 10 11  DownstreamExpert( (projector): Linear(in_features=76
 地域呢？比如有的同学来自偏远地区，有的在大城市，这是影响因素吗？不是。这些都不是，那我们发现了什么呢？
 我们在二十多个因素里，唯一发现很多人都具有的一个共同点就是，他们都很早地开始思考自己的未来并且着手做准备。&lt;/p&gt;
 &lt;/blockquote&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>日寄</title>
-      <link>https://ther-nullptr.github.io/posts/small_talk/%E6%97%A5%E5%AF%84/</link>
-      <pubDate>Wed, 27 Jul 2022 23:59:43 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/small_talk/%E6%97%A5%E5%AF%84/</guid>
-      <description>“失去的二十周” 2022.1.21  “泡沫的顶峰”
- 2022.3.1  “出校理由：北医三院” “原因玄学，大学生，压力大，作息不规律，有心理因素，正常”
- 2022.3.8  “这就是世一大的教学水平吗” 自己的“看家本领”到底是什么？？
- 2022.4.10  第一次大寄
- 2022.4.17  “所以，你们到底做了些什么？”
- 2022.4.23  “搞了半天，还是咱不够卷&amp;hellip;”
- 2022.4.26  第二次大寄 “一段噩梦的结束” “人是会在同一个地方摔两次跟头的”
- 2022.4.28  “今后还会像这般心想事成吗？”
- 2022.4.30  “至少到现在这个阶段我觉得，我看到一个很强的人时，我会这样想：‘我虽然崇拜他，但我并不会说去完全变成他的样子，而只是在想怎么做好自己’” “很遗憾，我目前还做不到这一点”
- 2022.5.2  “残酷な天使のように，少年よ神话になれ！”
- 2022.5.3  一个并不光彩的W
- 2022.5.4  “突然感觉，你清学子要花费很多时间在‘与自己和解’上”
- 2022.5.17  “大家并不是真的有多反感封校和防疫，他们只是想借此机会抒发各自心中的不快罢了”
- 2022.5.23  “千载难逢的机会，你不用吗？” “算了，我怕有后续影响”
- 2022.6.8  “好多人都在讲好大学平台有多好，但是鄙人感觉这个平台并不属于只会埋头干活的人。。”
- 2022.6.12  “有时候选择比努力更重要，以后在社会上更是这样，这也许是这魔幻的一学期带给我们的启示吧”</description>
-      <content>&lt;h2 id=&#34;失去的二十周&#34;&gt;“失去的二十周”&lt;/h2&gt;
+</description>
+        </item>
+        <item>
+        <title>日寄</title>
+        <link>https://ther-nullptr.github.io/posts/small_talk/%E6%97%A5%E5%AF%84/</link>
+        <pubDate>Wed, 27 Jul 2022 23:59:43 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/small_talk/%E6%97%A5%E5%AF%84/</guid>
+        <description>&lt;h2 id=&#34;失去的二十周&#34;&gt;“失去的二十周”&lt;/h2&gt;
 &lt;h3 id=&#34;2022121&#34;&gt;2022.1.21&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;“泡沫的顶峰”&lt;/p&gt;
@@ -1247,18 +1345,15 @@ KS 1 2 3 4 5 6 7 8 9 10 11  DownstreamExpert( (projector): Linear(in_features=76
 &lt;p&gt;“这他妈就是一个强者恒强的过程。。。”&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;so-where-is-the-way&#34;&gt;So where is the way?&lt;/h2&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>CoFi model &amp; Hubert model keys</title>
-      <link>https://ther-nullptr.github.io/posts/research/cofi-model-and-hubert-model-keys/</link>
-      <pubDate>Mon, 18 Jul 2022 00:13:05 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/research/cofi-model-and-hubert-model-keys/</guid>
-      <description>为了便于一一对应与查找，在此处我们列出了CoFi-BERT中所有的key和Hubert中所有的key：
-CoFi 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207  bert.</description>
-      <content>&lt;p&gt;为了便于一一对应与查找，在此处我们列出了CoFi-BERT中所有的key和Hubert中所有的key：&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>CoFi model &amp; Hubert model keys</title>
+        <link>https://ther-nullptr.github.io/posts/research/cofi-model-and-hubert-model-keys/</link>
+        <pubDate>Mon, 18 Jul 2022 00:13:05 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/research/cofi-model-and-hubert-model-keys/</guid>
+        <description>&lt;p&gt;为了便于一一对应与查找，在此处我们列出了CoFi-BERT中所有的key和Hubert中所有的key：&lt;/p&gt;
 &lt;h2 id=&#34;cofi&#34;&gt;CoFi&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -2315,19 +2410,15 @@ CoFi 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;down None
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content>
-    </item>
-    
-    <item>
-      <title>fairseq functions</title>
-      <link>https://ther-nullptr.github.io/posts/research/fairseq-functions/</link>
-      <pubDate>Mon, 18 Jul 2022 00:13:05 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/research/fairseq-functions/</guid>
-      <description>本文旨在列出fairseq中一些常见的自定义函数：
-virtual functions task setup  setup_task  builders  build_model build_dictionary build_dictionary build_generator(usually useless)  loaders  load_dictionary load_datasets  steps   train_step
-1 2 3 4 5 6 7 8 9 10 11  def train_step(self, sample, model, criterion, optimizer, update_num, ignore_grad=False): model.train() model.set_num_updates(update_num) with torch.autograd.profiler.record_function(&amp;#34;forward&amp;#34;): with torch.cuda.amp.autocast(enabled=(isinstance(optimizer, AMPOptimizer))): loss, sample_size, logging_output = criterion(model, sample) if ignore_grad: loss *= 0 with torch.autograd.profiler.record_function(&amp;#34;backward&amp;#34;): optimizer.backward(loss) return loss, sample_size, logging_output     valid_step</description>
-      <content>&lt;p&gt;本文旨在列出fairseq中一些常见的自定义函数：&lt;/p&gt;
+&lt;/div&gt;</description>
+        </item>
+        <item>
+        <title>fairseq functions</title>
+        <link>https://ther-nullptr.github.io/posts/research/fairseq-functions/</link>
+        <pubDate>Mon, 18 Jul 2022 00:13:05 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/research/fairseq-functions/</guid>
+        <description>&lt;p&gt;本文旨在列出fairseq中一些常见的自定义函数：&lt;/p&gt;
 &lt;h2 id=&#34;virtual-functions&#34;&gt;virtual functions&lt;/h2&gt;
 &lt;h3 id=&#34;task&#34;&gt;task&lt;/h3&gt;
 &lt;h4 id=&#34;setup&#34;&gt;setup&lt;/h4&gt;
@@ -2642,24 +2733,15 @@ virtual functions task setup  setup_task  builders  build_model build_dictionary
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;optimizer&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;step&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content>
-    </item>
-    
-    <item>
-      <title>Makefile &amp; CMake</title>
-      <link>https://ther-nullptr.github.io/posts/programming/cmake/</link>
-      <pubDate>Thu, 23 Jun 2022 20:47:58 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/programming/cmake/</guid>
-      <description>Makefile &amp;amp; CMake 想象一下我们有如下C++程序hello.cpp：
-1 2 3 4 5  #include &amp;lt;iostream&amp;gt;int main() { std::cout &amp;lt;&amp;lt; &amp;#34;hello world!&amp;#34; &amp;lt;&amp;lt; std::endl; }   我们需要在终端输入以下指令：
-1  $ g++ hello.cpp -o hello   这时我们就可以生成可执行文件hello。但在实际应用场景中，我们可能会面临如下问题：
- 项目中的.h文件和.cpp文件十分繁多。 各.h文件、.cpp文件的依赖关系十分复杂。 多文件可能会出现重复编译的情况，拖慢编译速度。 &amp;hellip;  为了解决这些问题，makefile和CMake应运而生。
-本讲需要使用到的工具：g++，make，cmake。可以通过以下方式安装：
-1  $ sudo apt-get install g++ make cmake   Makefile makefile文件描述了C/C++工程的编译规则，可以用来指明源文件的编译顺序、依赖关系、是否需要重新编译等，自动化编译C/C++项目（实际上也不止局限于C/C++项目）。
-我们可以考虑以下实例：
-1 2 3 4 5  . ├── invsqrt.cpp ├── invsqrt.h ├── main.cpp └── makefile   makefile如下：</description>
-      <content>&lt;h1 id=&#34;makefile--cmake&#34;&gt;Makefile &amp;amp; CMake&lt;/h1&gt;
+&lt;/div&gt;</description>
+        </item>
+        <item>
+        <title>Makefile &amp; CMake</title>
+        <link>https://ther-nullptr.github.io/posts/programming/cmake/</link>
+        <pubDate>Thu, 23 Jun 2022 20:47:58 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/programming/cmake/</guid>
+        <description>&lt;h1 id=&#34;makefile--cmake&#34;&gt;Makefile &amp;amp; CMake&lt;/h1&gt;
 &lt;p&gt;想象一下我们有如下C++程序&lt;code&gt;hello.cpp&lt;/code&gt;：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -2770,7 +2852,8 @@ virtual functions task setup  setup_task  builders  build_model build_dictionary
 &lt;li&gt;跨平台性差。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;在目前的C++工程中，我们多使用CMake来管理项目。&lt;/p&gt;
-&lt;p&gt;什么是&lt;a href=&#34;https://cmake.org/&#34;&gt;CMake&lt;/a&gt;？CMake是一种跨平台的编译工具，可以用较为简洁易读的语法描述C++项目的编译、链接、安装过程等，在现代C++项目上得到了广泛应用。&lt;/p&gt;
+&lt;p&gt;什么是&lt;a class=&#34;link&#34; href=&#34;https://cmake.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;CMake&lt;/a&gt;？CMake是一种跨平台的编译工具，可以用较为简洁易读的语法描述C++项目的编译、链接、安装过程等，在现代C++项目上得到了广泛应用。&lt;/p&gt;
 &lt;h3 id=&#34;1-第一个cmake项目&#34;&gt;1 第一个CMake项目&lt;/h3&gt;
 &lt;p&gt;CMake的项目文件叫做&lt;code&gt;CMakeLists.txt&lt;/code&gt;。其放置位置如下图所示：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -3084,7 +3167,8 @@ virtual functions task setup  setup_task  builders  build_model build_dictionary
 &lt;li&gt;&lt;code&gt;find_package(&amp;lt;package_name&amp;gt;)&lt;/code&gt; 查询第三方库的位置。若查找成功，则初始化变量&lt;code&gt;&amp;lt;package_name&amp;gt;_INCLUDE_DIR&lt;/code&gt;（第三方库的头文件目录）以及&lt;code&gt;&amp;lt;package_name&amp;gt;_LIBRARIES&lt;/code&gt;（第三方库的静态/动态库目录）。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;CMake支持的所有第三方库可以在&lt;a href=&#34;https://cmake.org/cmake/help/latest/manual/cmake-modules.7.html&#34;&gt;https://cmake.org/cmake/help/latest/manual/cmake-modules.7.html&lt;/a&gt;中找到。&lt;/p&gt;
+&lt;p&gt;CMake支持的所有第三方库可以在&lt;a class=&#34;link&#34; href=&#34;https://cmake.org/cmake/help/latest/manual/cmake-modules.7.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://cmake.org/cmake/help/latest/manual/cmake-modules.7.html&lt;/a&gt;中找到。&lt;/p&gt;
 &lt;h2 id=&#34;写在最后&#34;&gt;写在最后&lt;/h2&gt;
 &lt;p&gt;CMake还有很多强大的功能：&lt;/p&gt;
 &lt;ul&gt;
@@ -3095,35 +3179,24 @@ virtual functions task setup  setup_task  builders  build_model build_dictionary
 &lt;/ul&gt;
 &lt;p&gt;略过上述内容不会对我们的教学产生太大影响。感兴趣的同学可以参考以下文章：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://cmake.org/documentation/&#34;&gt;CMake官方文档&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/ttroy50/cmake-examples&#34;&gt;cmake-examples&lt;/a&gt; 该GitHub仓库中有很多开箱即用的CMake实例。&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.zhihu.com/question/461953861/answer/1914452432&#34;&gt;为什么编译c/c++要用makefile，而不是直接用shell呢？&lt;/a&gt; 这篇博文详细地阐述了使用makefile的动机和意义（\xfgg/）。&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://seisman.github.io/how-to-write-makefile/introduction.html&#34;&gt;跟我一起写Makefile&lt;/a&gt; Makefile教程。从中大家也可以看出Makefile的语法十分不友好&amp;hellip;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://cmake.org/documentation/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;CMake官方文档&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/ttroy50/cmake-examples&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;cmake-examples&lt;/a&gt; 该GitHub仓库中有很多开箱即用的CMake实例。&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.zhihu.com/question/461953861/answer/1914452432&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;为什么编译c/c++要用makefile，而不是直接用shell呢？&lt;/a&gt; 这篇博文详细地阐述了使用makefile的动机和意义（\xfgg/）。&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://seisman.github.io/how-to-write-makefile/introduction.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;跟我一起写Makefile&lt;/a&gt; Makefile教程。从中大家也可以看出Makefile的语法十分不友好&amp;hellip;&lt;/li&gt;
 &lt;/ul&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>编译、链接、静态库、动态库</title>
-      <link>https://ther-nullptr.github.io/posts/programming/compile/</link>
-      <pubDate>Thu, 23 Jun 2022 20:47:58 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/programming/compile/</guid>
-      <description>目录 [TOC]
-前言 在程设课上，我们运行一个C++程序的步骤通常是这样的：打开Visual Studio 2008，在文件中写好程序，然后点击“开始调试”或者“开始执行（不调试）”，一个黑色的方框就会弹出来。
-实际上，从C++源代码文件到可执行文件的过程是十分复杂的，Visual Studio等现代化的IDE（Integrated Development Environment，集成开发环境）掩盖了程序构建的复杂流程。本节我们就以linux平台上的C++程序为例，简略介绍C++工程中的一些概念。
-为了获得更好的实验体验，建议大家使用linux操作系统（虚拟机或WSL）来运行本节的程序。
-本讲需要使用到的工具有：gcc，g++。可以通过以下方式安装：
-1  $ sudo apt-get install gcc g++   从.cpp到.exe —— C/C++程序的构建过程 C/C++程序生成一个可执行文件的过程可以分为4个步骤：预处理（Preprocessing）、编译（Compiling）、汇编（Assembly）和链接（Linking）。之后我们将通过演示实例介绍每一步发生的故事。
-编译工具 针对不同的应用场景和平台，各大厂家设计了不同的C++编译工具。
-  MSVC（Microsoft Visual C++）：MSVC是微软公司开发的C++开发工具，我们程设课上使用的Visual Studio就内置了MSVC。
-  GCC（GNU Compiler Collection）：GCC是由GNU（GNU&amp;rsquo;s Not Unix）开发的一套编译工具，支持C、C++、Fortran、Go等一系列语言。本教程中我们使用的编译工具就是GCC。
-GCC提供给用户的前端程序为gcc（针对C）和g++（针对C++）。它们的区别详见gcc vs g++。
-  此外还有Clang、NVCC等编译工具。不同的编译工具对C++的支持不尽然相同，此处不再赘述。
-  1 预处理 C++程序在预处理阶段会执行以下操作：宏的替换、头文件的插入、删除条件编译中不满足条件的部分。
-1  $ g++ –E invsqrt.cpp –o invsqrt.i   2 编译 C++程序在编译阶段会将C++文件转换为汇编文件。
-1 2 3 4  # from .</description>
-      <content>&lt;h2 id=&#34;目录&#34;&gt;目录&lt;/h2&gt;
+</description>
+        </item>
+        <item>
+        <title>编译、链接、静态库、动态库</title>
+        <link>https://ther-nullptr.github.io/posts/programming/compile/</link>
+        <pubDate>Thu, 23 Jun 2022 20:47:58 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/programming/compile/</guid>
+        <description>&lt;h2 id=&#34;目录&#34;&gt;目录&lt;/h2&gt;
 &lt;p&gt;[TOC]&lt;/p&gt;
 &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
 &lt;p&gt;在程设课上，我们运行一个C++程序的步骤通常是这样的：打开Visual Studio 2008，在文件中写好程序，然后点击“开始调试”或者“开始执行（不调试）”，一个黑色的方框就会弹出来。&lt;/p&gt;
@@ -3148,7 +3221,8 @@ GCC提供给用户的前端程序为gcc（针对C）和g++（针对C++）。它�
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;GCC（GNU Compiler Collection）：GCC是由GNU（GNU&amp;rsquo;s Not Unix）开发的一套编译工具，支持C、C++、Fortran、Go等一系列语言。本教程中我们使用的编译工具就是GCC。&lt;/p&gt;
-&lt;p&gt;GCC提供给用户的前端程序为&lt;code&gt;gcc&lt;/code&gt;（针对C）和&lt;code&gt;g++&lt;/code&gt;（针对C++）。它们的区别详见&lt;a href=&#34;https://stackoverflow.com/questions/172587/what-is-the-difference-between-g-and-gcc&#34;&gt;gcc vs g++&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;GCC提供给用户的前端程序为&lt;code&gt;gcc&lt;/code&gt;（针对C）和&lt;code&gt;g++&lt;/code&gt;（针对C++）。它们的区别详见&lt;a class=&#34;link&#34; href=&#34;https://stackoverflow.com/questions/172587/what-is-the-difference-between-g-and-gcc&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;gcc vs g++&lt;/a&gt;。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;此外还有Clang、NVCC等编译工具。不同的编译工具对C++的支持不尽然相同，此处不再赘述。&lt;/p&gt;
@@ -3263,7 +3337,8 @@ GCC提供给用户的前端程序为gcc（针对C）和g++（针对C++）。它�
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h4 id=&#34;动态库&#34;&gt;动态库&lt;/h4&gt;
-&lt;p&gt;&lt;strong&gt;动态库&lt;/strong&gt;在程序编译时并不会被连接到目标代码中，而是在程序运行是才被载入。这就带来了一个明显的好处：不同的应用程序如果调用相同的库，那么在内存里只需要有一份该共享库的实例，减小了各个模块之间的耦合程度，也减小了可执行文件的体积。然而，这也要求用户的电脑上需要同时拥有可执行文件和动态库，也有可能因为版本不匹配等问题发生&lt;a href=&#34;https://en.wikipedia.org/wiki/DLL_Hell&#34;&gt;DLL Hell&lt;/a&gt;等问题。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;动态库&lt;/strong&gt;在程序编译时并不会被连接到目标代码中，而是在程序运行是才被载入。这就带来了一个明显的好处：不同的应用程序如果调用相同的库，那么在内存里只需要有一份该共享库的实例，减小了各个模块之间的耦合程度，也减小了可执行文件的体积。然而，这也要求用户的电脑上需要同时拥有可执行文件和动态库，也有可能因为版本不匹配等问题发生&lt;a class=&#34;link&#34; href=&#34;https://en.wikipedia.org/wiki/DLL_Hell&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;DLL Hell&lt;/a&gt;等问题。&lt;/p&gt;
 &lt;p&gt;linux平台下静态库的后缀通常为&lt;code&gt;.so&lt;/code&gt;，命名方式通常为&lt;code&gt;libxxx.so&lt;/code&gt;;windows平台下静态库的后缀通常为&lt;code&gt;.dll&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;在linux平台上生成动态库，并使用动态库链接形成可执行文件的方法为：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -3289,22 +3364,24 @@ GCC提供给用户的前端程序为gcc（针对C）和g++（针对C++）。它�
 &lt;/ul&gt;
 &lt;p&gt;略过上述内容不会对我们的教学产生太大影响。感兴趣的同学可以参考以下文档：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://gcc.gnu.org/&#34;&gt;GCC官网&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.learncpp.com/&#34;&gt;learn cpp&lt;/a&gt; 一份新手友好的C++入门文档。&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://docs.microsoft.com/zh-cn/cpp/build/walkthrough-creating-and-using-a-static-library-cpp?view=msvc-170&#34;&gt;演练：使用Visual Studio创建并使用静态库&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://docs.microsoft.com/zh-cn/cpp/build/walkthrough-creating-and-using-a-dynamic-link-library-cpp?view=msvc-170&#34;&gt;演练：使用Visual Studio创建并使用动态库&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://gcc.gnu.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GCC官网&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.learncpp.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;learn cpp&lt;/a&gt; 一份新手友好的C++入门文档。&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.microsoft.com/zh-cn/cpp/build/walkthrough-creating-and-using-a-static-library-cpp?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;演练：使用Visual Studio创建并使用静态库&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.microsoft.com/zh-cn/cpp/build/walkthrough-creating-and-using-a-dynamic-link-library-cpp?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;演练：使用Visual Studio创建并使用动态库&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>Csharp async</title>
-      <link>https://ther-nullptr.github.io/posts/programming/csharp_async/</link>
-      <pubDate>Wed, 22 Jun 2022 10:40:10 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/programming/csharp_async/</guid>
-      <description>C# async 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118  using System; using System.</description>
-      <content>&lt;h2 id=&#34;c-async&#34;&gt;C# async&lt;/h2&gt;
+</description>
+        </item>
+        <item>
+        <title>Csharp async</title>
+        <link>https://ther-nullptr.github.io/posts/programming/csharp_async/</link>
+        <pubDate>Wed, 22 Jun 2022 10:40:10 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/programming/csharp_async/</guid>
+        <description>&lt;h2 id=&#34;c-async&#34;&gt;C# async&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;  1
@@ -3547,25 +3624,15 @@ GCC提供给用户的前端程序为gcc（针对C）和g++（针对C++）。它�
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content>
-    </item>
-    
-    <item>
-      <title>Csharp on Linux</title>
-      <link>https://ther-nullptr.github.io/posts/programming/csharp_on_linux/</link>
-      <pubDate>Tue, 21 Jun 2022 17:59:46 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/programming/csharp_on_linux/</guid>
-      <description>dotnet build 生成一个.NET工程。目录下必须有.sln文件或.csproj文件。
-dotnet publish 生成一个.NET工程的发布版本。目录下必须有.sln文件或.csproj文件。
-dotnet run 启动一个.NET工程。目录下必须有.csproj文件。
-dotnet clean 清除一个.NET工程的所有编译文件。目录下必须有.sln文件或.csproj文件。
-dotnet list package 查看一个.NET工程的所有依赖包。目录下必须有.sln文件或.csproj文件。
-dotnet list reference 列举项目的所有依赖项。目录下必须有.csproj文件。
-dotnet add package &amp;lt;PACKAGE_NAME&amp;gt; --version &amp;lt;VERSION&amp;gt; 添加一个依赖包。目录下必须有.csproj文件。
- publish命令和build命令最大的区别在于：publish命令将应用程序的依赖项，从NuGet缓存复制到输出文件夹中。
- </description>
-      <content>&lt;p&gt;&lt;code&gt;dotnet build&lt;/code&gt;  生成一个.NET工程。目录下必须有.sln文件或.csproj文件。&lt;/p&gt;
+&lt;/div&gt;</description>
+        </item>
+        <item>
+        <title>Csharp on Linux</title>
+        <link>https://ther-nullptr.github.io/posts/programming/csharp_on_linux/</link>
+        <pubDate>Tue, 21 Jun 2022 17:59:46 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/programming/csharp_on_linux/</guid>
+        <description>&lt;p&gt;&lt;code&gt;dotnet build&lt;/code&gt;  生成一个.NET工程。目录下必须有.sln文件或.csproj文件。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;dotnet publish&lt;/code&gt; 生成一个.NET工程的发布版本。目录下必须有.sln文件或.csproj文件。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;dotnet run&lt;/code&gt; 启动一个.NET工程。目录下必须有.csproj文件。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;dotnet clean&lt;/code&gt; 清除一个.NET工程的所有编译文件。目录下必须有.sln文件或.csproj文件。&lt;/p&gt;
@@ -3575,23 +3642,15 @@ dotnet add package &amp;lt;PACKAGE_NAME&amp;gt; --version &amp;lt;VERSION&amp;gt
 &lt;blockquote&gt;
 &lt;p&gt;publish命令和build命令最大的区别在于：publish命令将应用程序的依赖项，从NuGet缓存复制到输出文件夹中。&lt;/p&gt;
 &lt;/blockquote&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>Protobuf</title>
-      <link>https://ther-nullptr.github.io/posts/programming/protobuf/</link>
-      <pubDate>Mon, 20 Jun 2022 20:07:09 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/programming/protobuf/</guid>
-      <description>Protobuf 目录 [TOC]
-数据的传输与解析——浅谈序列化与反序列化 在网络通信的过程中，服务器端和客户端之间常常需要进行对象的传输。对象中常常含有不同的变量：
- 整数 字符串 数组 数组对象 &amp;hellip;  那么我们如何正确地进行这种传递呢？要想实现对象的传输，在发送端我们需要使用一定的规则，将对象转换为具体的字节数组，这就是序列化(serialization)；而在接受端再以这种规则将字节数组还原为对象，这就是反序列化(deserialization)。
-常见的序列化-反序列化协议有XML、JSON、Protobuf。
- XML(eXtensible Markup Language，可扩展标记语言)使用标签&amp;lt;xx&amp;gt;和&amp;lt;/xx&amp;gt;来区隔不同的数据。 JSON(JavaScript Object Notation，JavaScript对象简谱)使用JavaScript构造对象的方法来存储、传输数据。 Protobuf(Protocol Buffers)是Google公司开源跨平台的序列化数据结构的协议。  我们通过一个实例说明三者的差异。我们不妨定义以下对象：
-1 2 3 4 5 6 7 8 9 10 11 12  #include &amp;lt;string&amp;gt; class Helloworld { int id; std::string name; } int main() { Helloworld helloworld(101, &amp;#34;hello&amp;#34;); }   使用XML序列化该对象：
-1 2 3 4  &amp;lt;helloworld&amp;gt; &amp;lt;id&amp;gt;101&amp;lt;/id&amp;gt; &amp;lt;name&amp;gt;hello&amp;lt;/name&amp;gt; &amp;lt;/helloworld&amp;gt;   使用JSON序列化该对象：</description>
-      <content>&lt;h1 id=&#34;protobuf&#34;&gt;Protobuf&lt;/h1&gt;
+</description>
+        </item>
+        <item>
+        <title>Protobuf</title>
+        <link>https://ther-nullptr.github.io/posts/programming/protobuf/</link>
+        <pubDate>Mon, 20 Jun 2022 20:07:09 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/programming/protobuf/</guid>
+        <description>&lt;h1 id=&#34;protobuf&#34;&gt;Protobuf&lt;/h1&gt;
 &lt;h2 id=&#34;目录&#34;&gt;目录&lt;/h2&gt;
 &lt;p&gt;[TOC]&lt;/p&gt;
 &lt;h2 id=&#34;数据的传输与解析浅谈序列化与反序列化&#34;&gt;数据的传输与解析——浅谈序列化与反序列化&lt;/h2&gt;
@@ -3604,7 +3663,10 @@ dotnet add package &amp;lt;PACKAGE_NAME&amp;gt; --version &amp;lt;VERSION&amp;gt
 &lt;li&gt;&amp;hellip;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;那么我们如何正确地进行这种传递呢？要想实现对象的传输，在发送端我们需要使用一定的规则，将对象转换为具体的字节数组，这就是&lt;strong&gt;序列化(serialization)&lt;/strong&gt;；而在接受端再以这种规则将字节数组还原为对象，这就是&lt;strong&gt;反序列化(deserialization)&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;常见的序列化-反序列化协议有&lt;a href=&#34;https://en.wikipedia.org/wiki/XML&#34;&gt;XML&lt;/a&gt;、&lt;a href=&#34;https://en.wikipedia.org/wiki/JSON&#34;&gt;JSON&lt;/a&gt;、&lt;a href=&#34;https://en.wikipedia.org/wiki/Protocol_Buffers&#34;&gt;Protobuf&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;常见的序列化-反序列化协议有&lt;a class=&#34;link&#34; href=&#34;https://en.wikipedia.org/wiki/XML&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;XML&lt;/a&gt;、&lt;a class=&#34;link&#34; href=&#34;https://en.wikipedia.org/wiki/JSON&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;JSON&lt;/a&gt;、&lt;a class=&#34;link&#34; href=&#34;https://en.wikipedia.org/wiki/Protocol_Buffers&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Protobuf&lt;/a&gt;。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;XML(eXtensible Markup Language，可扩展标记语言)使用标签&lt;code&gt;&amp;lt;xx&amp;gt;&lt;/code&gt;和&lt;code&gt;&amp;lt;/xx&amp;gt;&lt;/code&gt;来区隔不同的数据。&lt;/li&gt;
 &lt;li&gt;JSON(JavaScript Object Notation，JavaScript对象简谱)使用JavaScript构造对象的方法来存储、传输数据。&lt;/li&gt;
@@ -3724,10 +3786,13 @@ dotnet add package &amp;lt;PACKAGE_NAME&amp;gt; --version &amp;lt;VERSION&amp;gt
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;blockquote&gt;
-&lt;p&gt;本节我们将重点介绍Protobuf的使用方法。但XML及其各种变体（如HTML、XAML）和JSON也在软件部的后续开发中有着广泛应用。感兴趣的同学可以参考相关资料了解&lt;a href=&#34;https://www.w3school.com.cn/xml/xml_intro.asp&#34;&gt;XML&lt;/a&gt;和&lt;a href=&#34;https://www.w3school.com.cn/js/js_json_intro.asp&#34;&gt;JSON&lt;/a&gt;的更多使用方法。&lt;/p&gt;
+&lt;p&gt;本节我们将重点介绍Protobuf的使用方法。但XML及其各种变体（如HTML、XAML）和JSON也在软件部的后续开发中有着广泛应用。感兴趣的同学可以参考相关资料了解&lt;a class=&#34;link&#34; href=&#34;https://www.w3school.com.cn/xml/xml_intro.asp&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;XML&lt;/a&gt;和&lt;a class=&#34;link&#34; href=&#34;https://www.w3school.com.cn/js/js_json_intro.asp&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;JSON&lt;/a&gt;的更多使用方法。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;protobuf的安装&#34;&gt;protobuf的安装&lt;/h2&gt;
-&lt;p&gt;protobuf可以通过以下方式安装（参考自&lt;a href=&#34;https://github.com/protocolbuffers/protobuf/blob/main/src/README.md&#34;&gt;Protobuf C++ Installation&lt;/a&gt;）&lt;/p&gt;
+&lt;p&gt;protobuf可以通过以下方式安装（参考自&lt;a class=&#34;link&#34; href=&#34;https://github.com/protocolbuffers/protobuf/blob/main/src/README.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Protobuf C++ Installation&lt;/a&gt;）&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -3759,7 +3824,16 @@ dotnet add package &amp;lt;PACKAGE_NAME&amp;gt; --version &amp;lt;VERSION&amp;gt
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;以上操作会将&lt;code&gt;protoc&lt;/code&gt;可执行文件（后续教程会介绍其使用方法）以及与protobuf相关的头文件、库安装至本机。在终端输入&lt;code&gt;protoc&lt;/code&gt;，若输出提示信息，则表示安装成功。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/07/02/ikBloyAqhTXGWFd.png&#34; alt=&#34;protoc安装成功&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/07/02/ikBloyAqhTXGWFd.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;protoc安装成功&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h2 id=&#34;proto文件&#34;&gt;proto文件&lt;/h2&gt;
 &lt;h3 id=&#34;基础使用&#34;&gt;基础使用&lt;/h3&gt;
 &lt;p&gt;在使用protobuf时，我们首先需要在&lt;code&gt;.proto&lt;/code&gt;文件中将需要被序列化的数据结构进行定义。&lt;/p&gt;
@@ -3931,7 +4005,8 @@ dotnet add package &amp;lt;PACKAGE_NAME&amp;gt; --version &amp;lt;VERSION&amp;gt
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;更多语言的对应关系参看&lt;a href=&#34;https://developers.google.com/protocol-buffers/docs/proto3#scalar&#34;&gt;Protobuf scalar types&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;更多语言的对应关系参看&lt;a class=&#34;link&#34; href=&#34;https://developers.google.com/protocol-buffers/docs/proto3#scalar&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Protobuf scalar types&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;此外，Protobuf还支持使用&lt;code&gt;enum&lt;/code&gt;关键字定义枚举类型。每个枚举定义都必须包含一个映射到0的常量作为枚举的默认值。&lt;/p&gt;
 &lt;p&gt;为了尽可能多地压缩数据，Protobuf对各数据类型地默认值做了以下处理：&lt;/p&gt;
 &lt;ul&gt;
@@ -4311,47 +4386,72 @@ dotnet add package &amp;lt;PACKAGE_NAME&amp;gt; --version &amp;lt;VERSION&amp;gt
 &lt;/div&gt;&lt;p&gt;在Csharp程序中，需要在NuGet程序包中搜索并下载&lt;code&gt;Google.Protobuf&lt;/code&gt;安装包。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;补充说明：如何在Visual Studio中使用NuGet为Csharp程序安装第三方库？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://zh.wikipedia.org/zh-cn/NuGet&#34;&gt;NuGet&lt;/a&gt;是一个自由开源软件包管理系统，作为Visual Studio的一个扩展，可以简化在Visual Studio中添加、更新和删除库的操作。&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zh.wikipedia.org/zh-cn/NuGet&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;NuGet&lt;/a&gt;是一个自由开源软件包管理系统，作为Visual Studio的一个扩展，可以简化在Visual Studio中添加、更新和删除库的操作。&lt;/p&gt;
 &lt;p&gt;我们在开发Csharp程序时不可避免地要用到第三方库，NuGet是一种很好用的工具。以下将以&lt;code&gt;protobuf&lt;/code&gt;为例简要介绍NuGet的使用。&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;右键项目，点击“管理NuGet程序包”。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/07/02/PqspSdej78KAU4Q.png&#34; alt=&#34;stage 1&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/07/02/PqspSdej78KAU4Q.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;stage 1&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;点击“浏览”，搜索你想要安装的包名。可以根据项目所需要切换不同的版本。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/07/02/Asvzb7n3KhdwL6x.png&#34; alt=&#34;stage 2&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/07/02/Asvzb7n3KhdwL6x.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;stage 2&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;点击安装。在编辑器内输入&lt;code&gt;using Google.Protobuf&lt;/code&gt;，若无报错，说明安装成功。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/07/02/NTij9evAfu2R3yF.png&#34; alt=&#34;stage 3&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/07/02/NTij9evAfu2R3yF.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;stage 3&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;写在最后&#34;&gt;写在最后&lt;/h2&gt;
 &lt;p&gt;由于篇幅所限，我们仍然有许多内容没有展开：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://izualzhy.cn/protobuf-encode-varint-and-zigzag&#34;&gt;protobuf编码之varint/zigzag&lt;/a&gt; protobuf为什么可以获得如此高效的编码效果？这涉及到其底层算法——varint和zigzag算法。&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://izualzhy.cn/protobuf-encode-varint-and-zigzag&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;protobuf编码之varint/zigzag&lt;/a&gt; protobuf为什么可以获得如此高效的编码效果？这涉及到其底层算法——varint和zigzag算法。&lt;/li&gt;
 &lt;li&gt;proto2语法和proto3语法的区别。&lt;/li&gt;
 &lt;li&gt;&amp;hellip;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;略去上述内容不会对我们的教学产生太大影响，感兴趣的同学可以参考&lt;a href=&#34;https://developers.google.com/protocol-buffers/docs/proto3&#34;&gt;Protobuf官方文档&lt;/a&gt;学习更多知识。&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>Protobuf</title>
-      <link>https://ther-nullptr.github.io/posts/programming/pytorch/</link>
-      <pubDate>Mon, 20 Jun 2022 20:07:09 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/programming/pytorch/</guid>
-      <description>Parameters Parameters are Tensor subclasses, that have a very special property when used with Module s - when they’re assigned as Module attributes they are automatically added to the list of its parameters, and will appear e.g. in parameters() iterator.
-简单来讲，nn.Parameters用于注册可供训练的参数。e.g:
-1 2 3 4 5 6  In [6]: a = torch.nn.Parameter(torch.Tensor([0])) In [7]: a Out[7]: Parameter containing: tensor([0.], requires_grad=True)   nn.Parameter默认requires_grad=True
-一些常用参量（用于更新参数等）：
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40  &amp;gt;&amp;gt; class Net(torch.</description>
-      <content>&lt;h2 id=&#34;parameters&#34;&gt;Parameters&lt;/h2&gt;
-&lt;p&gt;Parameters are &lt;a href=&#34;https://pytorch.org/docs/stable/tensors.html#torch.Tensor&#34;&gt;&lt;code&gt;Tensor&lt;/code&gt;&lt;/a&gt; subclasses, that have a very special property when used with &lt;code&gt;Module&lt;/code&gt; s - when they’re assigned as Module attributes they are automatically added to the list of its parameters, and will appear e.g. in &lt;code&gt;parameters()&lt;/code&gt; iterator.&lt;/p&gt;
+&lt;p&gt;略去上述内容不会对我们的教学产生太大影响，感兴趣的同学可以参考&lt;a class=&#34;link&#34; href=&#34;https://developers.google.com/protocol-buffers/docs/proto3&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Protobuf官方文档&lt;/a&gt;学习更多知识。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>Protobuf</title>
+        <link>https://ther-nullptr.github.io/posts/programming/pytorch/</link>
+        <pubDate>Mon, 20 Jun 2022 20:07:09 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/programming/pytorch/</guid>
+        <description>&lt;h2 id=&#34;parameters&#34;&gt;Parameters&lt;/h2&gt;
+&lt;p&gt;Parameters are &lt;a class=&#34;link&#34; href=&#34;https://pytorch.org/docs/stable/tensors.html#torch.Tensor&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;code&gt;Tensor&lt;/code&gt;&lt;/a&gt; subclasses, that have a very special property when used with &lt;code&gt;Module&lt;/code&gt; s - when they’re assigned as Module attributes they are automatically added to the list of its parameters, and will appear e.g. in &lt;code&gt;parameters()&lt;/code&gt; iterator.&lt;/p&gt;
 &lt;p&gt;简单来讲，nn.Parameters用于注册可供训练的参数。e.g:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -4488,26 +4588,15 @@ dotnet add package &amp;lt;PACKAGE_NAME&amp;gt; --version &amp;lt;VERSION&amp;gt
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;defaultdict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;dict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{})&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content>
-    </item>
-    
-    <item>
-      <title>面向对象程序设计基础</title>
-      <link>https://ther-nullptr.github.io/posts/programming/oop/</link>
-      <pubDate>Mon, 20 Jun 2022 20:07:09 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/programming/oop/</guid>
-      <description>面向对象程序设计基础 目录 [TOC]
-在大一的程设课上，我们系统学习了C++的语法，掌握了一些编写小型程序的技能。实际上，要想写出一个可读性好、可复用、鲁棒性强的程序，掌握一些基本的设计原则是十分必要的。
-本讲的内容并不针对具体的某一语言，而且相比之前的一些内容，本讲的知识更需要在长期的实践中“内化”；与此同时，与软件工程相关的理论博大精深，本讲仅仅挑选一些代表性的原则，只能带领大家入门，想要了解更多还需要仔细阅读文末提供的书单~
-KISS KISS代表着“Keep It Simple and Stupid”。KISS原则指出，简单性应该是软件开发的主要目标，应该避免不必要的复杂性。
-不过，如何界定“简单”？KISS原则指出，为了保证代码的灵活性和可扩展性，我们可能不得不增加代码的复杂度。但除此之外，在这种问题固有复杂性的基础之上增加自制的复杂性，是十分不明智的做法——程序并非程序员炫技的场所，而应该是一件简约的艺术品。
-一言以概之：如无必要，勿增实体。
-Loose Coupling⭐ Loose Coupling，即松耦合原则。这一原则指出：模块与模块之间的耦合（即相互关联的程度）应该越小越好，或者说，它们应该尽可能少地感知到对方的存在。
-举一个例子吧（本例选自 Clean C++ 一书）：
-考虑你有一台电灯，和一个用于控制电灯的开关：
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34  class Lamp { public: void on() { } void off() { } } class Switch { public: Switch(Lamp&amp;amp; lamp): lamp(lamp) {} void toggle() { if (state) { state = false; lamp.</description>
-      <content>&lt;h1 id=&#34;面向对象程序设计基础&#34;&gt;面向对象程序设计基础&lt;/h1&gt;
+&lt;/div&gt;</description>
+        </item>
+        <item>
+        <title>面向对象程序设计基础</title>
+        <link>https://ther-nullptr.github.io/posts/programming/oop/</link>
+        <pubDate>Mon, 20 Jun 2022 20:07:09 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/programming/oop/</guid>
+        <description>&lt;h1 id=&#34;面向对象程序设计基础&#34;&gt;面向对象程序设计基础&lt;/h1&gt;
 &lt;h2 id=&#34;目录&#34;&gt;目录&lt;/h2&gt;
 &lt;p&gt;[TOC]&lt;/p&gt;
 &lt;p&gt;在大一的程设课上，我们系统学习了C++的语法，掌握了一些编写小型程序的技能。实际上，要想写出一个可读性好、可复用、鲁棒性强的程序，掌握一些基本的设计原则是十分必要的。&lt;/p&gt;
@@ -5269,7 +5358,16 @@ Loose Coupling⭐ Loose Coupling，即松耦合原则。这一原则指出：模
 &lt;p&gt;不同的设计模式之间有着相似的理念和重叠之处。合理利用设计模式可以让代码更加规范、更容易维护，但盲目使用设计模式也不是明智之举。&lt;/p&gt;
 &lt;p&gt;本讲将介绍一个难度较大，而且应用较为广泛的设计模式——&lt;strong&gt;桥接模式&lt;/strong&gt;（属于结构型模式）。&lt;/p&gt;
 &lt;p&gt;桥接模式的定义如下：桥接模式是将类&lt;strong&gt;抽象部分&lt;/strong&gt;与&lt;strong&gt;实现部分&lt;/strong&gt;分离，使它们都可以独立地变化。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/07/03/TKqRdsVU73LSc5Q.png&#34; alt=&#34;桥接模式示意图&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/07/03/TKqRdsVU73LSc5Q.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;桥接模式示意图&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;什么是&lt;strong&gt;抽象部分&lt;/strong&gt;？什么是&lt;strong&gt;实现部分&lt;/strong&gt;？让我们先考虑以下场景：一家奶茶店售卖不同种类的奶茶，奶茶既有不同的容量，也有不同的口味。如果我们只需要改变奶茶的容量，可以做出如下设计：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -5560,41 +5658,19 @@ Loose Coupling⭐ Loose Coupling，即松耦合原则。这一原则指出：模
 &lt;/div&gt;&lt;p&gt;可以在上述示例中看到：抽象部分各类中，都含有一个实现部分的指针。如果需要访问实现部分的方法，可以通过该指针进行访问。这样，我们就通过桥接的方式分离了两个不同的维度，使得类的可扩展性更好。&lt;/p&gt;
 &lt;p&gt;由于篇幅所限，我们在此处不能对设计模式进行一一介绍，感兴趣的同学可以参考文末给出的阅读清单进行学习。&lt;/p&gt;
 &lt;h2 id=&#34;参考文献和荐读清单&#34;&gt;参考文献和荐读清单&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://refactoringguru.cn/&#34;&gt;Refactoring.Guru&lt;/a&gt; 该网站详细介绍了各设计模式的特点，并提供了不同编程语言的实例。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://link.springer.com/content/pdf/10.1007%2F978-1-4842-2793-0.pdf&#34;&gt;Clean C++&lt;/a&gt; 这本书的侧重点不在介绍C++语法，而侧重于使用C++语言介绍如何写出可读性强、符合面向对象规范的程序，强推！&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>grpc</title>
-      <link>https://ther-nullptr.github.io/posts/programming/grpc/</link>
-      <pubDate>Mon, 20 Jun 2022 19:55:32 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/programming/grpc/</guid>
-      <description>gRPC 无03 王与进
-目录 [TOC]
-前言 在介绍gRPC之前，我们需要先介绍几个在通信中需要用到的概念。
-Client-Server model:star: Client-Server结构是一种经典的通信模型。它通常采取两层结构：
- 服务器（Server）负责数据的处理。它有以下特征：  等待来自客户端的请求 处理请求并传回结果   客户端（Client）负责完成与用户的交互任务。它有以下特征：  发送请求 等待直到收到响应    THUAI5就是一个应用了Client-Server model的典型实例：
-在游戏中，玩家通过在Client端编写C++代码来制定游戏策略，而Server端由Csharp语言写成，用于分析处理游戏逻辑。编译生成的Client端可执行文件将向Server端发送请求，请求处理完毕后Server端再向Client端发送处理后的结果，这样Client端就可以接受到游戏实况，以供下一步决策。
-IP Address IP Address(Internet Protocol address，网际协议地址)，是网际协议中用于标识发送或接受数据报的设备的一串数字。
-当设备连接网络后，设备将被分配一个IP地址，对于一个具体的设备而言，IP地址是独一无二的。IP地址有两个主要的功能：标识主机（用户在互联网上可以识别）和网络寻址（允许计算机通过互联网发送和接受数据）。
-常见的IP地址分为IPv4和IPv6两大类：
-  IPv4：32位长，通常书写时以四组十进制数字组成，并以点分割，例如：172.16.254.1。
-  IPv6：128位长，通常书写时以八组十六进制数字组成，并以冒号分割，例如：
-2001:db8:0:1234:0:567:8:1。
-  我们可以使用如下方法查询本机的IP地址：
- windows：ipconfig linux：ifconfig（可能需要使用sudo apt-get install net-tools进行安装）   一个特殊的IP地址：127.0.0.1
-尽管现在有大量可用的 IP 地址，但为了防止编程冲突的特定目的，刻意保留一些地址，甚至是地址范围是很方便的。
-127.0.0.1就是其中一个。它表示的是主机环回地址，表示的是任何数据包都不应该离开计算机，计算机本身即为接收者。
-当我们需要在本地测试一些网站服务，或者只想在本地设备上运行只有本地设备可以访问的服务，就可以使用127.0.0.1。
- Port Port(端口)在电脑网络中是一种经过软件创建的服务，在一个电脑的操作系统中扮演通信的端点。
-什么意思呢？利用IP地址，可以实现不同计算机之间的通信。但实际上，计算机中是运行着多个进程的——当不同的信息被传入计算机后，计算机需要一种手段来区分信息的接收者，以将不同进程的处理结果正确地发送给接收者。
-这个时候，端口就派上了用场。如果我们在通信时不仅指定IP地址，而且指定端口，计算机就可以正确地将不同的请求交给正确的进程处理。
-特定的服务一般对应于特定的端口，详见端口列表。
-我们可以使用如下方法查看本机的端口使用情况：
- windows：netstat -ano| findstr &amp;quot;&amp;lt;port&amp;gt;&amp;quot; linux：netstat -tunlp | grep &amp;lt;port&amp;gt;或lsof -i:&amp;lt;port&amp;gt;  gRPC概况 gRPC的全称是gRPC Remote Procedure Calls。其中“Remote Procedure Calls”翻译为“远程过程调用”。“远程过程调用”指的是客户端（Client）可以像调用本地对象一样直接调用服务端（Server）应用的方法。具体过程如下：</description>
-      <content>&lt;h1 id=&#34;grpc&#34;&gt;gRPC&lt;/h1&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://refactoringguru.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Refactoring.Guru&lt;/a&gt; 该网站详细介绍了各设计模式的特点，并提供了不同编程语言的实例。&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://link.springer.com/content/pdf/10.1007%2F978-1-4842-2793-0.pdf&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Clean C++&lt;/a&gt; 这本书的侧重点不在介绍C++语法，而侧重于使用C++语言介绍如何写出可读性强、符合面向对象规范的程序，强推！&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>grpc</title>
+        <link>https://ther-nullptr.github.io/posts/programming/grpc/</link>
+        <pubDate>Mon, 20 Jun 2022 19:55:32 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/programming/grpc/</guid>
+        <description>&lt;h1 id=&#34;grpc&#34;&gt;gRPC&lt;/h1&gt;
 &lt;p&gt;无03 王与进&lt;/p&gt;
 &lt;h2 id=&#34;目录&#34;&gt;目录&lt;/h2&gt;
 &lt;p&gt;[TOC]&lt;/p&gt;
@@ -5616,8 +5692,18 @@ IP Address IP Address(Internet Protocol address，网际协议地址)，是网�
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/eesast/THUAI5&#34;&gt;THUAI5&lt;/a&gt;就是一个应用了Client-Server model的典型实例：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://github.com/eesast/THUAI5/blob/dev/resource/structure.png&#34; alt=&#34;THUAI5架构&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/eesast/THUAI5&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;THUAI5&lt;/a&gt;就是一个应用了Client-Server model的典型实例：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://github.com/eesast/THUAI5/blob/dev/resource/structure.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;THUAI5架构&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;在游戏中，玩家通过在Client端编写C++代码来制定游戏策略，而Server端由Csharp语言写成，用于分析处理游戏逻辑。编译生成的Client端可执行文件将向Server端发送请求，请求处理完毕后Server端再向Client端发送处理后的结果，这样Client端就可以接受到游戏实况，以供下一步决策。&lt;/p&gt;
 &lt;h3 id=&#34;ip-address&#34;&gt;IP Address&lt;/h3&gt;
 &lt;p&gt;IP Address(Internet Protocol address，网际协议地址)，是网际协议中用于标识发送或接受数据报的设备的一串数字。&lt;/p&gt;
@@ -5647,7 +5733,8 @@ IP Address IP Address(Internet Protocol address，网际协议地址)，是网�
 &lt;p&gt;Port(端口)在电脑网络中是一种经过软件创建的服务，在一个电脑的操作系统中扮演通信的端点。&lt;/p&gt;
 &lt;p&gt;什么意思呢？利用IP地址，可以实现不同计算机之间的通信。但实际上，计算机中是运行着多个进程的——当不同的信息被传入计算机后，计算机需要一种手段来区分信息的接收者，以将不同进程的处理结果正确地发送给接收者。&lt;/p&gt;
 &lt;p&gt;这个时候，端口就派上了用场。如果我们在通信时不仅指定IP地址，而且指定端口，计算机就可以正确地将不同的请求交给正确的进程处理。&lt;/p&gt;
-&lt;p&gt;特定的服务一般对应于特定的端口，详见&lt;a href=&#34;https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers&#34;&gt;端口列表&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;特定的服务一般对应于特定的端口，详见&lt;a class=&#34;link&#34; href=&#34;https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;端口列表&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;我们可以使用如下方法查看本机的端口使用情况：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;windows：&lt;code&gt;netstat -ano| findstr &amp;quot;&amp;lt;port&amp;gt;&amp;quot;&lt;/code&gt;&lt;/li&gt;
@@ -5661,7 +5748,16 @@ IP Address IP Address(Internet Protocol address，网际协议地址)，是网�
 &lt;li&gt;在客户端（Client）建立一个存根（stub），提供与服务端相同的方法。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;下面的图形象地展示了gRPC的使用过程：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/07/03/xWtehfYFp5X9K1i.png&#34; alt=&#34;gRPC 模型&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/07/03/xWtehfYFp5X9K1i.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;gRPC 模型&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;这样一来，用户在使用gRPC构建的应用程序时，不需要关心调用方法的内部逻辑（被封装在Server中），只需要调用Client端提供的方法向Server端提供请求，等待Server端返回结果即可——看上去就和在Client端本地调用方法一样。&lt;/p&gt;
 &lt;p&gt;gRPC有诸多优点：&lt;/p&gt;
 &lt;ul&gt;
@@ -5717,7 +5813,8 @@ IP Address IP Address(Internet Protocol address，网际协议地址)，是网�
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;blockquote&gt;
-&lt;p&gt;需要指出的是，由于网络等问题，&lt;code&gt;git submodule update --init --recursive&lt;/code&gt;一步往往无法正常运行。为此可以点击&lt;a href=&#34;https://cloud.tsinghua.edu.cn/f/57ed9214f07e4b41a11c/&#34;&gt;此处&lt;/a&gt;下载&lt;code&gt;third_party.tar.gz&lt;/code&gt;，并将&lt;code&gt;git submodule..&lt;/code&gt;一步替换为以下操作：&lt;/p&gt;
+&lt;p&gt;需要指出的是，由于网络等问题，&lt;code&gt;git submodule update --init --recursive&lt;/code&gt;一步往往无法正常运行。为此可以点击&lt;a class=&#34;link&#34; href=&#34;https://cloud.tsinghua.edu.cn/f/57ed9214f07e4b41a11c/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;此处&lt;/a&gt;下载&lt;code&gt;third_party.tar.gz&lt;/code&gt;，并将&lt;code&gt;git submodule..&lt;/code&gt;一步替换为以下操作：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -5735,7 +5832,16 @@ IP Address IP Address(Internet Protocol address，网际协议地址)，是网�
 &lt;/div&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;csharp&#34;&gt;Csharp&lt;/h3&gt;
 &lt;p&gt;Csharp中，我们可以使用NuGet程序包安装gRPC库（图中第一项）。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/07/04/xSqztYilfk5NHdw.png&#34; alt=&#34;gRPC安装&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/07/04/xSqztYilfk5NHdw.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;gRPC安装&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h2 id=&#34;grpc服务star&#34;&gt;gRPC服务:star:&lt;/h2&gt;
 &lt;p&gt;grpc默认使用protobuf作为接口定义语言。定义方式见下例：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -6308,7 +6414,16 @@ IP Address IP Address(Internet Protocol address，网际协议地址)，是网�
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;运行结果如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/07/04/pcQgowRDOyLNfHZ.png&#34; alt=&#34;运行结果&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/07/04/pcQgowRDOyLNfHZ.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;运行结果&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h2 id=&#34;参考与荐读&#34;&gt;参考与荐读&lt;/h2&gt;
 &lt;p&gt;由于时间所限，有很多有趣的内容我们没有涉及：&lt;/p&gt;
 &lt;ul&gt;
@@ -6319,40 +6434,22 @@ IP Address IP Address(Internet Protocol address，网际协议地址)，是网�
 &lt;/ul&gt;
 &lt;p&gt;略过上述内容不会对我们的教学产生太大影响，感兴趣的同学可以参考以下文档和资源：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://en.sg1lib.org/book/16826869/8f57d1&#34;&gt;计算机网络——自顶向下方法&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://cs144.github.io/&#34;&gt;Stanford CS144&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://grpc.io/&#34;&gt;gRPC 官方文档&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://en.sg1lib.org/book/16826869/8f57d1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;计算机网络——自顶向下方法&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://cs144.github.io/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Stanford CS144&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://grpc.io/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;gRPC 官方文档&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>Love Death Robots</title>
-      <link>https://ther-nullptr.github.io/posts/ldr/</link>
-      <pubDate>Sun, 19 Jun 2022 20:55:58 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/ldr/</guid>
-      <description>chapter 1 是谁把这些星星撒过天空
-像闪光的尘埃
-像发光的云
-他们将乳白色的光芒
-倒入深黑色的碗中
-Who spilled those stars across the sky
-like sparkling dust
-like clouds of light?
-They pour their milky shine
-into the deep black bowl
-chapter 2 我是我所行走的世界
-我所见所闻所感都来自我自己
-I was the world in which I walked
-and what I saw or heard or felt
-came not but from myself
-chapter 3 大理石永久幻化成一个灵魂
-孤独地航行在陌生的
-思想海洋中
-The marble index of a mind forever
-Voyaging through strange seas of thought, alone</description>
-      <content>&lt;h2 id=&#34;chapter-1&#34;&gt;chapter 1&lt;/h2&gt;
+</description>
+        </item>
+        <item>
+        <title>Love Death Robots</title>
+        <link>https://ther-nullptr.github.io/posts/ldr/</link>
+        <pubDate>Sun, 19 Jun 2022 20:55:58 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/ldr/</guid>
+        <description>&lt;img src="https://ther-nullptr.github.io/posts/ldr/LDR.jpg" alt="Featured image of post Love Death Robots" /&gt;&lt;h2 id=&#34;chapter-1&#34;&gt;chapter 1&lt;/h2&gt;
 &lt;p&gt;是谁把这些星星撒过天空&lt;/p&gt;
 &lt;p&gt;像闪光的尘埃&lt;/p&gt;
 &lt;p&gt;像发光的云&lt;/p&gt;
@@ -6380,23 +6477,15 @@ Voyaging through strange seas of thought, alone</description>
 &lt;p&gt;恰是那台机器脉冲的颤跳&lt;/p&gt;
 &lt;p&gt;And now I see with eye serene&lt;/p&gt;
 &lt;p&gt;The very pulse of the machine&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>解决VSCode更新后无法启动Remote WSL的问题</title>
-      <link>https://ther-nullptr.github.io/posts/awesome_toolkits/wsl_remote/</link>
-      <pubDate>Sun, 19 Jun 2022 19:10:59 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/awesome_toolkits/wsl_remote/</guid>
-      <description>  打开wsl，输入以下指令：
-1  $ VSCODE_WSL_DEBUG_INFO=true code .   此时terminal会输出调试信息：
-此时所执行的脚本路径为~//.vscode//extensions//ms-vscode-remote.remote-wsl-0.xx.x//scripts//wslDownload.sh(On Windows)。定位程序发生卡死的位置：
-将该程序的第110行（或临近位置，带tar的那行）删掉：
-手动下载，并解压该文件，将其名称改为其SHA-1值。然后移动到~/.vscode-server/bin/中：
-成功解决！
-  </description>
-      <content>&lt;ol&gt;
+</description>
+        </item>
+        <item>
+        <title>解决VSCode更新后无法启动Remote WSL的问题</title>
+        <link>https://ther-nullptr.github.io/posts/awesome_toolkits/wsl_remote/</link>
+        <pubDate>Sun, 19 Jun 2022 19:10:59 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/awesome_toolkits/wsl_remote/</guid>
+        <description>&lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;打开wsl，输入以下指令：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -6408,46 +6497,57 @@ Voyaging through strange seas of thought, alone</description>
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;此时terminal会输出调试信息：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/19/mMSrDJHl6tqFNe3.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/19/mMSrDJHl6tqFNe3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;此时所执行的脚本路径为&lt;code&gt;~//.vscode//extensions//ms-vscode-remote.remote-wsl-0.xx.x//scripts//wslDownload.sh(On Windows)&lt;/code&gt;。定位程序发生卡死的位置：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/19/3usjeP4ToJhQrpw.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/19/3usjeP4ToJhQrpw.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;将该程序的第110行（或临近位置，带tar的那行）删掉：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;C:%5CUsers%5C86181%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220619200059954.png&#34; alt=&#34;image-20220619200059954&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220619200059954.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20220619200059954&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;手动下载，并解压该文件，将其名称改为其SHA-1值。然后移动到&lt;code&gt;~/.vscode-server/bin/&lt;/code&gt;中：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;C:%5CUsers%5C86181%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220619200509487.png&#34; alt=&#34;image-20220619200509487&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220619200509487.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20220619200509487&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;成功解决！&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>每日一遍</title>
-      <link>https://ther-nullptr.github.io/posts/small_talk/eva2/</link>
-      <pubDate>Sun, 19 Jun 2022 19:09:43 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/small_talk/eva2/</guid>
-      <description>Q 现实世界或许不坏，可是我讨厌自己。
-A 你认为现实不好，所以心生厌恶。
-A 是你的内心把现实和真实对调了。
-A 只要看现实的角度和切入点稍有不同，心里就会有很大的变化。
-A 有多少种人就有多少种真实。
-A 但是，你自己的真实只有一个。它由狭义的世界观而生，是为了保护自己而修改过的信息。是被歪曲过的真实。
-A 不过仅有一个人所持的世界观是微不足道的。
-A 可是人只能用自己渺小的基准来测量事物，只愿意用别人给予的真实去看待事物。
-A 晴天使人快乐，雨天使人忧郁，被人这样教导之后就深信不疑。
-A 雨天也会有快乐的事，接受的方式不同就会产生完全不同的结果。人内心的真实，还真是脆弱啊。
-A 人的真实不过仅此而已，所以才会想要知道更深层的真实。
-A 只是，你不习惯被人喜欢罢了。
-A 所以你没有必要总是看别人的脸色。
-Q 但，大家不是都讨厌我吗？
-A 你是笨蛋吗？这只是你自己钻牛角尖而已。
-Q 可是，我讨厌自己。
-A 讨厌自己的人是无法喜欢和信赖他人的。
-Q 我悲怯，胆小，狡猾，懦弱。
-A 理解自己后，就可以对自己温柔一点了吧。
-Q 我讨厌自己，不过，也有可能会喜欢上自己。或许，我可以呆在这里。没错，我就是我自己。我就是我，我想做自己，我想呆在这里，我可以呆在这里！</description>
-      <content>&lt;p&gt;Q 现实世界或许不坏，可是我讨厌自己。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>每日一遍</title>
+        <link>https://ther-nullptr.github.io/posts/small_talk/eva2/</link>
+        <pubDate>Sun, 19 Jun 2022 19:09:43 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/small_talk/eva2/</guid>
+        <description>&lt;p&gt;Q 现实世界或许不坏，可是我讨厌自己。&lt;/p&gt;
 &lt;p&gt;A 你认为现实不好，所以心生厌恶。&lt;/p&gt;
 &lt;p&gt;A 是你的内心把现实和真实对调了。&lt;/p&gt;
 &lt;p&gt;A 只要看现实的角度和切入点稍有不同，心里就会有很大的变化。&lt;/p&gt;
@@ -6467,94 +6567,83 @@ Q 我讨厌自己，不过，也有可能会喜欢上自己。或许，我可以
 &lt;p&gt;Q 我悲怯，胆小，狡猾，懦弱。&lt;/p&gt;
 &lt;p&gt;A 理解自己后，就可以对自己温柔一点了吧。&lt;/p&gt;
 &lt;p&gt;Q 我讨厌自己，不过，也有可能会喜欢上自己。或许，我可以呆在这里。没错，我就是我自己。我就是我，我想做自己，我想呆在这里，我可以呆在这里！&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>CS course</title>
-      <link>https://ther-nullptr.github.io/posts/resource/cs_course/</link>
-      <pubDate>Thu, 16 Jun 2022 18:55:51 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/resource/cs_course/</guid>
-      <description>CMake &amp;amp; Makefile makefile
-CMake
-cpp Standard C++ Programming
-Network Computer Network
-system CSAPP
-Safety in Systems Programming
-software engineering software engineering
-other IAP</description>
-      <content>&lt;h2 id=&#34;cmake--makefile&#34;&gt;CMake &amp;amp; Makefile&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://seisman.github.io/how-to-write-makefile/overview.html&#34;&gt;makefile&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://www.bilibili.com/video/BV14h41187FZ&#34;&gt;CMake&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>CS course</title>
+        <link>https://ther-nullptr.github.io/posts/resource/cs_course/</link>
+        <pubDate>Thu, 16 Jun 2022 18:55:51 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/resource/cs_course/</guid>
+        <description>&lt;h2 id=&#34;cmake--makefile&#34;&gt;CMake &amp;amp; Makefile&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://seisman.github.io/how-to-write-makefile/overview.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;makefile&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV14h41187FZ&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;CMake&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;cpp&#34;&gt;cpp&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;http://web.stanford.edu/class/cs106l/&#34;&gt;Standard C++ Programming&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://web.stanford.edu/class/cs106l/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Standard C++ Programming&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;network&#34;&gt;Network&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://cs144.github.io/&#34;&gt;Computer Network&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cs144.github.io/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Computer Network&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;system&#34;&gt;system&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;http://csapp.cs.cmu.edu/&#34;&gt;CSAPP&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://reberhardt.com/cs110l/spring-2020/&#34;&gt;Safety in Systems Programming&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://csapp.cs.cmu.edu/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;CSAPP&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://reberhardt.com/cs110l/spring-2020/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Safety in Systems Programming&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;software-engineering&#34;&gt;software engineering&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;http://www.saasbook.info/&#34;&gt;software engineering&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://www.saasbook.info/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;software engineering&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;other&#34;&gt;other&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://elo.mit.edu/iap/&#34;&gt;IAP&lt;/a&gt;&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>外溢</title>
-      <link>https://ther-nullptr.github.io/posts/small_talk/%E6%97%A0%E9%A2%98/</link>
-      <pubDate>Wed, 15 Jun 2022 23:59:43 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/small_talk/%E6%97%A0%E9%A2%98/</guid>
-      <description>给您跪了。
- 自己的负面情绪，真的已经外溢到如此严重的地步了吗？
-或者说，这种网抑云式的生活状态，本身就是不可理喻的吗？</description>
-      <content>&lt;blockquote&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://elo.mit.edu/iap/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;IAP&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>外溢</title>
+        <link>https://ther-nullptr.github.io/posts/small_talk/%E6%97%A0%E9%A2%98/</link>
+        <pubDate>Wed, 15 Jun 2022 23:59:43 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/small_talk/%E6%97%A0%E9%A2%98/</guid>
+        <description>&lt;blockquote&gt;
 &lt;p&gt;给您跪了。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;自己的负面情绪，真的已经外溢到如此严重的地步了吗？&lt;/p&gt;
 &lt;p&gt;或者说，这种网抑云式的生活状态，本身就是不可理喻的吗？&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>Websites</title>
-      <link>https://ther-nullptr.github.io/posts/awesome_toolkits/websites/</link>
-      <pubDate>Wed, 15 Jun 2022 00:24:11 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/awesome_toolkits/websites/</guid>
-      <description>优秀stack站点记录 zhixuan&amp;rsquo;s Blog
-相忘于江湖
-Home
-一笼虾饺有四个</description>
-      <content>&lt;h2 id=&#34;优秀stack站点记录&#34;&gt;优秀stack站点记录&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://blog.zhixuan.dev/&#34;&gt;zhixuan&amp;rsquo;s Blog&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://zzzqiii.github.io/&#34;&gt;相忘于江湖&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;http://basicgo.net/&#34;&gt;Home&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://fourxiajiao.github.io/&#34;&gt;一笼虾饺有四个&lt;/a&gt;&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>Archives</title>
-      <link>https://ther-nullptr.github.io/archives/</link>
-      <pubDate>Sun, 05 Jun 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/archives/</guid>
-      <description></description>
-      <content></content>
-    </item>
-    
-    <item>
-      <title>Multicycle CPU</title>
-      <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/multicycle_cpu/</link>
-      <pubDate>Sat, 04 Jun 2022 11:43:15 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/multicycle_cpu/</guid>
-      <description>多周期CPU 多周期数据通路     R lw or sw beq J     IF PC&amp;lt;=PC+4; IR &amp;lt;=MemInst[PC]; * * *   ID opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]]; ALUOut&amp;lt;=PC+(signext(IR[15:0]&amp;laquo;2)) * * *   EX ALUOut &amp;lt;= A op B ALUOut&amp;lt;=A+sign-ext(IR[15:0]) if (A=B)PC&amp;lt;=ALUOut PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}   MEM Reg[IR[15:11]]&amp;lt;=ALUOut Lw:MDR&amp;lt;=MemData[ALUOut];Sw:MemData[ALUout] &amp;lt;=B     WB  Reg[IR[20:16]]&amp;lt;=MDR      重点控制信号的周期：
- IRWrite：在Instruction fench阶段被置为1，但在lw的Memory access阶段被置为0，因为在lw的Register writeback阶段，Instruction Register不能再更新，如果更新的话，会被读出的数据覆盖。 MemRead：在Instruction fench阶段被置为1（用于读取指令），在Instruction decode阶段为0，在lw的Memory access阶段被置为1。 MemWrite：默认0，在sw的Memory access阶段被置为1。 ALUSrc1：在Instruction fench阶段为00（PC），在Execution阶段根据实际情况修改。 ALUSrc2：在Instruction fench阶段为01（4），在Instruction decode阶段为11（imm&amp;laquo;2），在Execution阶段根据实际情况修改。 PCWrite：在Instruction fench阶段为1（PC&amp;lt;=PC+4），在Instruction decode阶段为0，此后若执行跳转类指令则被置为1。 PCSource：默认为00（PC&amp;lt;=PC+4），在Execution阶段视情况改变。 IorD：默认0（取指令），在Memory access阶段被置为1。 PCWriteCond：在beq的Execution阶段被置为1。 MemtoReg：默认00。 RegDst：默认00。 RegWrite：默认0，在jal和jalr以及Register writeback中被置为1。 ExtOp：在Instruction decode阶段被置为1，因为需要算跳转地址。 ALUOp：在Instruction fench和Instruction decode均为00，因为需要执行加法操作；R type被置为10，beq被置为01。  多周期异常和中断处理 异常指内部不可预知事件（溢出，同步），中断指外部不可预知事件（I/O，异步）。</description>
-      <content>&lt;h1 id=&#34;多周期cpu&#34;&gt;多周期CPU&lt;/h1&gt;
+</description>
+        </item>
+        <item>
+        <title>Websites</title>
+        <link>https://ther-nullptr.github.io/posts/awesome_toolkits/websites/</link>
+        <pubDate>Wed, 15 Jun 2022 00:24:11 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/awesome_toolkits/websites/</guid>
+        <description>&lt;h2 id=&#34;优秀stack站点记录&#34;&gt;优秀stack站点记录&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.zhixuan.dev/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;zhixuan&amp;rsquo;s Blog&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zzzqiii.github.io/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;相忘于江湖&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://basicgo.net/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Home&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://fourxiajiao.github.io/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;一笼虾饺有四个&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>Archives</title>
+        <link>https://ther-nullptr.github.io/archives/</link>
+        <pubDate>Sun, 05 Jun 2022 00:00:00 +0000</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/archives/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Multicycle CPU</title>
+        <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/multicycle_cpu/</link>
+        <pubDate>Sat, 04 Jun 2022 11:43:15 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/multicycle_cpu/</guid>
+        <description>&lt;h1 id=&#34;多周期cpu&#34;&gt;多周期CPU&lt;/h1&gt;
 &lt;h2 id=&#34;多周期数据通路&#34;&gt;多周期数据通路&lt;/h2&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -6651,51 +6740,45 @@ Home
 &lt;p&gt;异常/中断处理程序采取操作，比如可以执行对溢出情况实现定义的一些操作，或者终止程序运行并报告。在异常处理完成后，异常处理程序可以选择终止程序，也可以根据 EPC 存储的指令地址恢复并继续执行程序。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>CPU中的控制信号</title>
-      <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/control_signal/</link>
-      <pubDate>Sat, 04 Jun 2022 10:34:25 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/control_signal/</guid>
-      <description>控制信号常见答疑 About Extop https://stackoverflow.com/questions/55290060/what-does-extend-immediate-to-32-bits-mean-in-mips
-I-type instructions with 16-bit immediates are different.
- addi / addiu immediates are sign-extended (by duplicating the top/sign bit of the immediate to all higher bits). https://en.wikipedia.org/wiki/Two%27s_complement#Sign_extension This allows 2&amp;rsquo;s complement numbers from -2^15 .. +2^15-1 to be encoded. (0xFFFF8000 to 0x00007FFF) ori/andi/xori boolean immediates are zero-extended (by setting all higher bits to zero) This allows unsigned / 2&amp;rsquo;s complement numbers from 0 .. 2^16-1 to be encoded.</description>
-      <content>&lt;h1 id=&#34;控制信号常见答疑&#34;&gt;控制信号常见答疑&lt;/h1&gt;
+</description>
+        </item>
+        <item>
+        <title>CPU中的控制信号</title>
+        <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/control_signal/</link>
+        <pubDate>Sat, 04 Jun 2022 10:34:25 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/control_signal/</guid>
+        <description>&lt;h1 id=&#34;控制信号常见答疑&#34;&gt;控制信号常见答疑&lt;/h1&gt;
 &lt;h2 id=&#34;about-extop&#34;&gt;About Extop&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://stackoverflow.com/questions/55290060/what-does-extend-immediate-to-32-bits-mean-in-mips&#34;&gt;https://stackoverflow.com/questions/55290060/what-does-extend-immediate-to-32-bits-mean-in-mips&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://stackoverflow.com/questions/55290060/what-does-extend-immediate-to-32-bits-mean-in-mips&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://stackoverflow.com/questions/55290060/what-does-extend-immediate-to-32-bits-mean-in-mips&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;I-type instructions with 16-bit immediates are different.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;addi&lt;/code&gt; / &lt;code&gt;addiu&lt;/code&gt; immediates are sign-extended (by duplicating the top/sign bit of the immediate to all higher bits). &lt;a href=&#34;https://en.wikipedia.org/wiki/Two&#39;s_complement#Sign_extension&#34;&gt;https://en.wikipedia.org/wiki/Two%27s_complement#Sign_extension&lt;/a&gt;
+&lt;li&gt;&lt;code&gt;addi&lt;/code&gt; / &lt;code&gt;addiu&lt;/code&gt; immediates are sign-extended (by duplicating the top/sign bit of the immediate to all higher bits). &lt;a class=&#34;link&#34; href=&#34;https://en.wikipedia.org/wiki/Two%27s_complement#Sign_extension&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://en.wikipedia.org/wiki/Two%27s_complement#Sign_extension&lt;/a&gt;
 &lt;strong&gt;This allows 2&amp;rsquo;s complement numbers from &lt;code&gt;-2^15&lt;/code&gt; .. &lt;code&gt;+2^15-1&lt;/code&gt; to be encoded.&lt;/strong&gt;
 &lt;strong&gt;(0xFFFF8000 to 0x00007FFF)&lt;/strong&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;ori&lt;/code&gt;/&lt;code&gt;andi&lt;/code&gt;/&lt;code&gt;xori&lt;/code&gt; boolean immediates are zero-extended (by setting all higher bits to zero)
 &lt;strong&gt;This allows unsigned / 2&amp;rsquo;s complement numbers from &lt;code&gt;0 .. 2^16-1&lt;/code&gt; to be encoded.&lt;/strong&gt;
 &lt;strong&gt;(0x00000000 to 0x0000FFFF)&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;For other instructions see this [instruction-set reference](&lt;a href=&#34;https://web.cse.ohio-state.edu/~crawfis.3/cse675-02/Slides/MIPS&#34;&gt;https://web.cse.ohio-state.edu/~crawfis.3/cse675-02/Slides/MIPS&lt;/a&gt; Instruction Set.pdf) which breaks down each instruction showing 016 || [I15..0] for zero-extension or [I15]16 || [I15..0] for sign-extension.&lt;/p&gt;
+&lt;p&gt;For other instructions see this [instruction-set reference](&lt;a class=&#34;link&#34; href=&#34;https://web.cse.ohio-state.edu/~crawfis.3/cse675-02/Slides/MIPS&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://web.cse.ohio-state.edu/~crawfis.3/cse675-02/Slides/MIPS&lt;/a&gt; Instruction Set.pdf) which breaks down each instruction showing 016 || [I15..0] for zero-extension or [I15]16 || [I15..0] for sign-extension.&lt;/p&gt;
 &lt;p&gt;And usually you don&amp;rsquo;t want to raise an exception on signed overflow, so normally compilers use &lt;code&gt;addu&lt;/code&gt; / &lt;code&gt;addiu&lt;/code&gt; even on signed integers. &lt;code&gt;addiu&lt;/code&gt; is badly named: it&amp;rsquo;s not &amp;ldquo;for unsigned integers&amp;rdquo;, it&amp;rsquo;s just a wrapping-allowed / never-faulting version of &lt;code&gt;add&lt;/code&gt;/&lt;code&gt;addi&lt;/code&gt;. It sort of makes sense if you think of C, where signed overflow is undefined behaviour (and thus could use &lt;code&gt;add&lt;/code&gt; and raise an exception in that case if the compiler wanted to implement it that way), but unsigned integers have well-defined overflow behaviour: base 2 wraparound.&lt;/p&gt;
 &lt;h2 id=&#34;可以为x的控制信号&#34;&gt;可以为X的控制信号&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;控制数据来源的信号（&lt;code&gt;RegDst&lt;/code&gt;，&lt;code&gt;MemtoReg&lt;/code&gt;）等，不需要用到时可以为X。&lt;/li&gt;
 &lt;li&gt;控制是否执行某操作（&lt;code&gt;RegWrite&lt;/code&gt;）等，必须为0/1。&lt;/li&gt;
 &lt;/ul&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>MIPS汇编语言</title>
-      <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/assembly/</link>
-      <pubDate>Fri, 03 Jun 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/assembly/</guid>
-      <description>处理器 处理器架构  普林斯顿架构：存储器同时存储指令和其他数据 哈佛架构：数据存储和指令存储分开  处理器性能 执行时间 = 指令数 x CPI x 时钟周期
-或： $$ CPI = CPI_1\times p_1+&amp;hellip;+CPI_n\times p_n $$ 性能提升方法：
- 优化编译技术（减少指令数） 快速电路技术或更为先进的电路结构（减少时钟周期）  寄存器 VS 存储器  寄存器：以编号进行访问，可同时访问不同寄存器。 存储器：以地址进行访问，不可同时访问不同地址，相邻数据的地址相差4字节。  数据单位约定 在32位MIPS中，1 word = 4 bytes = 32 bits，相邻数据的地址相差4字节。
-1 2 3 4 5 6 7 8 9 10 11  #include&amp;lt;stdio.h&amp;gt;int main() { printf(&amp;#34;%d\n&amp;#34;,sizeof(int)); // 4  printf(&amp;#34;%d\n&amp;#34;,sizeof(char)); // 1  printf(&amp;#34;%d\n&amp;#34;,sizeof(unsigned int)); // 4  printf(&amp;#34;%d\n&amp;#34;,sizeof(long int)); // 8  printf(&amp;#34;%d\n&amp;#34;,sizeof(long long int)); // 8  printf(&amp;#34;%d\n&amp;#34;,sizeof(float)); // 4  printf(&amp;#34;%d\n&amp;#34;,sizeof(double)); // 8 }   MIPS汇编指令 汇编优化相关问题   算数&amp;amp;逻辑指令11bit冗余能否利用起来？</description>
-      <content>&lt;h1 id=&#34;处理器&#34;&gt;处理器&lt;/h1&gt;
+</description>
+        </item>
+        <item>
+        <title>MIPS汇编语言</title>
+        <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/assembly/</link>
+        <pubDate>Fri, 03 Jun 2022 00:00:00 +0000</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/assembly/</guid>
+        <description>&lt;h1 id=&#34;处理器&#34;&gt;处理器&lt;/h1&gt;
 &lt;h2 id=&#34;处理器架构&#34;&gt;处理器架构&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;普林斯顿架构：存储器同时存储指令和其他数据&lt;/li&gt;
@@ -6789,7 +6872,16 @@ $$
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Not Preserved（子程序可以改变这些寄存器的数据，如果主程序要用，需要主程序维护好）&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;C:%5CUsers%5C86181%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220603160128725.png&#34; alt=&#34;image-20220603160128725&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220603160128725.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20220603160128725&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;考虑以下汇编：&lt;/p&gt;
@@ -6850,23 +6942,25 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content>
-    </item>
-    
-    <item>
-      <title>Cache</title>
-      <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/memory/</link>
-      <pubDate>Tue, 31 May 2022 19:22:17 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/memory/</guid>
-      <description>Memory RAM random access是指该存储器的所有内容都可以被读取和写入，且与时间和位置无关。
-    SRAM DRAM     中文名 静态随机访问存储器 动态随机访问存储器   速度 快 慢（需要读取内容后刷新、定期刷新）   结构 由MOS管组成的锁存器（6T） 由MOS管和电容实现（1T1C）   容量 小 大   应用 缓存 主存   访问时间 1~10ns 10~100ns    常见问答：
-  DRAM电容量C的权衡：
- 大电容容量C的优势：提供更长的数据保持时间 大电容容量C的劣势：工艺实现难度加大，密度降低    RAS和CAS均为低电平有效，其中CAS可以作为输出使能信号。
-  cache 原理 存储系统满足局部性原理：
- 时间局部性——最近的将来要用到的信息很可能就是现在正在使用的信息。主要由循环造成。 空间局部性——最近的将来要用到的信息很可能与现在正在使用的信息在空间上是邻近的。主要由顺序执行和数据的聚集存放造成。  cache的访问时间 一级cache（$r$为访问时间比，$e$为访问效率）： $$ T_A=T_{A1}+(1-H)T_{A2}\ r=\frac{T_{A2}}{T_{A1}}\ e=\frac{T_{A1}}{T_A} = \frac{1}{1+(1-H)r} $$ 二级cache： $$ T_A=T_{A1}+(1-H_1)[T_{A2}+(1-H_2)T_{A3}] $$</description>
-      <content>&lt;h1 id=&#34;memory&#34;&gt;Memory&lt;/h1&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/UKqomr5ghY8psMx.png&#34; alt=&#34;存储器结构&#34;&gt;&lt;/p&gt;
+&lt;/div&gt;</description>
+        </item>
+        <item>
+        <title>Cache</title>
+        <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/memory/</link>
+        <pubDate>Tue, 31 May 2022 19:22:17 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/memory/</guid>
+        <description>&lt;h1 id=&#34;memory&#34;&gt;Memory&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/UKqomr5ghY8psMx.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;存储器结构&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h2 id=&#34;ram&#34;&gt;RAM&lt;/h2&gt;
 &lt;p&gt;random access是指该存储器的所有内容都可以被读取和写入，且与时间和位置无关。&lt;/p&gt;
 &lt;table&gt;
@@ -6953,7 +7047,16 @@ $$&lt;/p&gt;
 &lt;li&gt;&lt;strong&gt;cache存储&lt;/strong&gt; （标签）+cache行号+行内地址&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;每个主存块和每个cache行储存的数据相同，两者的数据传输以块/行为单位。其中每个cache行的组成如下：数据+标签+有效位。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/9drX7hg2OSwcqMF.png&#34; alt=&#34;cache基本结构&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/9drX7hg2OSwcqMF.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;cache基本结构&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h3 id=&#34;cache地址映像方式&#34;&gt;cache地址映像方式&lt;/h3&gt;
 &lt;p&gt;三种地址映像方式：&lt;/p&gt;
 &lt;ul&gt;
@@ -6967,7 +7070,16 @@ $$
 j = i \mod N \
 i = j+Nk(k=0,1..)
 $$
-&lt;img src=&#34;https://s2.loli.net/2022/06/15/N1X9zWl4qwVax3g.png&#34; alt=&#34;cache地址示例&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;https://s2.loli.net/2022/06/15/N1X9zWl4qwVax3g.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;cache地址示例&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;可以直接写成AB、AC，但是只适用于直接映像。&lt;/p&gt;
 &lt;p&gt;对于32位内存系统，假设cache每行有$x$byte，cache共$y$行，则低$\log_2x$位为块内地址，中间$\log_2y$位为cache行号，剩下$(32-\log_2x-\log_2y)$位为主存标签。&lt;/p&gt;
 &lt;p&gt;在这种情况下，由于每行cache的数据有$4x$bit，还有1 bit有效位，所以cache的实际总位数为：
@@ -6976,10 +7088,28 @@ y[4x+1+(32-\log_2x-\log_2y)]
 $$
 注意到cache每行至少储存1个word，所以$x$一定是4的倍数，地址的后两位一定是0。载入cache数据时仍然以word为单位进行载入。&lt;/p&gt;
 &lt;h4 id=&#34;全相联映像&#34;&gt;全相联映像&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/X62E9o4nNxIMOyf.png&#34; alt=&#34;cache地址示例&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/X62E9o4nNxIMOyf.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;cache地址示例&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;对于32位内存系统，假设cache每行有$x$byte，则低$\log_2x$位为块内地址，剩下$(32-\log_2x)$位作为主存标签。&lt;/p&gt;
 &lt;h4 id=&#34;组相联映像&#34;&gt;组相联映像&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/V7rBYOEQ2Uquf1d.png&#34; alt=&#34;cache地址示例&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/V7rBYOEQ2Uquf1d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;cache地址示例&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;对于32位内存系统，假设cache每行有$x$byte，cache共$y$行，$z$路组相连，则低$\log_2x$位为块内地址，中间$\log_2(\frac{y}{z})$位作为cache组号，剩下$(32-\log_2x-\log_2(\frac{y}{z}))$位作为主存标签。&lt;/p&gt;
 &lt;p&gt;直接映像为$z=1$，全相联映像为$z=y$。&lt;/p&gt;
 &lt;h3 id=&#34;cache数据替换&#34;&gt;cache数据替换&lt;/h3&gt;
@@ -7043,21 +7173,15 @@ $$
 &lt;li&gt;容量缺失：由于cache容纳不了程序所需的所有主存块而引起的缺失。&lt;/li&gt;
 &lt;li&gt;冲突缺失：在组相联或者直接映像中，多个的主存块竞争同一个cache组时引起的缺失，也称碰撞缺失。&lt;/li&gt;
 &lt;/ul&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>Pipeline CPU</title>
-      <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/pipeline_cpu/</link>
-      <pubDate>Tue, 31 May 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/pipeline_cpu/</guid>
-      <description>流水线计算公式 $n$为指令数，$k$为流水线级数，级间延时$\Delta t$。
-实际吞吐率（单位时间内流水线处理的指令数）： $$ TP=\frac{n}{(k+n-1)\Delta t} $$ 最大吞吐率： $$ TP_{max} = \frac{1}{\Delta t} $$ 实际加速比： $$ S = \frac{kn}{k+n-1} $$ 最大加速比： $$ S_{max}=k $$
-流水线中控制信号的流动 控制信号在IF之后的ID/RF阶段产生。
- ID/RF：Extop EX：ALUSrc、ALUOp、RegDst？？ MEM：MemWrite、Branch WB：MemToReg、RegWrite  流水线中的冒险 首先列出未冒险时流水线CPU在各步中进行的操作：
-    R lw or sw beq J     IF PC&amp;lt;=PC+4; IR &amp;lt;=MemInst[PC] * * *   ID opcode&amp;lt;=IR[31:26]; A&amp;lt;=Reg[IR[25:21]]; B&amp;lt;=Reg[IR[20:16]]; ALUOut&amp;lt;=PC+(signext(IR[15:0]&amp;lt;&amp;lt;2)) * * PC &amp;lt;= {PC[31:28],IR[25:0],2’b00}   EX ALUOut &amp;lt;= A op B ALUOut&amp;lt;=A+sign-ext(IR[15:0]) if (A=B)PC&amp;lt;=ALUOut    MEM Reg[IR[15:11]]&amp;lt;=ALUOut Lw:MDR&amp;lt;=MemData[ALUOut];Sw:MemData[ALUout] &amp;lt;=B     WB  Reg[IR[20:16]] &amp;lt;=MDR      结构冒险 problem 流水线处理器中直接取消了InstMemory和DataMemory混用的做法，因此不必担心存储器访问的冲突。</description>
-      <content>&lt;h1 id=&#34;流水线计算公式&#34;&gt;流水线计算公式&lt;/h1&gt;
+</description>
+        </item>
+        <item>
+        <title>Pipeline CPU</title>
+        <link>https://ther-nullptr.github.io/posts/digital_logic_and_processors/pipeline_cpu/</link>
+        <pubDate>Tue, 31 May 2022 00:00:00 +0000</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/digital_logic_and_processors/pipeline_cpu/</guid>
+        <description>&lt;h1 id=&#34;流水线计算公式&#34;&gt;流水线计算公式&lt;/h1&gt;
 &lt;p&gt;$n$为指令数，$k$为流水线级数，级间延时$\Delta t$。&lt;/p&gt;
 &lt;p&gt;实际吞吐率（单位时间内流水线处理的指令数）：
 $$
@@ -8263,7 +8387,16 @@ $$&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;数据冒险&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/IBAWylfu5XLO8Eg.png&#34; alt=&#34;转发1&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/IBAWylfu5XLO8Eg.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;转发1&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A2-&amp;gt;B1 R型的前前条为R型&lt;/li&gt;
 &lt;li&gt;A3-&amp;gt;B1 R型的前条为R型&lt;/li&gt;
@@ -8273,7 +8406,16 @@ $$&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;控制冒险(beq)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/DFGkKoyB5pOgaLM.png&#34; alt=&#34;转发2&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/DFGkKoyB5pOgaLM.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;转发2&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A2-&amp;gt;B0 beq的前前条为R型，可以使用转发解决&lt;/li&gt;
 &lt;li&gt;A3-&amp;gt;B0 beq的前前条为lw，需要stall 2个周期&lt;/li&gt;
@@ -8516,7 +8658,16 @@ $$&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;超标量&lt;/strong&gt; 动态决定哪些指令同时执行 （在运行时由硬件决定）。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/6StxiOn9mB8sNej.png&#34; alt=&#34;RAW,WAW,WAR&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2022/06/15/6StxiOn9mB8sNej.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;RAW,WAW,WAR&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;IOI-IOC,IOI-OOC,OOI-OOC&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -8531,46 +8682,24 @@ S=\frac{1}{(1-a)+\frac{a}{n}}
 $$&lt;/p&gt;
 &lt;h2 id=&#34;异构计算&#34;&gt;异构计算&lt;/h2&gt;
 &lt;p&gt;单指令流多数据流，具有更大的并行度，设计相对比较简单。&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>About</title>
-      <link>https://ther-nullptr.github.io/about/</link>
-      <pubDate>Mon, 30 May 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/about/</guid>
-      <description>人有种奇怪的虚荣心，想让别人或自己相信他向往的是真理，但其实他有求于这个世界的是爱。 &amp;ndash; Albert Camus</description>
-      <content>&lt;p&gt;人有种奇怪的虚荣心，想让别人或自己相信他向往的是真理，但其实他有求于这个世界的是爱。 &amp;ndash; Albert Camus&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>Ice Cream</title>
-      <link>https://ther-nullptr.github.io/posts/small_talk/ice-cream/</link>
-      <pubDate>Sun, 29 May 2022 16:24:16 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/small_talk/ice-cream/</guid>
-      <description>冰菓 今夜与君
-爱梦相会
-务必觅得
-微眠之约
-萌生此等惬意
-实乃徒增彷徨
-予君之意
-君不知乎
-察其目光
-未萦他意
-宛如待友
-毫无二致
-许愿星逝于晓
-夜现晨湮之法
-愿君得察
-今夜与君
-爱梦相会
-务必觅得
-微眠之约</description>
-      <content>&lt;h1 id=&#34;冰菓&#34;&gt;冰菓&lt;/h1&gt;
+</description>
+        </item>
+        <item>
+        <title>About</title>
+        <link>https://ther-nullptr.github.io/about/</link>
+        <pubDate>Mon, 30 May 2022 00:00:00 +0000</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/about/</guid>
+        <description>&lt;p&gt;人有种奇怪的虚荣心，想让别人或自己相信他向往的是真理，但其实他有求于这个世界的是爱。 &amp;ndash; Albert Camus&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>Ice Cream</title>
+        <link>https://ther-nullptr.github.io/posts/small_talk/ice-cream/</link>
+        <pubDate>Sun, 29 May 2022 16:24:16 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/small_talk/ice-cream/</guid>
+        <description>&lt;h1 id=&#34;冰菓&#34;&gt;冰菓&lt;/h1&gt;
 &lt;p&gt;今夜与君&lt;/p&gt;
 &lt;p&gt;爱梦相会&lt;/p&gt;
 &lt;p&gt;务必觅得&lt;/p&gt;
@@ -8590,17 +8719,15 @@ $$&lt;/p&gt;
 &lt;p&gt;爱梦相会&lt;/p&gt;
 &lt;p&gt;务必觅得&lt;/p&gt;
 &lt;p&gt;微眠之约&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>Hugo Commands</title>
-      <link>https://ther-nullptr.github.io/posts/awesome_toolkits/command/</link>
-      <pubDate>Sun, 29 May 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/awesome_toolkits/command/</guid>
-      <description>Hugo commands  create a article  1  $ hugo new post/first.md    start hugo server  1 2  $ hugo server # simple debug $ hugo server --theme=Mainroad --buildDrafts # debug with theme    watch environment info  1  $ hugo env   </description>
-      <content>&lt;h1 id=&#34;hugo-commands&#34;&gt;Hugo commands&lt;/h1&gt;
+</description>
+        </item>
+        <item>
+        <title>Hugo Commands</title>
+        <link>https://ther-nullptr.github.io/posts/awesome_toolkits/command/</link>
+        <pubDate>Sun, 29 May 2022 00:00:00 +0000</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/awesome_toolkits/command/</guid>
+        <description>&lt;h1 id=&#34;hugo-commands&#34;&gt;Hugo commands&lt;/h1&gt;
 &lt;ul&gt;
 &lt;li&gt;create a article&lt;/li&gt;
 &lt;/ul&gt;
@@ -8636,25 +8763,15 @@ $$&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ hugo env
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content>
-    </item>
-    
-    <item>
-      <title>Mathematica in Signal &amp; System</title>
-      <link>https://ther-nullptr.github.io/posts/awesome_toolkits/ss_mathematica/</link>
-      <pubDate>Sat, 16 Apr 2022 00:14:35 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/awesome_toolkits/ss_mathematica/</guid>
-      <description>Fourier Transform:
-1  FourierTransform[HeavisideTheta[x],x,w]  Inverse Fourier Transform:
-1  InverseFourierTransform[1/(1+I*w),w,x]  Fourier coefficient:
-1 2 3  FourierSinCoefficient[SquareWave[x],x,n]FourierCosCoefficient[SquareWave[x],x,n]FourierCoefficient[SquareWave[x],x,n]  Convolution:
-1 2  Convolve[UnitBox[x],UnitBox[x],x,x]Convolve[Exp[-a*t]*HeavisideTheta[t],Sin[t]*HeavisideTheta[t],t,x]  DTFT:
-1  FourierSequenceTransform[HeavisideTheta[n]*a^n,n,w]  IDTFT:
-1  InverseFourierSequenceTransform[1,n,w]  Laplace:
-1  LaplaceTransform[t^4Sin[t],t,s]  InverseLaplace:
-1  LaplaceTransform[E^(-t),t,s]  </description>
-      <content>&lt;p&gt;Fourier Transform:&lt;/p&gt;
+&lt;/div&gt;</description>
+        </item>
+        <item>
+        <title>Mathematica in Signal &amp; System</title>
+        <link>https://ther-nullptr.github.io/posts/awesome_toolkits/ss_mathematica/</link>
+        <pubDate>Sat, 16 Apr 2022 00:14:35 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/awesome_toolkits/ss_mathematica/</guid>
+        <description>&lt;p&gt;Fourier Transform:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -8732,21 +8849,15 @@ $$&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Mathematica&#34; data-lang=&#34;Mathematica&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;LaplaceTransform&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;E&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;^&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content>
-    </item>
-    
-    <item>
-      <title>快速排序与归并排序的思想</title>
-      <link>https://ther-nullptr.github.io/posts/quotes/%E4%B8%87%E7%A5%9E/</link>
-      <pubDate>Fri, 03 Dec 2021 00:13:05 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/quotes/%E4%B8%87%E7%A5%9E/</guid>
-      <description>快速排序与归并排序的思想 起源是递归法——将序列分成两部分处理，或者说，用二叉树遍历的逻辑处理。二叉树的遍历基本有三种方式——前序、中序、后序。
-  归并是一种后序遍历：算法到手有两个已经处理好的序列，然后把这两个序列处理成最终的结果。处理的最后一步，当然是完成对序列的排序，因此，算法的内容就是：将两个排序好的序列排成一个新的序列——这就是归并。
-  快排是一种前序遍历：对一个序列进行处理，然后处理其子列。处理有这样的要求：将两个子列都完全完成处理以后，整个数列就排好了。因此：“划分点”是唯一的符合条件的处理方法。
-  那么有没有中序遍历？手里拿着一个序列：一半已经排好，另一半还是完全乱的，这一步处理的目的就是：这一步执行完成之后，再对右边进行排序，整个序列就排好了。所以，这一个步骤的内容就应该是：维持左边的序列完好，保证右边所有的元素都大于左边的所有元素。
-  </description>
-      <content>&lt;h2 id=&#34;快速排序与归并排序的思想&#34;&gt;快速排序与归并排序的思想&lt;/h2&gt;
+&lt;/div&gt;</description>
+        </item>
+        <item>
+        <title>快速排序与归并排序的思想</title>
+        <link>https://ther-nullptr.github.io/posts/quotes/%E4%B8%87%E7%A5%9E/</link>
+        <pubDate>Fri, 03 Dec 2021 00:13:05 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/quotes/%E4%B8%87%E7%A5%9E/</guid>
+        <description>&lt;h2 id=&#34;快速排序与归并排序的思想&#34;&gt;快速排序与归并排序的思想&lt;/h2&gt;
 &lt;p&gt;起源是递归法——将序列分成两部分处理，或者说，用二叉树遍历的逻辑处理。二叉树的遍历基本有三种方式——前序、中序、后序。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -8759,54 +8870,30 @@ $$&lt;/p&gt;
 &lt;p&gt;那么有没有中序遍历？手里拿着一个序列：一半已经排好，另一半还是完全乱的，这一步处理的目的就是：这一步执行完成之后，再对右边进行排序，整个序列就排好了。所以，这一个步骤的内容就应该是：维持左边的序列完好，保证右边所有的元素都大于左边的所有元素。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>Oh My Posh</title>
-      <link>https://ther-nullptr.github.io/posts/awesome_toolkits/oh-my-posh/</link>
-      <pubDate>Thu, 19 Aug 2021 23:53:42 +0800</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/posts/awesome_toolkits/oh-my-posh/</guid>
-      <description>计算机美化指南 前言 一个美观的开发界面，对于调试程序、管理代码版本、提升编程体验等有着至关重要的作用。本文介绍了windows平台下命令行界面的美化方法，以期让读者拥有更好的编程体验。
-在图形化用户界面（GUI）大规模普及之前，命令行界面（CLI）一直是电脑界的主流。CLI开销小、运行快速，但是非专业用户使用不方便。如今，不从事开发的电脑用户接触到命令行的机会已经很少了（非计算机系学习C，可能只会在“命令行参数”一节接触到命令行），但如果从事软件开发，使用git、gcc等工具，熟练掌握命令行的使用还是有必要的。
-cmd 点击win+R，输入cmd，就会弹出windows下最基本的命令行终端——cmd。它的初始界面长这样：
-且不说白+黑的配色毫无生机，字体看上去也十分违和。这种不美观的界面可能的确劝退了不少人学习它的欲望。
- 科普：什么样的字体才能称之为好看？
-  serif：衬线字体，字体边缘具有明显的艺术修饰效果，如 宋体（simsun）、Times new roman。
-这种字体适合做艺术字，但若用作代码字体，则会显得节外生枝，影响呈现效果。
-  sans-serif：非衬线字体，字体比划一般粗细均匀、清晰，如 微软雅黑（Arial）。这种字体一般用于正文写作。
-  monospace：等宽字体，指每个英文字符（字母、数字、标点）宽度一致的字体。如 Consolas、Courier New。
-这种字体由于呈现效果较好，被广泛地用于编程。
-绝大多数开发工具都会有使用等宽字体的建议（如VS 2019）：
-   我们试图给cmd换一个monospace的字体（右键边框，点击“属性”）。遗憾的是，cmd字体的选择十分匮乏，找不到合适的monospace字体。
-powershell 我们看看windows上另一款更加强大的命令行界面：powershell。在windows搜索框中键入powershell，打开。
-遗憾的是，除了黑色界面变成蓝色界面，字体的呈现效果并没有什么改观。而且，powershell也没有提供一种较为美观的monospace字体。
-windows terminal 长期以来，windows都没有像mac、Linux那样，为开发者提供一个较为美观的命令行界面。这种情况一直到2019年windows terminal的推出才有所改观。你可以在Microsoft Store中直接安装它。
-安装完毕后，启动效果如下：
-打开“设置-power shell图标-外观”，可以看到现在终端的字体是Cascadia Mono，可以查证这是一种等宽字体。windows powershell的字体的选择十分丰富，你可以根据自己的喜好任意挑选。
-oh-my-posh 还可以实现更加美观的效果吗？当然可以！我们需要借助oh-my-posh插件，先看下最终效果吧:
-可以看到，该插件不仅加入了彩色的图标、操作时间等元素，而且对文件夹的git仓库状态等也有较好的显示。
-预安装要求：Windows terminal、git（后台回复：git，领取git安装程序，安装时只需一路点OK）。
-  下载oh-my-posh和posh-git插件
-由于一些众所周知的原因，网络上所展示的传统的下载途径可能需要一些特殊的手段。对此，小编准备了插件资源（后台回复：terminal，提取插件）。资源中有一个Modules文件夹和一个Microsoft.PowerShell_profile.ps1文件。
-下载完毕后，在你的电脑中找到C:\Users\用户名\Documents(或文档)\WindowsPowerShell文件夹（也有可能是其它的D盘或E盘，因人而异）。此时的文件夹中应该有一个Scripts文件夹。将Modules文件夹和一个Microsoft.PowerShell_profile.ps1文件按照如下方式放置：
-启动windows terminal，会看到以下场景：
-这些方块是什么？是乱码。这是因为系统自带的字体不能渲染oh-my-posh的一些特定符号。我们需要下载对应的字体。
-  终端后续配置
-为渲染这些符号，我们需要下载名为Nerd系列的字体。网址如下：https://www.nerdfonts.com/
-（若网址打不开，也可后台回复：fonts，领取Nerd字体）。解压文件夹后，打开其中的.ttf文件，点击安装，即可使用字体。
-重启windows terminal，选择刚才安装的字体，即可呈现出正确的效果。
-还可以设置终端背景、终端透明度等，让你的命令行界面更加出彩。
-至此，命令行界面美化完成！
-  </description>
-      <content>&lt;h1 id=&#34;计算机美化指南&#34;&gt;计算机美化指南&lt;/h1&gt;
+</description>
+        </item>
+        <item>
+        <title>Oh My Posh</title>
+        <link>https://ther-nullptr.github.io/posts/awesome_toolkits/oh-my-posh/</link>
+        <pubDate>Thu, 19 Aug 2021 23:53:42 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/awesome_toolkits/oh-my-posh/</guid>
+        <description>&lt;h1 id=&#34;计算机美化指南&#34;&gt;计算机美化指南&lt;/h1&gt;
 &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
 &lt;p&gt;一个美观的开发界面，对于调试程序、管理代码版本、提升编程体验等有着至关重要的作用。本文介绍了windows平台下命令行界面的美化方法，以期让读者拥有更好的编程体验。&lt;/p&gt;
 &lt;p&gt;在图形化用户界面（GUI）大规模普及之前，命令行界面（CLI）一直是电脑界的主流。CLI开销小、运行快速，但是非专业用户使用不方便。如今，不从事开发的电脑用户接触到命令行的机会已经很少了（非计算机系学习C，可能只会在“命令行参数”一节接触到命令行），但如果从事软件开发，使用git、gcc等工具，熟练掌握命令行的使用还是有必要的。&lt;/p&gt;
 &lt;h3 id=&#34;cmd&#34;&gt;cmd&lt;/h3&gt;
 &lt;p&gt;点击&lt;code&gt;win&lt;/code&gt;+&lt;code&gt;R&lt;/code&gt;，输入&lt;code&gt;cmd&lt;/code&gt;，就会弹出&lt;code&gt;windows&lt;/code&gt;下最基本的命令行终端——&lt;code&gt;cmd&lt;/code&gt;。它的初始界面长这样：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/LREMDXtFAiZCrdf.png&#34; alt=&#34;cmd&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/LREMDXtFAiZCrdf.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;cmd&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;且不说白+黑的配色毫无生机，字体看上去也十分违和。这种不美观的界面可能的确劝退了不少人学习它的欲望。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;科普：什么样的字体才能称之为好看？&lt;/p&gt;
@@ -8823,25 +8910,79 @@ oh-my-posh 还可以实现更加美观的效果吗？当然可以！我们需要
 &lt;p&gt;monospace：等宽字体，指每个英文字符（字母、数字、标点）宽度一致的字体。如 Consolas、&lt;!-- raw HTML omitted --&gt;Courier New&lt;!-- raw HTML omitted --&gt;。&lt;/p&gt;
 &lt;p&gt;这种字体由于呈现效果较好，被广泛地用于编程。&lt;/p&gt;
 &lt;p&gt;绝大多数开发工具都会有使用等宽字体的建议（如VS 2019）：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/pUMWF9TVSLz7QnH.png&#34; alt=&#34;字体设置&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/pUMWF9TVSLz7QnH.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;字体设置&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;我们试图给cmd换一个monospace的字体（右键边框，点击“属性”）。遗憾的是，cmd字体的选择十分匮乏，找不到合适的monospace字体。&lt;/p&gt;
 &lt;h3 id=&#34;powershell&#34;&gt;powershell&lt;/h3&gt;
 &lt;p&gt;我们看看windows上另一款更加强大的命令行界面：&lt;code&gt;powershell&lt;/code&gt;。在windows搜索框中键入powershell，打开。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/NwrZpckERo7fY3X.png&#34; alt=&#34;powershell&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/NwrZpckERo7fY3X.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;powershell&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;遗憾的是，除了黑色界面变成蓝色界面，字体的呈现效果并没有什么改观。而且，powershell也没有提供一种较为美观的monospace字体。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/gBkau5RTsNMmyxj.png&#34; alt=&#34;powershell界面&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/gBkau5RTsNMmyxj.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;powershell界面&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h3 id=&#34;windows-terminal&#34;&gt;windows terminal&lt;/h3&gt;
 &lt;p&gt;长期以来，windows都没有像mac、Linux那样，为开发者提供一个较为美观的命令行界面。这种情况一直到2019年windows terminal的推出才有所改观。你可以在Microsoft Store中直接安装它。&lt;/p&gt;
 &lt;p&gt;安装完毕后，启动效果如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/cwAXLxzuf5SqZ7v.png&#34; alt=&#34;windows terminal界面&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/cwAXLxzuf5SqZ7v.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;windows terminal界面&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;打开“设置-power shell图标-外观”，可以看到现在终端的字体是&lt;code&gt;Cascadia Mono&lt;/code&gt;，可以查证这是一种等宽字体。windows powershell的字体的选择十分丰富，你可以根据自己的喜好任意挑选。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/Z8pUPoGCf4X2xQj.png&#34; alt=&#34;windows terminal设置&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/Z8pUPoGCf4X2xQj.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;windows terminal设置&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h3 id=&#34;oh-my-posh&#34;&gt;oh-my-posh&lt;/h3&gt;
 &lt;p&gt;还可以实现更加美观的效果吗？当然可以！我们需要借助oh-my-posh插件，先看下最终效果吧:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/1d5xpJMQHit3Wmc.png&#34; alt=&#34;oh my posh成品&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/1d5xpJMQHit3Wmc.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;oh my posh成品&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;可以看到，该插件不仅加入了彩色的图标、操作时间等元素，而且对文件夹的git仓库状态等也有较好的显示。&lt;/p&gt;
 &lt;p&gt;预安装要求：Windows terminal、git（后台回复：git，领取git安装程序，安装时只需一路点OK）。&lt;/p&gt;
 &lt;ol&gt;
@@ -8849,45 +8990,86 @@ oh-my-posh 还可以实现更加美观的效果吗？当然可以！我们需要
 &lt;p&gt;下载oh-my-posh和posh-git插件&lt;/p&gt;
 &lt;p&gt;由于一些众所周知的原因，网络上所展示的传统的下载途径可能需要一些特殊的手段。对此，小编准备了插件资源（后台回复：terminal，提取插件）。资源中有一个&lt;code&gt;Modules&lt;/code&gt;文件夹和一个&lt;code&gt;Microsoft.PowerShell_profile.ps1&lt;/code&gt;文件。&lt;/p&gt;
 &lt;p&gt;下载完毕后，在你的电脑中找到&lt;code&gt;C:\Users\用户名\Documents(或文档)\WindowsPowerShell&lt;/code&gt;文件夹（也有可能是其它的D盘或E盘，因人而异）。此时的文件夹中应该有一个&lt;code&gt;Scripts&lt;/code&gt;文件夹。将&lt;code&gt;Modules&lt;/code&gt;文件夹和一个&lt;code&gt;Microsoft.PowerShell_profile.ps1&lt;/code&gt;文件按照如下方式放置：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/R8oZVS6xCP5iQaf.png&#34; alt=&#34;powershell配置&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/R8oZVS6xCP5iQaf.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;powershell配置&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;启动windows terminal，会看到以下场景：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/ozRFwZACK6XJa4l.png&#34; alt=&#34;乱码？！&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/ozRFwZACK6XJa4l.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;乱码？！&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;这些方块是什么？是乱码。这是因为系统自带的字体不能渲染oh-my-posh的一些特定符号。我们需要下载对应的字体。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;终端后续配置&lt;/p&gt;
 &lt;p&gt;为渲染这些符号，我们需要下载名为&lt;code&gt;Nerd&lt;/code&gt;系列的字体。网址如下：https://www.nerdfonts.com/&lt;/p&gt;
 &lt;p&gt;（若网址打不开，也可后台回复：fonts，领取Nerd字体）。解压文件夹后，打开其中的.ttf文件，点击安装，即可使用字体。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/1zsjKBdktmq6RXu.png&#34; alt=&#34;Nerd字体示例&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/1zsjKBdktmq6RXu.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Nerd字体示例&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;重启windows terminal，选择刚才安装的字体，即可呈现出正确的效果。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/aRuIhcTUrOE6p7x.png&#34; alt=&#34;修改后的Powershell&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/aRuIhcTUrOE6p7x.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;修改后的Powershell&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;还可以设置终端背景、终端透明度等，让你的命令行界面更加出彩。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/LgTkevRcIWn1hyJ.png&#34; alt=&#34;设置&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2021/08/18/LgTkevRcIWn1hyJ.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;设置&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;至此，命令行界面美化完成！&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>Links</title>
-      <link>https://ther-nullptr.github.io/links/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/links/</guid>
-      <description></description>
-      <content></content>
-    </item>
-    
-    <item>
-      <title>Search</title>
-      <link>https://ther-nullptr.github.io/search/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://ther-nullptr.github.io/search/</guid>
-      <description></description>
-      <content></content>
-    </item>
-    
-  </channel>
+</description>
+        </item>
+        <item>
+        <title>Links</title>
+        <link>https://ther-nullptr.github.io/links/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/links/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Search</title>
+        <link>https://ther-nullptr.github.io/search/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/search/</guid>
+        <description></description>
+        </item>
+        
+    </channel>
 </rss>
