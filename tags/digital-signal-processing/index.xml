@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Digital Signal Processing on Ther&#39;s Blog</title>
+        <link>https://ther-nullptr.github.io/tags/digital-signal-processing/</link>
+        <description>Recent content in Digital Signal Processing on Ther&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Tue, 18 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://ther-nullptr.github.io/tags/digital-signal-processing/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>FFT</title>
+        <link>https://ther-nullptr.github.io/posts/digital_signal_processing/fft/</link>
+        <pubDate>Tue, 18 Oct 2022 00:00:00 +0000</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/digital_signal_processing/fft/</guid>
+        <description>&lt;h2 id=&#34;fft&#34;&gt;FFT&lt;/h2&gt;
+&lt;p&gt;[TOC]&lt;/p&gt;
+&lt;h3 id=&#34;按频率抽取&#34;&gt;按频率抽取&lt;/h3&gt;
+&lt;p&gt;按频率抽取的情况下，$x[n]$是有序的。序列的分治通过$x[n]$的&lt;strong&gt;前后划分&lt;/strong&gt;来实现。&lt;/p&gt;
+&lt;p&gt;对于基$b$的FFT，我们不妨对$N$点序列进行以下划分：$x_1[n] = x[n],\ x_2[n] = x[n+\frac{N}{b}],\ &amp;hellip; \ x_b[n] = x[n+\frac{(b-1)N}{b}],\ n=0,1&amp;hellip;\frac{N}{b}-1$。&lt;/p&gt;
+&lt;p&gt;这样，我们就可以对DFT表达式进行分解:
+$$
+X[k] = \sum_{n=0}^{\frac{N}{b}-1} [x_1[n]W_{N}^{nk} + x_2[n]W_{N}^{(n+\frac{N}{b})k}+&amp;hellip;+x_b[n]W_N^{(n+\frac{(b-1)N}{b})k}]
+$$
+使用$bk,bk+1,&amp;hellip;,bk+b-1$对$k$进行替换，就可以将$W_{N}^{nk}$替换为$W_{\frac{N}{b}}^{nk}$，以实现递归。带入后的表达式如下：
+$$
+X[bk+m]  = \sum_{n=0}^{\frac{N}{b}-1}{x[n]+x[n+\frac{N}{b}]W_{b}^{m}+x[n+\frac{2N}{b}]W_{b}^{2m}&amp;hellip;+x[n+\frac{(b-1)N}{b}]W_{b}^{(b-1)m}}W_{\frac{N}{b}}^{nk}W_N^{nm} 
+$$
+对于单位根系数有简单的记忆技巧：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;基2 $(1,1)\ (1,-1)$&lt;/li&gt;
+&lt;li&gt;基3 $(1,1,1)\ (1,W_3^1,W_3^2)\ (1,W_3^2,W_3^4)$&lt;/li&gt;
+&lt;li&gt;基4 $(1,1,1,1)\ (1,-i,-1,i) \ (1,-1,1,-1) \ (1,i,-1,-i)$&lt;/li&gt;
+&lt;li&gt;基n 可以考虑每一个分量分别是旋转$m$次，每次顺时针旋转$\frac{2\pi}{b}$所得到的&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;按时间抽取&#34;&gt;按时间抽取&lt;/h3&gt;
+&lt;p&gt;按时间抽取的情况下，$X[k]$是有序的。序列的分治通过$x[n]$的&lt;strong&gt;模划分&lt;/strong&gt;来实现。&lt;/p&gt;
+&lt;p&gt;对于基$b$的FFT，其DFT可以写为如下形式：
+$$
+X[k] = \sum_{n=0}^{\frac{N}{b}-1}x[bn]W_{\frac{N}{b}}^{kn} + W_{N}^{k}\sum_{n=0}^{\frac{N}{b}-1}x[bn+1]W_{\frac{N}{b}}^{kn} + &amp;hellip; + W_{N}^{(b-1)k}\sum_{n=0}^{\frac{N}{b}-1}x[bn+b-1]W_{\frac{N}{b}}^{kn}
+$$
+使用$k,k+\frac{N}{b},&amp;hellip;,k+\frac{(b-1)N}{b}$对$k$进行代换，可以得到：
+$$
+X[k+\frac{mN}{b}] = \sum_{n=0}^{\frac{N}{b}-1}{x[bn]+x[bn+1]W_b^mW_N^k+x[bn+2]W_b^{2m}W_N^{2k}+&amp;hellip;+x[bn+b-1]W_b^{(b-1)m}W_N^{(b-1)k}}W_{\frac{N}{b}}^{kn}
+$$&lt;/p&gt;
+&lt;h3 id=&#34;应用&#34;&gt;应用&lt;/h3&gt;
+&lt;h4 id=&#34;卷积&#34;&gt;卷积&lt;/h4&gt;
+&lt;p&gt;考虑一个长度为$L$的序列$x_1[n]$和一个长度为$P$的序列$x_2[n]$，卷积后的序列$y[n]$长度为$(L+P-1)$。将$y[n]$按照$N$点混叠得到$N$点循环卷积$\bar y_N[n]$，当$N&amp;gt;L+P$，则可以将$X_1[k]X_2[k]$的循环卷积变换为$X_1(e^{j\omega})X_2(e^{j\omega})$的线性卷积（参考循环卷积的频域理解）。&lt;/p&gt;
+&lt;p&gt;如果$P$较小，则需要对$x_2[n]$大量补0，导致计算量增大，对此需要对$x_1[n]$分段切割，表示为长度为$L$的平移有限长序列之和：
+$$
+x[n] = \sum_{r=0}^{\infty}x_r[n-rL] \
+x_r[n] = x[n+rL], 0\le n\le L-1
+$$
+分段计算线性卷积$y_r[n] = x_r[n] * h[n]$，使用$N\ge L+P-1$点DFT计算线性卷积，得到的序列。由于每一个分割后的序列段长度为$L$，所以上述卷积长度为$L+P-1$，各序列段的卷积将会重叠$P-1$点。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;重叠相加法：
+&lt;ol&gt;
+&lt;li&gt;将$x[n]$拆分成$L$点长的子段$x_r[n]$&lt;/li&gt;
+&lt;li&gt;将$h[n]$补零做$L+P-1$点FFT$H_{L+P-1}[k]$&lt;/li&gt;
+&lt;li&gt;将$x_r[n]$补零做$L+P-1$点FFT$X_r [k]$&lt;/li&gt;
+&lt;li&gt;$X_r[k]$和$H_{L+P-1}[k]$逐点相乘后作$L+P-1$点IFFT得$y_r[n]$&lt;/li&gt;
+&lt;li&gt;平移$rL$点后重叠相加$y[n] = \sum_{r=0}^{\infty}y_r[n-rL]$&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;重叠保留法：
+&lt;ol&gt;
+&lt;li&gt;$h[n]$做$L$点FFT$H_L[k]$&lt;/li&gt;
+&lt;li&gt;将$x[n]$分为长度为$L$的序列段，使得每个输人段与先
+前的序列段重叠$(P-1)$点，也就是$x_r[n]=x[n+r(L-P+1)-P+1]\ (0\le n \le L-1)$。&lt;/li&gt;
+&lt;li&gt;做卷积$y_{rp}[n]=h[n]*x_r[n]$（使用FFT和IFFT）&lt;/li&gt;
+&lt;li&gt;由于各段$x_r[n]$之间有交叠，所以$y_{rp}[n]$的重复段$0\le n \le P-2$段被去掉，新的子序列$y_r[n] = y_{rp}[n](P-1\le n \le L-1)$&lt;/li&gt;
+&lt;li&gt;平移$r(L-P+1)$点后重叠相加$y[n] = \sum_{r=0}^{\infty}y_r[n-r(L-P+1)+P-1]$&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;相关&#34;&gt;相关&lt;/h4&gt;
+&lt;p&gt;将一个序列进行反转共轭${\rm FFT}{y^&lt;em&gt;[-n]}=Y^&lt;/em&gt;[k]$后计算卷积。&lt;/p&gt;
+&lt;h4 id=&#34;短时fft&#34;&gt;短时FFT&lt;/h4&gt;
+&lt;p&gt;$$
+X[k,n+1]=(X[k,n]-x[n-W+1]+x[n+1])e^{j2\pi\frac{k}{W}}
+$$&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
