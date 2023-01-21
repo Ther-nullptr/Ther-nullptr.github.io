@@ -1,18 +1,84 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='清华大学电子工程系软件部暑培。'><title>grpc</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='gRPC 无03 王与进
+目录 [TOC]
+前言 在介绍gRPC之前，我们需要先介绍几个在通信中需要用到的概念。
+Client-Server model:star: Client-Server结构是一种经典的通信模型。它通常采取两层结构：
+ 服务器（Server）负责数据的处理。它有以下特征：  等待来自客户端的请求 处理请求并传回结果   客户端（Client）负责完成与用户的交互任务。它有以下特征：  发送请求 等待直到收到响应    THUAI5就是一个应用了Client-Server model的典型实例：
+在游戏中，玩家通过在Client端编写C&#43;&#43;代码来制定游戏策略，而Server端由Csharp语言写成，用于分析处理游戏逻辑。编译生成的Client端可执行文件将向Server端发送请求，请求处理完毕后Server端再向Client端发送处理后的结果，这样Client端就可以接受到游戏实况，以供下一步决策。
+IP Address IP Address(Internet Protocol address，网际协议地址)，是网际协议中用于标识发送或接受数据报的设备的一串数字。
+当设备连接网络后，设备将被分配一个IP地址，对于一个具体的设备而言，IP地址是独一无二的。IP地址有两个主要的功能：标识主机（用户在互联网上可以识别）和网络寻址（允许计算机通过互联网发送和接受数据）。
+常见的IP地址分为IPv4和IPv6两大类：
+  IPv4：32位长，通常书写时以四组十进制数字组成，并以点分割，例如：172.16.254.1。
+  IPv6：128位长，通常书写时以八组十六进制数字组成，并以冒号分割，例如：
+2001:db8:0:1234:0:567:8:1。
+  我们可以使用如下方法查询本机的IP地址：
+ windows：ipconfig linux：ifconfig（可能需要使用sudo apt-get install net-tools进行安装）   一个特殊的IP地址：127.0.0.1
+尽管现在有大量可用的 IP 地址，但为了防止编程冲突的特定目的，刻意保留一些地址，甚至是地址范围是很方便的。
+127.0.0.1就是其中一个。它表示的是主机环回地址，表示的是任何数据包都不应该离开计算机，计算机本身即为接收者。
+当我们需要在本地测试一些网站服务，或者只想在本地设备上运行只有本地设备可以访问的服务，就可以使用127.0.0.1。
+ Port Port(端口)在电脑网络中是一种经过软件创建的服务，在一个电脑的操作系统中扮演通信的端点。
+什么意思呢？利用IP地址，可以实现不同计算机之间的通信。但实际上，计算机中是运行着多个进程的——当不同的信息被传入计算机后，计算机需要一种手段来区分信息的接收者，以将不同进程的处理结果正确地发送给接收者。
+这个时候，端口就派上了用场。如果我们在通信时不仅指定IP地址，而且指定端口，计算机就可以正确地将不同的请求交给正确的进程处理。
+特定的服务一般对应于特定的端口，详见端口列表。
+我们可以使用如下方法查看本机的端口使用情况：
+ windows：netstat -ano| findstr &amp;quot;&amp;lt;port&amp;gt;&amp;quot; linux：netstat -tunlp | grep &amp;lt;port&amp;gt;或lsof -i:&amp;lt;port&amp;gt;  gRPC概况 gRPC的全称是gRPC Remote Procedure Calls。其中“Remote Procedure Calls”翻译为“远程过程调用”。“远程过程调用”指的是客户端（Client）可以像调用本地对象一样直接调用服务端（Server）应用的方法。具体过程如下：'><title>grpc</title>
 
 <link rel='canonical' href='https://ther-nullptr.github.io/posts/programming/grpc/'>
 
 <link rel="stylesheet" href="/scss/style.min.54696446116cce19a1853c227ac72a7c4a0c48082cb8716cff1ab30937f5fe06.css"><meta property='og:title' content='grpc'>
-<meta property='og:description' content='清华大学电子工程系软件部暑培。'>
+<meta property='og:description' content='gRPC 无03 王与进
+目录 [TOC]
+前言 在介绍gRPC之前，我们需要先介绍几个在通信中需要用到的概念。
+Client-Server model:star: Client-Server结构是一种经典的通信模型。它通常采取两层结构：
+ 服务器（Server）负责数据的处理。它有以下特征：  等待来自客户端的请求 处理请求并传回结果   客户端（Client）负责完成与用户的交互任务。它有以下特征：  发送请求 等待直到收到响应    THUAI5就是一个应用了Client-Server model的典型实例：
+在游戏中，玩家通过在Client端编写C&#43;&#43;代码来制定游戏策略，而Server端由Csharp语言写成，用于分析处理游戏逻辑。编译生成的Client端可执行文件将向Server端发送请求，请求处理完毕后Server端再向Client端发送处理后的结果，这样Client端就可以接受到游戏实况，以供下一步决策。
+IP Address IP Address(Internet Protocol address，网际协议地址)，是网际协议中用于标识发送或接受数据报的设备的一串数字。
+当设备连接网络后，设备将被分配一个IP地址，对于一个具体的设备而言，IP地址是独一无二的。IP地址有两个主要的功能：标识主机（用户在互联网上可以识别）和网络寻址（允许计算机通过互联网发送和接受数据）。
+常见的IP地址分为IPv4和IPv6两大类：
+  IPv4：32位长，通常书写时以四组十进制数字组成，并以点分割，例如：172.16.254.1。
+  IPv6：128位长，通常书写时以八组十六进制数字组成，并以冒号分割，例如：
+2001:db8:0:1234:0:567:8:1。
+  我们可以使用如下方法查询本机的IP地址：
+ windows：ipconfig linux：ifconfig（可能需要使用sudo apt-get install net-tools进行安装）   一个特殊的IP地址：127.0.0.1
+尽管现在有大量可用的 IP 地址，但为了防止编程冲突的特定目的，刻意保留一些地址，甚至是地址范围是很方便的。
+127.0.0.1就是其中一个。它表示的是主机环回地址，表示的是任何数据包都不应该离开计算机，计算机本身即为接收者。
+当我们需要在本地测试一些网站服务，或者只想在本地设备上运行只有本地设备可以访问的服务，就可以使用127.0.0.1。
+ Port Port(端口)在电脑网络中是一种经过软件创建的服务，在一个电脑的操作系统中扮演通信的端点。
+什么意思呢？利用IP地址，可以实现不同计算机之间的通信。但实际上，计算机中是运行着多个进程的——当不同的信息被传入计算机后，计算机需要一种手段来区分信息的接收者，以将不同进程的处理结果正确地发送给接收者。
+这个时候，端口就派上了用场。如果我们在通信时不仅指定IP地址，而且指定端口，计算机就可以正确地将不同的请求交给正确的进程处理。
+特定的服务一般对应于特定的端口，详见端口列表。
+我们可以使用如下方法查看本机的端口使用情况：
+ windows：netstat -ano| findstr &amp;quot;&amp;lt;port&amp;gt;&amp;quot; linux：netstat -tunlp | grep &amp;lt;port&amp;gt;或lsof -i:&amp;lt;port&amp;gt;  gRPC概况 gRPC的全称是gRPC Remote Procedure Calls。其中“Remote Procedure Calls”翻译为“远程过程调用”。“远程过程调用”指的是客户端（Client）可以像调用本地对象一样直接调用服务端（Server）应用的方法。具体过程如下：'>
 <meta property='og:url' content='https://ther-nullptr.github.io/posts/programming/grpc/'>
 <meta property='og:site_name' content='Ther&#39;s Blog'>
 <meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='programming utils' /><meta property='article:tag' content='summer training' /><meta property='article:published_time' content='2022-06-20T19:55:32&#43;08:00'/><meta property='article:modified_time' content='2022-06-20T19:55:32&#43;08:00'/>
 <meta name="twitter:site" content="@AdobePython">
     <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="grpc">
-<meta name="twitter:description" content="清华大学电子工程系软件部暑培。"><style>
+<meta name="twitter:description" content="gRPC 无03 王与进
+目录 [TOC]
+前言 在介绍gRPC之前，我们需要先介绍几个在通信中需要用到的概念。
+Client-Server model:star: Client-Server结构是一种经典的通信模型。它通常采取两层结构：
+ 服务器（Server）负责数据的处理。它有以下特征：  等待来自客户端的请求 处理请求并传回结果   客户端（Client）负责完成与用户的交互任务。它有以下特征：  发送请求 等待直到收到响应    THUAI5就是一个应用了Client-Server model的典型实例：
+在游戏中，玩家通过在Client端编写C&#43;&#43;代码来制定游戏策略，而Server端由Csharp语言写成，用于分析处理游戏逻辑。编译生成的Client端可执行文件将向Server端发送请求，请求处理完毕后Server端再向Client端发送处理后的结果，这样Client端就可以接受到游戏实况，以供下一步决策。
+IP Address IP Address(Internet Protocol address，网际协议地址)，是网际协议中用于标识发送或接受数据报的设备的一串数字。
+当设备连接网络后，设备将被分配一个IP地址，对于一个具体的设备而言，IP地址是独一无二的。IP地址有两个主要的功能：标识主机（用户在互联网上可以识别）和网络寻址（允许计算机通过互联网发送和接受数据）。
+常见的IP地址分为IPv4和IPv6两大类：
+  IPv4：32位长，通常书写时以四组十进制数字组成，并以点分割，例如：172.16.254.1。
+  IPv6：128位长，通常书写时以八组十六进制数字组成，并以冒号分割，例如：
+2001:db8:0:1234:0:567:8:1。
+  我们可以使用如下方法查询本机的IP地址：
+ windows：ipconfig linux：ifconfig（可能需要使用sudo apt-get install net-tools进行安装）   一个特殊的IP地址：127.0.0.1
+尽管现在有大量可用的 IP 地址，但为了防止编程冲突的特定目的，刻意保留一些地址，甚至是地址范围是很方便的。
+127.0.0.1就是其中一个。它表示的是主机环回地址，表示的是任何数据包都不应该离开计算机，计算机本身即为接收者。
+当我们需要在本地测试一些网站服务，或者只想在本地设备上运行只有本地设备可以访问的服务，就可以使用127.0.0.1。
+ Port Port(端口)在电脑网络中是一种经过软件创建的服务，在一个电脑的操作系统中扮演通信的端点。
+什么意思呢？利用IP地址，可以实现不同计算机之间的通信。但实际上，计算机中是运行着多个进程的——当不同的信息被传入计算机后，计算机需要一种手段来区分信息的接收者，以将不同进程的处理结果正确地发送给接收者。
+这个时候，端口就派上了用场。如果我们在通信时不仅指定IP地址，而且指定端口，计算机就可以正确地将不同的请求交给正确的进程处理。
+特定的服务一般对应于特定的端口，详见端口列表。
+我们可以使用如下方法查看本机的端口使用情况：
+ windows：netstat -ano| findstr &amp;quot;&amp;lt;port&amp;gt;&amp;quot; linux：netstat -tunlp | grep &amp;lt;port&amp;gt;或lsof -i:&amp;lt;port&amp;gt;  gRPC概况 gRPC的全称是gRPC Remote Procedure Calls。其中“Remote Procedure Calls”翻译为“远程过程调用”。“远程过程调用”指的是客户端（Client）可以像调用本地对象一样直接调用服务端（Server）应用的方法。具体过程如下："><style>
     :root {
         --article-font-family: "Noto Serif SC", var(--base-font-family);
     }
@@ -317,10 +383,6 @@
             <a href="/posts/programming/grpc/">grpc</a>
         </h2>
     
-        
-        <h3 class="article-subtitle">
-            清华大学电子工程系软件部暑培。
-        </h3>
         
     </div>
 

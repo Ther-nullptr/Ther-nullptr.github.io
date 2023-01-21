@@ -1,18 +1,39 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='清华大学电子工程系软件部暑培。'><title>Makefile &amp; CMake</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Makefile &amp;amp; CMake 想象一下我们有如下C&#43;&#43;程序hello.cpp：
+1 2 3 4 5  #include &amp;lt;iostream&amp;gt;int main() { std::cout &amp;lt;&amp;lt; &amp;#34;hello world!&amp;#34; &amp;lt;&amp;lt; std::endl; }   我们需要在终端输入以下指令：
+1  $ g&#43;&#43; hello.cpp -o hello   这时我们就可以生成可执行文件hello。但在实际应用场景中，我们可能会面临如下问题：
+ 项目中的.h文件和.cpp文件十分繁多。 各.h文件、.cpp文件的依赖关系十分复杂。 多文件可能会出现重复编译的情况，拖慢编译速度。 &amp;hellip;  为了解决这些问题，makefile和CMake应运而生。
+本讲需要使用到的工具：g&#43;&#43;，make，cmake。可以通过以下方式安装：
+1  $ sudo apt-get install g&#43;&#43; make cmake   Makefile makefile文件描述了C/C&#43;&#43;工程的编译规则，可以用来指明源文件的编译顺序、依赖关系、是否需要重新编译等，自动化编译C/C&#43;&#43;项目（实际上也不止局限于C/C&#43;&#43;项目）。
+我们可以考虑以下实例：
+1 2 3 4 5  . ├── invsqrt.cpp ├── invsqrt.h ├── main.cpp └── makefile   makefile如下：'><title>Makefile &amp; CMake</title>
 
 <link rel='canonical' href='https://ther-nullptr.github.io/posts/programming/cmake/'>
 
 <link rel="stylesheet" href="/scss/style.min.54696446116cce19a1853c227ac72a7c4a0c48082cb8716cff1ab30937f5fe06.css"><meta property='og:title' content='Makefile &amp; CMake'>
-<meta property='og:description' content='清华大学电子工程系软件部暑培。'>
+<meta property='og:description' content='Makefile &amp;amp; CMake 想象一下我们有如下C&#43;&#43;程序hello.cpp：
+1 2 3 4 5  #include &amp;lt;iostream&amp;gt;int main() { std::cout &amp;lt;&amp;lt; &amp;#34;hello world!&amp;#34; &amp;lt;&amp;lt; std::endl; }   我们需要在终端输入以下指令：
+1  $ g&#43;&#43; hello.cpp -o hello   这时我们就可以生成可执行文件hello。但在实际应用场景中，我们可能会面临如下问题：
+ 项目中的.h文件和.cpp文件十分繁多。 各.h文件、.cpp文件的依赖关系十分复杂。 多文件可能会出现重复编译的情况，拖慢编译速度。 &amp;hellip;  为了解决这些问题，makefile和CMake应运而生。
+本讲需要使用到的工具：g&#43;&#43;，make，cmake。可以通过以下方式安装：
+1  $ sudo apt-get install g&#43;&#43; make cmake   Makefile makefile文件描述了C/C&#43;&#43;工程的编译规则，可以用来指明源文件的编译顺序、依赖关系、是否需要重新编译等，自动化编译C/C&#43;&#43;项目（实际上也不止局限于C/C&#43;&#43;项目）。
+我们可以考虑以下实例：
+1 2 3 4 5  . ├── invsqrt.cpp ├── invsqrt.h ├── main.cpp └── makefile   makefile如下：'>
 <meta property='og:url' content='https://ther-nullptr.github.io/posts/programming/cmake/'>
 <meta property='og:site_name' content='Ther&#39;s Blog'>
 <meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='C&#43;&#43;' /><meta property='article:tag' content='summer training' /><meta property='article:published_time' content='2022-06-23T20:47:58&#43;08:00'/><meta property='article:modified_time' content='2022-06-23T20:47:58&#43;08:00'/>
 <meta name="twitter:site" content="@AdobePython">
     <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="Makefile &amp; CMake">
-<meta name="twitter:description" content="清华大学电子工程系软件部暑培。"><style>
+<meta name="twitter:description" content="Makefile &amp;amp; CMake 想象一下我们有如下C&#43;&#43;程序hello.cpp：
+1 2 3 4 5  #include &amp;lt;iostream&amp;gt;int main() { std::cout &amp;lt;&amp;lt; &amp;#34;hello world!&amp;#34; &amp;lt;&amp;lt; std::endl; }   我们需要在终端输入以下指令：
+1  $ g&#43;&#43; hello.cpp -o hello   这时我们就可以生成可执行文件hello。但在实际应用场景中，我们可能会面临如下问题：
+ 项目中的.h文件和.cpp文件十分繁多。 各.h文件、.cpp文件的依赖关系十分复杂。 多文件可能会出现重复编译的情况，拖慢编译速度。 &amp;hellip;  为了解决这些问题，makefile和CMake应运而生。
+本讲需要使用到的工具：g&#43;&#43;，make，cmake。可以通过以下方式安装：
+1  $ sudo apt-get install g&#43;&#43; make cmake   Makefile makefile文件描述了C/C&#43;&#43;工程的编译规则，可以用来指明源文件的编译顺序、依赖关系、是否需要重新编译等，自动化编译C/C&#43;&#43;项目（实际上也不止局限于C/C&#43;&#43;项目）。
+我们可以考虑以下实例：
+1 2 3 4 5  . ├── invsqrt.cpp ├── invsqrt.h ├── main.cpp └── makefile   makefile如下："><style>
     :root {
         --article-font-family: "Noto Serif SC", var(--base-font-family);
     }
@@ -317,10 +338,6 @@
             <a href="/posts/programming/cmake/">Makefile &amp; CMake</a>
         </h2>
     
-        
-        <h3 class="article-subtitle">
-            清华大学电子工程系软件部暑培。
-        </h3>
         
     </div>
 

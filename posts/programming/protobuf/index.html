@@ -1,18 +1,36 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='清华大学电子工程系软件部暑培。'><title>Protobuf</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Protobuf 目录 [TOC]
+数据的传输与解析——浅谈序列化与反序列化 在网络通信的过程中，服务器端和客户端之间常常需要进行对象的传输。对象中常常含有不同的变量：
+ 整数 字符串 数组 数组对象 &amp;hellip;  那么我们如何正确地进行这种传递呢？要想实现对象的传输，在发送端我们需要使用一定的规则，将对象转换为具体的字节数组，这就是序列化(serialization)；而在接受端再以这种规则将字节数组还原为对象，这就是反序列化(deserialization)。
+常见的序列化-反序列化协议有XML、JSON、Protobuf。
+ XML(eXtensible Markup Language，可扩展标记语言)使用标签&amp;lt;xx&amp;gt;和&amp;lt;/xx&amp;gt;来区隔不同的数据。 JSON(JavaScript Object Notation，JavaScript对象简谱)使用JavaScript构造对象的方法来存储、传输数据。 Protobuf(Protocol Buffers)是Google公司开源跨平台的序列化数据结构的协议。  我们通过一个实例说明三者的差异。我们不妨定义以下对象：
+1 2 3 4 5 6 7 8 9 10 11 12  #include &amp;lt;string&amp;gt; class Helloworld { int id; std::string name; } int main() { Helloworld helloworld(101, &amp;#34;hello&amp;#34;); }   使用XML序列化该对象：
+1 2 3 4  &amp;lt;helloworld&amp;gt; &amp;lt;id&amp;gt;101&amp;lt;/id&amp;gt; &amp;lt;name&amp;gt;hello&amp;lt;/name&amp;gt; &amp;lt;/helloworld&amp;gt;   使用JSON序列化该对象：'><title>Protobuf</title>
 
 <link rel='canonical' href='https://ther-nullptr.github.io/posts/programming/protobuf/'>
 
 <link rel="stylesheet" href="/scss/style.min.54696446116cce19a1853c227ac72a7c4a0c48082cb8716cff1ab30937f5fe06.css"><meta property='og:title' content='Protobuf'>
-<meta property='og:description' content='清华大学电子工程系软件部暑培。'>
+<meta property='og:description' content='Protobuf 目录 [TOC]
+数据的传输与解析——浅谈序列化与反序列化 在网络通信的过程中，服务器端和客户端之间常常需要进行对象的传输。对象中常常含有不同的变量：
+ 整数 字符串 数组 数组对象 &amp;hellip;  那么我们如何正确地进行这种传递呢？要想实现对象的传输，在发送端我们需要使用一定的规则，将对象转换为具体的字节数组，这就是序列化(serialization)；而在接受端再以这种规则将字节数组还原为对象，这就是反序列化(deserialization)。
+常见的序列化-反序列化协议有XML、JSON、Protobuf。
+ XML(eXtensible Markup Language，可扩展标记语言)使用标签&amp;lt;xx&amp;gt;和&amp;lt;/xx&amp;gt;来区隔不同的数据。 JSON(JavaScript Object Notation，JavaScript对象简谱)使用JavaScript构造对象的方法来存储、传输数据。 Protobuf(Protocol Buffers)是Google公司开源跨平台的序列化数据结构的协议。  我们通过一个实例说明三者的差异。我们不妨定义以下对象：
+1 2 3 4 5 6 7 8 9 10 11 12  #include &amp;lt;string&amp;gt; class Helloworld { int id; std::string name; } int main() { Helloworld helloworld(101, &amp;#34;hello&amp;#34;); }   使用XML序列化该对象：
+1 2 3 4  &amp;lt;helloworld&amp;gt; &amp;lt;id&amp;gt;101&amp;lt;/id&amp;gt; &amp;lt;name&amp;gt;hello&amp;lt;/name&amp;gt; &amp;lt;/helloworld&amp;gt;   使用JSON序列化该对象：'>
 <meta property='og:url' content='https://ther-nullptr.github.io/posts/programming/protobuf/'>
 <meta property='og:site_name' content='Ther&#39;s Blog'>
 <meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='programming utils' /><meta property='article:tag' content='summer training' /><meta property='article:published_time' content='2022-06-20T20:07:09&#43;08:00'/><meta property='article:modified_time' content='2022-06-20T20:07:09&#43;08:00'/>
 <meta name="twitter:site" content="@AdobePython">
     <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="Protobuf">
-<meta name="twitter:description" content="清华大学电子工程系软件部暑培。"><style>
+<meta name="twitter:description" content="Protobuf 目录 [TOC]
+数据的传输与解析——浅谈序列化与反序列化 在网络通信的过程中，服务器端和客户端之间常常需要进行对象的传输。对象中常常含有不同的变量：
+ 整数 字符串 数组 数组对象 &amp;hellip;  那么我们如何正确地进行这种传递呢？要想实现对象的传输，在发送端我们需要使用一定的规则，将对象转换为具体的字节数组，这就是序列化(serialization)；而在接受端再以这种规则将字节数组还原为对象，这就是反序列化(deserialization)。
+常见的序列化-反序列化协议有XML、JSON、Protobuf。
+ XML(eXtensible Markup Language，可扩展标记语言)使用标签&amp;lt;xx&amp;gt;和&amp;lt;/xx&amp;gt;来区隔不同的数据。 JSON(JavaScript Object Notation，JavaScript对象简谱)使用JavaScript构造对象的方法来存储、传输数据。 Protobuf(Protocol Buffers)是Google公司开源跨平台的序列化数据结构的协议。  我们通过一个实例说明三者的差异。我们不妨定义以下对象：
+1 2 3 4 5 6 7 8 9 10 11 12  #include &amp;lt;string&amp;gt; class Helloworld { int id; std::string name; } int main() { Helloworld helloworld(101, &amp;#34;hello&amp;#34;); }   使用XML序列化该对象：
+1 2 3 4  &amp;lt;helloworld&amp;gt; &amp;lt;id&amp;gt;101&amp;lt;/id&amp;gt; &amp;lt;name&amp;gt;hello&amp;lt;/name&amp;gt; &amp;lt;/helloworld&amp;gt;   使用JSON序列化该对象："><style>
     :root {
         --article-font-family: "Noto Serif SC", var(--base-font-family);
     }
@@ -317,10 +335,6 @@
             <a href="/posts/programming/protobuf/">Protobuf</a>
         </h2>
     
-        
-        <h3 class="article-subtitle">
-            清华大学电子工程系软件部暑培。
-        </h3>
         
     </div>
 
