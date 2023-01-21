@@ -1,19 +1,69 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
-    <head>
-	<meta name="generator" content="Hugo 0.99.0" /><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='萌生此等惬意，实乃徒增彷徨。'><title>Ther&#39;s Blog</title>
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='DFT 定义 $$ X[k] = \sum_{n=0}^{N-1}x[n] e^{-j2\pi\frac{nk}{N}} = \sum_{n=0}^{N-1}x[n]W_{N}^{nk} $$ 单位根表示 $$ W_{N}^k = e^{-j2\pi\frac{k}{N}} $$
+ $N$代表将单位圆平均分成的份数，$k$则相当于旋转的次数。整体上可以看成一个绕原点进行顺时针旋转的单位向量。
+ DFT vs DTFT $$ X(\omega)|{\omega=2\pi\frac{k}{N}} = X[k] $$ IDFT $$ x[r]=\frac{1}{N}\sum{k=0}^{N-1}X[k]e^{j2\pi\frac{rk}{N}} $$ 性质
+共轭：${\rm DFT}{x^{\ast}[n]} = X^{\ast}[N-k]$
+（时域共轭，频域共轭&#43;循环反转）
+反转：${\rm DFT}{x[((-n))_N]}=X[((-k))_N]R_N[k]$
+（时域循环反转，频域循环反转）
+对称：${\rm DFT}{\Re{x[n]}}=X_e[k]$ ${\rm DFT}{j\Im{x[n]}}=X_o[k]$ $\Re{X[k]}={{\rm DFT} {x_e[n]}}$ $j\Im{X[k]}={{\rm DFT} {x_o[n]}}$
+（推论：实序列的DFT共轭偶对称，即$X[k] = X^*[N-k] $）
+对偶：${\rm DFT}{X[k]}=Nx[((-n))_N]R_N[n]$
+（直观理解：DFTMatrix的$N-k$行和IDFTMatrix的$k$行相同，如果不考虑系数）
+循环位移：${\rm DFT}{x[((n-m))_N]R_N[n]} = W_N^{mk}X[k]$
+（DTFT的位移变成了DFT的循环位移，$m$理论上可以取非整数）
+循环卷积：${\rm IDFT}{X[k]Y[k]}=\sum_{m=0}^{N-1}x[m]y[((n-m))_N]$
+（把传统线性卷积的反转&#43;位移变为循环反转&#43;循环位移。时域理解：将有限序列进行周期延拓后，形成以$N$为周期的序列，在主值区间上进行线性卷积 频域理解：线性卷积以$N$为周期进行混叠后，在$[0,N-1]$截断）
+保范：$\sum_{n=0}^{N-1}|x[n]|^2=\frac{1}{N}\sum_{k=0}^{N-1}|X[k]|^2$
+ 补充定义
+循环位移：$x[((n-m))_N]R_N[n]$ (移位&#43;截断，$m$为向右平移的位数)'><title>DFT</title>
 
-<link rel='canonical' href='https://ther-nullptr.github.io/'>
+<link rel='canonical' href='https://ther-nullptr.github.io/posts/digital_signal_processing/dft/'>
 
-<link rel="stylesheet" href="/scss/style.min.54696446116cce19a1853c227ac72a7c4a0c48082cb8716cff1ab30937f5fe06.css"><meta property='og:title' content='Ther&#39;s Blog'>
-<meta property='og:description' content='萌生此等惬意，实乃徒增彷徨。'>
-<meta property='og:url' content='https://ther-nullptr.github.io/'>
+<link rel="stylesheet" href="/scss/style.min.54696446116cce19a1853c227ac72a7c4a0c48082cb8716cff1ab30937f5fe06.css"><meta property='og:title' content='DFT'>
+<meta property='og:description' content='DFT 定义 $$ X[k] = \sum_{n=0}^{N-1}x[n] e^{-j2\pi\frac{nk}{N}} = \sum_{n=0}^{N-1}x[n]W_{N}^{nk} $$ 单位根表示 $$ W_{N}^k = e^{-j2\pi\frac{k}{N}} $$
+ $N$代表将单位圆平均分成的份数，$k$则相当于旋转的次数。整体上可以看成一个绕原点进行顺时针旋转的单位向量。
+ DFT vs DTFT $$ X(\omega)|{\omega=2\pi\frac{k}{N}} = X[k] $$ IDFT $$ x[r]=\frac{1}{N}\sum{k=0}^{N-1}X[k]e^{j2\pi\frac{rk}{N}} $$ 性质
+共轭：${\rm DFT}{x^{\ast}[n]} = X^{\ast}[N-k]$
+（时域共轭，频域共轭&#43;循环反转）
+反转：${\rm DFT}{x[((-n))_N]}=X[((-k))_N]R_N[k]$
+（时域循环反转，频域循环反转）
+对称：${\rm DFT}{\Re{x[n]}}=X_e[k]$ ${\rm DFT}{j\Im{x[n]}}=X_o[k]$ $\Re{X[k]}={{\rm DFT} {x_e[n]}}$ $j\Im{X[k]}={{\rm DFT} {x_o[n]}}$
+（推论：实序列的DFT共轭偶对称，即$X[k] = X^*[N-k] $）
+对偶：${\rm DFT}{X[k]}=Nx[((-n))_N]R_N[n]$
+（直观理解：DFTMatrix的$N-k$行和IDFTMatrix的$k$行相同，如果不考虑系数）
+循环位移：${\rm DFT}{x[((n-m))_N]R_N[n]} = W_N^{mk}X[k]$
+（DTFT的位移变成了DFT的循环位移，$m$理论上可以取非整数）
+循环卷积：${\rm IDFT}{X[k]Y[k]}=\sum_{m=0}^{N-1}x[m]y[((n-m))_N]$
+（把传统线性卷积的反转&#43;位移变为循环反转&#43;循环位移。时域理解：将有限序列进行周期延拓后，形成以$N$为周期的序列，在主值区间上进行线性卷积 频域理解：线性卷积以$N$为周期进行混叠后，在$[0,N-1]$截断）
+保范：$\sum_{n=0}^{N-1}|x[n]|^2=\frac{1}{N}\sum_{k=0}^{N-1}|X[k]|^2$
+ 补充定义
+循环位移：$x[((n-m))_N]R_N[n]$ (移位&#43;截断，$m$为向右平移的位数)'>
+<meta property='og:url' content='https://ther-nullptr.github.io/posts/digital_signal_processing/dft/'>
 <meta property='og:site_name' content='Ther&#39;s Blog'>
-<meta property='og:type' content='website'><meta property='og:updated_time' content=' 2023-01-14T00:00:00&#43;00:00 '/>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='Digital Signal Processing' /><meta property='article:published_time' content='2022-10-13T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2022-10-13T00:00:00&#43;00:00'/>
 <meta name="twitter:site" content="@AdobePython">
-    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="Ther&#39;s Blog">
-<meta name="twitter:description" content="萌生此等惬意，实乃徒增彷徨。"><link rel="alternate" type="application/rss&#43;xml" href="https://ther-nullptr.github.io/index.xml"><style>
+    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="DFT">
+<meta name="twitter:description" content="DFT 定义 $$ X[k] = \sum_{n=0}^{N-1}x[n] e^{-j2\pi\frac{nk}{N}} = \sum_{n=0}^{N-1}x[n]W_{N}^{nk} $$ 单位根表示 $$ W_{N}^k = e^{-j2\pi\frac{k}{N}} $$
+ $N$代表将单位圆平均分成的份数，$k$则相当于旋转的次数。整体上可以看成一个绕原点进行顺时针旋转的单位向量。
+ DFT vs DTFT $$ X(\omega)|{\omega=2\pi\frac{k}{N}} = X[k] $$ IDFT $$ x[r]=\frac{1}{N}\sum{k=0}^{N-1}X[k]e^{j2\pi\frac{rk}{N}} $$ 性质
+共轭：${\rm DFT}{x^{\ast}[n]} = X^{\ast}[N-k]$
+（时域共轭，频域共轭&#43;循环反转）
+反转：${\rm DFT}{x[((-n))_N]}=X[((-k))_N]R_N[k]$
+（时域循环反转，频域循环反转）
+对称：${\rm DFT}{\Re{x[n]}}=X_e[k]$ ${\rm DFT}{j\Im{x[n]}}=X_o[k]$ $\Re{X[k]}={{\rm DFT} {x_e[n]}}$ $j\Im{X[k]}={{\rm DFT} {x_o[n]}}$
+（推论：实序列的DFT共轭偶对称，即$X[k] = X^*[N-k] $）
+对偶：${\rm DFT}{X[k]}=Nx[((-n))_N]R_N[n]$
+（直观理解：DFTMatrix的$N-k$行和IDFTMatrix的$k$行相同，如果不考虑系数）
+循环位移：${\rm DFT}{x[((n-m))_N]R_N[n]} = W_N^{mk}X[k]$
+（DTFT的位移变成了DFT的循环位移，$m$理论上可以取非整数）
+循环卷积：${\rm IDFT}{X[k]Y[k]}=\sum_{m=0}^{N-1}x[m]y[((n-m))_N]$
+（把传统线性卷积的反转&#43;位移变为循环反转&#43;循环位移。时域理解：将有限序列进行周期延拓后，形成以$N$为周期的序列，在主值区间上进行线性卷积 频域理解：线性卷积以$N$为周期进行混叠后，在$[0,N-1]$截断）
+保范：$\sum_{n=0}^{N-1}|x[n]|^2=\frac{1}{N}\sum_{k=0}^{N-1}|X[k]|^2$
+ 补充定义
+循环位移：$x[((n-m))_N]R_N[n]$ (移位&#43;截断，$m$为向右平移的位数)"><style>
     :root {
         --article-font-family: "Noto Serif SC", var(--base-font-family);
     }
@@ -31,7 +81,9 @@
 		}());
 </script>
     </head>
-    <body class="">
+    <body class="
+    article-page
+    ">
     <script>
         (function() {
             const colorSchemeKey = 'StackColorScheme';
@@ -148,7 +200,7 @@
         
         
 
-        <li >
+        <li  class='current' >
             <a href='/posts/' >
                 
                 
@@ -297,23 +349,15 @@
     </ol>
 </aside>
 <main class="main full-width">
-    
-    
-    
-    
-
-    <section class="article-list">
-        
-            
-<article class="">
+    <article class="main-article">
     <header class="article-header">
 
     <div class="article-details">
     
     <header class="article-category">
         
-            <a href="/categories/programming/" >
-                programming
+            <a href="/categories/study/" >
+                study
             </a>
         
     </header>
@@ -321,7 +365,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/posts/programming/oop/">面向对象程序设计基础</a>
+            <a href="/posts/digital_signal_processing/dft/">DFT</a>
         </h2>
     
         
@@ -340,145 +384,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">Jun 20, 2022</time>
-            </div>
-        
-
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <polyline points="12 7 12 12 15 15" />
-</svg>
-
-
-
-                <time class="article-time--reading">
-                    7 minute read
-                </time>
-            </div>
-        
-    </footer>
-    
-
-    
-</div>
-</header>
-</article>
-        
-            
-<article class="">
-    <header class="article-header">
-
-    <div class="article-details">
-    
-    <header class="article-category">
-        
-            <a href="/categories/programming/" >
-                programming
-            </a>
-        
-    </header>
-    
-
-    <div class="article-title-wrapper">
-        <h2 class="article-title">
-            <a href="/posts/programming/grpc/">grpc</a>
-        </h2>
-    
-        
-    </div>
-
-    
-    <footer class="article-time">
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
-  <circle cx="18" cy="18" r="4" />
-  <path d="M15 3v4" />
-  <path d="M7 3v4" />
-  <path d="M3 11h16" />
-  <path d="M18 16.496v1.504l1 1" />
-</svg>
-                <time class="article-time--published">Jun 20, 2022</time>
-            </div>
-        
-
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <polyline points="12 7 12 12 15 15" />
-</svg>
-
-
-
-                <time class="article-time--reading">
-                    6 minute read
-                </time>
-            </div>
-        
-    </footer>
-    
-
-    
-</div>
-</header>
-</article>
-        
-            
-<article class="has-image">
-    <header class="article-header">
-        <div class="article-image">
-            <a href="/posts/ldr/">
-                <img src="/posts/ldr/LDR_hu8eb093704b9dd0a9c9f2f554fd593af3_2854661_800x0_resize_q75_box.jpg"
-                        srcset="/posts/ldr/LDR_hu8eb093704b9dd0a9c9f2f554fd593af3_2854661_800x0_resize_q75_box.jpg 800w, /posts/ldr/LDR_hu8eb093704b9dd0a9c9f2f554fd593af3_2854661_1600x0_resize_q75_box.jpg 1600w"
-                        width="800" 
-                        height="400" 
-                        loading="lazy"
-                        alt="Featured image of post Love Death Robots" />
-                
-            </a>
-        </div>
-    
-
-    <div class="article-details">
-    
-    <header class="article-category">
-        
-            <a href="/categories/small-talk/" >
-                small talk
-            </a>
-        
-    </header>
-    
-
-    <div class="article-title-wrapper">
-        <h2 class="article-title">
-            <a href="/posts/ldr/">Love Death Robots</a>
-        </h2>
-    
-        
-    </div>
-
-    
-    <footer class="article-time">
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
-  <circle cx="18" cy="18" r="4" />
-  <path d="M15 3v4" />
-  <path d="M7 3v4" />
-  <path d="M3 11h16" />
-  <path d="M18 16.496v1.504l1 1" />
-</svg>
-                <time class="article-time--published">Jun 19, 2022</time>
+                <time class="article-time--published">Oct 13, 2022</time>
             </div>
         
 
@@ -503,169 +409,228 @@
     
 </div>
 </header>
-</article>
-        
-            
-<article class="">
-    <header class="article-header">
 
-    <div class="article-details">
+    <section class="article-content">
     
-
-    <div class="article-title-wrapper">
-        <h2 class="article-title">
-            <a href="/posts/awesome_toolkits/wsl_remote/">解决VSCode更新后无法启动Remote WSL的问题</a>
-        </h2>
     
-        
-    </div>
+    <h2 id="dft">DFT</h2>
+<p><strong>定义</strong>
+$$
+X[k] = \sum_{n=0}^{N-1}x[n] e^{-j2\pi\frac{nk}{N}} = \sum_{n=0}^{N-1}x[n]W_{N}^{nk}
+$$
+<strong>单位根表示</strong>
+$$
+W_{N}^k = e^{-j2\pi\frac{k}{N}}
+$$</p>
+<blockquote>
+<p>$N$代表将单位圆平均分成的份数，$k$则相当于旋转的次数。整体上可以看成一个绕原点进行<strong>顺时针</strong>旋转的单位向量。</p>
+</blockquote>
+<p><strong>DFT vs DTFT</strong>
+$$
+X(\omega)|<em>{\omega=2\pi\frac{k}{N}} = X[k]
+$$
+<strong>IDFT</strong>
+$$
+x[r]=\frac{1}{N}\sum</em>{k=0}^{N-1}X[k]e^{j2\pi\frac{rk}{N}}
+$$
+<strong>性质</strong></p>
+<p>共轭：${\rm DFT}{x^{\ast}[n]} = X^{\ast}[N-k]$</p>
+<p>（时域共轭，频域共轭+循环反转）</p>
+<p>反转：${\rm DFT}{x[((-n))_N]}=X[((-k))_N]R_N[k]$</p>
+<p>（时域循环反转，频域循环反转）</p>
+<p>对称：${\rm DFT}{\Re{x[n]}}=X_e[k]$ ${\rm DFT}{j\Im{x[n]}}=X_o[k]$ $\Re{X[k]}={{\rm DFT} {x_e[n]}}$ $j\Im{X[k]}={{\rm DFT} {x_o[n]}}$</p>
+<p>（推论：实序列的DFT共轭偶对称，即$X[k] = X^*[N-k] $）</p>
+<p>对偶：${\rm DFT}{X[k]}=Nx[((-n))_N]R_N[n]$</p>
+<p>（直观理解：DFTMatrix的$N-k$行和IDFTMatrix的$k$行相同，如果不考虑系数）</p>
+<p>循环位移：${\rm DFT}{x[((n-m))_N]R_N[n]} = W_N^{mk}X[k]$</p>
+<p>（DTFT的位移变成了DFT的循环位移，$m$理论上可以取非整数）</p>
+<p>循环卷积：${\rm IDFT}{X[k]Y[k]}=\sum_{m=0}^{N-1}x[m]y[((n-m))_N]$</p>
+<p>（把传统线性卷积的反转+位移变为循环反转+循环位移。<strong>时域理解</strong>：将有限序列进行周期延拓后，形成以$N$为周期的序列，在主值区间上进行线性卷积 <strong>频域理解</strong>：线性卷积以$N$为周期进行混叠后，在$[0,N-1]$截断）</p>
+<p>保范：$\sum_{n=0}^{N-1}|x[n]|^2=\frac{1}{N}\sum_{k=0}^{N-1}|X[k]|^2$</p>
+<blockquote>
+<p><strong>补充定义</strong></p>
+<p>循环位移：$x[((n-m))_N]R_N[n]$ (移位+截断，$m$为向右平移的位数)</p>
+<p>循环反转：$x[((-n))_N]R_N[n]$ (0不变，其余前后反转)</p>
+<p>共轭偶/奇对称：$x_{e/o}[n] = \frac{1}{2}(x[n]\pm x^{\ast}[((-n))]R_N[n])$ (注意把原来的取反变成了循环反转)</p>
+</blockquote>
 
+</section>
+
+
+    <footer class="article-footer">
     
-    <footer class="article-time">
+    <section class="article-tags">
         
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
-  <circle cx="18" cy="18" r="4" />
-  <path d="M15 3v4" />
-  <path d="M7 3v4" />
-  <path d="M3 11h16" />
-  <path d="M18 16.496v1.504l1 1" />
-</svg>
-                <time class="article-time--published">Jun 19, 2022</time>
-            </div>
-        
-
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <polyline points="12 7 12 12 15 15" />
-</svg>
-
-
-
-                <time class="article-time--reading">
-                    1 minute read
-                </time>
-            </div>
-        
-    </footer>
-    
-
-    
-</div>
-</header>
-</article>
-        
-            
-<article class="">
-    <header class="article-header">
-
-    <div class="article-details">
-    
-    <header class="article-category">
-        
-            <a href="/categories/small-talk/" >
-                small talk
-            </a>
-        
-    </header>
-    
-
-    <div class="article-title-wrapper">
-        <h2 class="article-title">
-            <a href="/posts/small_talk/eva2/">每日一遍</a>
-        </h2>
-    
-        
-    </div>
-
-    
-    <footer class="article-time">
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
-  <circle cx="18" cy="18" r="4" />
-  <path d="M15 3v4" />
-  <path d="M7 3v4" />
-  <path d="M3 11h16" />
-  <path d="M18 16.496v1.504l1 1" />
-</svg>
-                <time class="article-time--published">Jun 19, 2022</time>
-            </div>
-        
-
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <polyline points="12 7 12 12 15 15" />
-</svg>
-
-
-
-                <time class="article-time--reading">
-                    1 minute read
-                </time>
-            </div>
-        
-    </footer>
-    
-
-    
-</div>
-</header>
-</article>
+            <a href="/tags/digital-signal-processing/">Digital Signal Processing</a>
         
     </section>
-    <nav class='pagination'>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/posts/digital_signal_processing/dct/">
         
         
 
-        
-            
-                    <a class='page-link' href='/'>1</a>
-                
-            
-            
-                    
-                        
-                        <span class='page-link dots'>&hellip;</span>
-                    
-                
-            
-            
-                    <a class='page-link' href='/page/3/'>3</a>
-                
-            
-            
-                <span class='page-link current'>4</span>
-                
-            
-            
-                    <a class='page-link' href='/page/5/'>5</a>
-                
-            
-            
-                    
-                        
-                        <span class='page-link dots'>&hellip;</span>
-                    
-                
-            
-            
-                    <a class='page-link' href='/page/7/'>7</a>
-                
-            
-    </nav>
+        <div class="article-details">
+            <h2 class="article-title">DCT</h2>
+        </div>
+    </a>
+</article>
 
-<footer class="site-footer">
+            
+                
+<article class="">
+    <a href="/posts/digital_signal_processing/fft/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">FFT</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/hardware-machine-learning/ee-290-lab-3/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">EE290-2 LAB3 tiling and optimization for accelerator</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/hardware-machine-learning/ee-290-lab-2/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">EE290-2 LAB2 hardware implementation of machine learning systems</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/hardware-machine-learning/ee-290-lab-1/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">EE290-2 LAB1 quantization</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="Ther-nullptr/Ther-nullptr.github.io"
+        issue-term="pathname"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
     <section class="copyright">
         &copy; 
         
@@ -694,182 +659,87 @@
 
 </footer>
 
-            </main>
-    <aside class="sidebar right-sidebar sticky">
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
         
-            
-                <form action="/search/" class="search-form widget" >
-        <p>
-            <label>Search</label>
-            <input name="keyword" required placeholder="Type something..." />
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
         
-            <button title="Search">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="10" cy="10" r="7" />
-  <line x1="21" y1="21" x2="15" y2="15" />
-</svg>
+        <div class="pswp__ui pswp__ui--hidden">
 
+            <div class="pswp__top-bar">
 
+                
 
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
             </button>
-        </p>
-    </form>
-            
-        
-            
-                <section class="widget archives">
-        <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
-</svg>
 
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
 
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
 
         </div>
-        <h2 class="widget-title section-title">Archives</h2>
-
-        
-        
-        
-        
-        
-        <div class="widget-archive--list">
-            <div class="archives-year">
-                    <a href="/archives/#2023">
-                        
-                            <span class="year">2023</span>
-                            <span class="count">2</span>
-                        
-                    </a> 
-                </div>
-            <div class="archives-year">
-                    <a href="/archives/#2022">
-                        
-                            <span class="year">2022</span>
-                            <span class="count">28</span>
-                        
-                    </a> 
-                </div>
-            <div class="archives-year">
-                    <a href="/archives/#2021">
-                        
-                            <span class="year">2021</span>
-                            <span class="count">2</span>
-                        
-                    </a> 
-                </div>
-            
-        </div>
-    </section>
-            
-        
-            
-                <section class="widget tagCloud">
-    <div class="widget-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <line x1="5" y1="9" x2="19" y2="9" />
-  <line x1="5" y1="15" x2="19" y2="15" />
-  <line x1="11" y1="4" x2="7" y2="20" />
-  <line x1="17" y1="4" x2="13" y2="20" />
-</svg>
-
-
 
     </div>
-    <h2 class="widget-title section-title">Categories</h2>
 
-    <div class="tagCloud-tags">
-        
-            <a href="/categories/study/" class="font_size_11">
-                study
-            </a>
-        
-            <a href="/categories/programming/" class="font_size_8">
-                programming
-            </a>
-        
-            <a href="/categories/small-talk/" class="font_size_7">
-                small talk
-            </a>
-        
-            <a href="/categories/awesome-kits/" class="font_size_4">
-                awesome kits
-            </a>
-        
-            <a href="/categories/research/" class="font_size_3">
-                research
-            </a>
-        
-    </div>
-</section>
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
 
-            
-        
-            
-                <section class="widget tagCloud">
-    <div class="widget-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
-  <circle cx="9" cy="9" r="2" />
-</svg>
-
-
-
-    </div>
-    <h2 class="widget-title section-title">Tags</h2>
-
-    <div class="tagCloud-tags">
-        
-            <a href="/tags/small-talk/" class="font_size_7">
-                small talk
-            </a>
-        
-            <a href="/tags/digital-logic-and-processors/" class="font_size_5">
-                digital logic and processors
-            </a>
-        
-            <a href="/tags/summer-training/" class="font_size_5">
-                summer training
-            </a>
-        
-            <a href="/tags/awesome-kits/" class="font_size_4">
-                awesome kits
-            </a>
-        
-            <a href="/tags/digital-signal-processing/" class="font_size_3">
-                Digital Signal Processing
-            </a>
-        
-            <a href="/tags/hardware-machine-learning/" class="font_size_3">
-                Hardware Machine Learning
-            </a>
-        
-            <a href="/tags/programming-utils/" class="font_size_3">
-                programming utils
-            </a>
-        
-            <a href="/tags/c&#43;&#43;/" class="font_size_2">
-                C&#43;&#43;
-            </a>
-        
-            <a href="/tags/csharp/" class="font_size_2">
-                Csharp
-            </a>
-        
-            <a href="/tags/deep-learning/" class="font_size_1">
-                deep learning
-            </a>
-        
-    </div>
-</section>
-            
-        
-    </aside>
-
+            </main>
+    
 
         </div>
         <script 

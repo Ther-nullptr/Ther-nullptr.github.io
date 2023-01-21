@@ -1176,6 +1176,38 @@ $$&lt;/p&gt;
 </description>
         </item>
         <item>
+        <title>DCT</title>
+        <link>https://ther-nullptr.github.io/posts/digital_signal_processing/dct/</link>
+        <pubDate>Tue, 25 Oct 2022 00:00:00 +0000</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/digital_signal_processing/dct/</guid>
+        <description>&lt;h2 id=&#34;dct&#34;&gt;DCT&lt;/h2&gt;
+&lt;p&gt;DCT一般用于图像处理。我们使用L2距离来量化编码误差。为了便于观看，我们倾向于保留&lt;strong&gt;低频分量&lt;/strong&gt;。被截断的系数的能量越小，编码误差越小。&lt;/p&gt;
+&lt;p&gt;如果将DFT作用于图像处理有以下缺陷：由于DFT的信号由周期延拓得到，使得包络和相位不连续，引入高频分量。对此，可以将原序列对称扩展到2N个点，然后做2N点周期延拓。&lt;/p&gt;
+&lt;p&gt;首先列出DCT的定义：
+$$
+X_{DCT}[k] = \begin{cases}
+\sqrt{\frac{1}{N}}\sum_{n=0}^{N-1}x[n],k=0\
+\sqrt{\frac{2}{N}}\sum_{n=0}^{N-1}x[n]{\rm cos}(\frac{\pi}{2N}k(2n+1)), elsewhere \
+\end{cases}
+$$
+为什么要有k=0的特例？保范。&lt;/p&gt;
+&lt;p&gt;这个公式实际上来源于2N点延拓的DFT：
+$$
+X_2[k]=\sum_{n=0}^{2N-1}x_2[n]W_{2N}^{kn}=\sum_{n=0}^{N-1}x&lt;a class=&#34;link&#34; href=&#34;W_%7b2N%7d%5e%7bkn%7d&amp;#43;W_%7b2N%7d%5e%7b-k%28n&amp;#43;1%29%7d&#34; &gt;n&lt;/a&gt; = 2e^{j\frac{\pi}{2N}k}\sum_{n=0}^{N-1}x[n]{\rm cos}(\frac{\pi}{2N}k(2n+1))
+$$
+可以看到，这个公式与DCT的公式只有一个系数的区别。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$e^{j\frac{\pi}{2N}k}$这个系数来源于何处？实际上观察2N点延拓后的序列，它并非完全偶对称的，其DFT也并非实序列。这一系数可以看做一个平移系数。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;DCT的快速算法：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;2N点DFT$X_1[k]$。&lt;/li&gt;
+&lt;li&gt;取$\frac{1}{\sqrt{N}}Re{X_1[k]e^{-j\pi\frac{k}{2N}}}$，按照k=0调整系数。&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        <item>
         <title>FFT</title>
         <link>https://ther-nullptr.github.io/posts/digital_signal_processing/fft/</link>
         <pubDate>Tue, 18 Oct 2022 00:00:00 +0000</pubDate>
@@ -1247,6 +1279,54 @@ $$
 &lt;p&gt;$$
 X[k,n+1]=(X[k,n]-x[n-W+1]+x[n+1])e^{j2\pi\frac{k}{W}}
 $$&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>DFT</title>
+        <link>https://ther-nullptr.github.io/posts/digital_signal_processing/dft/</link>
+        <pubDate>Thu, 13 Oct 2022 00:00:00 +0000</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/digital_signal_processing/dft/</guid>
+        <description>&lt;h2 id=&#34;dft&#34;&gt;DFT&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;定义&lt;/strong&gt;
+$$
+X[k] = \sum_{n=0}^{N-1}x[n] e^{-j2\pi\frac{nk}{N}} = \sum_{n=0}^{N-1}x[n]W_{N}^{nk}
+$$
+&lt;strong&gt;单位根表示&lt;/strong&gt;
+$$
+W_{N}^k = e^{-j2\pi\frac{k}{N}}
+$$&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$N$代表将单位圆平均分成的份数，$k$则相当于旋转的次数。整体上可以看成一个绕原点进行&lt;strong&gt;顺时针&lt;/strong&gt;旋转的单位向量。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;DFT vs DTFT&lt;/strong&gt;
+$$
+X(\omega)|&lt;em&gt;{\omega=2\pi\frac{k}{N}} = X[k]
+$$
+&lt;strong&gt;IDFT&lt;/strong&gt;
+$$
+x[r]=\frac{1}{N}\sum&lt;/em&gt;{k=0}^{N-1}X[k]e^{j2\pi\frac{rk}{N}}
+$$
+&lt;strong&gt;性质&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;共轭：${\rm DFT}{x^{\ast}[n]} = X^{\ast}[N-k]$&lt;/p&gt;
+&lt;p&gt;（时域共轭，频域共轭+循环反转）&lt;/p&gt;
+&lt;p&gt;反转：${\rm DFT}{x[((-n))_N]}=X[((-k))_N]R_N[k]$&lt;/p&gt;
+&lt;p&gt;（时域循环反转，频域循环反转）&lt;/p&gt;
+&lt;p&gt;对称：${\rm DFT}{\Re{x[n]}}=X_e[k]$ ${\rm DFT}{j\Im{x[n]}}=X_o[k]$ $\Re{X[k]}={{\rm DFT} {x_e[n]}}$ $j\Im{X[k]}={{\rm DFT} {x_o[n]}}$&lt;/p&gt;
+&lt;p&gt;（推论：实序列的DFT共轭偶对称，即$X[k] = X^*[N-k] $）&lt;/p&gt;
+&lt;p&gt;对偶：${\rm DFT}{X[k]}=Nx[((-n))_N]R_N[n]$&lt;/p&gt;
+&lt;p&gt;（直观理解：DFTMatrix的$N-k$行和IDFTMatrix的$k$行相同，如果不考虑系数）&lt;/p&gt;
+&lt;p&gt;循环位移：${\rm DFT}{x[((n-m))_N]R_N[n]} = W_N^{mk}X[k]$&lt;/p&gt;
+&lt;p&gt;（DTFT的位移变成了DFT的循环位移，$m$理论上可以取非整数）&lt;/p&gt;
+&lt;p&gt;循环卷积：${\rm IDFT}{X[k]Y[k]}=\sum_{m=0}^{N-1}x[m]y[((n-m))_N]$&lt;/p&gt;
+&lt;p&gt;（把传统线性卷积的反转+位移变为循环反转+循环位移。&lt;strong&gt;时域理解&lt;/strong&gt;：将有限序列进行周期延拓后，形成以$N$为周期的序列，在主值区间上进行线性卷积 &lt;strong&gt;频域理解&lt;/strong&gt;：线性卷积以$N$为周期进行混叠后，在$[0,N-1]$截断）&lt;/p&gt;
+&lt;p&gt;保范：$\sum_{n=0}^{N-1}|x[n]|^2=\frac{1}{N}\sum_{k=0}^{N-1}|X[k]|^2$&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;补充定义&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;循环位移：$x[((n-m))_N]R_N[n]$ (移位+截断，$m$为向右平移的位数)&lt;/p&gt;
+&lt;p&gt;循环反转：$x[((-n))_N]R_N[n]$ (0不变，其余前后反转)&lt;/p&gt;
+&lt;p&gt;共轭偶/奇对称：$x_{e/o}[n] = \frac{1}{2}(x[n]\pm x^{\ast}[((-n))]R_N[n])$ (注意把原来的取反变成了循环反转)&lt;/p&gt;
+&lt;/blockquote&gt;
 </description>
         </item>
         <item>
