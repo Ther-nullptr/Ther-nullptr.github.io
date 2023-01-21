@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='本节用到的公式虽然基础，但想要真正理清楚公式之间的关系还是比较麻烦的（博主就被绕晕过）。新人首秀，多多指教~
+assignment 本实验是UC Berkeley EECS 本科课程Hardware for Machine Learning的第1个lab。本lab要求将一个简单的LeNet以不同的方式进行量化，并在CIFAR 10数据集上进行测评。具体要求见本文档。
+关于量化(quantization)的基本公式本文不再赘述，详见1。本文主要关注量化的代码实现细节。
+method 流程 本文主要介绍静态训练后量化（static post training quantization）。其流程如下：
+ 在浮点环境下训练模型。 使用少量的校正数据，确定激活（activation，即经过中间层的数据流）的数据分布，并得到其scaling factor和zero point（本文简单起见，在量化时不使用zero point，scaling factor使用最常规的公式得到：$S = \frac{r_{\max}-r_{\min}}{q_{\max}-q_{\min}}$），用于后续的推理2。 量化权重（weight）、偏置（bias，可选）和激活，进行全整数推理。  关于weight和activation的量化 假设一个神经网络由$W_1, W_2, W_3\cdots$若干层组成（此处我们假设它们均为线性层，但其他如卷积层等同理）。
+$$ O_1 = IW_1 $$
+$$ W_{1q} = {\rm clamp}({\rm round}(\frac{W_1}{S_{W_1}}), \min,\max) $$
+$$ I_{q} = {\rm clamp}({\rm round}(\frac{I}{S_I}), \min,\max) $$
+我们可以得到使用$W_q$和$S_q$重建的$W_r$，$I_r$同理： $$ W_{1r} = S_{W_1}W_{1q} \approx W_1 $$
+$$ I_r = S_II_q \approx I $$
+则： $$ O_1 \approx W_{1r}I_r \approx S_{W_1}S_IW_{1q}I_q $$'><title>EE290-2 LAB1 quantization</title>
+
+<link rel='canonical' href='https://ther-nullptr.github.io/posts/hardware-machine-learning/ee-290-lab-1/'>
+
+<link rel="stylesheet" href="/scss/style.min.54696446116cce19a1853c227ac72a7c4a0c48082cb8716cff1ab30937f5fe06.css"><meta property='og:title' content='EE290-2 LAB1 quantization'>
+<meta property='og:description' content='本节用到的公式虽然基础，但想要真正理清楚公式之间的关系还是比较麻烦的（博主就被绕晕过）。新人首秀，多多指教~
+assignment 本实验是UC Berkeley EECS 本科课程Hardware for Machine Learning的第1个lab。本lab要求将一个简单的LeNet以不同的方式进行量化，并在CIFAR 10数据集上进行测评。具体要求见本文档。
+关于量化(quantization)的基本公式本文不再赘述，详见1。本文主要关注量化的代码实现细节。
+method 流程 本文主要介绍静态训练后量化（static post training quantization）。其流程如下：
+ 在浮点环境下训练模型。 使用少量的校正数据，确定激活（activation，即经过中间层的数据流）的数据分布，并得到其scaling factor和zero point（本文简单起见，在量化时不使用zero point，scaling factor使用最常规的公式得到：$S = \frac{r_{\max}-r_{\min}}{q_{\max}-q_{\min}}$），用于后续的推理2。 量化权重（weight）、偏置（bias，可选）和激活，进行全整数推理。  关于weight和activation的量化 假设一个神经网络由$W_1, W_2, W_3\cdots$若干层组成（此处我们假设它们均为线性层，但其他如卷积层等同理）。
+$$ O_1 = IW_1 $$
+$$ W_{1q} = {\rm clamp}({\rm round}(\frac{W_1}{S_{W_1}}), \min,\max) $$
+$$ I_{q} = {\rm clamp}({\rm round}(\frac{I}{S_I}), \min,\max) $$
+我们可以得到使用$W_q$和$S_q$重建的$W_r$，$I_r$同理： $$ W_{1r} = S_{W_1}W_{1q} \approx W_1 $$
+$$ I_r = S_II_q \approx I $$
+则： $$ O_1 \approx W_{1r}I_r \approx S_{W_1}S_IW_{1q}I_q $$'>
+<meta property='og:url' content='https://ther-nullptr.github.io/posts/hardware-machine-learning/ee-290-lab-1/'>
+<meta property='og:site_name' content='Ther&#39;s Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='Hardware Machine Learning' /><meta property='article:published_time' content='2022-12-24T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2022-12-24T00:00:00&#43;00:00'/>
+<meta name="twitter:site" content="@AdobePython">
+    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="EE290-2 LAB1 quantization">
+<meta name="twitter:description" content="本节用到的公式虽然基础，但想要真正理清楚公式之间的关系还是比较麻烦的（博主就被绕晕过）。新人首秀，多多指教~
+assignment 本实验是UC Berkeley EECS 本科课程Hardware for Machine Learning的第1个lab。本lab要求将一个简单的LeNet以不同的方式进行量化，并在CIFAR 10数据集上进行测评。具体要求见本文档。
+关于量化(quantization)的基本公式本文不再赘述，详见1。本文主要关注量化的代码实现细节。
+method 流程 本文主要介绍静态训练后量化（static post training quantization）。其流程如下：
+ 在浮点环境下训练模型。 使用少量的校正数据，确定激活（activation，即经过中间层的数据流）的数据分布，并得到其scaling factor和zero point（本文简单起见，在量化时不使用zero point，scaling factor使用最常规的公式得到：$S = \frac{r_{\max}-r_{\min}}{q_{\max}-q_{\min}}$），用于后续的推理2。 量化权重（weight）、偏置（bias，可选）和激活，进行全整数推理。  关于weight和activation的量化 假设一个神经网络由$W_1, W_2, W_3\cdots$若干层组成（此处我们假设它们均为线性层，但其他如卷积层等同理）。
+$$ O_1 = IW_1 $$
+$$ W_{1q} = {\rm clamp}({\rm round}(\frac{W_1}{S_{W_1}}), \min,\max) $$
+$$ I_{q} = {\rm clamp}({\rm round}(\frac{I}{S_I}), \min,\max) $$
+我们可以得到使用$W_q$和$S_q$重建的$W_r$，$I_r$同理： $$ W_{1r} = S_{W_1}W_{1q} \approx W_1 $$
+$$ I_r = S_II_q \approx I $$
+则： $$ O_1 \approx W_{1r}I_r \approx S_{W_1}S_IW_{1q}I_q $$"><style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script>
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap";
+		
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/Ther_hu05dc40a2635fa510e0ad5a0d57bec723_1205262_300x0_resize_box_3.png" width="300"
+                            height="272" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Ther&#39;s Blog</a></h1>
+            <h2 class="site-description">萌生此等惬意，实乃徒增彷徨。</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/Ther-nullptr'
+                        target="_blank"
+                        title="GitHub"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.instagram.com/donald.biden.18/'
+                        target="_blank"
+                        title="Instagram"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="4" y="4" width="16" height="16" rx="4" />
+  <circle cx="12" cy="12" r="3" />
+  <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com/AdobePython'
+                        target="_blank"
+                        title="Twitter"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li  class='current' >
+            <a href='/posts/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://ther-nullptr.github.io/" selected>English</option>
+                        
+                            <option value="https://ther-nullptr.github.io/zh-cn/" >中文</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/study/" >
+                study
+            </a>
+        
+            <a href="/categories/research/" >
+                research
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/posts/hardware-machine-learning/ee-290-lab-1/">EE290-2 LAB1 quantization</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Dec 24, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    3 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>本节用到的公式虽然基础，但想要真正理清楚公式之间的关系还是比较麻烦的（博主就被绕晕过）。新人首秀，多多指教~</p>
+<h2 id="assignment">assignment</h2>
+<p>本实验是UC Berkeley EECS 本科课程<a class="link" href="https://inst.eecs.berkeley.edu/~ee290-2/sp21/"  target="_blank" rel="noopener"
+    >Hardware for Machine Learning</a>的第1个lab。本lab要求将一个简单的LeNet以不同的方式进行量化，并在CIFAR 10数据集上进行测评。具体要求见<a class="link" href="https://drive.google.com/file/d/1LBtLjz2pdo6uj-E0aR69-ZGjmR9RBSDU/view"  target="_blank" rel="noopener"
+    >本文档</a>。</p>
+<p>关于量化(quantization)的基本公式本文不再赘述，详见<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。本文主要关注量化的代码实现细节。</p>
+<h2 id="method">method</h2>
+<h3 id="流程">流程</h3>
+<p>本文主要介绍<strong>静态训练后量化（static post training quantization）</strong>。其流程如下：</p>
+<ol>
+<li>在浮点环境下训练模型。</li>
+<li>使用少量的校正数据，确定激活（activation，即经过中间层的数据流）的数据分布，并得到其scaling factor和zero point（本文简单起见，在量化时不使用zero point，scaling factor使用最常规的公式得到：$S = \frac{r_{\max}-r_{\min}}{q_{\max}-q_{\min}}$），用于后续的推理<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>。</li>
+<li>量化权重（weight）、偏置（bias，可选）和激活，进行全整数推理。</li>
+</ol>
+<p><img src="/2023-01-21-17-50-46.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="流程图"
+	
+	
+></p>
+<h3 id="关于weight和activation的量化">关于weight和activation的量化</h3>
+<p>假设一个神经网络由$W_1, W_2, W_3\cdots$若干层组成（此处我们假设它们均为线性层，但其他如卷积层等同理）。</p>
+<p>$$
+O_1 = IW_1
+$$</p>
+<p>$$
+W_{1q} = {\rm clamp}({\rm round}(\frac{W_1}{S_{W_1}}), \min,\max)
+$$</p>
+<p>$$
+I_{q} = {\rm clamp}({\rm round}(\frac{I}{S_I}), \min,\max)
+$$</p>
+<p>我们可以得到使用$W_q$和$S_q$重建的$W_r$，$I_r$同理：
+$$
+W_{1r} = S_{W_1}W_{1q} \approx W_1
+$$</p>
+<p>$$
+I_r = S_II_q \approx I
+$$</p>
+<p>则：
+$$
+O_1 \approx W_{1r}I_r \approx S_{W_1}S_IW_{1q}I_q
+$$</p>
+<blockquote>
+<p>为方便起见，我们在代码中将$W_{1q}I_q$记做$R_1$，将$W_{2q}O_{1q}$记作$R_2$，以此类推。</p>
+</blockquote>
+<p>注意到此处$W_{1r}$和$I_r$均为整数，$S_{W_1}$和$S_I$均为浮点数，则$O$也为浮点数。但当$O$进入下一个计算模块时，同样需要进行整数量化：</p>
+<p>$$
+O_{1q} = {\rm clamp}({\rm round}(\frac{O_1}{S_{O_1}}), \min,\max) \approx \frac{S_{W_1}S_I}{S_{O_1}}W_{1q}I_q
+$$</p>
+<p>$$
+O_{1r} = S_{O_1}O_{1q} \approx O_1
+$$</p>
+<p>而此处的$\frac{S_{W_1}S_I}{S_{O_1}}$同样可以化为整数的形式，即$\frac{S_{W_1}S_I}{S_{O_1}}\approx2^{-n}$，从而实现真正意义的全整数推理。</p>
+<p>对于第二层参数，我们同样有：
+$$
+O_{2} \approx W_{2r}O_{1r} \approx S_{W_2}S_{O_1}W_{2q}O_{1q}
+$$</p>
+<p>$$
+O_{2q} = {\rm clamp}({\rm round}(\frac{O_2}{S_{O_2}}), \min,\max) \approx \frac{S_{W_2}S_{O_1}}{S_{O_2}}W_{2q}O_{1q}
+$$</p>
+<p>当计算到最后一层第$n$层时，我们无需获取$S_{O_n}$（因为计算它的唯一目的在于进行后一层的整数推理），于是我们有：</p>
+<p>$$
+O_{n} \approx O_{nr} =  O_{nq}S_{O_n} = S_{W_n}S_{O_{n-1}}W_{nq}O_{(n-1)q}
+$$</p>
+<blockquote>
+<p>实际上，此处是否获取$S_{O_n}$无关紧要。例如，若此处进行的是图像分类任务，我们需要求出的实际上只是数量之间的比例关系，而不是数量本身。</p>
+</blockquote>
+<p>综上，我们可以得出每一层的scaling factor $S_i$：</p>
+<ul>
+<li>输入：$S_I$</li>
+<li>中间层：$\frac{S_{O_1}}{S_{W_1}S_{I}}, \frac{S_{O_2}}{S_{W_2}S_{O_1}}, \cdots, \frac{S_{O_n}}{S_{W_n}S_{O_{n-1}}}$</li>
+</ul>
+<p>令$\frac{S_{O_i}}{S_{W_i}S_{O_{i-1}}}=S_i$（当i=0时，$S_{O_{i-1}}$化为$S_I$），则也可以使用递归的方法写作：</p>
+<p>$$
+S_i = \begin{cases}
+\frac{S_{O_1}}{S_{W_1}S_I}, i = 1 \
+\frac{S_{O_i}}{S_{W_i}S_I\prod_1^{i-1}(S_kS_{W_k})}, i &gt; 1
+\end{cases}
+$$</p>
+<h3 id="关于bias的量化">关于bias的量化</h3>
+<p>在量化中处理bias有两种较为简单的办法：</p>
+<ol>
+<li>使用无bias的模型。</li>
+<li>不对bias进行quantization，而是直接使用浮点域的bias和反量化之后的weight、activation乘积进行相加。相加完毕之后再对结果进行量化。</li>
+</ol>
+<p>但同样地，我们也可以在整数域进行带bias的推理。我们以本题的场景为例（只对最后一层进行量化），最后一层在浮点域的推理可以表示为：</p>
+<p>$$
+O_n = W_nO_{n-1} + b_n
+$$</p>
+<p>量化之后的表示为：
+$$
+O_n \approx S_{W_n}S_{O_{n-1}}(W_{nq}O_{(n-1)q} + b_n)
+$$</p>
+<p>据此可以直接得出$b_n$的量化因子为：</p>
+<p>$$
+S_{b_n} = S_{W_n}S_{O_{n-1}} = S_{W_n}S_I\prod_{k=1}^{n-1}(S_kS_{W_k})
+$$</p>
+<h2 id="code">code</h2>
+<p>本节只呈现一些关键代码</p>
+<h3 id="point-1-量化权重">point 1: 量化权重</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">quantized_weights</span><span class="p">(</span><span class="n">weights</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">bit</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">actual</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">actual</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">maxval</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">minval</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mu</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">sigma</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">maxval</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">sigma</span>
+</span></span><span class="line"><span class="cl">        <span class="n">minval</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">-</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">sigma</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">maxval</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="o">-</span><span class="n">minval</span><span class="p">,</span> <span class="n">maxval</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">scale</span> <span class="o">=</span> <span class="n">maxval</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">bit</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">result</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">weights</span> <span class="o">/</span> <span class="n">scale</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bit</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="nb">max</span><span class="o">=</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bit</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">scale</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>本节作者在确定数据范围时尝试了两种方法：min/max法和3-sigma法。由于LeNet的权重分布基本类似于正态分布，所以两种策略差距不是很大。</p>
+<h3 id="point2-量化激活">point2: 量化激活</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">quantize_activations</span><span class="p">(</span><span class="n">activations</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">n_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n_initial_input</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">ns</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span> <span class="n">bits</span> <span class="o">=</span> <span class="mi">8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">maxval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">activations</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">minval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">activations</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">n_a</span> <span class="o">=</span> <span class="p">(</span><span class="n">maxval</span> <span class="o">-</span> <span class="n">minval</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">bits</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ns</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">scale</span> <span class="o">=</span> <span class="n">n_a</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_initial_input</span> <span class="o">*</span> <span class="n">n_w</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">div</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">ns</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">div</span> <span class="o">*=</span> <span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">            <span class="n">scale</span> <span class="o">=</span> <span class="n">n_a</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_initial_input</span> <span class="o">*</span> <span class="n">n_w</span> <span class="o">*</span> <span class="n">div</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">scale</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>此处的n_w指代$S_{W_i}$，n_a指代$S_{O_i}$，对于第$i(i\ge2)$层，ns列表中存储的若干对元素为$[S_{W_1},S_1], \cdots, [S_{W_{i-1}},S_{i-1}]$，套用前文关于$S_i$的公式即得。</p>
+<h3 id="point3-正向传播">point3: 正向传播</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">bits</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># You can access the output activation scales like this:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">input_scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_scale</span>
+</span></span><span class="line"><span class="cl">        <span class="n">fc1_output_scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="o">.</span><span class="n">output_scale</span>
+</span></span><span class="line"><span class="cl">        <span class="n">fc2_output_scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="o">.</span><span class="n">output_scale</span>
+</span></span><span class="line"><span class="cl">        <span class="n">fc3_output_scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc3</span><span class="o">.</span><span class="n">output_scale</span>
+</span></span><span class="line"><span class="cl">        <span class="n">conv1_output_scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="o">.</span><span class="n">output_scale</span>
+</span></span><span class="line"><span class="cl">        <span class="n">conv2_output_scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="o">.</span><span class="n">output_scale</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">I</span> <span class="o">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">        <span class="n">I_q</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">I</span> <span class="o">/</span> <span class="n">input_scale</span><span class="p">),</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bits</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="nb">max</span><span class="o">=</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bits</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">R_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">I_q</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">O_1q</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">R_1</span> <span class="o">/</span> <span class="n">conv1_output_scale</span><span class="p">),</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bits</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="nb">max</span><span class="o">=</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bits</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">R_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">O_1q</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">O_2q</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">R_2</span> <span class="o">/</span> <span class="n">conv2_output_scale</span><span class="p">),</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bits</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="nb">max</span><span class="o">=</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bits</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">O_2q</span> <span class="o">=</span> <span class="n">O_2q</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">R_3</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">O_2q</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">O_3q</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">R_3</span> <span class="o">/</span> <span class="n">fc1_output_scale</span><span class="p">),</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bits</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="nb">max</span><span class="o">=</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bits</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">R_4</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">O_3q</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">O_4q</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">R_4</span> <span class="o">/</span> <span class="n">fc2_output_scale</span><span class="p">),</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bits</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="nb">max</span><span class="o">=</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bits</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">R_5</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc3</span><span class="p">(</span><span class="n">O_4q</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">O_5q</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">R_5</span> <span class="o">/</span> <span class="n">fc3_output_scale</span><span class="p">),</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bits</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="nb">max</span><span class="o">=</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bits</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">O_5q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>注意clamp操作和round操作插入的位置。</p>
+<h3 id="point4-量化偏置">point4: 量化偏置</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">quantized_bias</span><span class="p">(</span><span class="n">bias</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">n_w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n_initial_input</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">ns</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span> <span class="n">bits</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">scale</span> <span class="o">=</span> <span class="n">n_w</span> <span class="o">*</span> <span class="n">n_initial_input</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">ns</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">scale</span> <span class="o">*=</span> <span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">((</span><span class="n">bias</span> <span class="o">/</span> <span class="n">scale</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(),</span> <span class="nb">min</span><span class="o">=</span><span class="n">MIN_32B_SINT</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="n">MAX_32B_SINT</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>同<strong>point 2</strong>的处理方法。</p>
+<h2 id="result">result</h2>
+<p>将一些基本结果列入下表：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>权重bit</th>
+<th>激活bit</th>
+<th>偏置bit</th>
+<th>acc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>32</td>
+<td>32</td>
+<td>\</td>
+<td>55.35%</td>
+</tr>
+<tr>
+<td>8</td>
+<td>32</td>
+<td>\</td>
+<td>55.33%</td>
+</tr>
+<tr>
+<td>4</td>
+<td>32</td>
+<td>\</td>
+<td>53.13%</td>
+</tr>
+<tr>
+<td>2</td>
+<td>32</td>
+<td>\</td>
+<td>31.27%</td>
+</tr>
+<tr>
+<td>8</td>
+<td>8</td>
+<td>\</td>
+<td>54.80%</td>
+</tr>
+<tr>
+<td>32</td>
+<td>32</td>
+<td>32</td>
+<td>55.73%</td>
+</tr>
+<tr>
+<td>8</td>
+<td>8</td>
+<td>32</td>
+<td>49.77%</td>
+</tr>
+<tr>
+<td>8</td>
+<td>8</td>
+<td>8(最后一层)</td>
+<td>55.64%</td>
+</tr>
+</tbody>
+</table></div>
+<p>这里值得一提的是关于偏置的结论：当一个模型有偏置时，如果只量化权重和激活而无视偏置，将会有较大的精度下降，这是因为量化之后整型的权重和激活之积和浮点型的偏置所在的值域有较大的差异。而对最后一层的偏置进行量化后，两者的值域之间的差异大大减少，偏置真正起到了其作用，最后模型输出的误差有所减小，因而精度有所恢复。</p>
+<p>不过在实际程序中大多采用“不对bias进行quantization，而是直接使用浮点域的bias和反量化之后的weight、activation乘积进行相加，相加完毕之后再对结果进行量化”的方法。考虑到偏置相加的计算开销要远远小于权重相乘，这样的简便做法是可以被接受的。</p>
+<h2 id="reference">reference</h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a class="link" href="https://openaccess.thecvf.com/content_cvpr_2018/html/Jacob_Quantization_and_Training_CVPR_2018_paper.html"  target="_blank" rel="noopener"
+    >Quantization and Training of Neural Networks for Efficient Integer-Arithmetic-Only Inference</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p><a class="link" href="https://on-demand.gputechconf.com/gtc/2017/presentation/s7310-8-bit-inference-with-tensorrt.pdf"  target="_blank" rel="noopener"
+    >Nvidia PPT for quantization</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/hardware-machine-learning/">Hardware Machine Learning</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/posts/hardware-machine-learning/ee-290-lab-3/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">EE290-2 LAB3 tiling and optimization for accelerator</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/hardware-machine-learning/ee-290-lab-2/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">EE290-2 LAB2 hardware implementation of machine learning systems</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/digital_logic_and_processors/multicycle_cpu/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Multicycle CPU</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/digital_logic_and_processors/control_signal/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">CPU中的控制信号</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/digital_logic_and_processors/assembly/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MIPS汇编语言</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="Ther-nullptr/Ther-nullptr.github.io"
+        issue-term="pathname"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2023 Ther&#39;s Blog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+            <br />visitors: <span id="busuanzi_value_site_uv"></span>
+            total visits: <span id="busuanzi_value_site_pv"></span> time(s)
+            reads: <span id="busuanzi_value_page_pv"></span> time(s)
+    
+    </section>
+
+    <script async src="https://busuanzi.icodeq.com/busuanzi.pure.mini.js">
+    </script>
+
+
+
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#assignment">assignment</a></li>
+    <li><a href="#method">method</a>
+      <ol>
+        <li><a href="#流程">流程</a></li>
+        <li><a href="#关于weight和activation的量化">关于weight和activation的量化</a></li>
+        <li><a href="#关于bias的量化">关于bias的量化</a></li>
+      </ol>
+    </li>
+    <li><a href="#code">code</a>
+      <ol>
+        <li><a href="#point-1-量化权重">point 1: 量化权重</a></li>
+        <li><a href="#point2-量化激活">point2: 量化激活</a></li>
+        <li><a href="#point3-正向传播">point3: 正向传播</a></li>
+        <li><a href="#point4-量化偏置">point4: 量化偏置</a></li>
+      </ol>
+    </li>
+    <li><a href="#result">result</a></li>
+    <li><a href="#reference">reference</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Long+Cang&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300&family=Noto+Serif+SC:wght@300&family=Zhi+Mang+Xing&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<style>
+    :root {
+        --article-font-family: "HarmonyOS Sans SC Medium", "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script>
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Long+Cang&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300&family=Noto+Serif+SC:wght@300&family=Zhi+Mang+Xing&display=swap";
+		
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+<script
+    src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    async
+></script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/ribbon.min.js"
+    integrity="sha384-UEK8ZiP3VgFNP8KnKMKDmd4pAUAOJ59Y2Jo3ED2Z5qKQf6HLHovMxq7Beb9CLPUe"
+    crossorigin="anonymous"
+    size="300"
+    alpha="0.6"
+    zindex="-1"
+    defer
+></script>
+
+<script src="/js/snow.js"></script>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js"></script>
+</head>
+
+<body>
+    <div class="demo">
+        <div id="player1">
+        </div>
+    </div>
+    <script>
+        var ap = new APlayer
+            ({
+                element: document.getElementById('player1'),
+                fixed: true,
+                autoplay: true,
+                mini: true,
+                theme: '#f8f4fc',
+                loop: 'all',
+                order: 'random',
+                preload: 'auto',
+                volume: 0.5,
+                mutex: true,
+                listFolded: false,
+                listMaxHeight: 90,
+                lrcType: 0,
+                music: [{
+                    name: '未来的志愿书',
+                    url: 'https://music.163.com/song/media/outer/url?id=34916292.mp3',
+                    artists: 'Days',
+                    cover: 'https://p2.music.126.net/u5qI9jVwLkfv68QJSjxQ6w==/3261151488892334.jpg'
+                },
+                {
+                    name: 'Entorevolution',
+                    url: 'https://music.163.com/song/media/outer/url?id=32069952.mp3',
+                    artists: 'Bernis',
+                    cover: 'https://p2.music.126.net/wZQrCXyuDDtBgwYACEOBrg==/2909307768540461.jpg'
+                },
+                {
+                    name: 'Nuit Silencieuse',
+                    url: 'https://music.163.com/song/media/outer/url?id=34916301.mp3',
+                    artists: 'Days',
+                    cover: 'https://p2.music.126.net/wZQrCXyuDDtBgwYACEOBrg==/3261151488892334.jpg'
+                }] 
+            });
+        
+    </script>
+</body>
+    </body>
+</html>

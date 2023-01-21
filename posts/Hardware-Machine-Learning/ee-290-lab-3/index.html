@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Mapping systolic array为我们提供了一种很好的并行化方法，然而在实际运行中可能存在一些问题：比如systolic array的尺寸过小，无法载入整个权重等。这时就需要插入一些mapping的技巧。
+我们先贴出原版的systolic array代码：
+1 2 3 4 5 6 7 8 9 10 11  for (m = 0; m &amp;lt; M; m&#43;&#43;) { spatial_for(n = 0; n &amp;lt; N; n&#43;&#43;) { OA[n, m] = 0; spatial_for(k = 0; k &amp;lt; K; k&#43;&#43;) { OA[n, m] &#43;= IA[m, k] * W[k, n]; } } }   case 1: systolic array的尺寸小于K or N
+这意味着weight无法一次性载入到整个systolic array中，以下为分块载入的代码：
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  for (m = 0; m &amp;lt; M; m&#43;&#43;) { for (n1 = 0; n1 &amp;lt; N1; n1&#43;&#43;) { OA [n1 * N0:(n1 &#43; 1) * N0, m] = 0; for (k1 = 0; k1 &amp;lt; K1; k1&#43;&#43;) { spatial_for(n0 = 0; n0 &amp;lt; N0; n0&#43;&#43;) { spatial_for(k0 = 0; k0 &amp;lt; K0; k0&#43;&#43;) { OA[n1 * N0 &#43; n0, m] &#43;= IA[m, k1 * K0 &#43; k0] * W[k1 * K0 &#43; k0, n1 * N0 &#43; n0]; } } } } }   这里N0*N1=N，K0*K1=K，systolic array的尺寸大小为N0*K0，取块的方式如下：'><title>EE290-2 LAB3 tiling and optimization for accelerator</title>
+
+<link rel='canonical' href='https://ther-nullptr.github.io/posts/hardware-machine-learning/ee-290-lab-3/'>
+
+<link rel="stylesheet" href="/scss/style.min.54696446116cce19a1853c227ac72a7c4a0c48082cb8716cff1ab30937f5fe06.css"><meta property='og:title' content='EE290-2 LAB3 tiling and optimization for accelerator'>
+<meta property='og:description' content='Mapping systolic array为我们提供了一种很好的并行化方法，然而在实际运行中可能存在一些问题：比如systolic array的尺寸过小，无法载入整个权重等。这时就需要插入一些mapping的技巧。
+我们先贴出原版的systolic array代码：
+1 2 3 4 5 6 7 8 9 10 11  for (m = 0; m &amp;lt; M; m&#43;&#43;) { spatial_for(n = 0; n &amp;lt; N; n&#43;&#43;) { OA[n, m] = 0; spatial_for(k = 0; k &amp;lt; K; k&#43;&#43;) { OA[n, m] &#43;= IA[m, k] * W[k, n]; } } }   case 1: systolic array的尺寸小于K or N
+这意味着weight无法一次性载入到整个systolic array中，以下为分块载入的代码：
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  for (m = 0; m &amp;lt; M; m&#43;&#43;) { for (n1 = 0; n1 &amp;lt; N1; n1&#43;&#43;) { OA [n1 * N0:(n1 &#43; 1) * N0, m] = 0; for (k1 = 0; k1 &amp;lt; K1; k1&#43;&#43;) { spatial_for(n0 = 0; n0 &amp;lt; N0; n0&#43;&#43;) { spatial_for(k0 = 0; k0 &amp;lt; K0; k0&#43;&#43;) { OA[n1 * N0 &#43; n0, m] &#43;= IA[m, k1 * K0 &#43; k0] * W[k1 * K0 &#43; k0, n1 * N0 &#43; n0]; } } } } }   这里N0*N1=N，K0*K1=K，systolic array的尺寸大小为N0*K0，取块的方式如下：'>
+<meta property='og:url' content='https://ther-nullptr.github.io/posts/hardware-machine-learning/ee-290-lab-3/'>
+<meta property='og:site_name' content='Ther&#39;s Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='Hardware Machine Learning' /><meta property='article:published_time' content='2023-01-14T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2023-01-14T00:00:00&#43;00:00'/>
+<meta name="twitter:site" content="@AdobePython">
+    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="EE290-2 LAB3 tiling and optimization for accelerator">
+<meta name="twitter:description" content="Mapping systolic array为我们提供了一种很好的并行化方法，然而在实际运行中可能存在一些问题：比如systolic array的尺寸过小，无法载入整个权重等。这时就需要插入一些mapping的技巧。
+我们先贴出原版的systolic array代码：
+1 2 3 4 5 6 7 8 9 10 11  for (m = 0; m &amp;lt; M; m&#43;&#43;) { spatial_for(n = 0; n &amp;lt; N; n&#43;&#43;) { OA[n, m] = 0; spatial_for(k = 0; k &amp;lt; K; k&#43;&#43;) { OA[n, m] &#43;= IA[m, k] * W[k, n]; } } }   case 1: systolic array的尺寸小于K or N
+这意味着weight无法一次性载入到整个systolic array中，以下为分块载入的代码：
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  for (m = 0; m &amp;lt; M; m&#43;&#43;) { for (n1 = 0; n1 &amp;lt; N1; n1&#43;&#43;) { OA [n1 * N0:(n1 &#43; 1) * N0, m] = 0; for (k1 = 0; k1 &amp;lt; K1; k1&#43;&#43;) { spatial_for(n0 = 0; n0 &amp;lt; N0; n0&#43;&#43;) { spatial_for(k0 = 0; k0 &amp;lt; K0; k0&#43;&#43;) { OA[n1 * N0 &#43; n0, m] &#43;= IA[m, k1 * K0 &#43; k0] * W[k1 * K0 &#43; k0, n1 * N0 &#43; n0]; } } } } }   这里N0*N1=N，K0*K1=K，systolic array的尺寸大小为N0*K0，取块的方式如下："><style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script>
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap";
+		
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/Ther_hu05dc40a2635fa510e0ad5a0d57bec723_1205262_300x0_resize_box_3.png" width="300"
+                            height="272" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Ther&#39;s Blog</a></h1>
+            <h2 class="site-description">萌生此等惬意，实乃徒增彷徨。</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/Ther-nullptr'
+                        target="_blank"
+                        title="GitHub"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.instagram.com/donald.biden.18/'
+                        target="_blank"
+                        title="Instagram"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="4" y="4" width="16" height="16" rx="4" />
+  <circle cx="12" cy="12" r="3" />
+  <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com/AdobePython'
+                        target="_blank"
+                        title="Twitter"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li  class='current' >
+            <a href='/posts/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://ther-nullptr.github.io/" selected>English</option>
+                        
+                            <option value="https://ther-nullptr.github.io/zh-cn/" >中文</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/study/" >
+                study
+            </a>
+        
+            <a href="/categories/research/" >
+                research
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/posts/hardware-machine-learning/ee-290-lab-3/">EE290-2 LAB3 tiling and optimization for accelerator</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jan 14, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    5 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="mapping">Mapping</h2>
+<p>systolic array为我们提供了一种很好的并行化方法，然而在实际运行中可能存在一些问题：比如systolic array的尺寸过小，无法载入整个权重等。这时就需要插入一些mapping的技巧。</p>
+<p>我们先贴出原版的systolic array代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="n">m</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">M</span><span class="p">;</span> <span class="n">m</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">spatial_for</span><span class="p">(</span><span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">n</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">OA</span><span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">spatial_for</span><span class="p">(</span><span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">K</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">OA</span><span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span> <span class="o">+=</span> <span class="n">IA</span><span class="p">[</span><span class="n">m</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">W</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">n</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>case 1</strong>: systolic array的尺寸小于K or N</p>
+<p>这意味着weight无法一次性载入到整个systolic array中，以下为分块载入的代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="n">m</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">M</span><span class="p">;</span> <span class="n">m</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="n">n1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n1</span> <span class="o">&lt;</span> <span class="n">N1</span><span class="p">;</span> <span class="n">n1</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">OA</span> <span class="p">[</span><span class="n">n1</span> <span class="o">*</span> <span class="nl">N0</span><span class="p">:(</span><span class="n">n1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">N0</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="n">k1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k1</span> <span class="o">&lt;</span> <span class="n">K1</span><span class="p">;</span> <span class="n">k1</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">spatial_for</span><span class="p">(</span><span class="n">n0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n0</span> <span class="o">&lt;</span> <span class="n">N0</span><span class="p">;</span> <span class="n">n0</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">spatial_for</span><span class="p">(</span><span class="n">k0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k0</span> <span class="o">&lt;</span> <span class="n">K0</span><span class="p">;</span> <span class="n">k0</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">OA</span><span class="p">[</span><span class="n">n1</span> <span class="o">*</span> <span class="n">N0</span> <span class="o">+</span> <span class="n">n0</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span> <span class="o">+=</span> <span class="n">IA</span><span class="p">[</span><span class="n">m</span><span class="p">,</span> <span class="n">k1</span> <span class="o">*</span> <span class="n">K0</span> <span class="o">+</span> <span class="n">k0</span><span class="p">]</span> <span class="o">*</span> <span class="n">W</span><span class="p">[</span><span class="n">k1</span> <span class="o">*</span> <span class="n">K0</span> <span class="o">+</span> <span class="n">k0</span><span class="p">,</span> <span class="n">n1</span> <span class="o">*</span> <span class="n">N0</span> <span class="o">+</span> <span class="n">n0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里N0*N1=N，K0*K1=K，systolic array的尺寸大小为N0*K0，取块的方式如下：</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230116171209665.png?token=AQ7WYGEEV2GPMCPAENZL4N3DZO33O"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230116171209665"
+	
+	
+></p>
+<p><strong>case 2</strong>：weight buffer小于systolic array的size，也就是说，weight不能被一次性载入到systolic array，下为代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="n">m</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">M</span><span class="p">;</span> <span class="n">m</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// IA buffer stores: 1*K
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">mvin</span><span class="p">(</span><span class="n">IA</span> <span class="p">[</span><span class="nl">m</span><span class="p">:</span><span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="o">:</span><span class="n">K</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="n">n2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n2</span> <span class="o">&lt;</span> <span class="n">N2</span><span class="p">;</span> <span class="n">n2</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// W buffer stores: N1*N0*K &lt; NK
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">mvin</span><span class="p">(</span><span class="n">W</span> <span class="p">[</span><span class="mi">0</span><span class="o">:</span><span class="n">K</span><span class="p">,</span> <span class="n">n2</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="nl">N0</span><span class="p">:(</span><span class="n">n2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="n">N0</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">OA</span> <span class="p">[</span><span class="n">n2</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="nl">N0</span><span class="p">:(</span><span class="n">n2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="n">N0</span><span class="p">,</span> <span class="nl">m</span><span class="p">:</span><span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="n">n1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n1</span> <span class="o">&lt;</span> <span class="n">N1</span><span class="p">;</span> <span class="n">n1</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="p">(</span><span class="n">k1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k1</span> <span class="o">&lt;</span> <span class="n">K1</span><span class="p">;</span> <span class="n">k1</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">spatial_for</span><span class="p">(</span><span class="n">n0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n0</span> <span class="o">&lt;</span> <span class="n">N0</span><span class="p">;</span> <span class="n">n0</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">spatial_for</span><span class="p">(</span><span class="n">k0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k0</span> <span class="o">&lt;</span> <span class="n">K0</span><span class="p">;</span> <span class="n">k0</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">OA</span><span class="p">[</span><span class="n">n2</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="n">N0</span> <span class="o">+</span> <span class="n">n1</span> <span class="o">*</span> <span class="n">N0</span> <span class="o">+</span> <span class="n">n0</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span> <span class="o">+=</span> <span class="n">IA</span><span class="p">[</span><span class="n">m</span><span class="p">,</span> <span class="n">k1</span> <span class="o">*</span> <span class="n">K1</span> <span class="o">+</span> <span class="n">k0</span><span class="p">]</span> <span class="o">*</span> <span class="n">W</span><span class="p">[</span><span class="n">k1</span> <span class="o">*</span> <span class="n">K0</span> <span class="o">+</span> <span class="n">k0</span><span class="p">,</span> <span class="n">n2</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="n">N0</span> <span class="o">+</span> <span class="n">n1</span> <span class="o">*</span> <span class="n">N0</span> <span class="o">+</span> <span class="n">n0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mvout</span><span class="p">(</span><span class="n">OA</span> <span class="p">[</span><span class="n">n2</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="nl">N0</span><span class="p">:(</span><span class="n">n2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="n">N0</span><span class="p">,</span> <span class="nl">m</span><span class="p">:</span><span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>这里只考虑了weight buffer在N维度上不够的情况，即N=N0*N1*N2。映射方式如下：</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230116173324436.png?token=AQ7WYGFUVVDPMKPILIRGU43DZO33M"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230116173324436"
+	
+	
+></p>
+</blockquote>
+<p><strong>case 3</strong>：input buffer小于systolic array的size，也就是说，input不能被一次性载入到systolic array，下为代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="n">m2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">m2</span> <span class="o">&lt;</span> <span class="n">M2</span><span class="p">;</span> <span class="n">m2</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// IA buffer stores: M1*K
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">mvin</span><span class="p">(</span><span class="n">IA</span> <span class="p">[</span><span class="n">m2</span> <span class="o">*</span> <span class="nl">M1</span><span class="p">:(</span><span class="n">m2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">M1</span><span class="p">,</span> <span class="mi">0</span><span class="o">:</span><span class="n">K</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="n">n2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n2</span> <span class="o">&lt;</span> <span class="n">N2</span><span class="p">;</span> <span class="n">n2</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// W buffer stores: N1*N0*K
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">mvin</span><span class="p">(</span><span class="n">W</span> <span class="p">[</span><span class="mi">0</span><span class="o">:</span><span class="n">K</span><span class="p">,</span> <span class="n">n2</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="nl">N0</span><span class="p">:(</span><span class="n">n2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="n">N0</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">OA</span> <span class="p">[</span><span class="n">n2</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="nl">N0</span><span class="p">:(</span><span class="n">n2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="n">N0</span><span class="p">,</span> <span class="n">m2</span> <span class="o">*</span> <span class="nl">M1</span><span class="p">:(</span><span class="n">m2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">M1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="n">m1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">m1</span> <span class="o">&lt;</span> <span class="n">M1</span><span class="p">;</span> <span class="n">m1</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="p">(</span><span class="n">n1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n1</span> <span class="o">&lt;</span> <span class="n">N1</span><span class="p">;</span> <span class="n">n1</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">for</span> <span class="p">(</span><span class="n">k1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k1</span> <span class="o">&lt;</span> <span class="n">K1</span><span class="p">;</span> <span class="n">k1</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">spatial_for</span><span class="p">(</span><span class="n">n0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n0</span> <span class="o">&lt;</span> <span class="n">N0</span><span class="p">;</span> <span class="n">n0</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">spatial_for</span><span class="p">(</span><span class="n">k0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k0</span> <span class="o">&lt;</span> <span class="n">K0</span><span class="p">;</span> <span class="n">k0</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">OA</span><span class="p">[</span><span class="n">n2</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="n">N0</span> <span class="o">+</span> <span class="n">n1</span> <span class="o">*</span> <span class="n">N0</span> <span class="o">+</span> <span class="n">n0</span><span class="p">,</span> <span class="n">m2</span> <span class="o">*</span> <span class="n">M1</span> <span class="o">+</span> <span class="n">m1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">IA</span><span class="p">[</span><span class="n">m2</span> <span class="o">*</span> <span class="n">M1</span> <span class="o">+</span> <span class="n">m1</span><span class="p">,</span> <span class="n">k1</span> <span class="o">*</span> <span class="n">K1</span> <span class="o">+</span> <span class="n">k0</span><span class="p">]</span> <span class="o">*</span> <span class="n">W</span><span class="p">[</span><span class="n">k1</span> <span class="o">*</span> <span class="n">K0</span> <span class="o">+</span> <span class="n">k0</span><span class="p">,</span> <span class="n">n2</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="n">N0</span> <span class="o">+</span> <span class="n">n1</span> <span class="o">*</span> <span class="n">N0</span> <span class="o">+</span> <span class="n">n0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mvout</span><span class="p">(</span><span class="n">OA</span> <span class="p">[</span><span class="n">n2</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="nl">N0</span><span class="p">:(</span><span class="n">n2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="n">N0</span><span class="p">,</span> <span class="n">m2</span> <span class="o">*</span> <span class="nl">M1</span><span class="p">:(</span><span class="n">m2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">M1</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>解决了上述的特殊情况之后，我们还需要解决一个问题：什么样的循环写法是最优的，例如对于case 3的代码，我们可以有如下两种写法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="n">m2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">m2</span> <span class="o">&lt;</span> <span class="n">M2</span><span class="p">;</span> <span class="n">m2</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// IA buffer stores: M1*K
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">mvin</span><span class="p">(</span><span class="n">IA</span> <span class="p">[</span><span class="n">m2</span> <span class="o">*</span> <span class="nl">M1</span><span class="p">:(</span><span class="n">m2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">M1</span><span class="p">,</span> <span class="mi">0</span><span class="o">:</span><span class="n">K</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="n">n2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n2</span> <span class="o">&lt;</span> <span class="n">N2</span><span class="p">;</span> <span class="n">n2</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// W buffer stores: N1*N0*K
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">mvin</span><span class="p">(</span><span class="n">W</span> <span class="p">[</span><span class="mi">0</span><span class="o">:</span><span class="n">K</span><span class="p">,</span> <span class="n">n2</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="nl">N0</span><span class="p">:(</span><span class="n">n2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="n">N0</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">compute_matmul</span><span class="p">(</span><span class="o">*</span><span class="n">W</span><span class="p">,</span> <span class="o">*</span><span class="n">IA</span><span class="p">,</span> <span class="o">*</span><span class="n">OA</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                       <span class="n">N2</span><span class="p">,</span> <span class="n">N1</span><span class="p">,</span> <span class="n">N0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                       <span class="n">M2</span><span class="p">,</span> <span class="n">M1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                       <span class="n">K1</span><span class="p">,</span> <span class="n">K0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                       <span class="n">m2</span><span class="p">,</span> <span class="n">n2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mvout</span><span class="p">(</span><span class="n">OA</span> <span class="p">[</span><span class="n">n2</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="nl">N0</span><span class="p">:(</span><span class="n">n2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="n">N0</span><span class="p">,</span> <span class="n">m2</span> <span class="o">*</span> <span class="nl">M1</span><span class="p">:(</span><span class="n">m2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">M1</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="n">n2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n2</span> <span class="o">&lt;</span> <span class="n">N2</span><span class="p">;</span> <span class="n">n2</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// W buffer stores: N1*N0*K
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">mvin</span><span class="p">(</span><span class="n">W</span> <span class="p">[</span><span class="mi">0</span><span class="o">:</span><span class="n">K</span><span class="p">,</span> <span class="n">n2</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="nl">N0</span><span class="p">:(</span><span class="n">n2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="n">N0</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="n">m2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">m2</span> <span class="o">&lt;</span> <span class="n">M2</span><span class="p">;</span> <span class="n">m2</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// IA buffer stores: M1*K
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">mvin</span><span class="p">(</span><span class="n">IA</span> <span class="p">[</span><span class="n">m2</span> <span class="o">*</span> <span class="nl">M1</span><span class="p">:(</span><span class="n">m2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">M1</span><span class="p">,</span> <span class="mi">0</span><span class="o">:</span><span class="n">K</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">compute_matmul</span><span class="p">(</span><span class="o">*</span><span class="n">W</span><span class="p">,</span> <span class="o">*</span><span class="n">IA</span><span class="p">,</span> <span class="o">*</span><span class="n">OA</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                       <span class="n">N2</span><span class="p">,</span> <span class="n">N1</span><span class="p">,</span> <span class="n">N0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                       <span class="n">M2</span><span class="p">,</span> <span class="n">M1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                       <span class="n">K1</span><span class="p">,</span> <span class="n">K0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                       <span class="n">m2</span><span class="p">,</span> <span class="n">n2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mvout</span><span class="p">(</span><span class="n">OA</span> <span class="p">[</span><span class="n">n2</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="nl">N0</span><span class="p">:(</span><span class="n">n2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">N1</span> <span class="o">*</span> <span class="n">N0</span><span class="p">,</span> <span class="n">m2</span> <span class="o">*</span> <span class="nl">M1</span><span class="p">:(</span><span class="n">m2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">M1</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如何判断两种循环的优劣？我们需要统计据的<strong>搬移量</strong>：</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230116180336230.png?token=AQ7WYGGNOEKBCNO722E32WLDZO33U"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230116180336230"
+	
+	
+></p>
+<p>针对这两种循环，我们可以设置不同的并行机制（即在不同位置使用<code>spatial_for</code>）。总而言之，设置loop的顺序本质上是一个优化问题，给定：维度数和硬件参数，最优化：能量/延迟。</p>
+<h2 id="sparsity">Sparsity</h2>
+<p>ReLU函数的存在使得activation中存在大量的0，同理也可以通过剪枝使得weight中存在大量的0。</p>
+<p>这为我们存储数值提供了机会：</p>
+<ul>
+<li>
+<p>bitmask：使用0/1数组表示是否为0（会造成独立于密度的固定开销，对高密度不友好）</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230116183144691.png?token=AQ7WYGATXEMUFHLQQ4RKQH3DZO334"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230116183144691"
+	
+	
+></p>
+</li>
+<li>
+<p>run-length encoding：游程编码（同样有固定开销）</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230116184553283.png?token=AQ7WYGDRDKDVUPBWE3PLKD3DZO34A"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230116184553283"
+	
+	
+></p>
+</li>
+<li>
+<p>compressed sprase row：（可以进行快速的行选取）</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230117000217950.png?token=AQ7WYGG42EDNCURSH7HDJS3DZO34E"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230117000217950"
+	
+	
+></p>
+<p>这其中的col index直接记录其列号，而bound中的第i个数字记录了<strong>前i-1行包含的非0元素的数量</strong>。例如我们如果需要选取第三行的数字，由于<code>Bounds[2]=3</code>，<code>Bounds[3]=5</code>，我们可以得知在第三行的数字于value中的下标为<code>[3,5)</code>，据此可以直接取用数字。</p>
+</li>
+<li>
+<p>compressed sprase column：（可以进行快速的列选取）</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230117001012314.png?token=AQ7WYGAHLB5PXAISFRKR6YLDZO34I"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230117001012314"
+	
+	
+></p>
+</li>
+</ul>
+<p>随后稀疏矩阵和密集矩阵的混合计算。按照操作数的稀疏性和对齐方式分为两种：</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230117002256369.png?token=AQ7WYGHUFNEGENRKJW7RXT3DZO34Q"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230117002256369"
+	
+	
+></p>
+<ul>
+<li>
+<p>Indirection：使用稀疏矩阵中非0元素的下标去索引密集矩阵中的元素。</p>
+<p>场景：算式<code>y[i] = A[i, j] * x[j]</code>，<code>A</code>的第二维是稀疏的，<code>x</code>是密集的。可以想到循环次数要小于<code>len(x)</code>，为<code>len(A_index[1])</code>。</p>
+</li>
+<li>
+<p>Intersection：寻找权重和激活中均不为0的数值。</p>
+<p>场景：算式<code>y[i] = A[i, j] * x[j]</code>，<code>A</code>的第二维是稀疏的，<code>x</code>是稀疏的（想象两个指针在非0下标数组上同时滑动的场景）。</p>
+</li>
+<li>
+<p>Arbitration：先计算，之后在输出的矩阵中决定这些结果的位置。</p>
+<p>场景：算式<code>A[i, j] = B[i, k] * C[k, j]</code>，<code>B</code>和<code>C</code>第二维均是稀疏的，我们先将两者“浓缩”的矩阵进行相乘，然后在输出中决定其位置。</p>
+</li>
+</ul>
+<h2 id="near-data-processing">Near-Data Processing</h2>
+<p>在之前的几节中，我们介绍的主要是Fully Connected和Conv两个深度学习的算子，这两者本质上都可以划归为GEMM（通用矩阵乘）。GEMM中的基本单元是<strong>MAC乘加单元</strong>，它包括2个operator，load 2个数据，然后将1个结果store进寄存器中。</p>
+<p>深度学习中其实还有一些其他的算子，它们在operator、load、store上都和GEMM有很大的不同。举例说明：</p>
+<p>Element-wise operation：逐元素运算，例如LSTM的Hadama积，ResNet中的残差相加。它包括1个operator，load 2个数据，然后将1个结果store进寄存器中。</p>
+<blockquote>
+<p>这里需要特别强调的是残差相加，尽管没有引入额外的参数或者是计算复杂度，但仍然会导致减速，这是由于该操作增加了高速缓存的处理量，对之前数据的储存增加了内存负担。</p>
+</blockquote>
+<p>Embedding Layer：嵌入运算。这一运算的本质是将id序列（例如词序号等）转换为one-hot向量之后，与Embedding大矩阵相乘，得到对应的词嵌入。不过实际操作中一般不使用这种类似于GEMM的运算，而是基于id序列对Embedding大矩阵进行一种类似于查找表的运算。因此它需要1个operator，load 2个数据，然后将1个结果store进寄存器中。</p>
+<p><img src="/2023-01-21-17-55-38.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="emb layer"
+	
+	
+></p>
+<p>实际上，上述的一些算子在深度学习之外的一些领域也有用，如GC（Java中的垃圾回收机制）、LINQ（语言集成查询）等。我们可以用上述算子构建Near-Data Processing的专用硬件（这里的Near-Data Processing指的是具有直接访问DRAM的功能，而不需要通过高速缓存的层次结构的硬件）。</p>
+<h2 id="in-memory-computing">In Memory Computing</h2>
+<p>在介绍IMC之前，我们需要首先回顾一下存储器的分类：</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230117225552792.png?token=AQ7WYGBCSNI7TD5HPIZEWNLDZO4DK"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230117225552792"
+	
+	
+></p>
+<ul>
+<li>Random Access Memory(RAM): 随机存取存储器，其“随机存取”指的是当存储器中的消息被读取或写入时，所需要的时间与这段信息所在的位置无关。
+<ul>
+<li>SRAM：静态随机存取存储器，其“静态”指的是这种存储器只要保持通电，里面存储的数据就可以恒常保持。多用于高速cache。</li>
+<li>DRAM：动态随机存取存储器，其“动态”指的是由于晶体管会有漏电电流的现象，导致电容上所存储的电荷数量并不足以正确的判别数据，进而导致数据毁损，所以DRAM需要经常性刷新。多用于廉价内存。</li>
+<li>Flash：闪存，与DRAM和SRAM不同的是掉电后数据不会被清除，但读写速度会慢。</li>
+</ul>
+</li>
+<li>Serial Access Memory(SAM): 顺序存取存储器需要按顺序读取存储数据。</li>
+<li>Content Addressable Memory(CAM): 可以根据其内容而不是其名称或位置进行检索。它已被用于固定内容的高速存储和检索。</li>
+</ul>
+<p>以下将重点计算在SRAM中进行的存内计算：</p>
+<p>在Deep Learning等数据密集型的运算场景中，<strong>数据搬移</strong>的消耗将超越<strong>数据运算</strong>。一个直观的思路是在存储器中进行运算，而不是将数据从存储器中搬移出来后进行运算（例如，对于一个weight stationary的dataflow，权重只需要呆在存储器中，无需进行搬运）。这就是存内计算的基本思想。</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230117210804520.png?token=AQ7WYGG4OJQF3TENIZX7EBDDZO4DS"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230117210804520"
+	
+	
+></p>
+<p>需要指出的是，目前的存内计算大部分是在<strong>模拟域</strong>进行的。因此需要先将数字化的输入经过DAC之后与权重进行运算，之后通过ADC变换回数字域。</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230117222848147.png?token=AQ7WYGDFRW6QMPJ3VPJDB4TDZO4DU"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230117222848147"
+	
+	
+></p>
+<p>这样我们就得到了IMC中数据的传输范式：</p>
+<ul>
+<li>input activation：被DAC转换为电压值，位于SRAM的<strong>WL</strong>（word line）上。</li>
+<li>output activation：在SRAM的<strong>BL</strong>（bit line）上进行累加。</li>
+<li>weight：储存于存储单元，无需搬移。</li>
+</ul>
+<p>例如在这项工作中，一个5位数模转换器被用来驱动字线（WL）到代表特征向量的模拟电压，而位单元存储二进制权重±1。位单元的电流（IBC）实际上是特征向量的值和存储在位单元中的权重值的乘积；来自一列中的位单元的电流加在一起对位线（VBL）放电。</p>
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230117225012726.png?token=AQ7WYGFCTQQCYG3SINWNH3LDZO4D2"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230117225012726"
+	
+	
+></p>
+<p>存内计算为什么在模拟域中进行？一个好处是其加法可以直接借助基尔霍夫定律中电流的相加，而无需借助额外的硬件，但模拟电路中的不稳定，精度难以控制也造成存内计算难以落地的窘境。</p>
+<blockquote>
+<p>例如，在模拟场景下，我们如果想要实现维度更高的阵列，就需要更长的导线，然而这会导致更大的寄生电容。</p>
+</blockquote>
+<p>同时，目前的存内计算大多集中于<strong>推理</strong>阶段，而非<strong>训练</strong>阶段。这是由于这一技术更擅长于数据的<strong>读</strong>而非<strong>写</strong>，例如在更新权重序列的数据时需要更大的电压。</p>
+<p>与此同时，现有的深度学习IMC工作大多数基于BNN（二值网络），位宽的限制使其效果无法与传统数字电路媲美。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/hardware-machine-learning/">Hardware Machine Learning</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/posts/hardware-machine-learning/ee-290-lab-2/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">EE290-2 LAB2 hardware implementation of machine learning systems</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/hardware-machine-learning/ee-290-lab-1/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">EE290-2 LAB1 quantization</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/digital_logic_and_processors/multicycle_cpu/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Multicycle CPU</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/digital_logic_and_processors/control_signal/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">CPU中的控制信号</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/digital_logic_and_processors/assembly/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MIPS汇编语言</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="Ther-nullptr/Ther-nullptr.github.io"
+        issue-term="pathname"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2023 Ther&#39;s Blog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+            <br />visitors: <span id="busuanzi_value_site_uv"></span>
+            total visits: <span id="busuanzi_value_site_pv"></span> time(s)
+            reads: <span id="busuanzi_value_page_pv"></span> time(s)
+    
+    </section>
+
+    <script async src="https://busuanzi.icodeq.com/busuanzi.pure.mini.js">
+    </script>
+
+
+
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#mapping">Mapping</a></li>
+    <li><a href="#sparsity">Sparsity</a></li>
+    <li><a href="#near-data-processing">Near-Data Processing</a></li>
+    <li><a href="#in-memory-computing">In Memory Computing</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Long+Cang&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300&family=Noto+Serif+SC:wght@300&family=Zhi+Mang+Xing&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<style>
+    :root {
+        --article-font-family: "HarmonyOS Sans SC Medium", "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script>
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Long+Cang&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300&family=Noto+Serif+SC:wght@300&family=Zhi+Mang+Xing&display=swap";
+		
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+<script
+    src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    async
+></script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/ribbon.min.js"
+    integrity="sha384-UEK8ZiP3VgFNP8KnKMKDmd4pAUAOJ59Y2Jo3ED2Z5qKQf6HLHovMxq7Beb9CLPUe"
+    crossorigin="anonymous"
+    size="300"
+    alpha="0.6"
+    zindex="-1"
+    defer
+></script>
+
+<script src="/js/snow.js"></script>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js"></script>
+</head>
+
+<body>
+    <div class="demo">
+        <div id="player1">
+        </div>
+    </div>
+    <script>
+        var ap = new APlayer
+            ({
+                element: document.getElementById('player1'),
+                fixed: true,
+                autoplay: true,
+                mini: true,
+                theme: '#f8f4fc',
+                loop: 'all',
+                order: 'random',
+                preload: 'auto',
+                volume: 0.5,
+                mutex: true,
+                listFolded: false,
+                listMaxHeight: 90,
+                lrcType: 0,
+                music: [{
+                    name: '未来的志愿书',
+                    url: 'https://music.163.com/song/media/outer/url?id=34916292.mp3',
+                    artists: 'Days',
+                    cover: 'https://p2.music.126.net/u5qI9jVwLkfv68QJSjxQ6w==/3261151488892334.jpg'
+                },
+                {
+                    name: 'Entorevolution',
+                    url: 'https://music.163.com/song/media/outer/url?id=32069952.mp3',
+                    artists: 'Bernis',
+                    cover: 'https://p2.music.126.net/wZQrCXyuDDtBgwYACEOBrg==/2909307768540461.jpg'
+                },
+                {
+                    name: 'Nuit Silencieuse',
+                    url: 'https://music.163.com/song/media/outer/url?id=34916301.mp3',
+                    artists: 'Days',
+                    cover: 'https://p2.music.126.net/wZQrCXyuDDtBgwYACEOBrg==/3261151488892334.jpg'
+                }] 
+            });
+        
+    </script>
+</body>
+    </body>
+</html>
