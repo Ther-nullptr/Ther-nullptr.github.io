@@ -5275,7 +5275,7 @@ $$&lt;/p&gt;
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;将该程序的第110行（或临近位置，带tar的那行）删掉：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220619200059954.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2023/01/21/NF3SjY9p8PmrWAQ.png&#34;
 	
 	
 	
@@ -5286,7 +5286,7 @@ $$&lt;/p&gt;
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;手动下载，并解压该文件，将其名称改为其SHA-1值。然后移动到&lt;code&gt;~/.vscode-server/bin/&lt;/code&gt;中：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220619200509487.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2023/01/21/lB8WOjxTwZm9kQS.png&#34;
 	
 	
 	
@@ -5602,7 +5602,7 @@ $$
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Not Preserved（子程序可以改变这些寄存器的数据，如果主程序要用，需要主程序维护好）&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20220603160128725.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2023/01/21/af1bBQx2H3Zc79M.png&#34;
 	
 	
 	
