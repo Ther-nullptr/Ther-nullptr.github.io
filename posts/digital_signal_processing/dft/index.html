@@ -1,69 +1,81 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='DFT 定义 $$ X[k] = \sum_{n=0}^{N-1}x[n] e^{-j2\pi\frac{nk}{N}} = \sum_{n=0}^{N-1}x[n]W_{N}^{nk} $$ 单位根表示 $$ W_{N}^k = e^{-j2\pi\frac{k}{N}} $$
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='DFT 定义
+$$ X[k] = \sum_{n=0}^{N-1}x[n] e^{-j2\pi\frac{nk}{N}} = \sum_{n=0}^{N-1}x[n]W_{N}^{nk} $$ 单位根表示
+$$ W_{N}^k = e^{-j2\pi\frac{k}{N}} $$
  $N$代表将单位圆平均分成的份数，$k$则相当于旋转的次数。整体上可以看成一个绕原点进行顺时针旋转的单位向量。
- DFT vs DTFT $$ X(\omega)|{\omega=2\pi\frac{k}{N}} = X[k] $$ IDFT $$ x[r]=\frac{1}{N}\sum{k=0}^{N-1}X[k]e^{j2\pi\frac{rk}{N}} $$ 性质
-共轭：${\rm DFT}{x^{\ast}[n]} = X^{\ast}[N-k]$
+ DFT vs DTFT
+$$ X(\omega)|_{\omega=2\pi\frac{k}{N}} = X[k] $$
+IDFT
+$$ x[r]=\frac{1}{N}\sum_{k=0}^{N-1}X[k]e^{j2\pi\frac{rk}{N}} $$
+性质
+共轭：$ {\rm DFT}{x^{\ast}[n]} = X^{\ast}[N-k] $
 （时域共轭，频域共轭&#43;循环反转）
 反转：${\rm DFT}{x[((-n))_N]}=X[((-k))_N]R_N[k]$
 （时域循环反转，频域循环反转）
 对称：${\rm DFT}{\Re{x[n]}}=X_e[k]$ ${\rm DFT}{j\Im{x[n]}}=X_o[k]$ $\Re{X[k]}={{\rm DFT} {x_e[n]}}$ $j\Im{X[k]}={{\rm DFT} {x_o[n]}}$
-（推论：实序列的DFT共轭偶对称，即$X[k] = X^*[N-k] $）
+（推论：实序列的DFT共轭偶对称，即 $X[k] = X^{*}[N-k]$ ）
 对偶：${\rm DFT}{X[k]}=Nx[((-n))_N]R_N[n]$
 （直观理解：DFTMatrix的$N-k$行和IDFTMatrix的$k$行相同，如果不考虑系数）
 循环位移：${\rm DFT}{x[((n-m))_N]R_N[n]} = W_N^{mk}X[k]$
 （DTFT的位移变成了DFT的循环位移，$m$理论上可以取非整数）
 循环卷积：${\rm IDFT}{X[k]Y[k]}=\sum_{m=0}^{N-1}x[m]y[((n-m))_N]$
 （把传统线性卷积的反转&#43;位移变为循环反转&#43;循环位移。时域理解：将有限序列进行周期延拓后，形成以$N$为周期的序列，在主值区间上进行线性卷积 频域理解：线性卷积以$N$为周期进行混叠后，在$[0,N-1]$截断）
-保范：$\sum_{n=0}^{N-1}|x[n]|^2=\frac{1}{N}\sum_{k=0}^{N-1}|X[k]|^2$
- 补充定义
-循环位移：$x[((n-m))_N]R_N[n]$ (移位&#43;截断，$m$为向右平移的位数)'><title>DFT</title>
+保范：$\sum_{n=0}^{N-1}|x[n]|^2=\frac{1}{N}\sum_{k=0}^{N-1}|X[k]|^2$'><title>DFT</title>
 
 <link rel='canonical' href='https://ther-nullptr.github.io/posts/digital_signal_processing/dft/'>
 
 <link rel="stylesheet" href="/scss/style.min.54696446116cce19a1853c227ac72a7c4a0c48082cb8716cff1ab30937f5fe06.css"><meta property='og:title' content='DFT'>
-<meta property='og:description' content='DFT 定义 $$ X[k] = \sum_{n=0}^{N-1}x[n] e^{-j2\pi\frac{nk}{N}} = \sum_{n=0}^{N-1}x[n]W_{N}^{nk} $$ 单位根表示 $$ W_{N}^k = e^{-j2\pi\frac{k}{N}} $$
+<meta property='og:description' content='DFT 定义
+$$ X[k] = \sum_{n=0}^{N-1}x[n] e^{-j2\pi\frac{nk}{N}} = \sum_{n=0}^{N-1}x[n]W_{N}^{nk} $$ 单位根表示
+$$ W_{N}^k = e^{-j2\pi\frac{k}{N}} $$
  $N$代表将单位圆平均分成的份数，$k$则相当于旋转的次数。整体上可以看成一个绕原点进行顺时针旋转的单位向量。
- DFT vs DTFT $$ X(\omega)|{\omega=2\pi\frac{k}{N}} = X[k] $$ IDFT $$ x[r]=\frac{1}{N}\sum{k=0}^{N-1}X[k]e^{j2\pi\frac{rk}{N}} $$ 性质
-共轭：${\rm DFT}{x^{\ast}[n]} = X^{\ast}[N-k]$
+ DFT vs DTFT
+$$ X(\omega)|_{\omega=2\pi\frac{k}{N}} = X[k] $$
+IDFT
+$$ x[r]=\frac{1}{N}\sum_{k=0}^{N-1}X[k]e^{j2\pi\frac{rk}{N}} $$
+性质
+共轭：$ {\rm DFT}{x^{\ast}[n]} = X^{\ast}[N-k] $
 （时域共轭，频域共轭&#43;循环反转）
 反转：${\rm DFT}{x[((-n))_N]}=X[((-k))_N]R_N[k]$
 （时域循环反转，频域循环反转）
 对称：${\rm DFT}{\Re{x[n]}}=X_e[k]$ ${\rm DFT}{j\Im{x[n]}}=X_o[k]$ $\Re{X[k]}={{\rm DFT} {x_e[n]}}$ $j\Im{X[k]}={{\rm DFT} {x_o[n]}}$
-（推论：实序列的DFT共轭偶对称，即$X[k] = X^*[N-k] $）
+（推论：实序列的DFT共轭偶对称，即 $X[k] = X^{*}[N-k]$ ）
 对偶：${\rm DFT}{X[k]}=Nx[((-n))_N]R_N[n]$
 （直观理解：DFTMatrix的$N-k$行和IDFTMatrix的$k$行相同，如果不考虑系数）
 循环位移：${\rm DFT}{x[((n-m))_N]R_N[n]} = W_N^{mk}X[k]$
 （DTFT的位移变成了DFT的循环位移，$m$理论上可以取非整数）
 循环卷积：${\rm IDFT}{X[k]Y[k]}=\sum_{m=0}^{N-1}x[m]y[((n-m))_N]$
 （把传统线性卷积的反转&#43;位移变为循环反转&#43;循环位移。时域理解：将有限序列进行周期延拓后，形成以$N$为周期的序列，在主值区间上进行线性卷积 频域理解：线性卷积以$N$为周期进行混叠后，在$[0,N-1]$截断）
-保范：$\sum_{n=0}^{N-1}|x[n]|^2=\frac{1}{N}\sum_{k=0}^{N-1}|X[k]|^2$
- 补充定义
-循环位移：$x[((n-m))_N]R_N[n]$ (移位&#43;截断，$m$为向右平移的位数)'>
+保范：$\sum_{n=0}^{N-1}|x[n]|^2=\frac{1}{N}\sum_{k=0}^{N-1}|X[k]|^2$'>
 <meta property='og:url' content='https://ther-nullptr.github.io/posts/digital_signal_processing/dft/'>
 <meta property='og:site_name' content='Ther&#39;s Blog'>
 <meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='Digital Signal Processing' /><meta property='article:published_time' content='2022-10-13T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2022-10-13T00:00:00&#43;00:00'/>
 <meta name="twitter:site" content="@AdobePython">
     <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="DFT">
-<meta name="twitter:description" content="DFT 定义 $$ X[k] = \sum_{n=0}^{N-1}x[n] e^{-j2\pi\frac{nk}{N}} = \sum_{n=0}^{N-1}x[n]W_{N}^{nk} $$ 单位根表示 $$ W_{N}^k = e^{-j2\pi\frac{k}{N}} $$
+<meta name="twitter:description" content="DFT 定义
+$$ X[k] = \sum_{n=0}^{N-1}x[n] e^{-j2\pi\frac{nk}{N}} = \sum_{n=0}^{N-1}x[n]W_{N}^{nk} $$ 单位根表示
+$$ W_{N}^k = e^{-j2\pi\frac{k}{N}} $$
  $N$代表将单位圆平均分成的份数，$k$则相当于旋转的次数。整体上可以看成一个绕原点进行顺时针旋转的单位向量。
- DFT vs DTFT $$ X(\omega)|{\omega=2\pi\frac{k}{N}} = X[k] $$ IDFT $$ x[r]=\frac{1}{N}\sum{k=0}^{N-1}X[k]e^{j2\pi\frac{rk}{N}} $$ 性质
-共轭：${\rm DFT}{x^{\ast}[n]} = X^{\ast}[N-k]$
+ DFT vs DTFT
+$$ X(\omega)|_{\omega=2\pi\frac{k}{N}} = X[k] $$
+IDFT
+$$ x[r]=\frac{1}{N}\sum_{k=0}^{N-1}X[k]e^{j2\pi\frac{rk}{N}} $$
+性质
+共轭：$ {\rm DFT}{x^{\ast}[n]} = X^{\ast}[N-k] $
 （时域共轭，频域共轭&#43;循环反转）
 反转：${\rm DFT}{x[((-n))_N]}=X[((-k))_N]R_N[k]$
 （时域循环反转，频域循环反转）
 对称：${\rm DFT}{\Re{x[n]}}=X_e[k]$ ${\rm DFT}{j\Im{x[n]}}=X_o[k]$ $\Re{X[k]}={{\rm DFT} {x_e[n]}}$ $j\Im{X[k]}={{\rm DFT} {x_o[n]}}$
-（推论：实序列的DFT共轭偶对称，即$X[k] = X^*[N-k] $）
+（推论：实序列的DFT共轭偶对称，即 $X[k] = X^{*}[N-k]$ ）
 对偶：${\rm DFT}{X[k]}=Nx[((-n))_N]R_N[n]$
 （直观理解：DFTMatrix的$N-k$行和IDFTMatrix的$k$行相同，如果不考虑系数）
 循环位移：${\rm DFT}{x[((n-m))_N]R_N[n]} = W_N^{mk}X[k]$
 （DTFT的位移变成了DFT的循环位移，$m$理论上可以取非整数）
 循环卷积：${\rm IDFT}{X[k]Y[k]}=\sum_{m=0}^{N-1}x[m]y[((n-m))_N]$
 （把传统线性卷积的反转&#43;位移变为循环反转&#43;循环位移。时域理解：将有限序列进行周期延拓后，形成以$N$为周期的序列，在主值区间上进行线性卷积 频域理解：线性卷积以$N$为周期进行混叠后，在$[0,N-1]$截断）
-保范：$\sum_{n=0}^{N-1}|x[n]|^2=\frac{1}{N}\sum_{k=0}^{N-1}|X[k]|^2$
- 补充定义
-循环位移：$x[((n-m))_N]R_N[n]$ (移位&#43;截断，$m$为向右平移的位数)"><style>
+保范：$\sum_{n=0}^{N-1}|x[n]|^2=\frac{1}{N}\sum_{k=0}^{N-1}|X[k]|^2$"><style>
     :root {
         --article-font-family: "Noto Serif SC", var(--base-font-family);
     }
@@ -414,32 +426,32 @@
     
     
     <h2 id="dft">DFT</h2>
-<p><strong>定义</strong>
-$$
+<p><strong>定义</strong></p>
+<p>$$
 X[k] = \sum_{n=0}^{N-1}x[n] e^{-j2\pi\frac{nk}{N}} = \sum_{n=0}^{N-1}x[n]W_{N}^{nk}
 $$
-<strong>单位根表示</strong>
-$$
+<strong>单位根表示</strong></p>
+<p>$$
 W_{N}^k = e^{-j2\pi\frac{k}{N}}
 $$</p>
 <blockquote>
 <p>$N$代表将单位圆平均分成的份数，$k$则相当于旋转的次数。整体上可以看成一个绕原点进行<strong>顺时针</strong>旋转的单位向量。</p>
 </blockquote>
-<p><strong>DFT vs DTFT</strong>
-$$
-X(\omega)|<em>{\omega=2\pi\frac{k}{N}} = X[k]
-$$
-<strong>IDFT</strong>
-$$
-x[r]=\frac{1}{N}\sum</em>{k=0}^{N-1}X[k]e^{j2\pi\frac{rk}{N}}
-$$
-<strong>性质</strong></p>
-<p>共轭：${\rm DFT}{x^{\ast}[n]} = X^{\ast}[N-k]$</p>
+<p><strong>DFT vs DTFT</strong></p>
+<p>$$
+X(\omega)|_{\omega=2\pi\frac{k}{N}} = X[k]
+$$</p>
+<p><strong>IDFT</strong></p>
+<p>$$
+x[r]=\frac{1}{N}\sum_{k=0}^{N-1}X[k]e^{j2\pi\frac{rk}{N}}
+$$</p>
+<p><strong>性质</strong></p>
+<p>共轭：$ {\rm DFT}{x^{\ast}[n]} = X^{\ast}[N-k] $</p>
 <p>（时域共轭，频域共轭+循环反转）</p>
 <p>反转：${\rm DFT}{x[((-n))_N]}=X[((-k))_N]R_N[k]$</p>
 <p>（时域循环反转，频域循环反转）</p>
 <p>对称：${\rm DFT}{\Re{x[n]}}=X_e[k]$ ${\rm DFT}{j\Im{x[n]}}=X_o[k]$ $\Re{X[k]}={{\rm DFT} {x_e[n]}}$ $j\Im{X[k]}={{\rm DFT} {x_o[n]}}$</p>
-<p>（推论：实序列的DFT共轭偶对称，即$X[k] = X^*[N-k] $）</p>
+<p>（推论：实序列的DFT共轭偶对称，即 $X[k] = X^{*}[N-k]$ ）</p>
 <p>对偶：${\rm DFT}{X[k]}=Nx[((-n))_N]R_N[n]$</p>
 <p>（直观理解：DFTMatrix的$N-k$行和IDFTMatrix的$k$行相同，如果不考虑系数）</p>
 <p>循环位移：${\rm DFT}{x[((n-m))_N]R_N[n]} = W_N^{mk}X[k]$</p>
@@ -449,7 +461,7 @@ $$
 <p>保范：$\sum_{n=0}^{N-1}|x[n]|^2=\frac{1}{N}\sum_{k=0}^{N-1}|X[k]|^2$</p>
 <blockquote>
 <p><strong>补充定义</strong></p>
-<p>循环位移：$x[((n-m))_N]R_N[n]$ (移位+截断，$m$为向右平移的位数)</p>
+<p>循环位移：$ x[((n-m))_N]R_N[n] $ (移位+截断，$m$为向右平移的位数)</p>
 <p>循环反转：$x[((-n))_N]R_N[n]$ (0不变，其余前后反转)</p>
 <p>共轭偶/奇对称：$x_{e/o}[n] = \frac{1}{2}(x[n]\pm x^{\ast}[((-n))]R_N[n])$ (注意把原来的取反变成了循环反转)</p>
 </blockquote>
