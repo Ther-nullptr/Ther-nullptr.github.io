@@ -86,13 +86,13 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这里N0*N1=N，K0*K1=K，systolic array的尺寸大小为N0*K0，取块的方式如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230116171209665.png?token=AQ7WYGEEV2GPMCPAENZL4N3DZO33O&#34;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230116171209665.png?token=AQ7WYGEEV2GPMCPAENZL4N3DZO33O&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;image-20230116171209665&#34;
+		alt=&#34;/img-20230116171209665&#34;
 	
 	
 &gt;&lt;/p&gt;
@@ -155,13 +155,13 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;blockquote&gt;
 &lt;p&gt;这里只考虑了weight buffer在N维度上不够的情况，即N=N0*N1*N2。映射方式如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230116173324436.png?token=AQ7WYGFUVVDPMKPILIRGU43DZO33M&#34;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230116173324436.png?token=AQ7WYGFUVVDPMKPILIRGU43DZO33M&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;image-20230116173324436&#34;
+		alt=&#34;/img-20230116173324436&#34;
 	
 	
 &gt;&lt;/p&gt;
@@ -303,13 +303,13 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;如何判断两种循环的优劣？我们需要统计据的&lt;strong&gt;搬移量&lt;/strong&gt;：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230116180336230.png?token=AQ7WYGGNOEKBCNO722E32WLDZO33U&#34;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230116180336230.png?token=AQ7WYGGNOEKBCNO722E32WLDZO33U&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;image-20230116180336230&#34;
+		alt=&#34;/img-20230116180336230&#34;
 	
 	
 &gt;&lt;/p&gt;
@@ -320,39 +320,39 @@
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;bitmask：使用0/1数组表示是否为0（会造成独立于密度的固定开销，对高密度不友好）&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230116183144691.png?token=AQ7WYGATXEMUFHLQQ4RKQH3DZO334&#34;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230116183144691.png?token=AQ7WYGATXEMUFHLQQ4RKQH3DZO334&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;image-20230116183144691&#34;
+		alt=&#34;/img-20230116183144691&#34;
 	
 	
 &gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;run-length encoding：游程编码（同样有固定开销）&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230116184553283.png?token=AQ7WYGDRDKDVUPBWE3PLKD3DZO34A&#34;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230116184553283.png?token=AQ7WYGDRDKDVUPBWE3PLKD3DZO34A&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;image-20230116184553283&#34;
+		alt=&#34;/img-20230116184553283&#34;
 	
 	
 &gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;compressed sprase row：（可以进行快速的行选取）&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230117000217950.png?token=AQ7WYGG42EDNCURSH7HDJS3DZO34E&#34;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230117000217950.png?token=AQ7WYGG42EDNCURSH7HDJS3DZO34E&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;image-20230117000217950&#34;
+		alt=&#34;/img-20230117000217950&#34;
 	
 	
 &gt;&lt;/p&gt;
@@ -360,26 +360,26 @@
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;compressed sprase column：（可以进行快速的列选取）&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230117001012314.png?token=AQ7WYGAHLB5PXAISFRKR6YLDZO34I&#34;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230117001012314.png?token=AQ7WYGAHLB5PXAISFRKR6YLDZO34I&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;image-20230117001012314&#34;
+		alt=&#34;/img-20230117001012314&#34;
 	
 	
 &gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;随后稀疏矩阵和密集矩阵的混合计算。按照操作数的稀疏性和对齐方式分为两种：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230117002256369.png?token=AQ7WYGHUFNEGENRKJW7RXT3DZO34Q&#34;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230117002256369.png?token=AQ7WYGHUFNEGENRKJW7RXT3DZO34Q&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;image-20230117002256369&#34;
+		alt=&#34;/img-20230117002256369&#34;
 	
 	
 &gt;&lt;/p&gt;
@@ -418,13 +418,13 @@
 &lt;p&gt;实际上，上述的一些算子在深度学习之外的一些领域也有用，如GC（Java中的垃圾回收机制）、LINQ（语言集成查询）等。我们可以用上述算子构建Near-Data Processing的专用硬件（这里的Near-Data Processing指的是具有直接访问DRAM的功能，而不需要通过高速缓存的层次结构的硬件）。&lt;/p&gt;
 &lt;h2 id=&#34;in-memory-computing&#34;&gt;In Memory Computing&lt;/h2&gt;
 &lt;p&gt;在介绍IMC之前，我们需要首先回顾一下存储器的分类：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230117225552792.png?token=AQ7WYGBCSNI7TD5HPIZEWNLDZO4DK&#34;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230117225552792.png?token=AQ7WYGBCSNI7TD5HPIZEWNLDZO4DK&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;image-20230117225552792&#34;
+		alt=&#34;/img-20230117225552792&#34;
 	
 	
 &gt;&lt;/p&gt;
@@ -441,24 +441,24 @@
 &lt;/ul&gt;
 &lt;p&gt;以下将重点计算在SRAM中进行的存内计算：&lt;/p&gt;
 &lt;p&gt;在Deep Learning等数据密集型的运算场景中，&lt;strong&gt;数据搬移&lt;/strong&gt;的消耗将超越&lt;strong&gt;数据运算&lt;/strong&gt;。一个直观的思路是在存储器中进行运算，而不是将数据从存储器中搬移出来后进行运算（例如，对于一个weight stationary的dataflow，权重只需要呆在存储器中，无需进行搬运）。这就是存内计算的基本思想。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230117210804520.png?token=AQ7WYGG4OJQF3TENIZX7EBDDZO4DS&#34;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230117210804520.png?token=AQ7WYGG4OJQF3TENIZX7EBDDZO4DS&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;image-20230117210804520&#34;
+		alt=&#34;/img-20230117210804520&#34;
 	
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;需要指出的是，目前的存内计算大部分是在&lt;strong&gt;模拟域&lt;/strong&gt;进行的。因此需要先将数字化的输入经过DAC之后与权重进行运算，之后通过ADC变换回数字域。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230117222848147.png?token=AQ7WYGDFRW6QMPJ3VPJDB4TDZO4DU&#34;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230117222848147.png?token=AQ7WYGDFRW6QMPJ3VPJDB4TDZO4DU&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;image-20230117222848147&#34;
+		alt=&#34;/img-20230117222848147&#34;
 	
 	
 &gt;&lt;/p&gt;
@@ -469,13 +469,13 @@
 &lt;li&gt;weight：储存于存储单元，无需搬移。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;例如在这项工作中，一个5位数模转换器被用来驱动字线（WL）到代表特征向量的模拟电压，而位单元存储二进制权重±1。位单元的电流（IBC）实际上是特征向量的值和存储在位单元中的权重值的乘积；来自一列中的位单元的电流加在一起对位线（VBL）放电。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230117225012726.png?token=AQ7WYGFCTQQCYG3SINWNH3LDZO4D2&#34;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230117225012726.png?token=AQ7WYGFCTQQCYG3SINWNH3LDZO4D2&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;image-20230117225012726&#34;
+		alt=&#34;/img-20230117225012726&#34;
 	
 	
 &gt;&lt;/p&gt;
@@ -499,7 +499,7 @@
 $$
 a \leftarrow a + b \times c
 $$&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/image/MAC.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/img/MAC.png&#34;
 	
 	
 	
@@ -514,7 +514,7 @@ $$&lt;/p&gt;
 &lt;li&gt;Temporal reuse：单个数据被同一个计算单元重复使用多次&lt;/li&gt;
 &lt;li&gt;Spatial reuse：单个数据被多个不同的计算单元同时使用&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/image/locality.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/img/locality.png&#34;
 	
 	
 	
@@ -550,7 +550,7 @@ $$&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这一重用可以在output侧加入寄存器实现：
-&lt;img src=&#34;https://ther-nullptr.github.io/image/OA.png&#34;
+&lt;img src=&#34;https://ther-nullptr.github.io/img/OA.png&#34;
 	
 	
 	
@@ -584,7 +584,7 @@ $$&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这一重用可以在weight侧加入寄存器实现：
-&lt;img src=&#34;https://ther-nullptr.github.io/image/WA.png&#34;
+&lt;img src=&#34;https://ther-nullptr.github.io/img/WA.png&#34;
 	
 	
 	
@@ -596,7 +596,7 @@ $$&lt;/p&gt;
 &gt;&lt;/p&gt;
 &lt;h2 id=&#34;accelerator&#34;&gt;Accelerator&lt;/h2&gt;
 &lt;p&gt;接下来，我们将在乘加单元的基础上探索更加宏观层面的矩阵乘法的高效数据流计算。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/image/matrix.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/img/matrix.png&#34;
 	
 	
 	
@@ -701,7 +701,7 @@ $$&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h3 id=&#34;adder-tree&#34;&gt;Adder Tree&lt;/h3&gt;
 &lt;p&gt;加法树（Adder Tree）采用了一种以空间换取时间的策略。为了同时计算多个&lt;code&gt;IA[m, k] * W[k, n]&lt;/code&gt;，可以将多个加法器堆叠组成树状结构：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/image/adder.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/img/adder.png&#34;
 	
 	
 	
@@ -713,7 +713,7 @@ $$&lt;/p&gt;
 &gt;&lt;/p&gt;
 &lt;h3 id=&#34;direct-wiring-multicast&#34;&gt;Direct-Wiring Multicast&lt;/h3&gt;
 &lt;p&gt;将权重的一行进行广播，使得权重的&lt;code&gt;N&lt;/code&gt;列可以同时计算：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/image/multicast.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/img/multicast.png&#34;
 	
 	
 	
@@ -726,7 +726,7 @@ $$&lt;/p&gt;
 &lt;h3 id=&#34;systolic-array&#34;&gt;Systolic Array&lt;/h3&gt;
 &lt;p&gt;脉动阵列（Systolic Array）既可以实现Spatial-K中的加速（Systolic Accleration）功能，也可以实现Spatial-N中的广播（Systoic Multicast）功能。这里我们直接将两者组合以说明其功能。&lt;/p&gt;
 &lt;p&gt;考虑一个基本的矩阵乘法$C=AB$，weight stationary的systolic array计算方式如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/image/sys-1.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/img/sys-1.png&#34;
 	
 	
 	
@@ -767,7 +767,7 @@ $$&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;如果考虑到$B$的预装，计算方式改为：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/image/sys-2.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/img/sys-2.png&#34;
 	
 	
 	
@@ -800,7 +800,7 @@ $$&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这会带来一个问题：在预装B的时候，我们不能做任何有用的工作。所以，每一个处理单元必须要有至少两个寄存器来存储它负责的B上的元素。在任何特定的周期中，一个寄存器将用于执行乘法累加操作，而另一个寄存器将作为预加载过程的一部分向下传播B的元素。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/image/sys-3.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/img/sys-3.png&#34;
 	
 	
 	
@@ -813,7 +813,7 @@ $$&lt;/p&gt;
 &lt;p&gt;这仍然遗留了一个问题：如果我们想保留之前预装的矩阵，而不是用一个新的矩阵来覆盖它，怎么办？我们如何将其传达给收缩阵列的处理单元？对此可以引入一个1 bit的信号量。&lt;/p&gt;
 &lt;p&gt;如果传播信号为0，那么第1个寄存器（寄存器0）应该用于向下传播权重，而第2个寄存器（寄存器1）应该用于乘法累加。同样，如果传播信号为1，那么第1个寄存器（寄存器0）应该被用来进行乘法累加，而第2个寄存器（寄存器1）应该被用来向下传播权重。&lt;/p&gt;
 &lt;p&gt;以下是$\alpha \times \beta = \gamma$和$A \times B = C$的例子：由于$\beta$的标识均为0，所以$\beta$由寄存器0向下传播；当$\beta$准备用于计算时，$b$被载入，由于传输信号为1，$b$由寄存器1向下传播，而寄存器0用于乘法的计算。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/image/sys-4.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/img/sys-4.png&#34;
 	
 	
 	
@@ -824,7 +824,7 @@ $$&lt;/p&gt;
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;同理有$\alpha \times \beta = \gamma$，$A \times \beta = C$, $\alpha \times Y = Z$的数据流。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/image/sys-5.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/img/sys-5.png&#34;
 	
 	
 	
@@ -856,7 +856,7 @@ $$&lt;/p&gt;
 &lt;li&gt;使用少量的校正数据，确定激活（activation，即经过中间层的数据流）的数据分布，并得到其scaling factor和zero point（本文简单起见，在量化时不使用zero point，scaling factor使用最常规的公式得到：$S = \frac{r_{\max}-r_{\min}}{q_{\max}-q_{\min}}$），用于后续的推理&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;。&lt;/li&gt;
 &lt;li&gt;量化权重（weight）、偏置（bias，可选）和激活，进行全整数推理。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/2023-01-21-17-50-46.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://ther-nullptr.github.io/img/2023-01-21-17-50-46.png&#34;
 	
 	
 	

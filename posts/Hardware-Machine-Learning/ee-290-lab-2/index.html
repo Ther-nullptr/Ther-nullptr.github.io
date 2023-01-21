@@ -381,7 +381,7 @@
 $$
 a \leftarrow a + b \times c
 $$</p>
-<p><img src="/image/MAC.png"
+<p><img src="/img/MAC.png"
 	
 	
 	
@@ -396,7 +396,7 @@ $$</p>
 <li>Temporal reuse：单个数据被同一个计算单元重复使用多次</li>
 <li>Spatial reuse：单个数据被多个不同的计算单元同时使用</li>
 </ul>
-<p><img src="/image/locality.png"
+<p><img src="/img/locality.png"
 	
 	
 	
@@ -432,7 +432,7 @@ $$</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>这一重用可以在output侧加入寄存器实现：
-<img src="/image/OA.png"
+<img src="/img/OA.png"
 	
 	
 	
@@ -466,7 +466,7 @@ $$</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>这一重用可以在weight侧加入寄存器实现：
-<img src="/image/WA.png"
+<img src="/img/WA.png"
 	
 	
 	
@@ -478,7 +478,7 @@ $$</p>
 ></p>
 <h2 id="accelerator">Accelerator</h2>
 <p>接下来，我们将在乘加单元的基础上探索更加宏观层面的矩阵乘法的高效数据流计算。</p>
-<p><img src="/image/matrix.png"
+<p><img src="/img/matrix.png"
 	
 	
 	
@@ -583,7 +583,7 @@ $$</p>
 </div>
 </div><h3 id="adder-tree">Adder Tree</h3>
 <p>加法树（Adder Tree）采用了一种以空间换取时间的策略。为了同时计算多个<code>IA[m, k] * W[k, n]</code>，可以将多个加法器堆叠组成树状结构：</p>
-<p><img src="/image/adder.png"
+<p><img src="/img/adder.png"
 	
 	
 	
@@ -595,7 +595,7 @@ $$</p>
 ></p>
 <h3 id="direct-wiring-multicast">Direct-Wiring Multicast</h3>
 <p>将权重的一行进行广播，使得权重的<code>N</code>列可以同时计算：</p>
-<p><img src="/image/multicast.png"
+<p><img src="/img/multicast.png"
 	
 	
 	
@@ -608,7 +608,7 @@ $$</p>
 <h3 id="systolic-array">Systolic Array</h3>
 <p>脉动阵列（Systolic Array）既可以实现Spatial-K中的加速（Systolic Accleration）功能，也可以实现Spatial-N中的广播（Systoic Multicast）功能。这里我们直接将两者组合以说明其功能。</p>
 <p>考虑一个基本的矩阵乘法$C=AB$，weight stationary的systolic array计算方式如下：</p>
-<p><img src="/image/sys-1.png"
+<p><img src="/img/sys-1.png"
 	
 	
 	
@@ -649,7 +649,7 @@ $$</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>如果考虑到$B$的预装，计算方式改为：</p>
-<p><img src="/image/sys-2.png"
+<p><img src="/img/sys-2.png"
 	
 	
 	
@@ -682,7 +682,7 @@ $$</p>
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>这会带来一个问题：在预装B的时候，我们不能做任何有用的工作。所以，每一个处理单元必须要有至少两个寄存器来存储它负责的B上的元素。在任何特定的周期中，一个寄存器将用于执行乘法累加操作，而另一个寄存器将作为预加载过程的一部分向下传播B的元素。</p>
-<p><img src="/image/sys-3.png"
+<p><img src="/img/sys-3.png"
 	
 	
 	
@@ -695,7 +695,7 @@ $$</p>
 <p>这仍然遗留了一个问题：如果我们想保留之前预装的矩阵，而不是用一个新的矩阵来覆盖它，怎么办？我们如何将其传达给收缩阵列的处理单元？对此可以引入一个1 bit的信号量。</p>
 <p>如果传播信号为0，那么第1个寄存器（寄存器0）应该用于向下传播权重，而第2个寄存器（寄存器1）应该用于乘法累加。同样，如果传播信号为1，那么第1个寄存器（寄存器0）应该被用来进行乘法累加，而第2个寄存器（寄存器1）应该被用来向下传播权重。</p>
 <p>以下是$\alpha \times \beta = \gamma$和$A \times B = C$的例子：由于$\beta$的标识均为0，所以$\beta$由寄存器0向下传播；当$\beta$准备用于计算时，$b$被载入，由于传输信号为1，$b$由寄存器1向下传播，而寄存器0用于乘法的计算。</p>
-<p><img src="/image/sys-4.png"
+<p><img src="/img/sys-4.png"
 	
 	
 	
@@ -706,7 +706,7 @@ $$</p>
 	
 ></p>
 <p>同理有$\alpha \times \beta = \gamma$，$A \times \beta = C$, $\alpha \times Y = Z$的数据流。</p>
-<p><img src="/image/sys-5.png"
+<p><img src="/img/sys-5.png"
 	
 	
 	

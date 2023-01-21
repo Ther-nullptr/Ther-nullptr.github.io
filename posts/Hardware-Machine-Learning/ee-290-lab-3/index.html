@@ -452,13 +452,13 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>这里N0*N1=N，K0*K1=K，systolic array的尺寸大小为N0*K0，取块的方式如下：</p>
-<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230116171209665.png?token=AQ7WYGEEV2GPMCPAENZL4N3DZO33O"
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230116171209665.png?token=AQ7WYGEEV2GPMCPAENZL4N3DZO33O"
 	
 	
 	
 	loading="lazy"
 	
-		alt="image-20230116171209665"
+		alt="/img-20230116171209665"
 	
 	
 ></p>
@@ -521,13 +521,13 @@
 </div>
 </div><blockquote>
 <p>这里只考虑了weight buffer在N维度上不够的情况，即N=N0*N1*N2。映射方式如下：</p>
-<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230116173324436.png?token=AQ7WYGFUVVDPMKPILIRGU43DZO33M"
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230116173324436.png?token=AQ7WYGFUVVDPMKPILIRGU43DZO33M"
 	
 	
 	
 	loading="lazy"
 	
-		alt="image-20230116173324436"
+		alt="/img-20230116173324436"
 	
 	
 ></p>
@@ -669,13 +669,13 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>如何判断两种循环的优劣？我们需要统计据的<strong>搬移量</strong>：</p>
-<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230116180336230.png?token=AQ7WYGGNOEKBCNO722E32WLDZO33U"
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230116180336230.png?token=AQ7WYGGNOEKBCNO722E32WLDZO33U"
 	
 	
 	
 	loading="lazy"
 	
-		alt="image-20230116180336230"
+		alt="/img-20230116180336230"
 	
 	
 ></p>
@@ -686,39 +686,39 @@
 <ul>
 <li>
 <p>bitmask：使用0/1数组表示是否为0（会造成独立于密度的固定开销，对高密度不友好）</p>
-<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230116183144691.png?token=AQ7WYGATXEMUFHLQQ4RKQH3DZO334"
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230116183144691.png?token=AQ7WYGATXEMUFHLQQ4RKQH3DZO334"
 	
 	
 	
 	loading="lazy"
 	
-		alt="image-20230116183144691"
+		alt="/img-20230116183144691"
 	
 	
 ></p>
 </li>
 <li>
 <p>run-length encoding：游程编码（同样有固定开销）</p>
-<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230116184553283.png?token=AQ7WYGDRDKDVUPBWE3PLKD3DZO34A"
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230116184553283.png?token=AQ7WYGDRDKDVUPBWE3PLKD3DZO34A"
 	
 	
 	
 	loading="lazy"
 	
-		alt="image-20230116184553283"
+		alt="/img-20230116184553283"
 	
 	
 ></p>
 </li>
 <li>
 <p>compressed sprase row：（可以进行快速的行选取）</p>
-<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230117000217950.png?token=AQ7WYGG42EDNCURSH7HDJS3DZO34E"
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230117000217950.png?token=AQ7WYGG42EDNCURSH7HDJS3DZO34E"
 	
 	
 	
 	loading="lazy"
 	
-		alt="image-20230117000217950"
+		alt="/img-20230117000217950"
 	
 	
 ></p>
@@ -726,26 +726,26 @@
 </li>
 <li>
 <p>compressed sprase column：（可以进行快速的列选取）</p>
-<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230117001012314.png?token=AQ7WYGAHLB5PXAISFRKR6YLDZO34I"
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230117001012314.png?token=AQ7WYGAHLB5PXAISFRKR6YLDZO34I"
 	
 	
 	
 	loading="lazy"
 	
-		alt="image-20230117001012314"
+		alt="/img-20230117001012314"
 	
 	
 ></p>
 </li>
 </ul>
 <p>随后稀疏矩阵和密集矩阵的混合计算。按照操作数的稀疏性和对齐方式分为两种：</p>
-<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230117002256369.png?token=AQ7WYGHUFNEGENRKJW7RXT3DZO34Q"
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230117002256369.png?token=AQ7WYGHUFNEGENRKJW7RXT3DZO34Q"
 	
 	
 	
 	loading="lazy"
 	
-		alt="image-20230117002256369"
+		alt="/img-20230117002256369"
 	
 	
 ></p>
@@ -784,13 +784,13 @@
 <p>实际上，上述的一些算子在深度学习之外的一些领域也有用，如GC（Java中的垃圾回收机制）、LINQ（语言集成查询）等。我们可以用上述算子构建Near-Data Processing的专用硬件（这里的Near-Data Processing指的是具有直接访问DRAM的功能，而不需要通过高速缓存的层次结构的硬件）。</p>
 <h2 id="in-memory-computing">In Memory Computing</h2>
 <p>在介绍IMC之前，我们需要首先回顾一下存储器的分类：</p>
-<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230117225552792.png?token=AQ7WYGBCSNI7TD5HPIZEWNLDZO4DK"
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230117225552792.png?token=AQ7WYGBCSNI7TD5HPIZEWNLDZO4DK"
 	
 	
 	
 	loading="lazy"
 	
-		alt="image-20230117225552792"
+		alt="/img-20230117225552792"
 	
 	
 ></p>
@@ -807,24 +807,24 @@
 </ul>
 <p>以下将重点计算在SRAM中进行的存内计算：</p>
 <p>在Deep Learning等数据密集型的运算场景中，<strong>数据搬移</strong>的消耗将超越<strong>数据运算</strong>。一个直观的思路是在存储器中进行运算，而不是将数据从存储器中搬移出来后进行运算（例如，对于一个weight stationary的dataflow，权重只需要呆在存储器中，无需进行搬运）。这就是存内计算的基本思想。</p>
-<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230117210804520.png?token=AQ7WYGG4OJQF3TENIZX7EBDDZO4DS"
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230117210804520.png?token=AQ7WYGG4OJQF3TENIZX7EBDDZO4DS"
 	
 	
 	
 	loading="lazy"
 	
-		alt="image-20230117210804520"
+		alt="/img-20230117210804520"
 	
 	
 ></p>
 <p>需要指出的是，目前的存内计算大部分是在<strong>模拟域</strong>进行的。因此需要先将数字化的输入经过DAC之后与权重进行运算，之后通过ADC变换回数字域。</p>
-<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230117222848147.png?token=AQ7WYGDFRW6QMPJ3VPJDB4TDZO4DU"
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230117222848147.png?token=AQ7WYGDFRW6QMPJ3VPJDB4TDZO4DU"
 	
 	
 	
 	loading="lazy"
 	
-		alt="image-20230117222848147"
+		alt="/img-20230117222848147"
 	
 	
 ></p>
@@ -835,13 +835,13 @@
 <li>weight：储存于存储单元，无需搬移。</li>
 </ul>
 <p>例如在这项工作中，一个5位数模转换器被用来驱动字线（WL）到代表特征向量的模拟电压，而位单元存储二进制权重±1。位单元的电流（IBC）实际上是特征向量的值和存储在位单元中的权重值的乘积；来自一列中的位单元的电流加在一起对位线（VBL）放电。</p>
-<p><img src="https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20230117225012726.png?token=AQ7WYGFCTQQCYG3SINWNH3LDZO4D2"
+<p><img src="https://raw.githubusercontent.com/Ther-nullptr//imgRepository/main/img//img-20230117225012726.png?token=AQ7WYGFCTQQCYG3SINWNH3LDZO4D2"
 	
 	
 	
 	loading="lazy"
 	
-		alt="image-20230117225012726"
+		alt="/img-20230117225012726"
 	
 	
 ></p>
