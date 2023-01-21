@@ -1274,7 +1274,7 @@ $$
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4 id=&#34;相关&#34;&gt;相关&lt;/h4&gt;
-&lt;p&gt;将一个序列进行反转共轭${\rm FFT}{y^&lt;em&gt;[-n]}=Y^&lt;/em&gt;[k]$后计算卷积。&lt;/p&gt;
+&lt;p&gt;将一个序列进行反转共轭 ${\rm FFT}{y^{&lt;em&gt;}[-n]}=Y^{&lt;/em&gt;}[k]$ 后计算卷积。&lt;/p&gt;
 &lt;h4 id=&#34;短时fft&#34;&gt;短时FFT&lt;/h4&gt;
 &lt;p&gt;$$
 X[k,n+1]=(X[k,n]-x[n-W+1]+x[n+1])e^{j2\pi\frac{k}{W}}
