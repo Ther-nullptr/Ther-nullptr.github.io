@@ -71,11 +71,23 @@
     <loc>https://ther-nullptr.github.io/tags/digital-signal-processing/</loc>
     <lastmod>2022-10-25T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://ther-nullptr.github.io/tags/cv/</loc>
+    <lastmod>2022-10-22T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/cv/swin/</loc>
+    <lastmod>2022-10-22T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://ther-nullptr.github.io/posts/digital_signal_processing/fft/</loc>
     <lastmod>2022-10-18T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://ther-nullptr.github.io/posts/cv/vit/</loc>
+    <lastmod>2022-10-17T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://ther-nullptr.github.io/posts/digital_signal_processing/dft/</loc>
     <lastmod>2022-10-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/cv/resnet/</loc>
+    <lastmod>2022-10-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/tags/small-talk/</loc>
     <lastmod>2022-08-04T01:09:43+08:00</lastmod>
@@ -205,8 +217,6 @@
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/awesome_toolkits/oh-my-posh/</loc>
     <lastmod>2021-08-19T23:53:42+08:00</lastmod>
-  </url><url>
-    <loc>https://ther-nullptr.github.io/posts/awesome-transformer-quantization/readme/</loc>
   </url><url>
     <loc>https://ther-nullptr.github.io/links/</loc>
   </url><url>
