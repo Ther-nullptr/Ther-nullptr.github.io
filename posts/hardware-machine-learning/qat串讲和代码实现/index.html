@@ -416,7 +416,14 @@ STE（直通估计器）最早在<em>Estimating or Propagating Gradients Through
 	
 ></p>
 <p>所以舍入值（权重和激活）相对于原值的导数可以定义为：</p>
-<!-- raw HTML omitted -->
+<p><img src="https://s2.loli.net/2023/01/25/b9BmKzG36YZgn2V.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
 <h2 id="lsq">LSQ</h2>
 <p>本文主要提出了两种方法：</p>
 <ol>
@@ -424,9 +431,23 @@ STE（直通估计器）最早在<em>Estimating or Propagating Gradients Through
 <li>提出了一个简单的启发式方法，使步长更新的幅度与权重更新达到更好的平衡，以改善收敛性。</li>
 </ol>
 <p>LSQ<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>这一工作引入了可学习的步长$s$:</p>
-<!-- raw HTML omitted -->
+<p><img src="https://s2.loli.net/2023/01/25/hHjcRyKk6SaJbvC.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
 <p>LSQ的巧妙之处在于，它模拟了量化过程中的一个现象：一个给定的$x_i$离量化过渡点越近，它就越有可能由于对$s$的更新改变其量化值$\hat x_i$，导致$\hat x_i$出现大幅度跳跃——梯度随着$x_i$到过渡点的距离减少而增加。</p>
-<!-- raw HTML omitted -->
+<p><img src="https://s2.loli.net/2023/01/25/7fDA54rSciGVJtT.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
 <p>在更新之前，激活和权重的初始步长值为：
 $$
 s_{init} = \frac{2\bar x}{\sqrt{p}}
@@ -435,7 +456,14 @@ $$
 <h2 id="lsq-1">LSQ+</h2>
 <p>LSQ方法大多基于以ReLU为激活函数的模型。但对于GeLU这样的函数，正负范围分布不均，无论是使用无符号量化范围量化（将所有负值钳制为0）还是使用有符号量化范围量化（对激活函数的负和正部分给予同等重视）都会造成精度损失。</p>
 <p>LSQ+<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>这一工作引入了可学习的偏置$z$:</p>
-<!-- raw HTML omitted -->
+<p><img src="https://s2.loli.net/2023/01/25/ICmDgd7yRqhYLZM.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
 <p>这样，我们就可以在激活处执行非对称量化，提高精度。</p>
 <p>对于权重，我们使用对称量化：
 $$
@@ -485,7 +513,14 @@ $$</p>
 </div><p>借助此，我们可以自定义函数的正向传播和反向传播过程。以下代码参考自<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup><sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>。</p>
 <h3 id="ste">STE</h3>
 <p>首先我们给出BNN中STE（效果如下图所示）的表达式：</p>
-<!-- raw HTML omitted -->
+<p><img src="https://s2.loli.net/2023/01/25/7c2gpEV5OiYbLmD.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
