@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>free learning on Ther&#39;s Blog</title>
+        <link>https://ther-nullptr.github.io/tags/free-learning/</link>
+        <description>Recent content in free learning on Ther&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Sun, 09 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://ther-nullptr.github.io/tags/free-learning/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>GAN</title>
+        <link>https://ther-nullptr.github.io/posts/free-learning/gan/</link>
+        <pubDate>Sun, 09 Oct 2022 00:00:00 +0000</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/free-learning/gan/</guid>
+        <description>&lt;h2 id=&#34;method&#34;&gt;method&lt;/h2&gt;
+&lt;p&gt;GAN分为两个基本部分：discriminator和generator。discriminator的输入为train data和fake data(distribution)，输出为data True/False的概率分布；generator的输入为random noise，输出为fake data。&lt;/p&gt;
+&lt;p&gt;GAN的一轮训练基本流程如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;fix generator &amp;amp; update discriminator:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20221015214312585.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20221015214312585&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;fix discriminator &amp;amp; update generator:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20221015212812656.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20221015212812656&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这样迭代若干轮，generator就可以获得不错的生成效果。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20221015214554045.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20221015214554045&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;theory&#34;&gt;theory&lt;/h2&gt;
+&lt;p&gt;GAN的优化目标是什么？考虑一个随机分布$x$，在经过generator $G$之后的分布为$P_G=G(x)$。而真实的data $data$经过generator $G$之后的分布为$P_{data}=G(data)$。我们的优化目标是$P_G=P_{data}$，或者：
+$$
+G^* = \arg \min_G Div(P_G,P_{data})
+$$
+由于$D$的本质是一个二分类训练器，我们定义损失函数$V(G,D)$（BCEloss）：
+$$
+V(G,D)=E_{y-P_{data}}[\log D(y)]+E_{y-P_G}[\log(1-D(y))]
+$$
+理想状况是，$D$倾向于将真实样本预测为正例，将生成样本预测为负例。这样我们要将$V(G,D)$最大化：
+$$
+D^*=\arg \max_D V(D,G)
+$$
+两个优化阶段实际上是有联系的：当第一阶段的$Div$较小时，$D$较难分辨样本，反之则容易分辨样本。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20221015221538441.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20221015221538441&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;注意到$D$可以直接计算两种数据之间的$Div$。这样我们将$G$的优化函数改写如下：
+$$
+G^*=\arg \min_G \max_D V(G,D)
+$$
+这个式子的含义是：&lt;strong&gt;生成器不断优化使得判别器准确率降低&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;这里衡量GAN用到了散度的概念。传统深度学习（如知识蒸馏）多使用$\rm KL$散度：
+$$
+KL(p||q) = -\int p(x)\ln \frac{q(x)}{p(x)}dx
+$$
+但$\rm KL$散度的一个缺点是&lt;strong&gt;不对称&lt;/strong&gt;，于是我们定义$\rm JS$散度：
+$$
+JS(p||q) = KL(p||\frac{p+q}{2}) + KL(q||\frac{p+q}{2})
+$$&lt;/p&gt;
+&lt;p&gt;GAN以难以训练闻名。但其全局最优解是可知的，我们需要从数学上证明这两点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;对于任意给定的$G$，我们可以找到最优的判别器$D_G^∗$；&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;结论&lt;/strong&gt; $D_G^*(x)=\frac{p_{data}(x)}{p_{data}(x)+p_G(x)}$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;对于全局最优的$G^∗$，我们希望它生成数据的分布和真实样本的分布一致，即$P_G=P_{data}$ 。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;结论&lt;/strong&gt; 当且仅当$p_G(x)=p_{data}(x)$时，我们才能得到$G$的全局最优解。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;详细的证明见&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/408766083&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GAN详解&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;根据上述证明过程可以得出$G^&lt;em&gt;=\arg \min_G \max_D V(G,D)$在最佳判别器$D_G^&lt;/em&gt;$的优化目标$C(G)=V(G,D_G^*)$可以写作：
+$$
+C(G) = -\log(4)+2·JS(p_{data}(x)||p_{G}(x))
+$$
+当$p_G(x)=p_{data}(x)$时，$C(G)$取得全局最优解$-\log4$。&lt;/p&gt;
+&lt;h2 id=&#34;other&#34;&gt;other&lt;/h2&gt;
+&lt;p&gt;在基础版本的GAN中，模型输入的是随机分布。而当我们同时输入限定条件时，就得到了&lt;strong&gt;conditinal GAN&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20221016151009344.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20221016151009344&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;而使用不同风格的unpaired data，我们也可以实现风格迁移。比如我们需要实现$\mathcal{X}$ domain到$\mathcal{Y}$ domain的转换，generator $G_{x\rightarrow y}$负责风格转换，discriminator $D_{y}$负责判断真实的和虚假的$\mathcal{Y}$集。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20221016151727537.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20221016151727537&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;但这会导致一个问题：我们如何判断风格的迁移是否符合预期？为此，我们引入一个新的generator $G_{y\rightarrow x}$，判断生成的$\mathcal{X}$集是否与原本的$\mathcal{X}$集相似。为了进一步增强效果，我们还可以新引入一个$D_x$来增强效果，这就是&lt;strong&gt;Cycle GAN&lt;/strong&gt;的效果：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/Ther-nullptr/ImageRepository/main/img/image-20221016152211677.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20221016152211677&#34;
+	
+	
+&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='基本概念 FLOPs：注意s小写，是FLoating point OPerations的缩写（s表复数），意指浮点运算数，理解为计算量。可以用来衡量模型的复杂度。
+FLOPS：注意全大写，是floating point operations per second的缩写，意指每秒浮点运算次数，理解为计算速度。是一个衡量硬件性能的指标。
+AlexNet AlexNet虽然不是轻量级卷积，但是其引入了分组卷积的概念：
+分组卷积的输出特征图的每个通道，只和输入特征图的一部分通道有关，而这部分通道，就是一个分组 (Group)。如下图所示，假设输入特征图的尺寸为 Cin×H×W，分为3组进行分组卷积，那么，对于每一组，输出特征图的通道数是 Cout3 ，卷积核大小为 Cin×K×K ，最后只需要将各个分组的计算结果按照通道进行连接(Concat)即可。
+分组卷积可以将参数量减少为之前的$\frac{1}{G}$，其中$G$为分组数量。
+SqueezeNet  在卷积层总数量不变的情况下，将网络中的大部分卷积层的卷积核大小设置为1x1。 引入一个1x1卷积层进行通道降维，减少3x3卷积的输入通道数以减少其参数 量（减少的参数量比额外引入的1x1卷积层参数量更多）。 在网络的更深层进行降采样，让浅层的激活值具有更大尺度，以提升性能。  具体来说，压缩部分为一个1×1的卷积层，将输入的激活值压缩到更少的通道数目，后续的拓展部分则由两组在通道上并列的1×1与3×3卷积组成，将通道拓展回原本的数目。
+MobileNetV1 核心思想：MobileNetV1就是把VGG中的标准卷积层换成深度可分离卷积就可以了。
+深度可分离卷积就是将普通卷积拆分成为一个深度卷积和一个逐点卷积。
+一个输入通道数为$C_{in}$、输出通道数为$C_{out}$、卷积核大小为$K$的卷积层可以分解为逐深度的（通道维 度）和逐点的（空间维度）的两个卷积。逐深度卷积层的输入输出通道均为$C_{in}$，卷积核大小为$K\times K$，个数为$C_{in}$，逐点卷积是一个输入通道数为$C_{in}$、输出通道数为$C_{out}$的$1\times1$的卷积层。
+与传统卷积的对比如下：
+    计算量 参数量     普通卷积 $C_{in}\times C_{out}\times W \times H \times K^2$ $C_{in}\times C_{out}\times K^2$   深度可分离卷积 $C_{in}\times W \times H \times K^2 &#43; C_{in}\times C_{out}$ $C_{in}\times K^2 &#43; C_{out}\times C_{in}$    需要指出的是，论文中使用的激活函数是ReLU6。'><title>轻量级CNN</title>
+
+<link rel='canonical' href='https://ther-nullptr.github.io/posts/cv/efficient-cnn/'>
+
+<link rel="stylesheet" href="/scss/style.min.54696446116cce19a1853c227ac72a7c4a0c48082cb8716cff1ab30937f5fe06.css"><meta property='og:title' content='轻量级CNN'>
+<meta property='og:description' content='基本概念 FLOPs：注意s小写，是FLoating point OPerations的缩写（s表复数），意指浮点运算数，理解为计算量。可以用来衡量模型的复杂度。
+FLOPS：注意全大写，是floating point operations per second的缩写，意指每秒浮点运算次数，理解为计算速度。是一个衡量硬件性能的指标。
+AlexNet AlexNet虽然不是轻量级卷积，但是其引入了分组卷积的概念：
+分组卷积的输出特征图的每个通道，只和输入特征图的一部分通道有关，而这部分通道，就是一个分组 (Group)。如下图所示，假设输入特征图的尺寸为 Cin×H×W，分为3组进行分组卷积，那么，对于每一组，输出特征图的通道数是 Cout3 ，卷积核大小为 Cin×K×K ，最后只需要将各个分组的计算结果按照通道进行连接(Concat)即可。
+分组卷积可以将参数量减少为之前的$\frac{1}{G}$，其中$G$为分组数量。
+SqueezeNet  在卷积层总数量不变的情况下，将网络中的大部分卷积层的卷积核大小设置为1x1。 引入一个1x1卷积层进行通道降维，减少3x3卷积的输入通道数以减少其参数 量（减少的参数量比额外引入的1x1卷积层参数量更多）。 在网络的更深层进行降采样，让浅层的激活值具有更大尺度，以提升性能。  具体来说，压缩部分为一个1×1的卷积层，将输入的激活值压缩到更少的通道数目，后续的拓展部分则由两组在通道上并列的1×1与3×3卷积组成，将通道拓展回原本的数目。
+MobileNetV1 核心思想：MobileNetV1就是把VGG中的标准卷积层换成深度可分离卷积就可以了。
+深度可分离卷积就是将普通卷积拆分成为一个深度卷积和一个逐点卷积。
+一个输入通道数为$C_{in}$、输出通道数为$C_{out}$、卷积核大小为$K$的卷积层可以分解为逐深度的（通道维 度）和逐点的（空间维度）的两个卷积。逐深度卷积层的输入输出通道均为$C_{in}$，卷积核大小为$K\times K$，个数为$C_{in}$，逐点卷积是一个输入通道数为$C_{in}$、输出通道数为$C_{out}$的$1\times1$的卷积层。
+与传统卷积的对比如下：
+    计算量 参数量     普通卷积 $C_{in}\times C_{out}\times W \times H \times K^2$ $C_{in}\times C_{out}\times K^2$   深度可分离卷积 $C_{in}\times W \times H \times K^2 &#43; C_{in}\times C_{out}$ $C_{in}\times K^2 &#43; C_{out}\times C_{in}$    需要指出的是，论文中使用的激活函数是ReLU6。'>
+<meta property='og:url' content='https://ther-nullptr.github.io/posts/cv/efficient-cnn/'>
+<meta property='og:site_name' content='Ther&#39;s Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='CV' /><meta property='article:published_time' content='2022-11-02T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2022-11-02T00:00:00&#43;00:00'/>
+<meta name="twitter:site" content="@AdobePython">
+    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="轻量级CNN">
+<meta name="twitter:description" content="基本概念 FLOPs：注意s小写，是FLoating point OPerations的缩写（s表复数），意指浮点运算数，理解为计算量。可以用来衡量模型的复杂度。
+FLOPS：注意全大写，是floating point operations per second的缩写，意指每秒浮点运算次数，理解为计算速度。是一个衡量硬件性能的指标。
+AlexNet AlexNet虽然不是轻量级卷积，但是其引入了分组卷积的概念：
+分组卷积的输出特征图的每个通道，只和输入特征图的一部分通道有关，而这部分通道，就是一个分组 (Group)。如下图所示，假设输入特征图的尺寸为 Cin×H×W，分为3组进行分组卷积，那么，对于每一组，输出特征图的通道数是 Cout3 ，卷积核大小为 Cin×K×K ，最后只需要将各个分组的计算结果按照通道进行连接(Concat)即可。
+分组卷积可以将参数量减少为之前的$\frac{1}{G}$，其中$G$为分组数量。
+SqueezeNet  在卷积层总数量不变的情况下，将网络中的大部分卷积层的卷积核大小设置为1x1。 引入一个1x1卷积层进行通道降维，减少3x3卷积的输入通道数以减少其参数 量（减少的参数量比额外引入的1x1卷积层参数量更多）。 在网络的更深层进行降采样，让浅层的激活值具有更大尺度，以提升性能。  具体来说，压缩部分为一个1×1的卷积层，将输入的激活值压缩到更少的通道数目，后续的拓展部分则由两组在通道上并列的1×1与3×3卷积组成，将通道拓展回原本的数目。
+MobileNetV1 核心思想：MobileNetV1就是把VGG中的标准卷积层换成深度可分离卷积就可以了。
+深度可分离卷积就是将普通卷积拆分成为一个深度卷积和一个逐点卷积。
+一个输入通道数为$C_{in}$、输出通道数为$C_{out}$、卷积核大小为$K$的卷积层可以分解为逐深度的（通道维 度）和逐点的（空间维度）的两个卷积。逐深度卷积层的输入输出通道均为$C_{in}$，卷积核大小为$K\times K$，个数为$C_{in}$，逐点卷积是一个输入通道数为$C_{in}$、输出通道数为$C_{out}$的$1\times1$的卷积层。
+与传统卷积的对比如下：
+    计算量 参数量     普通卷积 $C_{in}\times C_{out}\times W \times H \times K^2$ $C_{in}\times C_{out}\times K^2$   深度可分离卷积 $C_{in}\times W \times H \times K^2 &#43; C_{in}\times C_{out}$ $C_{in}\times K^2 &#43; C_{out}\times C_{in}$    需要指出的是，论文中使用的激活函数是ReLU6。"><style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script>
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap";
+		
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/Ther_hu05dc40a2635fa510e0ad5a0d57bec723_1205262_300x0_resize_box_3.png" width="300"
+                            height="272" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Ther&#39;s Blog</a></h1>
+            <h2 class="site-description">萌生此等惬意，实乃徒增彷徨。</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/Ther-nullptr'
+                        target="_blank"
+                        title="GitHub"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.instagram.com/donald.biden.18/'
+                        target="_blank"
+                        title="Instagram"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="4" y="4" width="16" height="16" rx="4" />
+  <circle cx="12" cy="12" r="3" />
+  <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com/AdobePython'
+                        target="_blank"
+                        title="Twitter"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li  class='current' >
+            <a href='/posts/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://ther-nullptr.github.io/" selected>English</option>
+                        
+                            <option value="https://ther-nullptr.github.io/zh-cn/" >中文</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/study/" >
+                study
+            </a>
+        
+            <a href="/categories/research/" >
+                research
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/posts/cv/efficient-cnn/">轻量级CNN</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Nov 02, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    2 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="基本概念">基本概念</h2>
+<p>FLOPs：注意s小写，是FLoating point OPerations的缩写（s表复数），意指浮点运算数，理解为计算量。可以用来衡量模型的复杂度。</p>
+<p>FLOPS：注意全大写，是floating point operations per second的缩写，意指每秒浮点运算次数，理解为计算速度。是一个衡量硬件性能的指标。</p>
+<h2 id="alexnet">AlexNet</h2>
+<p>AlexNet虽然不是轻量级卷积，但是其引入了<strong>分组卷积</strong>的概念：</p>
+<p>分组卷积的输出特征图的每个通道，只和输入特征图的一部分通道有关，而这部分通道，就是一个分组 (Group)。如下图所示，假设输入特征图的尺寸为 Cin×H×W，分为3组进行分组卷积，那么，对于每一组，输出特征图的通道数是 Cout3 ，卷积核大小为 Cin×K×K ，最后只需要将各个分组的计算结果按照通道进行连接(Concat)即可。</p>
+<p>分组卷积可以将参数量减少为之前的$\frac{1}{G}$，其中$G$为分组数量。</p>
+<h2 id="squeezenet">SqueezeNet</h2>
+<ol>
+<li>在卷积层总数量不变的情况下，将网络中的大部分卷积层的卷积核大小设置为1x1。</li>
+<li>引入一个1x1卷积层进行通道降维，减少3x3卷积的输入通道数以减少其参数
+量（减少的参数量比额外引入的1x1卷积层参数量更多）。</li>
+<li>在网络的更深层进行降采样，让浅层的激活值具有更大尺度，以提升性能。</li>
+</ol>
+<p><img src="https://s2.loli.net/2023/01/26/Fhu3AH67DeGWbam.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20221028111648453"
+	
+	
+></p>
+<p>具体来说，压缩部分为一个1×1的卷积层，将输入的激活值压缩到更少的通道数目，后续的拓展部分则由两组在通道上并列的1×1与3×3卷积组成，将通道拓展回原本的数目。</p>
+<h2 id="mobilenetv1">MobileNetV1</h2>
+<p>核心思想：<strong>MobileNetV1就是把VGG中的标准卷积层换成深度可分离卷积就可以了。</strong></p>
+<p><strong>深度可分离卷积</strong>就是<strong>将普通卷积拆分成为一个深度卷积和一个逐点卷积</strong>。</p>
+<p>一个输入通道数为$C_{in}$、输出通道数为$C_{out}$、卷积核大小为$K$的卷积层可以分解为逐深度的（通道维
+度）和逐点的（空间维度）的两个卷积。<strong>逐深度卷积层</strong>的输入输出通道均为$C_{in}$，卷积核大小为$K\times K$，个数为$C_{in}$，<strong>逐点卷积</strong>是一个输入通道数为$C_{in}$、输出通道数为$C_{out}$的$1\times1$的卷积层。</p>
+<p>与传统卷积的对比如下：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th></th>
+<th>计算量</th>
+<th>参数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>普通卷积</td>
+<td>$C_{in}\times C_{out}\times W \times H \times K^2$</td>
+<td>$C_{in}\times C_{out}\times K^2$</td>
+</tr>
+<tr>
+<td>深度可分离卷积</td>
+<td>$C_{in}\times W \times H \times K^2 + C_{in}\times C_{out}$</td>
+<td>$C_{in}\times  K^2 + C_{out}\times C_{in}$</td>
+</tr>
+</tbody>
+</table></div>
+<p>需要指出的是，论文中使用的激活函数是<code>ReLU6</code>。</p>
+<h2 id="mobilenetv2">MobileNetV2</h2>
+<p>MobileNetV1中的深度可分离卷积表征能力相对受限，例如，网络的某个部分出现全0，这主要由ReLU引起。据此，MobileNetV2提出了提出了线性瓶颈层和逆残差结构。</p>
+<h3 id="linear-bottleneck">Linear Bottleneck</h3>
+<p>对低维度做ReLU运算，很容易造成信息的丢失。而在高维度进行ReLU运算的话，信息的丢失则会很少。因此，我们将最后一层的ReLU6换成线性激活函数。</p>
+<h3 id="inverted-residuals"><strong>Inverted residuals</strong></h3>
+<p>深度卷积本身没有改变通道的能力，来的是多少通道输出就是多少通道。如果来的通道很少的话，DW深度卷积只能在低维度上工作，这样效果并不会很好。可以<strong>在DW深度卷积之前使用PW卷积进行升维，再在一个更高维的空间中进行卷积操作来提取特征</strong>：</p>
+<p><img src="https://s2.loli.net/2023/01/26/wyVNK2q6bzHR4fA.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20221028105323020"
+	
+	
+></p>
+<p>对比一下V1和V2的层结构：</p>
+<p><img src="https://s2.loli.net/2023/01/26/rftbHu6LdBROm7T.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20221028105410559"
+	
+	
+></p>
+<h2 id="mobilenetv3">MobileNetV3</h2>
+<ul>
+<li>0.网络的架构基于NAS实现的MnasNet（效果比MobileNetV2好）</li>
+<li>1.引入MobileNetV1的深度可分离卷积</li>
+<li>2.引入MobileNetV2的具有线性瓶颈的倒残差结构</li>
+<li>3.引入基于squeeze and excitation结构的轻量级注意力模型(SE)</li>
+<li>4.使用了一种新的激活函数h-swish(x)</li>
+<li>5.网络结构搜索中，结合两种技术：资源受限的NAS（platform-aware NAS）与NetAdapt</li>
+<li>6.修改了MobileNetV2网络端部最后阶段</li>
+</ul>
+<h2 id="shufflenet">ShuffleNet</h2>
+<p>ShuffleNet更关注计算量的优化，即如何提升通道数又同时保持模型的计算量较小。其核心设计理念是<strong>分组卷积</strong>与<strong>通道重排</strong>。</p>
+<p><strong>分组卷积</strong>的思想同AlexNet，ShuffleNet更进一步，将MobileNet的1x1逐点卷积层也采取分组卷积的方式：</p>
+<p><img src="https://s2.loli.net/2023/01/26/eRMTVElyNpgOmvk.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20221028113643099"
+	
+	
+></p>
+<p>这会带来一个问题：由于分组卷积的各个组的计算独立，如果连续两个卷积层都使用
+了分组卷积，会导致信息无法在组间交互。对此，ShuffleNet采用通道重排策略：</p>
+<p><img src="https://s2.loli.net/2023/01/26/DdjCEJaBVuI3cbk.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20221028113843030"
+	
+	
+></p>
+<h2 id="shufflenetv2">ShuffleNetV2</h2>
+<p>本文提出了轻量级模型设计的4种准则：</p>
+<ol>
+<li>同等通道大小最小化内存访问量</li>
+<li>过量使用组卷积会增加MAC</li>
+<li>网络碎片化会降低并行度</li>
+<li>不能忽略元素级操作</li>
+</ol>
+<p>ShuffleNet几乎踩中了以上所有的坑，对此V2模型给出如下解决方案：</p>
+<ol>
+<li>引入channel spliting，在输入通道维度切分并仅传给两个分支，其中一个分支使用直
+通。另外一个分支为三个有着同样输入输出通道数的卷积，且两个1x1卷积不使用分组卷积。</li>
+<li>最后将两个分支的输出通道做拼接和重排、而不是逐元素相加，而且通道的拼接-重排-切分被合并为一个操作。</li>
+</ol>
+<h2 id="ghostnet">GhostNet</h2>
+<p>在一个训练好的深度神经网络中，通常会包含丰富甚至冗余的特征图，以保证对输入数据有全面的理解。作者提出了一种新颖的Ghost模块，可以使用更少的参数来生成更多特征图。具体来说，深度神经网络中的普通卷积层将分为两部分。第一部分涉及普通卷积，但是将严格控制它们的总数。给定第一部分的固有特征图，然后将一系列简单的线性运算应用于生成更多特征图。</p>
+<p><img src="https://s2.loli.net/2023/01/26/9cqGferTD7BWOlk.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20221028120845770"
+	
+	
+></p>
+<h2 id="code">code</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">torch</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">CNN</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_ch</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">groups</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">(</span><span class="n">CNN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="n">in_ch</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                    <span class="n">out_channels</span><span class="o">=</span><span class="n">out_ch</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                    <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                    <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                    <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">AlexNetCNN</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_ch</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">groups</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">(</span><span class="n">AlexNetCNN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="n">in_ch</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                    <span class="n">out_channels</span><span class="o">=</span><span class="n">out_ch</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                    <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                    <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                    <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                    <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">SqueezeNetCNN</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">inplanes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">squeeze_planes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">expand1x1_planes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">expand3x3_planes</span><span class="p">:</span> <span class="nb">int</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">(</span><span class="n">SqueezeNetCNN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">inplanes</span> <span class="o">=</span> <span class="n">inplanes</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">squeeze</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">inplanes</span><span class="p">,</span> <span class="n">squeeze_planes</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">squeeze_activation</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">expand1x1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">squeeze_planes</span><span class="p">,</span> <span class="n">expand1x1_planes</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                   <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">expand1x1_activation</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">expand3x3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">squeeze_planes</span><span class="p">,</span> <span class="n">expand3x3_planes</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                   <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">expand3x3_activation</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">squeeze_activation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">expand1x1_activation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expand1x1</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">expand3x3_activation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expand3x3</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MobileNetCNN</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_ch</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">depth_conv</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="n">in_ch</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">out_channels</span><span class="o">=</span><span class="n">in_ch</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">groups</span><span class="o">=</span><span class="n">in_ch</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">point_conv</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="n">in_ch</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">out_channels</span><span class="o">=</span><span class="n">out_ch</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">groups</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">point_conv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">depth_conv</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/cv/">CV</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/posts/cv/swin/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Swin</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/cv/vit/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">ViT</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/cv/resnet/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">ResNet</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/hardware-machine-learning/qat%E4%B8%B2%E8%AE%B2%E5%92%8C%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">QAT串讲和代码实现</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/hardware-machine-learning/ee-290-lab-3/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">EE290-2 LAB3 tiling and optimization for accelerator</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="Ther-nullptr/Ther-nullptr.github.io"
+        issue-term="pathname"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2023 Ther&#39;s Blog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+            <br />visitors: <span id="busuanzi_value_site_uv"></span>
+            total visits: <span id="busuanzi_value_site_pv"></span> time(s)
+            reads: <span id="busuanzi_value_page_pv"></span> time(s)
+    
+    </section>
+
+    <script async src="https://busuanzi.icodeq.com/busuanzi.pure.mini.js">
+    </script>
+
+
+
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#基本概念">基本概念</a></li>
+    <li><a href="#alexnet">AlexNet</a></li>
+    <li><a href="#squeezenet">SqueezeNet</a></li>
+    <li><a href="#mobilenetv1">MobileNetV1</a></li>
+    <li><a href="#mobilenetv2">MobileNetV2</a>
+      <ol>
+        <li><a href="#linear-bottleneck">Linear Bottleneck</a></li>
+        <li><a href="#inverted-residuals"><strong>Inverted residuals</strong></a></li>
+      </ol>
+    </li>
+    <li><a href="#mobilenetv3">MobileNetV3</a></li>
+    <li><a href="#shufflenet">ShuffleNet</a></li>
+    <li><a href="#shufflenetv2">ShuffleNetV2</a></li>
+    <li><a href="#ghostnet">GhostNet</a></li>
+    <li><a href="#code">code</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Long+Cang&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300&family=Noto+Serif+SC:wght@300&family=Zhi+Mang+Xing&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<style>
+    :root {
+        --article-font-family: "HarmonyOS Sans SC Medium", "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script>
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Long+Cang&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300&family=Noto+Serif+SC:wght@300&family=Zhi+Mang+Xing&display=swap";
+		
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+<script
+    src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    async
+></script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/ribbon.min.js"
+    integrity="sha384-UEK8ZiP3VgFNP8KnKMKDmd4pAUAOJ59Y2Jo3ED2Z5qKQf6HLHovMxq7Beb9CLPUe"
+    crossorigin="anonymous"
+    size="300"
+    alpha="0.6"
+    zindex="-1"
+    defer
+></script>
+
+<script src="/js/snow.js"></script>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js"></script>
+</head>
+
+<body>
+    <div class="demo">
+        <div id="player1">
+        </div>
+    </div>
+    <script>
+        var ap = new APlayer
+            ({
+                element: document.getElementById('player1'),
+                fixed: true,
+                autoplay: true,
+                mini: true,
+                theme: '#f8f4fc',
+                loop: 'all',
+                order: 'random',
+                preload: 'auto',
+                volume: 0.5,
+                mutex: true,
+                listFolded: false,
+                listMaxHeight: 90,
+                lrcType: 0,
+                music: [{
+                    name: '未来的志愿书',
+                    url: 'https://music.163.com/song/media/outer/url?id=34916292.mp3',
+                    artists: 'Days',
+                    cover: 'https://p2.music.126.net/u5qI9jVwLkfv68QJSjxQ6w==/3261151488892334.jpg'
+                },
+                {
+                    name: 'Entorevolution',
+                    url: 'https://music.163.com/song/media/outer/url?id=32069952.mp3',
+                    artists: 'Bernis',
+                    cover: 'https://p2.music.126.net/wZQrCXyuDDtBgwYACEOBrg==/2909307768540461.jpg'
+                },
+                {
+                    name: 'Nuit Silencieuse',
+                    url: 'https://music.163.com/song/media/outer/url?id=34916301.mp3',
+                    artists: 'Days',
+                    cover: 'https://p2.music.126.net/wZQrCXyuDDtBgwYACEOBrg==/3261151488892334.jpg'
+                }] 
+            });
+        
+    </script>
+</body>
+    </body>
+</html>

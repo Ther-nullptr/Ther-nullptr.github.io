@@ -65,14 +65,17 @@
     <loc>https://ther-nullptr.github.io/posts/hardware-machine-learning/ee-290-lab-1/</loc>
     <lastmod>2022-12-24T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://ther-nullptr.github.io/tags/cv/</loc>
+    <lastmod>2022-11-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/cv/efficient-cnn/</loc>
+    <lastmod>2022-11-02T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://ther-nullptr.github.io/posts/digital_signal_processing/dct/</loc>
     <lastmod>2022-10-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/tags/digital-signal-processing/</loc>
     <lastmod>2022-10-25T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://ther-nullptr.github.io/tags/cv/</loc>
-    <lastmod>2022-10-22T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/cv/swin/</loc>
     <lastmod>2022-10-22T00:00:00+00:00</lastmod>
@@ -85,6 +88,15 @@
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/digital_signal_processing/dft/</loc>
     <lastmod>2022-10-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/tags/free-learning/</loc>
+    <lastmod>2022-10-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/free-learning/gan/</loc>
+    <lastmod>2022-10-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/tags/machine-learning/</loc>
+    <lastmod>2022-10-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/cv/resnet/</loc>
     <lastmod>2022-10-09T00:00:00+00:00</lastmod>
