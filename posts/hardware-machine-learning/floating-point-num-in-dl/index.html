@@ -11,11 +11,11 @@ HFP8 如果直接使用FP8（1-4-3）进行推理，会发现精度的明显降�
 我们对其进行更加细致的数值分析，假设指数位为$e$，尾数位为$m$，其公式如下： $$ f = (-1)^s 2^{p-b}(1&#43;\frac{d_1}{2}&#43;\cdots &#43; \frac{d_m}{2^m}), b=2^{e-1}(\rm adjustable) $$ 直观的讲，对于一个区间$[2^a,2^{a&#43;1}],a\in Z$来说，间隔长度为$2^{a-m}$。注意这种设置方法在绝对值小时有着较为密集的分布，这对于大多呈正态分布的权重、激活分布有一定的好处。
 这里我们重点介绍下HFP8在Transformer中的应用。NVIDIA的H100支持两种格式的FP8：比如 FP8(1-4-3) 多用于来表示 weights 和 activation，而 FP8(1-5-2) 来表示gradients。其基本架构如下图所示，注意累加后的值仍然为FP32/FP16:
 相比于bit数相同的int8，FP8有以下优点：
- FP8的电路可以和FP16/32的电路进行重用。 int8和FP32的转换需要进行quantize和dequantize，造成额外的开销；而FP8和FP32只需要直接舍掉指数和尾数的精度，不需要进行quantize和dequantize（当然，需要确定合适的指数尾数划分）。  Reference '><title>QAT串讲和代码实现</title>
+ FP8的电路可以和FP16/32的电路进行重用。 int8和FP32的转换需要进行quantize和dequantize，造成额外的开销；而FP8和FP32只需要直接舍掉指数和尾数的精度，不需要进行quantize和dequantize（当然，需要确定合适的指数尾数划分）。  Reference '><title>Floating Point Number in DL</title>
 
 <link rel='canonical' href='https://ther-nullptr.github.io/posts/hardware-machine-learning/floating-point-num-in-dl/'>
 
-<link rel="stylesheet" href="/scss/style.min.54696446116cce19a1853c227ac72a7c4a0c48082cb8716cff1ab30937f5fe06.css"><meta property='og:title' content='QAT串讲和代码实现'>
+<link rel="stylesheet" href="/scss/style.min.54696446116cce19a1853c227ac72a7c4a0c48082cb8716cff1ab30937f5fe06.css"><meta property='og:title' content='Floating Point Number in DL'>
 <meta property='og:description' content='AMP 混合精度训练 混合精度（Mix Precision）训练是指在训练时，对网络不同的部分采用不同的数值精度，对追求速度的算子（比如 conv、matmul）可以用较低精度（比如 float16）从而获得明显的性能提升，而对其它更看重精度的算子（比如 log、softmax）则保留较高的精度（比如 float32）。另外，模型在内存中用FP16做储存和乘法从而加速计算，而用FP32做累加避免舍入误差。混合精度训练的策略有效地缓解了舍入误差的问题。
 此外，在计算时，其梯度值可能会超出FP16的范围，在这种情况下，将对梯度值进行缩放，使其落在FP16范围内。
 此外还引入损失放大机制，通过放大loss的值来防止梯度的underflow（只在BP时传递梯度信息使用，真正更新权重时还是要把放大的梯度再unscale回去）。
@@ -29,9 +29,9 @@ HFP8 如果直接使用FP8（1-4-3）进行推理，会发现精度的明显降�
  FP8的电路可以和FP16/32的电路进行重用。 int8和FP32的转换需要进行quantize和dequantize，造成额外的开销；而FP8和FP32只需要直接舍掉指数和尾数的精度，不需要进行quantize和dequantize（当然，需要确定合适的指数尾数划分）。  Reference '>
 <meta property='og:url' content='https://ther-nullptr.github.io/posts/hardware-machine-learning/floating-point-num-in-dl/'>
 <meta property='og:site_name' content='Ther&#39;s Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='Floating Point Number in DL' /><meta property='article:published_time' content='2023-02-04T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2023-02-04T00:00:00&#43;00:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='study' /><meta property='article:tag' content='research' /><meta property='article:published_time' content='2023-02-04T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2023-02-04T00:00:00&#43;00:00'/>
 <meta name="twitter:site" content="@AdobePython">
-    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="QAT串讲和代码实现">
+    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="Floating Point Number in DL">
 <meta name="twitter:description" content="AMP 混合精度训练 混合精度（Mix Precision）训练是指在训练时，对网络不同的部分采用不同的数值精度，对追求速度的算子（比如 conv、matmul）可以用较低精度（比如 float16）从而获得明显的性能提升，而对其它更看重精度的算子（比如 log、softmax）则保留较高的精度（比如 float32）。另外，模型在内存中用FP16做储存和乘法从而加速计算，而用FP32做累加避免舍入误差。混合精度训练的策略有效地缓解了舍入误差的问题。
 此外，在计算时，其梯度值可能会超出FP16的范围，在这种情况下，将对梯度值进行缩放，使其落在FP16范围内。
 此外还引入损失放大机制，通过放大loss的值来防止梯度的underflow（只在BP时传递梯度信息使用，真正更新权重时还是要把放大的梯度再unscale回去）。
@@ -348,7 +348,7 @@ HFP8 如果直接使用FP8（1-4-3）进行推理，会发现精度的明显降�
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/posts/hardware-machine-learning/floating-point-num-in-dl/">QAT串讲和代码实现</a>
+            <a href="/posts/hardware-machine-learning/floating-point-num-in-dl/">Floating Point Number in DL</a>
         </h2>
     
         
@@ -494,7 +494,9 @@ $$
     
     <section class="article-tags">
         
-            <a href="/tags/floating-point-number-in-dl/">Floating Point Number in DL</a>
+            <a href="/tags/study/">study</a>
+        
+            <a href="/tags/research/">research</a>
         
     </section>
 
