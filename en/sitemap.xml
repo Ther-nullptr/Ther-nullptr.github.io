@@ -3,10 +3,10 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://ther-nullptr.github.io/posts/</loc>
-    <lastmod>2023-01-25T00:00:00+00:00</lastmod>
+    <lastmod>2023-02-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/categories/</loc>
-    <lastmod>2023-01-25T00:00:00+00:00</lastmod>
+    <lastmod>2023-02-04T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -18,20 +18,20 @@
                 href="https://ther-nullptr.github.io/categories/"
                 />
   </url><url>
-    <loc>https://ther-nullptr.github.io/tags/hardware-machine-learning/</loc>
-    <lastmod>2023-01-25T00:00:00+00:00</lastmod>
+    <loc>https://ther-nullptr.github.io/tags/floating-point-number-in-dl/</loc>
+    <lastmod>2023-02-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://ther-nullptr.github.io/posts/hardware-machine-learning/qat%E4%B8%B2%E8%AE%B2%E5%92%8C%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/</loc>
-    <lastmod>2023-01-25T00:00:00+00:00</lastmod>
+    <loc>https://ther-nullptr.github.io/posts/hardware-machine-learning/floating-point-num-in-dl/</loc>
+    <lastmod>2023-02-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/categories/research/</loc>
-    <lastmod>2023-01-25T00:00:00+00:00</lastmod>
+    <lastmod>2023-02-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/categories/study/</loc>
-    <lastmod>2023-01-25T00:00:00+00:00</lastmod>
+    <lastmod>2023-02-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/tags/</loc>
-    <lastmod>2023-01-25T00:00:00+00:00</lastmod>
+    <lastmod>2023-02-04T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -44,7 +44,7 @@
                 />
   </url><url>
     <loc>https://ther-nullptr.github.io/</loc>
-    <lastmod>2023-01-25T00:00:00+00:00</lastmod>
+    <lastmod>2023-02-04T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -55,6 +55,21 @@
                 hreflang="en"
                 href="https://ther-nullptr.github.io/"
                 />
+  </url><url>
+    <loc>https://ther-nullptr.github.io/tags/small-talk/</loc>
+    <lastmod>2023-01-26T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/categories/small-talk/</loc>
+    <lastmod>2023-01-26T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/small_talk/%E6%91%98%E6%8A%84/</loc>
+    <lastmod>2023-01-26T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/tags/hardware-machine-learning/</loc>
+    <lastmod>2023-01-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/hardware-machine-learning/qat%E4%B8%B2%E8%AE%B2%E5%92%8C%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/</loc>
+    <lastmod>2023-01-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/hardware-machine-learning/ee-290-lab-3/</loc>
     <lastmod>2023-01-14T00:00:00+00:00</lastmod>
@@ -100,12 +115,6 @@
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/cv/resnet/</loc>
     <lastmod>2022-10-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://ther-nullptr.github.io/tags/small-talk/</loc>
-    <lastmod>2022-08-04T01:09:43+08:00</lastmod>
-  </url><url>
-    <loc>https://ther-nullptr.github.io/categories/small-talk/</loc>
-    <lastmod>2022-08-04T01:09:43+08:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/small_talk/%E5%B0%8F%E9%BB%91%E5%90%8E%E4%BC%A0/</loc>
     <lastmod>2022-08-04T01:09:43+08:00</lastmod>
@@ -262,6 +271,14 @@
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/programming/cpp_advanced/</loc>
     <lastmod>2021-07-27T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/awesome-transformer-quantization/readme/</loc>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/hardware-machine-learning/cost-of-torch-multiply/</loc>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/hardware-machine-learning/online_softmax%E4%BC%98%E5%8C%96/</loc>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/nlp/gpt/</loc>
   </url><url>
     <loc>https://ther-nullptr.github.io/links/</loc>
   </url><url>

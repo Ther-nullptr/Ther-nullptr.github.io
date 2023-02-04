@@ -382,7 +382,7 @@ LSQ&#43;3这一工作引入了可学习的偏置$z$:
 
 
                 <time class="article-time--reading">
-                    3 minute read
+                    4 minute read
                 </time>
             </div>
         
@@ -472,6 +472,39 @@ $$
 对于激活，我们通过校准最小化下式：
 $$
 s_{init}, \beta_{init} = \arg \min_{s,\beta} ||\hat x - x||_F^2
+$$</p>
+<h2 id="pact">PACT</h2>
+<p>本文解决了量化中的一个核心问题：<strong>如何在range和precision之间寻找到tradeoff</strong>。特别是对于激活来说，这一问题尤其严重。绝大多数activation集中在某个很小的范围，但总有一些outlier点 会离中心非常远。这些outlier的value比较大，如果删除的话，会造成较大的误差。但是，如果你用outlier的最大值来作为range来量化整个数据，又面临着precision不够的问题。</p>
+<p>传统的激活函数没有任何可训练的参数，因此量化激活产生的误差无法用BP算法补偿。而传统的ReLU函数输出值域是无界的，这造成了更大的动态范围误差。</p>
+<p>PACT函数的定义如下：</p>
+<p>$$
+y = PACT(x) = 0.5 (|x| - |x-\alpha| + \alpha)
+$$</p>
+<p>随后是其量化过程：</p>
+<p><img src="https://s2.loli.net/2023/01/28/tGuyAKFD2inMNao.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20221117141630233"
+	
+	
+></p>
+<p>更新$\alpha$的梯度表达式如下（注意到计算第一次倒数时使用了一个直通估计器）：</p>
+<p><img src="https://s2.loli.net/2023/01/28/uD9JoZGWAtn8f2m.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20221117143805146"
+	
+	
+></p>
+<p>注意到此处的scaling factor并非通过传统方法得到，因此量化表达式有较大的差异。重新改写上式：</p>
+<p>$$
+s \cdot {\rm clamp}(\lfloor \frac{x}{s} \rceil;0,\alpha), s = \frac{\alpha}{2^k -1}
 $$</p>
 <h2 id="code">Code</h2>
 <p>首先给出PyTorch中自定义求导算子的写法<a class="link" href="https://pytorch.org/docs/stable/autograd.html#function"  target="_blank" rel="noopener"
@@ -763,7 +796,58 @@ $$</p>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>LSQ+同理，只不过在原有基础上引入偏移量z，并使用不同的初始化规则，此处不再详细说明。</p>
-<h2 id="reference">Reference</h2>
+<h3 id="pact-1">PACT</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">LearnedClippedLinearQuantization</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_bits</span><span class="p">,</span> <span class="n">init_act_clip_val</span><span class="p">,</span> <span class="n">dequantize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">(</span><span class="n">LearnedClippedLinearQuantization</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">num_bits</span> <span class="o">=</span> <span class="n">num_bits</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">clip_val</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="n">init_act_clip_val</span><span class="p">]))</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">dequantize</span> <span class="o">=</span> <span class="n">dequantize</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">inplace</span> <span class="o">=</span> <span class="n">inplace</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># Clip between 0 to the learned clip_val</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">input</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inplace</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># Using the &#39;where&#39; operation as follows gives us the correct gradient with respect to clip_val</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="nb">input</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip_val</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip_val</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">            <span class="n">scale</span><span class="p">,</span> <span class="n">zero_point</span> <span class="o">=</span> <span class="n">asymmetric_linear_quantization_params</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_bits</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip_val</span><span class="p">,</span> <span class="n">signed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">input</span> <span class="o">=</span> <span class="n">LinearQuantizeSTE</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">zero_point</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dequantize</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inplace</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nb">input</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">inplace_str</span> <span class="o">=</span> <span class="s1">&#39;, inplace&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inplace</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">(num_bits=</span><span class="si">{1}</span><span class="s1">, clip_val=</span><span class="si">{2}{3}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_bits</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip_val</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">                                                           <span class="n">inplace_str</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="reference">Reference</h2>
 <div class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
@@ -893,12 +977,12 @@ $$</p>
             
                 
 <article class="">
-    <a href="/posts/cv/efficient-cnn/">
+    <a href="/posts/hardware-machine-learning/floating-point-num-in-dl/">
         
         
 
         <div class="article-details">
-            <h2 class="article-title">轻量级CNN</h2>
+            <h2 class="article-title">QAT串讲和代码实现</h2>
         </div>
     </a>
 </article>
@@ -906,12 +990,12 @@ $$</p>
             
                 
 <article class="">
-    <a href="/posts/cv/swin/">
+    <a href="/posts/cv/efficient-cnn/">
         
         
 
         <div class="article-details">
-            <h2 class="article-title">Swin</h2>
+            <h2 class="article-title">轻量级CNN</h2>
         </div>
     </a>
 </article>
@@ -1100,10 +1184,12 @@ $$</p>
     <li><a href="#qat">QAT</a></li>
     <li><a href="#lsq">LSQ</a></li>
     <li><a href="#lsq-1">LSQ+</a></li>
+    <li><a href="#pact">PACT</a></li>
     <li><a href="#code">Code</a>
       <ol>
         <li><a href="#ste">STE</a></li>
         <li><a href="#lsq-2">LSQ</a></li>
+        <li><a href="#pact-1">PACT</a></li>
       </ol>
     </li>
     <li><a href="#reference">Reference</a></li>

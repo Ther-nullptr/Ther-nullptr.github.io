@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Api GPT-1 GPT-2概述 GPT-1（其参数量与GPT-2 small类似）和GPT-2的架构大同小异，主要区别在于预训练方式上。
+ GPT-1的训练数据集为5 GB，GPT-2的训练数据集为40 GB。 GPT-1使用无监督pretrain &#43; 有监督finetune，而GPT-2使用无监督pretrain &#43; 无监督finetune，这样使得预训练和finetune的结构一致，同时可以适配不同类型的任务。当问题的输入和输出均为文字时，只需要用特定方法组织不同类型的有标注数据即可代入模型，如对于问答使用“问题&#43;答案&#43;文档”的组织形式，对于翻译使用“英文&#43;法文”形式 GPT-2将layer normalization放到每个sub-block之前，并在最后一个Self-attention后再增加一个layer normalization  code 以下代码摘取自https://github.com/karpathy/minGPT。
+基本配置如下，可以看到GPT-2 small的参数量和GPT-1的参数量基本相当。
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  config.merge_from_dict({ # names follow the huggingface naming conventions # GPT-1 &amp;#39;openai-gpt&amp;#39;: dict(n_layer=12, n_head=12, n_embd=768), # 117M params # GPT-2 configs &amp;#39;gpt2&amp;#39;: dict(n_layer=12, n_head=12, n_embd=768), # 124M params &amp;#39;gpt2-medium&amp;#39;: dict(n_layer=24, n_head=16, n_embd=1024), # 350M params &amp;#39;gpt2-large&amp;#39;: dict(n_layer=36, n_head=20, n_embd=1280), # 774M params &amp;#39;gpt2-xl&amp;#39;: dict(n_layer=48, n_head=25, n_embd=1600), # 1558M params # Gophers &amp;#39;gopher-44m&amp;#39;: dict(n_layer=8, n_head=16, n_embd=512), # (there are a number more.'><title></title>
+
+<link rel='canonical' href='https://ther-nullptr.github.io/posts/nlp/gpt/'>
+
+<link rel="stylesheet" href="/scss/style.min.54696446116cce19a1853c227ac72a7c4a0c48082cb8716cff1ab30937f5fe06.css"><meta property='og:title' content=''>
+<meta property='og:description' content='Api GPT-1 GPT-2概述 GPT-1（其参数量与GPT-2 small类似）和GPT-2的架构大同小异，主要区别在于预训练方式上。
+ GPT-1的训练数据集为5 GB，GPT-2的训练数据集为40 GB。 GPT-1使用无监督pretrain &#43; 有监督finetune，而GPT-2使用无监督pretrain &#43; 无监督finetune，这样使得预训练和finetune的结构一致，同时可以适配不同类型的任务。当问题的输入和输出均为文字时，只需要用特定方法组织不同类型的有标注数据即可代入模型，如对于问答使用“问题&#43;答案&#43;文档”的组织形式，对于翻译使用“英文&#43;法文”形式 GPT-2将layer normalization放到每个sub-block之前，并在最后一个Self-attention后再增加一个layer normalization  code 以下代码摘取自https://github.com/karpathy/minGPT。
+基本配置如下，可以看到GPT-2 small的参数量和GPT-1的参数量基本相当。
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  config.merge_from_dict({ # names follow the huggingface naming conventions # GPT-1 &amp;#39;openai-gpt&amp;#39;: dict(n_layer=12, n_head=12, n_embd=768), # 117M params # GPT-2 configs &amp;#39;gpt2&amp;#39;: dict(n_layer=12, n_head=12, n_embd=768), # 124M params &amp;#39;gpt2-medium&amp;#39;: dict(n_layer=24, n_head=16, n_embd=1024), # 350M params &amp;#39;gpt2-large&amp;#39;: dict(n_layer=36, n_head=20, n_embd=1280), # 774M params &amp;#39;gpt2-xl&amp;#39;: dict(n_layer=48, n_head=25, n_embd=1600), # 1558M params # Gophers &amp;#39;gopher-44m&amp;#39;: dict(n_layer=8, n_head=16, n_embd=512), # (there are a number more.'>
+<meta property='og:url' content='https://ther-nullptr.github.io/posts/nlp/gpt/'>
+<meta property='og:site_name' content='Ther&#39;s Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' />
+<meta name="twitter:site" content="@AdobePython">
+    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="">
+<meta name="twitter:description" content="Api GPT-1 GPT-2概述 GPT-1（其参数量与GPT-2 small类似）和GPT-2的架构大同小异，主要区别在于预训练方式上。
+ GPT-1的训练数据集为5 GB，GPT-2的训练数据集为40 GB。 GPT-1使用无监督pretrain &#43; 有监督finetune，而GPT-2使用无监督pretrain &#43; 无监督finetune，这样使得预训练和finetune的结构一致，同时可以适配不同类型的任务。当问题的输入和输出均为文字时，只需要用特定方法组织不同类型的有标注数据即可代入模型，如对于问答使用“问题&#43;答案&#43;文档”的组织形式，对于翻译使用“英文&#43;法文”形式 GPT-2将layer normalization放到每个sub-block之前，并在最后一个Self-attention后再增加一个layer normalization  code 以下代码摘取自https://github.com/karpathy/minGPT。
+基本配置如下，可以看到GPT-2 small的参数量和GPT-1的参数量基本相当。
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17  config.merge_from_dict({ # names follow the huggingface naming conventions # GPT-1 &amp;#39;openai-gpt&amp;#39;: dict(n_layer=12, n_head=12, n_embd=768), # 117M params # GPT-2 configs &amp;#39;gpt2&amp;#39;: dict(n_layer=12, n_head=12, n_embd=768), # 124M params &amp;#39;gpt2-medium&amp;#39;: dict(n_layer=24, n_head=16, n_embd=1024), # 350M params &amp;#39;gpt2-large&amp;#39;: dict(n_layer=36, n_head=20, n_embd=1280), # 774M params &amp;#39;gpt2-xl&amp;#39;: dict(n_layer=48, n_head=25, n_embd=1600), # 1558M params # Gophers &amp;#39;gopher-44m&amp;#39;: dict(n_layer=8, n_head=16, n_embd=512), # (there are a number more."><style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script>
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap";
+		
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/Ther_hu05dc40a2635fa510e0ad5a0d57bec723_1205262_300x0_resize_box_3.png" width="300"
+                            height="272" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Ther&#39;s Blog</a></h1>
+            <h2 class="site-description">萌生此等惬意，实乃徒增彷徨。</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/Ther-nullptr'
+                        target="_blank"
+                        title="GitHub"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.instagram.com/donald.biden.18/'
+                        target="_blank"
+                        title="Instagram"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="4" y="4" width="16" height="16" rx="4" />
+  <circle cx="12" cy="12" r="3" />
+  <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com/AdobePython'
+                        target="_blank"
+                        title="Twitter"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li  class='current' >
+            <a href='/posts/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://ther-nullptr.github.io/" selected>English</option>
+                        
+                            <option value="https://ther-nullptr.github.io/zh-cn/" >中文</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/posts/nlp/gpt/"></a>
+        </h2>
+    
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    3 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="api">Api</h2>
+<h3 id="gpt-1-gpt-2概述">GPT-1 GPT-2概述</h3>
+<p><img src="http://jalammar.github.io/images/gpt2/gpt2-sizes.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="GPT-2"
+	
+	
+></p>
+<p>GPT-1（其参数量与GPT-2 small类似）和GPT-2的架构大同小异，主要区别在于预训练方式上。</p>
+<ul>
+<li>GPT-1的训练数据集为5 GB，GPT-2的训练数据集为40 GB。</li>
+<li>GPT-1使用<strong>无监督pretrain + 有监督finetune</strong>，而GPT-2使用<strong>无监督pretrain + 无监督finetune</strong>，这样使得预训练和finetune的结构一致，同时可以适配不同类型的任务。当问题的输入和输出均为文字时，只需要用特定方法组织不同类型的有标注数据即可代入模型，如对于问答使用“问题+答案+文档”的组织形式，对于翻译使用“英文+法文”形式</li>
+<li>GPT-2将layer normalization放到每个sub-block之前，并在最后一个Self-attention后再增加一个layer normalization</li>
+</ul>
+<h2 id="code">code</h2>
+<p>以下代码摘取自https://github.com/karpathy/minGPT。</p>
+<p>基本配置如下，可以看到GPT-2 small的参数量和GPT-1的参数量基本相当。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">config</span><span class="o">.</span><span class="n">merge_from_dict</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># names follow the huggingface naming conventions</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># GPT-1</span>
+</span></span><span class="line"><span class="cl">                <span class="s1">&#39;openai-gpt&#39;</span><span class="p">:</span>   <span class="nb">dict</span><span class="p">(</span><span class="n">n_layer</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">n_head</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">n_embd</span><span class="o">=</span><span class="mi">768</span><span class="p">),</span>  <span class="c1"># 117M params</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># GPT-2 configs</span>
+</span></span><span class="line"><span class="cl">                <span class="s1">&#39;gpt2&#39;</span><span class="p">:</span>         <span class="nb">dict</span><span class="p">(</span><span class="n">n_layer</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">n_head</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">n_embd</span><span class="o">=</span><span class="mi">768</span><span class="p">),</span>  <span class="c1"># 124M params</span>
+</span></span><span class="line"><span class="cl">                <span class="s1">&#39;gpt2-medium&#39;</span><span class="p">:</span>  <span class="nb">dict</span><span class="p">(</span><span class="n">n_layer</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">n_head</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">n_embd</span><span class="o">=</span><span class="mi">1024</span><span class="p">),</span> <span class="c1"># 350M params</span>
+</span></span><span class="line"><span class="cl">                <span class="s1">&#39;gpt2-large&#39;</span><span class="p">:</span>   <span class="nb">dict</span><span class="p">(</span><span class="n">n_layer</span><span class="o">=</span><span class="mi">36</span><span class="p">,</span> <span class="n">n_head</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">n_embd</span><span class="o">=</span><span class="mi">1280</span><span class="p">),</span> <span class="c1"># 774M params</span>
+</span></span><span class="line"><span class="cl">                <span class="s1">&#39;gpt2-xl&#39;</span><span class="p">:</span>      <span class="nb">dict</span><span class="p">(</span><span class="n">n_layer</span><span class="o">=</span><span class="mi">48</span><span class="p">,</span> <span class="n">n_head</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">n_embd</span><span class="o">=</span><span class="mi">1600</span><span class="p">),</span> <span class="c1"># 1558M params</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># Gophers</span>
+</span></span><span class="line"><span class="cl">                <span class="s1">&#39;gopher-44m&#39;</span><span class="p">:</span>   <span class="nb">dict</span><span class="p">(</span><span class="n">n_layer</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">n_head</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">n_embd</span><span class="o">=</span><span class="mi">512</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># (there are a number more...)</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># I made these tiny models up</span>
+</span></span><span class="line"><span class="cl">                <span class="s1">&#39;gpt-mini&#39;</span><span class="p">:</span>     <span class="nb">dict</span><span class="p">(</span><span class="n">n_layer</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">n_head</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">n_embd</span><span class="o">=</span><span class="mi">192</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                <span class="s1">&#39;gpt-micro&#39;</span><span class="p">:</span>    <span class="nb">dict</span><span class="p">(</span><span class="n">n_layer</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">n_head</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">n_embd</span><span class="o">=</span><span class="mi">128</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                <span class="s1">&#39;gpt-nano&#39;</span><span class="p">:</span>     <span class="nb">dict</span><span class="p">(</span><span class="n">n_layer</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_head</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_embd</span><span class="o">=</span><span class="mi">48</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}[</span><span class="n">config</span><span class="o">.</span><span class="n">model_type</span><span class="p">])</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>模型结构如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">GPT(
+</span></span><span class="line"><span class="cl">  (transformer): ModuleDict(
+</span></span><span class="line"><span class="cl">    (wte): Embedding(50257, 768)
+</span></span><span class="line"><span class="cl">    (wpe): Embedding(1024, 768)
+</span></span><span class="line"><span class="cl">    (drop): Dropout(p=0.1, inplace=False)
+</span></span><span class="line"><span class="cl">    (h): ModuleList(
+</span></span><span class="line"><span class="cl">      (0): Block(
+</span></span><span class="line"><span class="cl">        (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+</span></span><span class="line"><span class="cl">        (attn): CausalSelfAttention(
+</span></span><span class="line"><span class="cl">          (c_attn): Linear(in_features=768, out_features=2304, bias=True)
+</span></span><span class="line"><span class="cl">          (c_proj): Linear(in_features=768, out_features=768, bias=True)
+</span></span><span class="line"><span class="cl">          (attn_dropout): Dropout(p=0.1, inplace=False)
+</span></span><span class="line"><span class="cl">          (resid_dropout): Dropout(p=0.1, inplace=False)
+</span></span><span class="line"><span class="cl">        )
+</span></span><span class="line"><span class="cl">        (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+</span></span><span class="line"><span class="cl">        (mlp): ModuleDict(
+</span></span><span class="line"><span class="cl">          (c_fc): Linear(in_features=768, out_features=3072, bias=True)
+</span></span><span class="line"><span class="cl">          (c_proj): Linear(in_features=3072, out_features=768, bias=True)
+</span></span><span class="line"><span class="cl">          (act): NewGELU()
+</span></span><span class="line"><span class="cl">          (dropout): Dropout(p=0.1, inplace=False)
+</span></span><span class="line"><span class="cl">        )
+</span></span><span class="line"><span class="cl">      )
+</span></span><span class="line"><span class="cl">      ...
+</span></span><span class="line"><span class="cl">    )
+</span></span><span class="line"><span class="cl">    (ln_f): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+</span></span><span class="line"><span class="cl">  )
+</span></span><span class="line"><span class="cl">  (lm_head): Linear(in_features=768, out_features=50257, bias=False)
+</span></span><span class="line"><span class="cl">)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>之后是GPT-1和GPT-2中的Transformer部分。GPT中的注意力机制被称为<code>CasualAttention</code>(因果注意力)，其核心代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="c1"># batch size, sequence length, embedding dimensionality (n_embd)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># calculate query, key, values for all heads in batch and move head forward to be the batch dim</span>
+</span></span><span class="line"><span class="cl">    <span class="n">q</span><span class="p">,</span> <span class="n">k</span> <span class="p">,</span><span class="n">v</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_attn</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_embd</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_head</span><span class="p">,</span> <span class="n">C</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_head</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="c1"># (B, nh, T, hs)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_head</span><span class="p">,</span> <span class="n">C</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_head</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="c1"># (B, nh, T, hs)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_head</span><span class="p">,</span> <span class="n">C</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_head</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="c1"># (B, nh, T, hs)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># causal self-attention; Self-attend: (B, nh, T, hs) x (B, nh, hs, T) -&gt; (B, nh, T, T)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">att</span> <span class="o">=</span> <span class="p">(</span><span class="n">q</span> <span class="o">@</span> <span class="n">k</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">att</span> <span class="o">=</span> <span class="n">att</span><span class="o">.</span><span class="n">masked_fill</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">[:,:,:</span><span class="n">T</span><span class="p">,:</span><span class="n">T</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;-inf&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">att</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">att</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">att</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attn_dropout</span><span class="p">(</span><span class="n">att</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y</span> <span class="o">=</span> <span class="n">att</span> <span class="o">@</span> <span class="n">v</span> <span class="c1"># (B, nh, T, T) x (B, nh, T, hs) -&gt; (B, nh, T, hs)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span> <span class="c1"># re-assemble all head outputs side by side</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># output projection</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resid_dropout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c_proj</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">y</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>注意其中的<code>masked_fill</code>部分。这一部分对attention得到的分数进行上三角式掩码，<code>self.bias</code>的定义如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="bp">self</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s2">&#34;bias&#34;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tril</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">block_size</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">block_size</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                                     <span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">block_size</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">block_size</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样，Transformer就起到了因果注意力机制。</p>
+<p>之后重点介绍模型最前的<code>wte</code>和<code>wpe</code>，以及最后的<code>lm_head</code>。<code>wte</code>为Text Embedding，<code>wpe</code>为Positional Embedding。与BERT/原版Transformer的不同之处在于，前者的Positional Embedding是固定的，而GPT中的wpe是可学习的，代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">device</span> <span class="o">=</span> <span class="n">idx</span><span class="o">.</span><span class="n">device</span>
+</span></span><span class="line"><span class="cl"><span class="n">b</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">idx</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">assert</span> <span class="n">t</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_size</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&#34;Cannot forward sequence of length </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">, block size is only </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">block_size</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">pos</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># shape (1, t)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># forward the GPT model itself</span>
+</span></span><span class="line"><span class="cl"><span class="n">tok_emb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span><span class="o">.</span><span class="n">wte</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="c1"># token embeddings of shape (b, t, n_embd)</span>
+</span></span><span class="line"><span class="cl"><span class="n">pos_emb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span><span class="o">.</span><span class="n">wpe</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span> <span class="c1"># position embeddings of shape (1, t, n_embd)</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">tok_emb</span> <span class="o">+</span> <span class="n">pos_emb</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>最后一层transformer的hidden state经过一层mlp后得到词汇的概率分布。</p>
+<h2 id="quantization-of-gpt">Quantization of GPT</h2>
+<p>介绍GPT的量化之前，需要先介绍一下BERT的量化。<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> 一文中指出量化GPT的工作不多（但未说明原因），目前NLP方面的工作主要以量化BERT为主。</p>
+<p><em>Understanding and Overcoming the Challenges of Efficient Transformer Quantization</em>一文<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>指出了一些目前量化BERT的特点难点：</p>
+<ul>
+<li>这些方法都某种形式的QAT，要么不讨论PTQ替代品，要么只把它们作为弱基线。</li>
+<li>权重量化造成的损失远小于激活损失。</li>
+<li>主要的瓶颈是残余连接中激活张量的不同动态范围之间存在相当大的不匹配，最大的量化损失模块是FFN。</li>
+<li>少数异常的词嵌入如<code>[SEP]</code>造成了激活中离群值的出现，导致直接量化整个激活会导致精度降低。</li>
+</ul>
+<p>（其实这些问题可能在ViT中也存在，之后找找对应的论文）</p>
+<p>对此本文提出的解决方案为：</p>
+<ul>
+<li>
+<p>Per-embedding-group PTQ：对每一个嵌入向量的组进行单独量化</p>
+<p><img src="/C:%5cUsers%5c86181%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20230126232207951.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230126232207951"
+	
+	
+></p>
+</li>
+<li>
+<p>Mixed precision PTQ：对部分对量化较为敏感的计算进行高位宽处理，如在FFN的输入和输出处使用16 bit，在残差连接处使用16 bit。</p>
+</li>
+</ul>
+<p>需要指出的是，本文的量化均是在微调阶段量化的。</p>
+<p><em>Quadapter</em>一文<sup id="fnref1:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>指出了GPT量化时的一个问题：大型语言模型的训练数据往往十分宏大，甚至可能只公开一部分数据，然而只在部分数据集上进行量化会导致过拟合。对此该文章引入了adapter机制，允许GPT在部分数据集上进行QAT。值得注意的是，本文是在<strong>预训练</strong>阶段研究QAT的。</p>
+<h2 id="reference">Reference</h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a class="link" href="https://arxiv.org/abs/2211.16912"  target="_blank" rel="noopener"
+    >Quadapter: Adapter for GPT-2 Quantization</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p><a class="link" href="https://arxiv.org/pdf/2109.12948.pdf"  target="_blank" rel="noopener"
+    >Understanding and Overcoming the Challenges of Efficient Transformer Quantization</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="Ther-nullptr/Ther-nullptr.github.io"
+        issue-term="pathname"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2023 Ther&#39;s Blog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+            <br />visitors: <span id="busuanzi_value_site_uv"></span>
+            total visits: <span id="busuanzi_value_site_pv"></span> time(s)
+            reads: <span id="busuanzi_value_page_pv"></span> time(s)
+    
+    </section>
+
+    <script async src="https://busuanzi.icodeq.com/busuanzi.pure.mini.js">
+    </script>
+
+
+
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#api">Api</a>
+      <ol>
+        <li><a href="#gpt-1-gpt-2概述">GPT-1 GPT-2概述</a></li>
+      </ol>
+    </li>
+    <li><a href="#code">code</a></li>
+    <li><a href="#quantization-of-gpt">Quantization of GPT</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Long+Cang&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300&family=Noto+Serif+SC:wght@300&family=Zhi+Mang+Xing&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<style>
+    :root {
+        --article-font-family: "HarmonyOS Sans SC Medium", "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script>
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Long+Cang&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300&family=Noto+Serif+SC:wght@300&family=Zhi+Mang+Xing&display=swap";
+		
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+<script
+    src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    async
+></script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/ribbon.min.js"
+    integrity="sha384-UEK8ZiP3VgFNP8KnKMKDmd4pAUAOJ59Y2Jo3ED2Z5qKQf6HLHovMxq7Beb9CLPUe"
+    crossorigin="anonymous"
+    size="300"
+    alpha="0.6"
+    zindex="-1"
+    defer
+></script>
+
+<script src="/js/snow.js"></script>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js"></script>
+</head>
+
+<body>
+    <div class="demo">
+        <div id="player1">
+        </div>
+    </div>
+    <script>
+        var ap = new APlayer
+            ({
+                element: document.getElementById('player1'),
+                fixed: true,
+                autoplay: true,
+                mini: true,
+                theme: '#f8f4fc',
+                loop: 'all',
+                order: 'random',
+                preload: 'auto',
+                volume: 0.5,
+                mutex: true,
+                listFolded: false,
+                listMaxHeight: 90,
+                lrcType: 0,
+                music: [{
+                    name: '未来的志愿书',
+                    url: 'https://music.163.com/song/media/outer/url?id=34916292.mp3',
+                    artists: 'Days',
+                    cover: 'https://p2.music.126.net/u5qI9jVwLkfv68QJSjxQ6w==/3261151488892334.jpg'
+                },
+                {
+                    name: 'Entorevolution',
+                    url: 'https://music.163.com/song/media/outer/url?id=32069952.mp3',
+                    artists: 'Bernis',
+                    cover: 'https://p2.music.126.net/wZQrCXyuDDtBgwYACEOBrg==/2909307768540461.jpg'
+                },
+                {
+                    name: 'Nuit Silencieuse',
+                    url: 'https://music.163.com/song/media/outer/url?id=34916301.mp3',
+                    artists: 'Days',
+                    cover: 'https://p2.music.126.net/wZQrCXyuDDtBgwYACEOBrg==/3261151488892334.jpg'
+                }] 
+            });
+        
+    </script>
+</body>
+    </body>
+</html>
