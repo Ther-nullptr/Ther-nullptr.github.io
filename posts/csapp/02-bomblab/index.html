@@ -1,0 +1,2009 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Bomblab 首先通过以下指令得到可执行文件的汇编：
+1  objdump -d bomb &amp;gt; bomb.s   启动gdb进行debug，为了方便，我们将所有的字符串写在一个文件中，具体操作流程如下（按esc进入代码界面，按i进入调试界面）：
+PA 1 首先看一下main函数中调用phase_1的过程：
+1 2 3 4 5  400e2d:	e8 de fc ff ff callq 400b10 &amp;lt;puts@plt&amp;gt; 400e32:	e8 67 06 00 00 callq 40149e &amp;lt;read_line&amp;gt; 400e37:	48 89 c7 mov %rax,%rdi 400e3a:	e8 a1 00 00 00 callq 400ee0 &amp;lt;phase_1&amp;gt; 400e3f:	e8 80 07 00 00 callq 4015c4 &amp;lt;phase_defused&amp;gt;   回忆$rax存储函数返回值，$rdi存储函数的第一个参数。根据上下文可知这里传递的是字符串，我们可以通过实时查看汇编确认这一点：
+此后我们再查看phase_1的汇编：
+1 2 3 4 5 6 7 8 9  0000000000400ee0 &amp;lt;phase_1&amp;gt;: 400ee0:	48 83 ec 08 sub $0x8,%rsp 400ee4:	be 00 24 40 00 mov $0x402400,%esi 400ee9:	e8 4a 04 00 00 callq 401338 &amp;lt;strings_not_equal&amp;gt; 400eee:	85 c0 test %eax,%eax 400ef0:	74 05 je 400ef7 &amp;lt;phase_1&#43;0x17&amp;gt; 400ef2:	e8 43 05 00 00 callq 40143a &amp;lt;explode_bomb&amp;gt; 400ef7:	48 83 c4 08 add $0x8,%rsp 400efb:	c3 retq   这里将输入的字符串$rsp作为第一个参数，$0x402400中的值传给$rsi($esi)作为第二个参数，后送入strings_not_equal进行比较，返回值存储在$rax($eax)中。如果不相等，函数不会跳转，从而调用explode_bomb函数，炸弹破解失败。关键是要找出$0x402400中的值：'><title>02-bomblab</title>
+
+<link rel='canonical' href='https://ther-nullptr.github.io/posts/csapp/02-bomblab/'>
+
+<link rel="stylesheet" href="/scss/style.min.54696446116cce19a1853c227ac72a7c4a0c48082cb8716cff1ab30937f5fe06.css"><meta property='og:title' content='02-bomblab'>
+<meta property='og:description' content='Bomblab 首先通过以下指令得到可执行文件的汇编：
+1  objdump -d bomb &amp;gt; bomb.s   启动gdb进行debug，为了方便，我们将所有的字符串写在一个文件中，具体操作流程如下（按esc进入代码界面，按i进入调试界面）：
+PA 1 首先看一下main函数中调用phase_1的过程：
+1 2 3 4 5  400e2d:	e8 de fc ff ff callq 400b10 &amp;lt;puts@plt&amp;gt; 400e32:	e8 67 06 00 00 callq 40149e &amp;lt;read_line&amp;gt; 400e37:	48 89 c7 mov %rax,%rdi 400e3a:	e8 a1 00 00 00 callq 400ee0 &amp;lt;phase_1&amp;gt; 400e3f:	e8 80 07 00 00 callq 4015c4 &amp;lt;phase_defused&amp;gt;   回忆$rax存储函数返回值，$rdi存储函数的第一个参数。根据上下文可知这里传递的是字符串，我们可以通过实时查看汇编确认这一点：
+此后我们再查看phase_1的汇编：
+1 2 3 4 5 6 7 8 9  0000000000400ee0 &amp;lt;phase_1&amp;gt;: 400ee0:	48 83 ec 08 sub $0x8,%rsp 400ee4:	be 00 24 40 00 mov $0x402400,%esi 400ee9:	e8 4a 04 00 00 callq 401338 &amp;lt;strings_not_equal&amp;gt; 400eee:	85 c0 test %eax,%eax 400ef0:	74 05 je 400ef7 &amp;lt;phase_1&#43;0x17&amp;gt; 400ef2:	e8 43 05 00 00 callq 40143a &amp;lt;explode_bomb&amp;gt; 400ef7:	48 83 c4 08 add $0x8,%rsp 400efb:	c3 retq   这里将输入的字符串$rsp作为第一个参数，$0x402400中的值传给$rsi($esi)作为第二个参数，后送入strings_not_equal进行比较，返回值存储在$rax($eax)中。如果不相等，函数不会跳转，从而调用explode_bomb函数，炸弹破解失败。关键是要找出$0x402400中的值：'>
+<meta property='og:url' content='https://ther-nullptr.github.io/posts/csapp/02-bomblab/'>
+<meta property='og:site_name' content='Ther&#39;s Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='csapp' /><meta property='article:published_time' content='2023-02-11T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2023-02-11T00:00:00&#43;00:00'/>
+<meta name="twitter:site" content="@AdobePython">
+    <meta name="twitter:creator" content="@AdobePython"><meta name="twitter:title" content="02-bomblab">
+<meta name="twitter:description" content="Bomblab 首先通过以下指令得到可执行文件的汇编：
+1  objdump -d bomb &amp;gt; bomb.s   启动gdb进行debug，为了方便，我们将所有的字符串写在一个文件中，具体操作流程如下（按esc进入代码界面，按i进入调试界面）：
+PA 1 首先看一下main函数中调用phase_1的过程：
+1 2 3 4 5  400e2d:	e8 de fc ff ff callq 400b10 &amp;lt;puts@plt&amp;gt; 400e32:	e8 67 06 00 00 callq 40149e &amp;lt;read_line&amp;gt; 400e37:	48 89 c7 mov %rax,%rdi 400e3a:	e8 a1 00 00 00 callq 400ee0 &amp;lt;phase_1&amp;gt; 400e3f:	e8 80 07 00 00 callq 4015c4 &amp;lt;phase_defused&amp;gt;   回忆$rax存储函数返回值，$rdi存储函数的第一个参数。根据上下文可知这里传递的是字符串，我们可以通过实时查看汇编确认这一点：
+此后我们再查看phase_1的汇编：
+1 2 3 4 5 6 7 8 9  0000000000400ee0 &amp;lt;phase_1&amp;gt;: 400ee0:	48 83 ec 08 sub $0x8,%rsp 400ee4:	be 00 24 40 00 mov $0x402400,%esi 400ee9:	e8 4a 04 00 00 callq 401338 &amp;lt;strings_not_equal&amp;gt; 400eee:	85 c0 test %eax,%eax 400ef0:	74 05 je 400ef7 &amp;lt;phase_1&#43;0x17&amp;gt; 400ef2:	e8 43 05 00 00 callq 40143a &amp;lt;explode_bomb&amp;gt; 400ef7:	48 83 c4 08 add $0x8,%rsp 400efb:	c3 retq   这里将输入的字符串$rsp作为第一个参数，$0x402400中的值传给$rsi($esi)作为第二个参数，后送入strings_not_equal进行比较，返回值存储在$rax($eax)中。如果不相等，函数不会跳转，从而调用explode_bomb函数，炸弹破解失败。关键是要找出$0x402400中的值："><style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script>
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap";
+		
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/Ther_hu05dc40a2635fa510e0ad5a0d57bec723_1205262_300x0_resize_box_3.png" width="300"
+                            height="272" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Ther&#39;s Blog</a></h1>
+            <h2 class="site-description">萌生此等惬意，实乃徒增彷徨。</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/Ther-nullptr'
+                        target="_blank"
+                        title="GitHub"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.instagram.com/donald.biden.18/'
+                        target="_blank"
+                        title="Instagram"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="4" y="4" width="16" height="16" rx="4" />
+  <circle cx="12" cy="12" r="3" />
+  <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com/AdobePython'
+                        target="_blank"
+                        title="Twitter"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li  class='current' >
+            <a href='/posts/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://ther-nullptr.github.io/" selected>English</option>
+                        
+                            <option value="https://ther-nullptr.github.io/zh-cn/" >中文</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/study/" >
+                study
+            </a>
+        
+            <a href="/categories/programming/" >
+                programming
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/posts/csapp/02-bomblab/">02-bomblab</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Feb 11, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    14 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="bomblab">Bomblab</h1>
+<p>首先通过以下指令得到可执行文件的汇编：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">objdump -d bomb &gt; bomb.s 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>启动gdb进行debug，为了方便，我们将所有的字符串写在一个文件中，具体操作流程如下（按esc进入代码界面，按i进入调试界面）：</p>
+<p><img src="https://s2.loli.net/2023/02/11/ujmsUcR7GwHrXta.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230211104653049"
+	
+	
+></p>
+<h2 id="pa-1">PA 1</h2>
+<p>首先看一下main函数中调用phase_1的过程：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  400e2d:	e8 de fc ff ff       	callq  400b10 &lt;puts@plt&gt;
+</span></span><span class="line"><span class="cl">  400e32:	e8 67 06 00 00       	callq  40149e &lt;read_line&gt;
+</span></span><span class="line"><span class="cl">  400e37:	48 89 c7             	mov    %rax,%rdi
+</span></span><span class="line"><span class="cl">  400e3a:	e8 a1 00 00 00       	callq  400ee0 &lt;phase_1&gt;
+</span></span><span class="line"><span class="cl">  400e3f:	e8 80 07 00 00       	callq  4015c4 &lt;phase_defused&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>回忆<code>$rax</code>存储函数返回值，<code>$rdi</code>存储函数的第一个参数。根据上下文可知这里传递的是字符串，我们可以通过实时查看汇编确认这一点：</p>
+<p><img src="https://s2.loli.net/2023/02/11/rPeOmRoXWFJkU3w.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230211112334885"
+	
+	
+></p>
+<p>此后我们再查看phase_1的汇编：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">0000000000400ee0 &lt;phase_1&gt;:
+</span></span><span class="line"><span class="cl">  400ee0:	48 83 ec 08          	sub    $0x8,%rsp
+</span></span><span class="line"><span class="cl">  400ee4:	be 00 24 40 00       	mov    $0x402400,%esi
+</span></span><span class="line"><span class="cl">  400ee9:	e8 4a 04 00 00       	callq  401338 &lt;strings_not_equal&gt;
+</span></span><span class="line"><span class="cl">  400eee:	85 c0                	test   %eax,%eax
+</span></span><span class="line"><span class="cl">  400ef0:	74 05                	je     400ef7 &lt;phase_1+0x17&gt;
+</span></span><span class="line"><span class="cl">  400ef2:	e8 43 05 00 00       	callq  40143a &lt;explode_bomb&gt;
+</span></span><span class="line"><span class="cl">  400ef7:	48 83 c4 08          	add    $0x8,%rsp
+</span></span><span class="line"><span class="cl">  400efb:	c3                   	retq   
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里将输入的字符串<code>$rsp</code>作为第一个参数，<code>$0x402400</code>中的值传给<code>$rsi($esi)</code>作为第二个参数，后送入strings_not_equal进行比较，返回值存储在<code>$rax($eax)</code>中。如果不相等，函数不会跳转，从而调用explode_bomb函数，炸弹破解失败。关键是要找出<code>$0x402400</code>中的值：</p>
+<p><img src="https://s2.loli.net/2023/02/11/u6kBHS4rCXKM3Dz.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230211113924413"
+	
+	
+></p>
+<p>据此，第一题的答案为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Border relations with Canada have never been better.
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="pa-2">PA 2</h2>
+<p>查看phase_2的汇编：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">0000000000400efc &lt;phase_2&gt;:
+</span></span><span class="line"><span class="cl">  400efc:	55                   	push   %rbp
+</span></span><span class="line"><span class="cl">  400efd:	53                   	push   %rbx
+</span></span><span class="line"><span class="cl">  400efe:	48 83 ec 28          	sub    $0x28,%rsp
+</span></span><span class="line"><span class="cl">  400f02:	48 89 e6             	mov    %rsp,%rsi
+</span></span><span class="line"><span class="cl">  400f05:	e8 52 05 00 00       	callq  40145c &lt;read_six_numbers&gt;
+</span></span><span class="line"><span class="cl">  400f0a:	83 3c 24 01          	cmpl   $0x1,(%rsp)
+</span></span><span class="line"><span class="cl">  400f0e:	74 20                	je     400f30 &lt;phase_2+0x34&gt;
+</span></span><span class="line"><span class="cl">  400f10:	e8 25 05 00 00       	callq  40143a &lt;explode_bomb&gt;
+</span></span><span class="line"><span class="cl">  400f15:	eb 19                	jmp    400f30 &lt;phase_2+0x34&gt;
+</span></span><span class="line"><span class="cl">  400f17:	8b 43 fc             	mov    -0x4(%rbx),%eax
+</span></span><span class="line"><span class="cl">  400f1a:	01 c0                	add    %eax,%eax
+</span></span><span class="line"><span class="cl">  400f1c:	39 03                	cmp    %eax,(%rbx)
+</span></span><span class="line"><span class="cl">  400f1e:	74 05                	je     400f25 &lt;phase_2+0x29&gt;
+</span></span><span class="line"><span class="cl">  400f20:	e8 15 05 00 00       	callq  40143a &lt;explode_bomb&gt;
+</span></span><span class="line"><span class="cl">  400f25:	48 83 c3 04          	add    $0x4,%rbx
+</span></span><span class="line"><span class="cl">  400f29:	48 39 eb             	cmp    %rbp,%rbx
+</span></span><span class="line"><span class="cl">  400f2c:	75 e9                	jne    400f17 &lt;phase_2+0x1b&gt;
+</span></span><span class="line"><span class="cl">  400f2e:	eb 0c                	jmp    400f3c &lt;phase_2+0x40&gt;
+</span></span><span class="line"><span class="cl">  400f30:	48 8d 5c 24 04       	lea    0x4(%rsp),%rbx
+</span></span><span class="line"><span class="cl">  400f35:	48 8d 6c 24 18       	lea    0x18(%rsp),%rbp
+</span></span><span class="line"><span class="cl">  400f3a:	eb db                	jmp    400f17 &lt;phase_2+0x1b&gt;
+</span></span><span class="line"><span class="cl">  400f3c:	48 83 c4 28          	add    $0x28,%rsp
+</span></span><span class="line"><span class="cl">  400f40:	5b                   	pop    %rbx
+</span></span><span class="line"><span class="cl">  400f41:	5d                   	pop    %rbp
+</span></span><span class="line"><span class="cl">  400f42:	c3                   	retq   
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>首先函数会调用read_six_numbers：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">000000000040145c &lt;read_six_numbers&gt;:
+</span></span><span class="line"><span class="cl">  40145c:	48 83 ec 18          	sub    $0x18,%rsp
+</span></span><span class="line"><span class="cl">  401460:	48 89 f2             	mov    %rsi,%rdx
+</span></span><span class="line"><span class="cl">  401463:	48 8d 4e 04          	lea    0x4(%rsi),%rcx
+</span></span><span class="line"><span class="cl">  401467:	48 8d 46 14          	lea    0x14(%rsi),%rax
+</span></span><span class="line"><span class="cl">  40146b:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
+</span></span><span class="line"><span class="cl">  401470:	48 8d 46 10          	lea    0x10(%rsi),%rax
+</span></span><span class="line"><span class="cl">  401474:	48 89 04 24          	mov    %rax,(%rsp)
+</span></span><span class="line"><span class="cl">  401478:	4c 8d 4e 0c          	lea    0xc(%rsi),%r9
+</span></span><span class="line"><span class="cl">  40147c:	4c 8d 46 08          	lea    0x8(%rsi),%r8
+</span></span><span class="line"><span class="cl">  401480:	be c3 25 40 00       	mov    $0x4025c3,%esi
+</span></span><span class="line"><span class="cl">  401485:	b8 00 00 00 00       	mov    $0x0,%eax
+</span></span><span class="line"><span class="cl">  40148a:	e8 61 f7 ff ff       	callq  400bf0 &lt;__isoc99_sscanf@plt&gt;
+</span></span><span class="line"><span class="cl">  40148f:	83 f8 05             	cmp    $0x5,%eax
+</span></span><span class="line"><span class="cl">  401492:	7f 05                	jg     401499 &lt;read_six_numbers+0x3d&gt;
+</span></span><span class="line"><span class="cl">  401494:	e8 a1 ff ff ff       	callq  40143a &lt;explode_bomb&gt;
+</span></span><span class="line"><span class="cl">  401499:	48 83 c4 18          	add    $0x18,%rsp
+</span></span><span class="line"><span class="cl">  40149d:	c3                   	retq  
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>首先观察到sscanf这个函数，之后看到<code>$0x4025c3</code>这个特殊的地址值，打印其值：</p>
+<p><img src="https://s2.loli.net/2023/02/11/1gz4MCLIbmTDJER.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230211141010057"
+	
+	
+></p>
+<p>这提示了我们的输入要求。那输入的6个值又被存放在哪里？</p>
+<p><img src="https://s2.loli.net/2023/02/11/w1iGatWDqRjYxVB.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230211142601284"
+	
+	
+></p>
+<p>在调用完毕read_six_numbers之后查看栈空间，可见最开始输入的数位于栈顶、其他依次向后排。输入的六个数是逆序入栈，第一个数最后入栈，为栈顶。</p>
+<p>再看比较部分的代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  400f0a:	83 3c 24 01          	cmpl   $0x1,(%rsp)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>首先比较第一个值与1是否相等，如果不相等就会直接引爆炸弹，如果相等，执行以下语句：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  400f30:	48 8d 5c 24 04       	lea    0x4(%rsp),%rbx
+</span></span><span class="line"><span class="cl">  400f35:	48 8d 6c 24 18       	lea    0x18(%rsp),%rbp
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>第一句将栈指针偏移，指向下一个数；第二句复制栈底值（用于判断何时结束循环）；跳转过后执行以下语句：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  400f17:	8b 43 fc             	mov    -0x4(%rbx),%eax
+</span></span><span class="line"><span class="cl">  400f1a:	01 c0                	add    %eax,%eax
+</span></span><span class="line"><span class="cl">  400f1c:	39 03                	cmp    %eax,(%rbx)
+</span></span><span class="line"><span class="cl">  400f1e:	74 05                	je     400f25 &lt;phase_2+0x29&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>首先提取出<code>$rbx</code>的前一个值，复制给<code>$eax</code>，再将其乘2，再与当前的<code>$rbx</code>比较。可见比较的要求是<strong>后一个数是前一个数的2倍</strong>，直到6个数循环完毕。据此可以得到答案：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">1 2 4 8 16 32
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="pa-3">PA 3</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">0000000000400f43 &lt;phase_3&gt;:
+</span></span><span class="line"><span class="cl">  400f43:	48 83 ec 18          	sub    $0x18,%rsp
+</span></span><span class="line"><span class="cl">  400f47:	48 8d 4c 24 0c       	lea    0xc(%rsp),%rcx
+</span></span><span class="line"><span class="cl">  400f4c:	48 8d 54 24 08       	lea    0x8(%rsp),%rdx
+</span></span><span class="line"><span class="cl">  400f51:	be cf 25 40 00       	mov    $0x4025cf,%esi
+</span></span><span class="line"><span class="cl">  400f56:	b8 00 00 00 00       	mov    $0x0,%eax
+</span></span><span class="line"><span class="cl">  400f5b:	e8 90 fc ff ff       	callq  400bf0 &lt;__isoc99_sscanf@plt&gt;
+</span></span><span class="line"><span class="cl">  400f60:	83 f8 01             	cmp    $0x1,%eax # 如果输入的值的数量大于1
+</span></span><span class="line"><span class="cl">  400f63:	7f 05                	jg     400f6a &lt;phase_3+0x27&gt; # 跳转，进行正常比较
+</span></span><span class="line"><span class="cl">  400f65:	e8 d0 04 00 00       	callq  40143a &lt;explode_bomb&gt;
+</span></span><span class="line"><span class="cl">  400f6a:	83 7c 24 08 07       	cmpl   $0x7,0x8(%rsp) 
+</span></span><span class="line"><span class="cl">  400f6f:	77 3c                	ja     400fad &lt;phase_3+0x6a&gt; 
+</span></span><span class="line"><span class="cl">  400f71:	8b 44 24 08          	mov    0x8(%rsp),%eax
+</span></span><span class="line"><span class="cl">  400f75:	ff 24 c5 70 24 40 00 	jmpq   *0x402470(,%rax,8)
+</span></span><span class="line"><span class="cl">  400f7c:	b8 cf 00 00 00       	mov    $0xcf,%eax
+</span></span><span class="line"><span class="cl">  400f81:	eb 3b                	jmp    400fbe &lt;phase_3+0x7b&gt;
+</span></span><span class="line"><span class="cl">  400f83:	b8 c3 02 00 00       	mov    $0x2c3,%eax
+</span></span><span class="line"><span class="cl">  400f88:	eb 34                	jmp    400fbe &lt;phase_3+0x7b&gt;
+</span></span><span class="line"><span class="cl">  400f8a:	b8 00 01 00 00       	mov    $0x100,%eax
+</span></span><span class="line"><span class="cl">  400f8f:	eb 2d                	jmp    400fbe &lt;phase_3+0x7b&gt;
+</span></span><span class="line"><span class="cl">  400f91:	b8 85 01 00 00       	mov    $0x185,%eax
+</span></span><span class="line"><span class="cl">  400f96:	eb 26                	jmp    400fbe &lt;phase_3+0x7b&gt;
+</span></span><span class="line"><span class="cl">  400f98:	b8 ce 00 00 00       	mov    $0xce,%eax
+</span></span><span class="line"><span class="cl">  400f9d:	eb 1f                	jmp    400fbe &lt;phase_3+0x7b&gt;
+</span></span><span class="line"><span class="cl">  400f9f:	b8 aa 02 00 00       	mov    $0x2aa,%eax
+</span></span><span class="line"><span class="cl">  400fa4:	eb 18                	jmp    400fbe &lt;phase_3+0x7b&gt;
+</span></span><span class="line"><span class="cl">  400fa6:	b8 47 01 00 00       	mov    $0x147,%eax
+</span></span><span class="line"><span class="cl">  400fab:	eb 11                	jmp    400fbe &lt;phase_3+0x7b&gt;
+</span></span><span class="line"><span class="cl">  400fad:	e8 88 04 00 00       	callq  40143a &lt;explode_bomb&gt;
+</span></span><span class="line"><span class="cl">  400fb2:	b8 00 00 00 00       	mov    $0x0,%eax
+</span></span><span class="line"><span class="cl">  400fb7:	eb 05                	jmp    400fbe &lt;phase_3+0x7b&gt;
+</span></span><span class="line"><span class="cl">  400fb9:	b8 37 01 00 00       	mov    $0x137,%eax
+</span></span><span class="line"><span class="cl">  400fbe:	3b 44 24 0c          	cmp    0xc(%rsp),%eax
+</span></span><span class="line"><span class="cl">  400fc2:	74 05                	je     400fc9 &lt;phase_3+0x86&gt;
+</span></span><span class="line"><span class="cl">  400fc4:	e8 71 04 00 00       	callq  40143a &lt;explode_bomb&gt;
+</span></span><span class="line"><span class="cl">  400fc9:	48 83 c4 18          	add    $0x18,%rsp
+</span></span><span class="line"><span class="cl">  400fcd:	c3                   	retq   
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>PA3同样调用了scanf，打印<code>$0x4025cf</code>的值发现应该需要输入两个数：</p>
+<p><img src="https://s2.loli.net/2023/02/11/1hYIsgWx9E8XpKM.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230211145829829"
+	
+	
+></p>
+<p>运行到<code>cmpl   $0x7,0x8(%rsp)</code>这步时，查看栈上的值：</p>
+<p><img src="https://s2.loli.net/2023/02/11/59ENA2vOFd71GHh.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230211151619067"
+	
+	
+></p>
+<p>这时栈顶的两个值恰好是我们的两个输入值。根据<code>cmpl   $0x7,0x8(%rsp) </code>可知，第一个值不能大于7；再根据之后的<code>jmpq   *0x402470(,%rax,8)</code>可知，这里以<code>$rax*8 + 0x402470</code>为读地址，从内存中读出跳转目标。</p>
+<p><img src="https://s2.loli.net/2023/02/11/1Lx87wAcSY2GdDu.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230211153043467"
+	
+	
+></p>
+<p>第一个值被赋给<code>$rax</code>，跳转的位置与<code>$rax</code>本身的值密切相关，有必要查看<code>0x402470</code>附近的值分布：</p>
+<p><img src="https://s2.loli.net/2023/02/11/beMclUHPox7f5kS.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230211153929065"
+	
+	
+></p>
+<p>这样就可以建立起<code>$rax</code>值和跳转地址之间的映射关系，而不同的跳转值又对应着不同的比较值，据此可以确定第二个输入值：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th><code>$rax</code></th>
+<th>jump address</th>
+<th>compare var</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0x00400f7c</td>
+<td>0xcf</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0x00400fb9</td>
+<td>0x137</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0x00400f83</td>
+<td>0x2c3</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0x00400f8a</td>
+<td>0x100</td>
+</tr>
+<tr>
+<td>4</td>
+<td>0x00400f91</td>
+<td>0x185</td>
+</tr>
+<tr>
+<td>5</td>
+<td>0x00400f98</td>
+<td>0xce</td>
+</tr>
+<tr>
+<td>6</td>
+<td>0x00400f9f</td>
+<td>0x2aa</td>
+</tr>
+<tr>
+<td>7</td>
+<td>0x00400fa6</td>
+<td>0x147</td>
+</tr>
+</tbody>
+</table></div>
+<p>8个答案中任选一个即可。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">0 207
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="pa-4">PA 4</h2>
+<p>PA 4的核心代码设计到两个部分：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">000000000040100c &lt;phase_4&gt;:
+</span></span><span class="line"><span class="cl">  40100c:	48 83 ec 18          	sub    $0x18,%rsp
+</span></span><span class="line"><span class="cl">  401010:	48 8d 4c 24 0c       	lea    0xc(%rsp),%rcx
+</span></span><span class="line"><span class="cl">  401015:	48 8d 54 24 08       	lea    0x8(%rsp),%rdx
+</span></span><span class="line"><span class="cl">  40101a:	be cf 25 40 00       	mov    $0x4025cf,%esi
+</span></span><span class="line"><span class="cl">  40101f:	b8 00 00 00 00       	mov    $0x0,%eax
+</span></span><span class="line"><span class="cl">  401024:	e8 c7 fb ff ff       	callq  400bf0 &lt;__isoc99_sscanf@plt&gt;
+</span></span><span class="line"><span class="cl">  401029:	83 f8 02             	cmp    $0x2,%eax
+</span></span><span class="line"><span class="cl">  40102c:	75 07                	jne    401035 &lt;phase_4+0x29&gt;
+</span></span><span class="line"><span class="cl">  40102e:	83 7c 24 08 0e       	cmpl   $0xe,0x8(%rsp)
+</span></span><span class="line"><span class="cl">  401033:	76 05                	jbe    40103a &lt;phase_4+0x2e&gt;
+</span></span><span class="line"><span class="cl">  401035:	e8 00 04 00 00       	callq  40143a &lt;explode_bomb&gt;
+</span></span><span class="line"><span class="cl">  40103a:	ba 0e 00 00 00       	mov    $0xe,%edx
+</span></span><span class="line"><span class="cl">  40103f:	be 00 00 00 00       	mov    $0x0,%esi
+</span></span><span class="line"><span class="cl">  401044:	8b 7c 24 08          	mov    0x8(%rsp),%edi
+</span></span><span class="line"><span class="cl">  401048:	e8 81 ff ff ff       	callq  400fce &lt;func4&gt;
+</span></span><span class="line"><span class="cl">  40104d:	85 c0                	test   %eax,%eax
+</span></span><span class="line"><span class="cl">  40104f:	75 07                	jne    401058 &lt;phase_4+0x4c&gt;
+</span></span><span class="line"><span class="cl">  401051:	83 7c 24 0c 00       	cmpl   $0x0,0xc(%rsp)
+</span></span><span class="line"><span class="cl">  401056:	74 05                	je     40105d &lt;phase_4+0x51&gt;
+</span></span><span class="line"><span class="cl">  401058:	e8 dd 03 00 00       	callq  40143a &lt;explode_bomb&gt;
+</span></span><span class="line"><span class="cl">  40105d:	48 83 c4 18          	add    $0x18,%rsp
+</span></span><span class="line"><span class="cl">  401061:	c3                   	retq   
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># $rdi，$rsi，$rdx，$rcx
+</span></span><span class="line"><span class="cl">0000000000400fce &lt;func4&gt;:
+</span></span><span class="line"><span class="cl">  400fce:	48 83 ec 08          	sub    $0x8,%rsp
+</span></span><span class="line"><span class="cl">  400fd2:	89 d0                	mov    %edx,%eax
+</span></span><span class="line"><span class="cl">  400fd4:	29 f0                	sub    %esi,%eax
+</span></span><span class="line"><span class="cl">  400fd6:	89 c1                	mov    %eax,%ecx
+</span></span><span class="line"><span class="cl">  400fd8:	c1 e9 1f             	shr    $0x1f,%ecx
+</span></span><span class="line"><span class="cl">  400fdb:	01 c8                	add    %ecx,%eax
+</span></span><span class="line"><span class="cl">  400fdd:	d1 f8                	sar    %eax
+</span></span><span class="line"><span class="cl">  400fdf:	8d 0c 30             	lea    (%rax,%rsi,1),%ecx
+</span></span><span class="line"><span class="cl">  400fe2:	39 f9                	cmp    %edi,%ecx
+</span></span><span class="line"><span class="cl">  400fe4:	7e 0c                	jle    400ff2 &lt;func4+0x24&gt;
+</span></span><span class="line"><span class="cl">  400fe6:	8d 51 ff             	lea    -0x1(%rcx),%edx
+</span></span><span class="line"><span class="cl">  400fe9:	e8 e0 ff ff ff       	callq  400fce &lt;func4&gt;
+</span></span><span class="line"><span class="cl">  400fee:	01 c0                	add    %eax,%eax
+</span></span><span class="line"><span class="cl">  400ff0:	eb 15                	jmp    401007 &lt;func4+0x39&gt;
+</span></span><span class="line"><span class="cl">  400ff2:	b8 00 00 00 00       	mov    $0x0,%eax
+</span></span><span class="line"><span class="cl">  400ff7:	39 f9                	cmp    %edi,%ecx
+</span></span><span class="line"><span class="cl">  400ff9:	7d 0c                	jge    401007 &lt;func4+0x39&gt;
+</span></span><span class="line"><span class="cl">  400ffb:	8d 71 01             	lea    0x1(%rcx),%esi
+</span></span><span class="line"><span class="cl">  400ffe:	e8 cb ff ff ff       	callq  400fce &lt;func4&gt;
+</span></span><span class="line"><span class="cl">  401003:	8d 44 00 01          	lea    0x1(%rax,%rax,1),%eax
+</span></span><span class="line"><span class="cl">  401007:	48 83 c4 08          	add    $0x8,%rsp
+</span></span><span class="line"><span class="cl">  40100b:	c3                   	retq  
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>首先我们仍然需要输入两个值：</p>
+<p><img src="https://s2.loli.net/2023/02/11/9NxloIYtrkzwOhv.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230211155551306"
+	
+	
+></p>
+<p>在<code>func4</code>中，我们看到代码再一次调用了函数本身，说明这是一个递归函数。首先，根据上一题的经验，输入的两个值分别储存在<code>0x8($rsp)</code>中和<code>0xc($rsp)</code>中，据此可以定位判断输入是否合法的代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  401029:	83 f8 02             	cmp    $0x2,%eax
+</span></span><span class="line"><span class="cl">  40102c:	75 07                	jne    401035 &lt;phase_4+0x29&gt;
+</span></span><span class="line"><span class="cl">  40102e:	83 7c 24 08 0e       	cmpl   $0xe,0x8(%rsp) # 和14比较
+</span></span><span class="line"><span class="cl">  401033:	76 05                	jbe    40103a &lt;phase_4+0x2e&gt; # 小于等于合法
+</span></span><span class="line"><span class="cl">  401035:	e8 00 04 00 00       	callq  40143a &lt;explode_bomb&gt;
+</span></span><span class="line"><span class="cl"> ...
+</span></span><span class="line"><span class="cl">  401048:   e8 81 ff ff ff          callq  400fce &lt;func4&gt; # 调用函数
+</span></span><span class="line"><span class="cl">  40104d:	85 c0                	test   %eax,%eax
+</span></span><span class="line"><span class="cl">  40104f:	75 07                	jne    401058 &lt;phase_4+0x4c&gt;
+</span></span><span class="line"><span class="cl">  401051:	83 7c 24 0c 00       	cmpl   $0x0,0xc(%rsp) # 和0比较
+</span></span><span class="line"><span class="cl">  401056:	74 05                	je     40105d &lt;phase_4+0x51&gt; # 相等则合法
+</span></span><span class="line"><span class="cl">  401058:	e8 dd 03 00 00       	callq  40143a &lt;explode_bomb&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>据此可以直接判断出第一个数应该小于等于14，第二个数为0，而且<code>func4</code>的返回值一定为0。</p>
+<p>调用<code>func_4</code>时，寄存器使用情况如下：</p>
+<p><img src="https://s2.loli.net/2023/02/11/tP81MhuESD9C2Tw.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230211162250094"
+	
+	
+></p>
+<p>然后看<code>func4</code>，<code>$rdi，$rsi，$rdx，$rcx，$r8，$r9</code>这几个寄存器中出现的只有前4个，而只有前3个作为原数据，剩下1个是中间变量，而且整个函数没有出现<code>$rax</code>的更新，据此可以推断该函数的类型是<code>void (int, int, int)</code>。</p>
+<p>转写后的c代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">func4</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">,</span> <span class="kt">int</span> <span class="n">z</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// x: $rdi y: $rsi, z: $rdx
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="n">z</span><span class="p">;</span> <span class="cm">/* mov    %edx,%eax */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y</span> <span class="o">=</span> <span class="n">t</span> <span class="o">-</span> <span class="n">y</span><span class="p">;</span> <span class="cm">/* sub    %esi,%eax */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span> <span class="cm">/* mov    %eax,%ecx */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">k</span> <span class="o">=</span> <span class="n">k</span> <span class="o">&gt;&gt;</span> <span class="mi">31</span><span class="p">;</span> <span class="cm">/* shr    $0x1f,%ecx */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">t</span> <span class="o">=</span> <span class="n">t</span> <span class="o">+</span> <span class="n">k</span><span class="p">;</span> <span class="cm">/* add    %ecx,%eax */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">t</span> <span class="o">=</span> <span class="n">t</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">;</span> <span class="cm">/* sar    %eax */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">k</span> <span class="o">=</span> <span class="n">t</span> <span class="o">+</span> <span class="n">y</span><span class="p">;</span> <span class="cm">/* lea    (%rax,%rsi,1),%ecx */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">)</span> <span class="cm">/* cmp    %edi,%ecx */</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">z</span> <span class="o">=</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="cm">/* lea    -0x1(%rcx),%edx */</span>
+</span></span><span class="line"><span class="cl">        <span class="n">func4</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">);</span> <span class="cm">/* callq  400fce &lt;func4&gt; */</span>
+</span></span><span class="line"><span class="cl">        <span class="n">t</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">;</span> <span class="cm">/* add    %eax,%eax */</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="cm">/* mov    $0x0,%eax */</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">k</span> <span class="o">&lt;</span> <span class="n">x</span><span class="p">)</span> <span class="cm">/* cmp    %edi,%ecx */</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">y</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="cm">/* lea    0x1(%rcx),%esi */</span>
+</span></span><span class="line"><span class="cl">            <span class="n">func4</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">);</span> <span class="cm">/* callq  400fce &lt;func4&gt; */</span>
+</span></span><span class="line"><span class="cl">            <span class="n">t</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="cm">/* lea    0x1(%rax,%rax,1),%eax */</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>phase_4</code>中考察的是<code>$eax</code>的值，我们只需要关心t的变化。注意到<code>x</code>和<code>y</code>分别是输入的两个值（y已经确定为0），而<code>z</code>是固定值14。显然递归的终止条件是<code>k=x</code>，此时<code>t=0</code>。我们不妨让<code>func4</code>只执行一次，简单计算可得<code>x=7</code>。于是得到最终答案：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">7 0
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="pa-5">PA 5</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">0000000000401062 &lt;phase_5&gt;:
+</span></span><span class="line"><span class="cl">  401062:	53                   	push   %rbx
+</span></span><span class="line"><span class="cl">  401063:	48 83 ec 20          	sub    $0x20,%rsp
+</span></span><span class="line"><span class="cl">  401067:	48 89 fb             	mov    %rdi,%rbx
+</span></span><span class="line"><span class="cl">  40106a:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
+</span></span><span class="line"><span class="cl">  401071:	00 00 
+</span></span><span class="line"><span class="cl">  401073:	48 89 44 24 18       	mov    %rax,0x18(%rsp)
+</span></span><span class="line"><span class="cl">  401078:	31 c0                	xor    %eax,%eax
+</span></span><span class="line"><span class="cl">  40107a:	e8 9c 02 00 00       	callq  40131b &lt;string_length&gt;
+</span></span><span class="line"><span class="cl">  40107f:	83 f8 06             	cmp    $0x6,%eax
+</span></span><span class="line"><span class="cl">  401082:	74 4e                	je     4010d2 &lt;phase_5+0x70&gt;
+</span></span><span class="line"><span class="cl">  401084:	e8 b1 03 00 00       	callq  40143a &lt;explode_bomb&gt;
+</span></span><span class="line"><span class="cl">  401089:	eb 47                	jmp    4010d2 &lt;phase_5+0x70&gt;
+</span></span><span class="line"><span class="cl">  40108b:	0f b6 0c 03          	movzbl (%rbx,%rax,1),%ecx
+</span></span><span class="line"><span class="cl">  40108f:	88 0c 24             	mov    %cl,(%rsp)
+</span></span><span class="line"><span class="cl">  401092:	48 8b 14 24          	mov    (%rsp),%rdx
+</span></span><span class="line"><span class="cl">  401096:	83 e2 0f             	and    $0xf,%edx
+</span></span><span class="line"><span class="cl">  401099:	0f b6 92 b0 24 40 00 	movzbl 0x4024b0(%rdx),%edx
+</span></span><span class="line"><span class="cl">  4010a0:	88 54 04 10          	mov    %dl,0x10(%rsp,%rax,1)
+</span></span><span class="line"><span class="cl">  4010a4:	48 83 c0 01          	add    $0x1,%rax
+</span></span><span class="line"><span class="cl">  4010a8:	48 83 f8 06          	cmp    $0x6,%rax
+</span></span><span class="line"><span class="cl">  4010ac:	75 dd                	jne    40108b &lt;phase_5+0x29&gt;
+</span></span><span class="line"><span class="cl">  4010ae:	c6 44 24 16 00       	movb   $0x0,0x16(%rsp)
+</span></span><span class="line"><span class="cl">  4010b3:	be 5e 24 40 00       	mov    $0x40245e,%esi
+</span></span><span class="line"><span class="cl">  4010b8:	48 8d 7c 24 10       	lea    0x10(%rsp),%rdi
+</span></span><span class="line"><span class="cl">  4010bd:	e8 76 02 00 00       	callq  401338 &lt;strings_not_equal&gt;
+</span></span><span class="line"><span class="cl">  4010c2:	85 c0                	test   %eax,%eax
+</span></span><span class="line"><span class="cl">  4010c4:	74 13                	je     4010d9 &lt;phase_5+0x77&gt;
+</span></span><span class="line"><span class="cl">  4010c6:	e8 6f 03 00 00       	callq  40143a &lt;explode_bomb&gt;
+</span></span><span class="line"><span class="cl">  4010cb:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+</span></span><span class="line"><span class="cl">  4010d0:	eb 07                	jmp    4010d9 &lt;phase_5+0x77&gt;
+</span></span><span class="line"><span class="cl">  4010d2:	b8 00 00 00 00       	mov    $0x0,%eax
+</span></span><span class="line"><span class="cl">  4010d7:	eb b2                	jmp    40108b &lt;phase_5+0x29&gt;
+</span></span><span class="line"><span class="cl">  4010d9:	48 8b 44 24 18       	mov    0x18(%rsp),%rax
+</span></span><span class="line"><span class="cl">  4010de:	64 48 33 04 25 28 00 	xor    %fs:0x28,%rax
+</span></span><span class="line"><span class="cl">  4010e5:	00 00 
+</span></span><span class="line"><span class="cl">  4010e7:	74 05                	je     4010ee &lt;phase_5+0x8c&gt;
+</span></span><span class="line"><span class="cl">  4010e9:	e8 42 fa ff ff       	callq  400b30 &lt;__stack_chk_fail@plt&gt;
+</span></span><span class="line"><span class="cl">  4010ee:	48 83 c4 20          	add    $0x20,%rsp
+</span></span><span class="line"><span class="cl">  4010f2:	5b                   	pop    %rbx
+</span></span><span class="line"><span class="cl">  4010f3:	c3                   	retq  
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>首先注意到<code>__stack_chk_fail</code>这个函数，说明栈中含有“金丝雀值”（当然，这一点和题目本身没有太大关系）。</p>
+<p>这一段要求字符串的长度必须是6：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  40107a:	e8 9c 02 00 00       	callq  40131b &lt;string_length&gt;
+</span></span><span class="line"><span class="cl">  40107f:	83 f8 06             	cmp    $0x6,%eax
+</span></span><span class="line"><span class="cl">  401082:	74 4e                	je     4010d2 &lt;phase_5+0x70&gt;
+</span></span><span class="line"><span class="cl">  401084:	e8 b1 03 00 00       	callq  40143a &lt;explode_bomb&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>随后在<code>movzbl (%rbx,%rax,1),%ecx</code>这一句中，</p>
+<p><img src="https://s2.loli.net/2023/02/11/9V1OjvH3BKXZzER.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230211184436268"
+	
+	
+></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  40108b:	0f b6 0c 03          	movzbl (%rbx,%rax,1),%ecx
+</span></span><span class="line"><span class="cl">  40108f:	88 0c 24             	mov    %cl,(%rsp)
+</span></span><span class="line"><span class="cl">  401092:	48 8b 14 24          	mov    (%rsp),%rdx
+</span></span><span class="line"><span class="cl">  401096:	83 e2 0f             	and    $0xf,%edx
+</span></span><span class="line"><span class="cl">  401099:	0f b6 92 b0 24 40 00 	movzbl 0x4024b0(%rdx),%edx
+</span></span><span class="line"><span class="cl">  4010a0:	88 54 04 10          	mov    %dl,0x10(%rsp,%rax,1)
+</span></span><span class="line"><span class="cl">  4010a4:	48 83 c0 01          	add    $0x1,%rax
+</span></span><span class="line"><span class="cl">  4010a8:	48 83 f8 06          	cmp    $0x6,%rax
+</span></span><span class="line"><span class="cl">  4010ac:	75 dd                	jne    40108b &lt;phase_5+0x29&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这段汇编实际上是一段循环，将其翻译为C代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="cm">/* add    $0x1,%rax */</span> <span class="cm">/* cmp    $0x6,%rax */</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// $rax: i $rbx: input $ecx: a
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// $ecx和$cl是同一寄存器，$edx和$dl是同一寄存器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">input</span><span class="p">[</span><span class="n">i</span><span class="p">];</span> <span class="cm">/* movzbl (%rbx,%rax,1),%ecx */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">&amp;</span> <span class="mh">0xf</span> <span class="cm">/* and    $0xf,%edx */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">b</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">b</span><span class="p">];</span> <span class="cm">/* movzbl 0x4024b0(%rdx),%edx */</span> <span class="c1">// the address of array is 0x4024b0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">narr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span> <span class="cm">/* mov    %dl,0x10(%rsp,%rax,1) */</span> <span class="c1">// 也就是说该字符串存储在距离栈顶0x10的位置上，随后在比较时也会在这个位置取
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>array</code>数组如下：</p>
+<p><img src="https://s2.loli.net/2023/02/11/GsEfH4zWrK7CmxJ.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230211193802383"
+	
+	
+></p>
+<p>循环结束之后，查看<code>$0x4024b0</code>的值与所获得的字符串是否相同。目标字符串是：</p>
+<p><img src="https://s2.loli.net/2023/02/11/IuQYFrtlpozVmyJ.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230211194909278"
+	
+	
+></p>
+<p>据此我们可以列出一个表来查找所有符合比较条件的值：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>target val</th>
+<th>shift in array (input[i] &amp; 0b1111)</th>
+<th>ascii of input[i]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>f</td>
+<td>9</td>
+<td>41, 57, 73, 89</td>
+</tr>
+<tr>
+<td>l</td>
+<td>15</td>
+<td>47, 63, 79, 95</td>
+</tr>
+<tr>
+<td>y</td>
+<td>14</td>
+<td>46, 62, 78, 94</td>
+</tr>
+<tr>
+<td>e</td>
+<td>5</td>
+<td>37, 53, 69, 85</td>
+</tr>
+<tr>
+<td>r</td>
+<td>6</td>
+<td>38, 54, 70, 86</td>
+</tr>
+<tr>
+<td>s</td>
+<td>7</td>
+<td>39, 55, 71, 87</td>
+</tr>
+</tbody>
+</table></div>
+<p>之后从表格里排列组合即可，一个结果是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">)/.%&amp;&#39;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="pa-6">PA 6</h2>
+<p>PA 6涉及到链表这一数据结构，略麻烦，直接给出汇编的解析吧：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">00000000004010f4 &lt;phase_6&gt;:
+</span></span><span class="line"><span class="cl">  4010f4:	41 56                	push   %r14
+</span></span><span class="line"><span class="cl">  4010f6:	41 55                	push   %r13
+</span></span><span class="line"><span class="cl">  4010f8:	41 54                	push   %r12
+</span></span><span class="line"><span class="cl">  4010fa:	55                   	push   %rbp
+</span></span><span class="line"><span class="cl">  4010fb:	53                   	push   %rbx
+</span></span><span class="line"><span class="cl">  4010fc:	48 83 ec 50          	sub    $0x50,%rsp
+</span></span><span class="line"><span class="cl">  401100:	49 89 e5             	mov    %rsp,%r13
+</span></span><span class="line"><span class="cl">  401103:	48 89 e6             	mov    %rsp,%rsi
+</span></span><span class="line"><span class="cl">  401106:	e8 51 03 00 00       	callq  40145c &lt;read_six_numbers&gt;
+</span></span><span class="line"><span class="cl">  40110b:	49 89 e6             	mov    %rsp,%r14
+</span></span><span class="line"><span class="cl">  40110e:	41 bc 00 00 00 00    	mov    $0x0,%r12d
+</span></span><span class="line"><span class="cl">  401114:	4c 89 ed             	mov    %r13,%rbp
+</span></span><span class="line"><span class="cl">  401117:	41 8b 45 00          	mov    0x0(%r13),%eax
+</span></span><span class="line"><span class="cl">  40111b:	83 e8 01             	sub    $0x1,%eax
+</span></span><span class="line"><span class="cl">  40111e:	83 f8 05             	cmp    $0x5,%eax
+</span></span><span class="line"><span class="cl">  401121:	76 05                	jbe    401128 &lt;phase_6+0x34&gt;
+</span></span><span class="line"><span class="cl">  401123:	e8 12 03 00 00       	callq  40143a &lt;explode_bomb&gt;
+</span></span><span class="line"><span class="cl">  401128:	41 83 c4 01          	add    $0x1,%r12d
+</span></span><span class="line"><span class="cl">  40112c:	41 83 fc 06          	cmp    $0x6,%r12d
+</span></span><span class="line"><span class="cl">  401130:	74 21                	je     401153 &lt;phase_6+0x5f&gt;
+</span></span><span class="line"><span class="cl">  401132:	44 89 e3             	mov    %r12d,%ebx
+</span></span><span class="line"><span class="cl">  401135:	48 63 c3             	movslq %ebx,%rax
+</span></span><span class="line"><span class="cl">  401138:	8b 04 84             	mov    (%rsp,%rax,4),%eax
+</span></span><span class="line"><span class="cl">  40113b:	39 45 00             	cmp    %eax,0x0(%rbp)
+</span></span><span class="line"><span class="cl">  40113e:	75 05                	jne    401145 &lt;phase_6+0x51&gt;
+</span></span><span class="line"><span class="cl">  401140:	e8 f5 02 00 00       	callq  40143a &lt;explode_bomb&gt;
+</span></span><span class="line"><span class="cl">  401145:	83 c3 01             	add    $0x1,%ebx
+</span></span><span class="line"><span class="cl">  401148:	83 fb 05             	cmp    $0x5,%ebx
+</span></span><span class="line"><span class="cl">  40114b:	7e e8                	jle    401135 &lt;phase_6+0x41&gt;
+</span></span><span class="line"><span class="cl">  40114d:	49 83 c5 04          	add    $0x4,%r13
+</span></span><span class="line"><span class="cl">  401151:	eb c1                	jmp    401114 &lt;phase_6+0x20&gt;
+</span></span><span class="line"><span class="cl">  401153:	48 8d 74 24 18       	lea    0x18(%rsp),%rsi
+</span></span><span class="line"><span class="cl">  401158:	4c 89 f0             	mov    %r14,%rax
+</span></span><span class="line"><span class="cl">  40115b:	b9 07 00 00 00       	mov    $0x7,%ecx
+</span></span><span class="line"><span class="cl">  401160:	89 ca                	mov    %ecx,%edx
+</span></span><span class="line"><span class="cl">  401162:	2b 10                	sub    (%rax),%edx
+</span></span><span class="line"><span class="cl">  401164:	89 10                	mov    %edx,(%rax)
+</span></span><span class="line"><span class="cl">  401166:	48 83 c0 04          	add    $0x4,%rax
+</span></span><span class="line"><span class="cl">  40116a:	48 39 f0             	cmp    %rsi,%rax
+</span></span><span class="line"><span class="cl">  40116d:	75 f1                	jne    401160 &lt;phase_6+0x6c&gt;
+</span></span><span class="line"><span class="cl">  40116f:	be 00 00 00 00       	mov    $0x0,%esi
+</span></span><span class="line"><span class="cl">  401174:	eb 21                	jmp    401197 &lt;phase_6+0xa3&gt;
+</span></span><span class="line"><span class="cl">  401176:	48 8b 52 08          	mov    0x8(%rdx),%rdx
+</span></span><span class="line"><span class="cl">  40117a:	83 c0 01             	add    $0x1,%eax
+</span></span><span class="line"><span class="cl">  40117d:	39 c8                	cmp    %ecx,%eax
+</span></span><span class="line"><span class="cl">  40117f:	75 f5                	jne    401176 &lt;phase_6+0x82&gt;
+</span></span><span class="line"><span class="cl">  401181:	eb 05                	jmp    401188 &lt;phase_6+0x94&gt;
+</span></span><span class="line"><span class="cl">  401183:	ba d0 32 60 00       	mov    $0x6032d0,%edx
+</span></span><span class="line"><span class="cl">  401188:	48 89 54 74 20       	mov    %rdx,0x20(%rsp,%rsi,2)
+</span></span><span class="line"><span class="cl">  40118d:	48 83 c6 04          	add    $0x4,%rsi
+</span></span><span class="line"><span class="cl">  401191:	48 83 fe 18          	cmp    $0x18,%rsi
+</span></span><span class="line"><span class="cl">  401195:	74 14                	je     4011ab &lt;phase_6+0xb7&gt;
+</span></span><span class="line"><span class="cl">  401197:	8b 0c 34             	mov    (%rsp,%rsi,1),%ecx
+</span></span><span class="line"><span class="cl">  40119a:	83 f9 01             	cmp    $0x1,%ecx
+</span></span><span class="line"><span class="cl">  40119d:	7e e4                	jle    401183 &lt;phase_6+0x8f&gt;
+</span></span><span class="line"><span class="cl">  40119f:	b8 01 00 00 00       	mov    $0x1,%eax
+</span></span><span class="line"><span class="cl">  4011a4:	ba d0 32 60 00       	mov    $0x6032d0,%edx
+</span></span><span class="line"><span class="cl">  4011a9:	eb cb                	jmp    401176 &lt;phase_6+0x82&gt;
+</span></span><span class="line"><span class="cl">  4011ab:	48 8b 5c 24 20       	mov    0x20(%rsp),%rbx
+</span></span><span class="line"><span class="cl">  4011b0:	48 8d 44 24 28       	lea    0x28(%rsp),%rax
+</span></span><span class="line"><span class="cl">  4011b5:	48 8d 74 24 50       	lea    0x50(%rsp),%rsi
+</span></span><span class="line"><span class="cl">  4011ba:	48 89 d9             	mov    %rbx,%rcx
+</span></span><span class="line"><span class="cl">  4011bd:	48 8b 10             	mov    (%rax),%rdx
+</span></span><span class="line"><span class="cl">  4011c0:	48 89 51 08          	mov    %rdx,0x8(%rcx)
+</span></span><span class="line"><span class="cl">  4011c4:	48 83 c0 08          	add    $0x8,%rax
+</span></span><span class="line"><span class="cl">  4011c8:	48 39 f0             	cmp    %rsi,%rax
+</span></span><span class="line"><span class="cl">  4011cb:	74 05                	je     4011d2 &lt;phase_6+0xde&gt;
+</span></span><span class="line"><span class="cl">  4011cd:	48 89 d1             	mov    %rdx,%rcx
+</span></span><span class="line"><span class="cl">  4011d0:	eb eb                	jmp    4011bd &lt;phase_6+0xc9&gt;
+</span></span><span class="line"><span class="cl">  4011d2:	48 c7 42 08 00 00 00 	movq   $0x0,0x8(%rdx)
+</span></span><span class="line"><span class="cl">  4011d9:	00 
+</span></span><span class="line"><span class="cl">  4011da:	bd 05 00 00 00       	mov    $0x5,%ebp
+</span></span><span class="line"><span class="cl">  4011df:	48 8b 43 08          	mov    0x8(%rbx),%rax
+</span></span><span class="line"><span class="cl">  4011e3:	8b 00                	mov    (%rax),%eax
+</span></span><span class="line"><span class="cl">  4011e5:	39 03                	cmp    %eax,(%rbx)
+</span></span><span class="line"><span class="cl">  4011e7:	7d 05                	jge    4011ee &lt;phase_6+0xfa&gt;
+</span></span><span class="line"><span class="cl">  4011e9:	e8 4c 02 00 00       	callq  40143a &lt;explode_bomb&gt;
+</span></span><span class="line"><span class="cl">  4011ee:	48 8b 5b 08          	mov    0x8(%rbx),%rbx
+</span></span><span class="line"><span class="cl">  4011f2:	83 ed 01             	sub    $0x1,%ebp
+</span></span><span class="line"><span class="cl">  4011f5:	75 e8                	jne    4011df &lt;phase_6+0xeb&gt;
+</span></span><span class="line"><span class="cl">  4011f7:	48 83 c4 50          	add    $0x50,%rsp
+</span></span><span class="line"><span class="cl">  4011fb:	5b                   	pop    %rbx
+</span></span><span class="line"><span class="cl">  4011fc:	5d                   	pop    %rbp
+</span></span><span class="line"><span class="cl">  4011fd:	41 5c                	pop    %r12
+</span></span><span class="line"><span class="cl">  4011ff:	41 5d                	pop    %r13
+</span></span><span class="line"><span class="cl">  401201:	41 5e                	pop    %r14
+</span></span><span class="line"><span class="cl">  401203:	c3                   	retq   
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们逐个逐个循环分析这段代码。读入6个整数之后：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  40110b:	49 89 e6             	mov    %rsp,%r14
+</span></span><span class="line"><span class="cl">  40110e:	41 bc 00 00 00 00    	mov    $0x0,%r12d
+</span></span><span class="line"><span class="cl">  401114:	4c 89 ed             	mov    %r13,%rbp
+</span></span><span class="line"><span class="cl">  401117:	41 8b 45 00          	mov    0x0(%r13),%eax
+</span></span><span class="line"><span class="cl">  40111b:	83 e8 01             	sub    $0x1,%eax
+</span></span><span class="line"><span class="cl">  40111e:	83 f8 05             	cmp    $0x5,%eax
+</span></span><span class="line"><span class="cl">  401121:	76 05                	jbe    401128 &lt;phase_6+0x34&gt;
+</span></span><span class="line"><span class="cl">  401123:	e8 12 03 00 00       	callq  40143a &lt;explode_bomb&gt;
+</span></span><span class="line"><span class="cl">  401128:	41 83 c4 01          	add    $0x1,%r12d
+</span></span><span class="line"><span class="cl">  40112c:	41 83 fc 06          	cmp    $0x6,%r12d
+</span></span><span class="line"><span class="cl">  401130:	74 21                	je     401153 &lt;phase_6+0x5f&gt;
+</span></span><span class="line"><span class="cl">  401132:	44 89 e3             	mov    %r12d,%ebx
+</span></span><span class="line"><span class="cl">  401135:	48 63 c3             	movslq %ebx,%rax
+</span></span><span class="line"><span class="cl">  401138:	8b 04 84             	mov    (%rsp,%rax,4),%eax
+</span></span><span class="line"><span class="cl">  40113b:	39 45 00             	cmp    %eax,0x0(%rbp)
+</span></span><span class="line"><span class="cl">  40113e:	75 05                	jne    401145 &lt;phase_6+0x51&gt;
+</span></span><span class="line"><span class="cl">  401140:	e8 f5 02 00 00       	callq  40143a &lt;explode_bomb&gt;
+</span></span><span class="line"><span class="cl">  401145:	83 c3 01             	add    $0x1,%ebx
+</span></span><span class="line"><span class="cl">  401148:	83 fb 05             	cmp    $0x5,%ebx
+</span></span><span class="line"><span class="cl">  40114b:	7e e8                	jle    401135 &lt;phase_6+0x41&gt;
+</span></span><span class="line"><span class="cl">  40114d:	49 83 c5 04          	add    $0x4,%r13
+</span></span><span class="line"><span class="cl">  401151:	eb c1                	jmp    401114 &lt;phase_6+0x20&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>第一个炸弹的触发条件是数组中有数字小于6，第二个是每个数字都不相等。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  401153:	48 8d 74 24 18       	lea    0x18(%rsp),%rsi
+</span></span><span class="line"><span class="cl">  401158:	4c 89 f0             	mov    %r14,%rax
+</span></span><span class="line"><span class="cl">  40115b:	b9 07 00 00 00       	mov    $0x7,%ecx
+</span></span><span class="line"><span class="cl">  401160:	89 ca                	mov    %ecx,%edx
+</span></span><span class="line"><span class="cl">  401162:	2b 10                	sub    (%rax),%edx
+</span></span><span class="line"><span class="cl">  401164:	89 10                	mov    %edx,(%rax)
+</span></span><span class="line"><span class="cl">  401166:	48 83 c0 04          	add    $0x4,%rax
+</span></span><span class="line"><span class="cl">  40116a:	48 39 f0             	cmp    %rsi,%rax
+</span></span><span class="line"><span class="cl">  40116d:	75 f1                	jne    401160 &lt;phase_6+0x6c&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这段是将输入的六个值<code>a[i]</code>转换为<code>7 - a[i]</code>。</p>
+<p>后续是复杂的链表排序&hellip;这个有时间再看。答案是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">4 3 2 1 6 5
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="reference">Reference</h2>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/csapp/">csapp</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css"integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"integrity="sha384-vZTG03m&#43;2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/posts/csapp/01-datalab/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">01-datalab</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/hardware-machine-learning/floating-point-num-in-dl/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Floating Point Number in DL</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/hardware-machine-learning/qat%E4%B8%B2%E8%AE%B2%E5%92%8C%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">QAT串讲和代码实现</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/hardware-machine-learning/ee-290-lab-3/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">EE290-2 LAB3 tiling and optimization for accelerator</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/hardware-machine-learning/ee-290-lab-2/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">EE290-2 LAB2 hardware implementation of machine learning systems</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="Ther-nullptr/Ther-nullptr.github.io"
+        issue-term="pathname"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2023 Ther&#39;s Blog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+        </script>
+    
+            <br />visitors: <span id="busuanzi_value_site_uv"></span>
+            total visits: <span id="busuanzi_value_site_pv"></span> time(s)
+            reads: <span id="busuanzi_value_page_pv"></span> time(s)
+    
+    </section>
+
+    <script async src="https://busuanzi.icodeq.com/busuanzi.pure.mini.js">
+    </script>
+
+
+
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#pa-1">PA 1</a></li>
+    <li><a href="#pa-2">PA 2</a></li>
+    <li><a href="#pa-3">PA 3</a></li>
+    <li><a href="#pa-4">PA 4</a></li>
+    <li><a href="#pa-5">PA 5</a></li>
+    <li><a href="#pa-6">PA 6</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Long+Cang&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300&family=Noto+Serif+SC:wght@300&family=Zhi+Mang+Xing&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<style>
+    :root {
+        --article-font-family: "HarmonyOS Sans SC Medium", "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script>
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Long+Cang&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300&family=Noto+Serif+SC:wght@300&family=Zhi+Mang+Xing&display=swap";
+		
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+<script
+    src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    async
+></script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/ribbon.min.js"
+    integrity="sha384-UEK8ZiP3VgFNP8KnKMKDmd4pAUAOJ59Y2Jo3ED2Z5qKQf6HLHovMxq7Beb9CLPUe"
+    crossorigin="anonymous"
+    size="300"
+    alpha="0.6"
+    zindex="-1"
+    defer
+></script>
+
+<script src="/js/snow.js"></script>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js"></script>
+</head>
+
+<body>
+    <div class="demo">
+        <div id="player1">
+        </div>
+    </div>
+    <script>
+        var ap = new APlayer
+            ({
+                element: document.getElementById('player1'),
+                fixed: true,
+                autoplay: true,
+                mini: true,
+                theme: '#f8f4fc',
+                loop: 'all',
+                order: 'random',
+                preload: 'auto',
+                volume: 0.5,
+                mutex: true,
+                listFolded: false,
+                listMaxHeight: 90,
+                lrcType: 0,
+                music: [{
+                    name: '未来的志愿书',
+                    url: 'https://music.163.com/song/media/outer/url?id=34916292.mp3',
+                    artists: 'Days',
+                    cover: 'https://p2.music.126.net/u5qI9jVwLkfv68QJSjxQ6w==/3261151488892334.jpg'
+                },
+                {
+                    name: 'Entorevolution',
+                    url: 'https://music.163.com/song/media/outer/url?id=32069952.mp3',
+                    artists: 'Bernis',
+                    cover: 'https://p2.music.126.net/wZQrCXyuDDtBgwYACEOBrg==/2909307768540461.jpg'
+                },
+                {
+                    name: 'Nuit Silencieuse',
+                    url: 'https://music.163.com/song/media/outer/url?id=34916301.mp3',
+                    artists: 'Days',
+                    cover: 'https://p2.music.126.net/wZQrCXyuDDtBgwYACEOBrg==/3261151488892334.jpg'
+                }] 
+            });
+        
+    </script>
+</body>
+    </body>
+</html>
