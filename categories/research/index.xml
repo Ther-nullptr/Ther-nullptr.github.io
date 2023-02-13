@@ -6,7 +6,78 @@
         <description>Recent content in research on Ther&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Mon, 06 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://ther-nullptr.github.io/categories/research/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 12 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://ther-nullptr.github.io/categories/research/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>PyTorch 显存分析</title>
+        <link>https://ther-nullptr.github.io/posts/hardware-machine-learning/pytorch_gpu_memory/</link>
+        <pubDate>Sun, 12 Feb 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/hardware-machine-learning/pytorch_gpu_memory/</guid>
+        <description>&lt;h2 id=&#34;组成&#34;&gt;组成&lt;/h2&gt;
+&lt;p&gt;PyTorch中显存的占用通常分为5个部分：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;PyTorch context：只要把任何东西放在GPU中，就一定会占用一定数量的显存（视版本的不同有变化）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2023/02/13/nQemX4Tt1gD8Gyc.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20230212153353092&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://stackoverflow.com/questions/43244645/what-is-a-cuda-context&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://stackoverflow.com/questions/43244645/what-is-a-cuda-context&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;model parameters&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;gradients&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;optimizer states&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;intermediate activations&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;其中intermediate activations占绝对大头，optimizer states的显存使用量大约为model parameters的整数倍（Adam:2, SGD:1）&lt;/p&gt;
+&lt;h2 id=&#34;机制&#34;&gt;机制&lt;/h2&gt;
+&lt;p&gt;在分析torch的显存占用时&lt;strong&gt;不能使用&lt;code&gt;nvidia-smi&lt;/code&gt;&lt;/strong&gt;，PyTorch使用缓存分配器来管理缓存分配，在缓存分配器的机制下, 一个Tensor就算被释放了，进程也不会把空闲出来的显存还给GPU，而是等待下一个Tensor来填入这一片被释放的空间(即只要一个Tensor对象在后续不会再被使用，那么PyTorch就会自动回收该Tensor所占用的显存，并以缓冲区的形式继续占用显存，所以在nvidia-smi/gpustat中看到的显存并没有减少)。&lt;/p&gt;
+&lt;p&gt;由上可知，这一指令不能准确地给出某一个时间点具体的Tensor占用的显存，而是显示的已经分配到的显存缓冲区和torch在创建cuda进程时所需开销的和。&lt;/p&gt;
+&lt;h2 id=&#34;api&#34;&gt;API&lt;/h2&gt;
+&lt;p&gt;有3个API用于分析显存：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;torch.cuda.memory_allocated()&lt;/code&gt;：反馈当前进程中torch.Tensor所占用的GPU显存(注意是只包括torch.Tensor)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;torch.cuda.max_memory_allocated()&lt;/code&gt;：到调用函数为止所达到的最大的显存占用字节数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;torch.cuda.memory_reserved()&lt;/code&gt;：当前进程所分配的显存缓冲区&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;大模型的优化&#34;&gt;大模型的优化&lt;/h2&gt;
+&lt;p&gt;如果仔细观察传统推理时模型的代码，会发现其加载代码时的步骤如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;用随机初始化的权重创建模型&lt;/li&gt;
+&lt;li&gt;从磁盘上加载模型的权重&lt;/li&gt;
+&lt;li&gt;在模型中加载这些权重&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这一过程其实有很多不合理之处：创建模型时的随机权重是无用的，此后在载入checkpoint的state_dict之后，程序中实际存在双份权重。为了解决这一问题，详见&lt;a class=&#34;link&#34; href=&#34;https://huggingface.co/docs/accelerate/usage_guides/big_modeling#instantiating-an-empty-model&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;instantiating-an-empty-model&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://huggingface.co/docs/accelerate/usage_guides/big_modeling&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://huggingface.co/docs/accelerate/usage_guides/big_modeling&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;而传统推理时的模型分发机制如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;从模型中加载整个权重到单GPU上&lt;/li&gt;
+&lt;li&gt;将模型分发给不同GPU&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;我们能否在载入模型时就将其分发给不同的GPU？详见&lt;a class=&#34;link&#34; href=&#34;https://huggingface.co/docs/accelerate/usage_guides/big_modeling#loading-weights&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Loading weights&lt;/a&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/424512257&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PyTorch显存机制分析&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>Awesome Transformer Quantization</title>
         <link>https://ther-nullptr.github.io/posts/awesome-transformer-quantization/readme/</link>
         <pubDate>Mon, 06 Feb 2023 00:00:00 +0000</pubDate>
