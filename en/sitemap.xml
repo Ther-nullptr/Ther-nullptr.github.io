@@ -3,10 +3,13 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://ther-nullptr.github.io/posts/</loc>
-    <lastmod>2023-02-12T00:00:00+00:00</lastmod>
+    <lastmod>2023-02-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/csapp/03-attacklab/</loc>
+    <lastmod>2023-02-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/categories/</loc>
-    <lastmod>2023-02-12T00:00:00+00:00</lastmod>
+    <lastmod>2023-02-14T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -18,20 +21,20 @@
                 href="https://ther-nullptr.github.io/categories/"
                 />
   </url><url>
-    <loc>https://ther-nullptr.github.io/tags/hardware-machine-learning/</loc>
-    <lastmod>2023-02-12T00:00:00+00:00</lastmod>
+    <loc>https://ther-nullptr.github.io/tags/csapp/</loc>
+    <lastmod>2023-02-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://ther-nullptr.github.io/posts/hardware-machine-learning/pytorch_gpu_memory/</loc>
-    <lastmod>2023-02-12T00:00:00+00:00</lastmod>
+    <loc>https://ther-nullptr.github.io/posts/csapp/csapp-preliminaries/</loc>
+    <lastmod>2023-02-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://ther-nullptr.github.io/categories/research/</loc>
-    <lastmod>2023-02-12T00:00:00+00:00</lastmod>
+    <loc>https://ther-nullptr.github.io/categories/programming/</loc>
+    <lastmod>2023-02-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/categories/study/</loc>
-    <lastmod>2023-02-12T00:00:00+00:00</lastmod>
+    <lastmod>2023-02-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/tags/</loc>
-    <lastmod>2023-02-12T00:00:00+00:00</lastmod>
+    <lastmod>2023-02-14T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -44,7 +47,7 @@
                 />
   </url><url>
     <loc>https://ther-nullptr.github.io/</loc>
-    <lastmod>2023-02-12T00:00:00+00:00</lastmod>
+    <lastmod>2023-02-14T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -56,13 +59,16 @@
                 href="https://ther-nullptr.github.io/"
                 />
   </url><url>
+    <loc>https://ther-nullptr.github.io/tags/hardware-machine-learning/</loc>
+    <lastmod>2023-02-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/hardware-machine-learning/pytorch_gpu_memory/</loc>
+    <lastmod>2023-02-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://ther-nullptr.github.io/categories/research/</loc>
+    <lastmod>2023-02-12T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://ther-nullptr.github.io/posts/csapp/02-bomblab/</loc>
-    <lastmod>2023-02-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://ther-nullptr.github.io/tags/csapp/</loc>
-    <lastmod>2023-02-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://ther-nullptr.github.io/categories/programming/</loc>
     <lastmod>2023-02-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/posts/csapp/01-datalab/</loc>
