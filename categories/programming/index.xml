@@ -5768,6 +5768,24 @@ $$
 </description>
         </item>
         <item>
+        <title>面向对象程序设计基础</title>
+        <link>https://ther-nullptr.github.io/posts/programming/os_resoures/</link>
+        <pubDate>Mon, 20 Jun 2022 20:07:09 +0800</pubDate>
+        
+        <guid>https://ther-nullptr.github.io/posts/programming/os_resoures/</guid>
+        <description>&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.yuque.com/xyong-9fuoz/qczol5/glemuu?&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;清华大学计算机系操作系统课件&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://chyyuu.gitbooks.io/ucore_os_docs/content/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;uCore&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://rcore.gitbook.io/rust-os-docs/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;rCore&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://jyywiki.cn/OS/2021/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;南京大学操作系统&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
         <title>grpc</title>
         <link>https://ther-nullptr.github.io/posts/programming/grpc/</link>
         <pubDate>Mon, 20 Jun 2022 19:55:32 +0800</pubDate>
