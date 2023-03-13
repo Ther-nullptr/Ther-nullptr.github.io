@@ -3,13 +3,13 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://ther-nullptr.github.io/posts/</loc>
-    <lastmod>2023-03-05T00:00:00+00:00</lastmod>
+    <lastmod>2023-03-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/tags/c&#43;&#43;/</loc>
-    <lastmod>2023-03-05T00:00:00+00:00</lastmod>
+    <lastmod>2023-03-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/categories/</loc>
-    <lastmod>2023-03-05T00:00:00+00:00</lastmod>
+    <lastmod>2023-03-13T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -21,20 +21,20 @@
                 href="https://ther-nullptr.github.io/categories/"
                 />
   </url><url>
-    <loc>https://ther-nullptr.github.io/tags/hpc/</loc>
-    <lastmod>2023-03-05T00:00:00+00:00</lastmod>
+    <loc>https://ther-nullptr.github.io/posts/high-performance-computing/cuda/</loc>
+    <lastmod>2023-03-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://ther-nullptr.github.io/posts/high-performance-computing/mpi/</loc>
-    <lastmod>2023-03-05T00:00:00+00:00</lastmod>
+    <loc>https://ther-nullptr.github.io/tags/hpc/</loc>
+    <lastmod>2023-03-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/categories/research/</loc>
-    <lastmod>2023-03-05T00:00:00+00:00</lastmod>
+    <lastmod>2023-03-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/categories/study/</loc>
-    <lastmod>2023-03-05T00:00:00+00:00</lastmod>
+    <lastmod>2023-03-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/tags/</loc>
-    <lastmod>2023-03-05T00:00:00+00:00</lastmod>
+    <lastmod>2023-03-13T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -47,7 +47,7 @@
                 />
   </url><url>
     <loc>https://ther-nullptr.github.io/</loc>
-    <lastmod>2023-03-05T00:00:00+00:00</lastmod>
+    <lastmod>2023-03-13T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -58,6 +58,9 @@
                 hreflang="en"
                 href="https://ther-nullptr.github.io/"
                 />
+  </url><url>
+    <loc>https://ther-nullptr.github.io/posts/high-performance-computing/mpi/</loc>
+    <lastmod>2023-03-05T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://ther-nullptr.github.io/tags/small-talk/</loc>
     <lastmod>2023-02-27T00:00:00+00:00</lastmod>
